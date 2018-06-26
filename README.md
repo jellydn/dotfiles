@@ -4,6 +4,12 @@ A set of vim, zsh, and git configuration files.
 
 ## Neovim
 
+Step 0:
+
+```bash
+brew install neovim
+```
+
 Step 1:
 
 ```bash
@@ -13,7 +19,7 @@ cp init.vim ~/.config/nvim/init.vim
 Step 2:
 
 ```bash
-vim +PlugInstall +qall
+nvim +PlugInstall +qall
 ```
 
 Step 3: Update to latest version
@@ -25,9 +31,17 @@ Step 3: Update to latest version
 
 ## Iterm2 with Oh-my-shell
 
+Step 0:
+
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
 Step 1:
 
 ```bash
+brew install zsh-autosuggestions
+brew install zsh-syntax-highlighting
 cp .zshrc ~/.zshrc
 ```
 
@@ -38,4 +52,12 @@ Step 3: Install font and choose `Meslo LG DZ for Powerline`
 
 ```bash
 git clone https://github.com/powerline/fonts.git
+```
+
+## Git
+
+### commitizen
+
+```bash
+npm install -g commitizen
 ```

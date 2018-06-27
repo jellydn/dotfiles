@@ -2,6 +2,27 @@
 
 A set of vim, zsh, and git configuration files.
 
+## Vim
+
+Step 1:
+
+```bash
+cp .vimrc ~/.vimrc
+```
+
+Step 2:
+
+```bash
+vim +PlugInstall +qall
+```
+
+Step 3: Update to latest version
+
+```bash
+:VimBootstrapUpdate
+:PlugInstall
+```
+
 ## Neovim
 
 Step 0:
@@ -55,6 +76,12 @@ git clone https://github.com/powerline/fonts.git
 ```
 
 ## Git
+
+### Config
+
+```bash
+cp .gitconfig ~/.gitconfig
+```
 
 ### commitizen
 

@@ -1,0 +1,44 @@
+" UI
+set relativenumber
+colorscheme nova
+
+" Snips
+let g:snips_author = "Kaka Huynh"
+
+" NERDTree
+let g:NERDTreeWinSize = 40
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__','node_modules','flow-typed','.git']
+
+" Asynchronous Lint Engine (ALE)
+let g:airline#extensions#ale#enabled = 1
+
+" Limit linters used for JavaScript.
+let g:ale_linters = {
+\  'javascript': ['flow','eslint', 'prettier']
+\}
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+let g:ale_sign_error = 'X' " could use emoji
+let g:ale_sign_warning = '?' " could use emoji
+let g:ale_statusline_format = ['X %d', '? %d', '']
+" %linter% is the name of the linter that provided the message
+" %s is the error or warning message
+let g:ale_echo_msg_format = '%linter% says %s'
+
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+
+" Test
+nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
+nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
+nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
+nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
+nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
+
+" JavaScript
+let g:javascript_plugin_flow = 1
+let g:javascript_plugin_jsdoc = 1
+
+"" fzf.vim
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules

@@ -1,0 +1,14 @@
+" Test
+Plug 'janko-m/vim-test'
+
+" Editor Config
+Plug 'editorconfig/editorconfig-vim'
+
+" Javascript
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'w0rp/ale'
+
+" Color
+Plug 'sheerun/vim-polyglot'
+Plug 'trevordmiller/nova-vim'

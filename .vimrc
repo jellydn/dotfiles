@@ -7,10 +7,10 @@ if has('vim_starting')
   set nocompatible               " Be iMproved
 endif
 
-let vimplug_exists=expand('~/.vim/autoload/plug.vim')
+let vimplug_exists=expand('~/./autoload/plug.vim')
 
-let g:vim_bootstrap_langs = "javascript,html"
-let g:vim_bootstrap_editor = "vim"				" nvim or vim
+let g:vim_bootstrap_langs = "html,javascript"
+let g:vim_bootstrap_editor = ""				" nvim or vim
 
 if !filereadable(vimplug_exists)
   if !executable("curl")
@@ -19,14 +19,14 @@ if !filereadable(vimplug_exists)
   endif
   echo "Installing Vim-Plug..."
   echo ""
-  silent !\curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  silent !\curl -fLo ~/./autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let g:not_finish_vimplug = "yes"
 
   autocmd VimEnter * PlugInstall
 endif
 
 " Required:
-call plug#begin(expand('~/.vim/plugged'))
+call plug#begin(expand('~/./plugged'))
 
 "*****************************************************************************
 "" Plug install packages
@@ -43,6 +43,7 @@ Plug 'vim-scripts/CSApprox'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Raimondi/delimitMate'
 Plug 'majutsushi/tagbar'
+Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 Plug 'sheerun/vim-polyglot'
@@ -74,17 +75,11 @@ endif
 Plug 'honza/vim-snippets'
 
 "" Color
-Plug 'trevordmiller/nova-vim'
+Plug 'tomasr/molokai'
 
 "*****************************************************************************
 "" Custom bundles
 "*****************************************************************************
-
-" test
-Plug 'janko-m/vim-test'
-
-" editor config
-Plug 'editorconfig/editorconfig-vim'
 
 " html
 "" HTML Bundle
@@ -96,17 +91,15 @@ Plug 'mattn/emmet-vim'
 
 " javascript
 "" Javascript Bundle
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'w0rp/ale'
+Plug 'jelera/vim-javascript-syntax'
 
 
 "*****************************************************************************
 "*****************************************************************************
 
 "" Include user's extra bundle
-if filereadable(expand("~/.vimrc.local.bundles"))
-  source ~/.vimrc.local.bundles
+if filereadable(expand("~/.rc.local.bundles"))
+  source ~/.rc.local.bundles
 endif
 
 call plug#end()
@@ -160,7 +153,7 @@ else
 endif
 
 " session management
-let g:session_directory = "~/.vim/session"
+let g:session_directory = "~/./session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
@@ -171,11 +164,10 @@ let g:session_command_aliases = 1
 syntax on
 set ruler
 set number
-set relativenumber
 
 let no_buffers_menu=1
 if !exists('g:not_finish_vimplug')
-  colorscheme nova
+  colorscheme molokai
 endif
 
 set mousemodel=popup
@@ -197,7 +189,7 @@ else
   let g:indentLine_char = '┆'
   let g:indentLine_faster = 1
 
-
+  
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -205,7 +197,7 @@ else
       set term=xterm-256color
     endif
   endif
-
+  
 endif
 
 
@@ -242,10 +234,10 @@ endif
 
 " vim-airline
 let g:airline_theme = 'powerlineish'
+let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 let g:airline_skip_empty_sections = 1
 
 "*****************************************************************************
@@ -265,12 +257,12 @@ cnoreabbrev Qall qall
 
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules']
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 30
+let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 nnoremap <silent> <F3> :NERDTreeToggle<CR>
@@ -291,10 +283,6 @@ if g:vim_bootstrap_editor == 'nvim'
 else
   nnoremap <silent> <leader>sh :VimShellCreate<CR>
 endif
-
-" Emmet vim
-let g:user_emmet_leader_key='<Tab>'
-
 
 "*****************************************************************************
 "" Functions
@@ -403,31 +391,14 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 let g:UltiSnipsEditSplit="vertical"
 
-
-" Asynchronous Lint Engine (ALE)
-" Limit linters used for JavaScript.
-let g:ale_linters = {
-\  'javascript': ['flow','eslint', 'prettier']
-\}
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-let g:ale_sign_error = 'X' " could use emoji
-let g:ale_sign_warning = '?' " could use emoji
-let g:ale_statusline_format = ['X %d', '? %d', '']
-" %linter% is the name of the linter that provided the message
-" %s is the error or warning message
-let g:ale_echo_msg_format = '%linter% says %s'
-" Map keys to navigate between lines with errors and warnings.
-nnoremap <leader>an :ALENextWrap<cr>
-nnoremap <leader>ap :ALEPreviousWrap<cr>
-
-
-" test
-nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
-nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
-nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
-nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
-nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_aggregate_errors = 1
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
@@ -494,9 +465,6 @@ autocmd Filetype html setlocal ts=2 sw=2 expandtab
 
 " javascript
 let g:javascript_enable_domhtmlcss = 1
-let g:javascript_plugin_flow = 1
-let g:javascript_plugin_jsdoc = 1
-
 
 " vim-javascript
 augroup vimrc-javascript
@@ -509,8 +477,8 @@ augroup END
 "*****************************************************************************
 
 "" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable(expand("~/.rc.local"))
+  source ~/.rc.local
 endif
 
 "*****************************************************************************

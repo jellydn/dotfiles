@@ -8,6 +8,8 @@ Step 1:
 
 ```bash
 cp .vimrc ~/.vimrc
+cp .rc.local ~/.rc.local
+cp .rc.local.bundles ~/.rc.local.bundles
 ```
 
 Step 2:
@@ -35,6 +37,8 @@ Step 1:
 
 ```bash
 cp init.vim ~/.config/nvim/init.vim
+cp .rc.local ~/.rc.local
+cp .rc.local.bundles ~/.rc.local.bundles
 ```
 
 Step 2:

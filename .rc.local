@@ -14,7 +14,7 @@ let g:airline#extensions#ale#enabled = 1
 
 " Limit linters used for JavaScript.
 let g:ale_linters = {
-\  'javascript': ['flow','eslint', 'prettier']
+\  'javascript': ['flow', 'eslint', 'prettier']
 \}
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
@@ -32,6 +32,7 @@ let g:ale_echo_msg_format = '%linter% says %s'
 " Map keys to navigate between lines with errors and warnings.
 nnoremap <leader>an :ALENextWrap<cr>
 nnoremap <leader>ap :ALEPreviousWrap<cr>
+nmap <leader>d <Plug>(ale_fix)
 
 " Test
 nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
@@ -43,6 +44,20 @@ nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
 " JavaScript
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
+
+" Autocomplete
+let g:deoplete#enable_at_startup = 1
+
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+let g:flow_path = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
+
+if g:flow_path != 'flow not found'
+  let g:deoplete#sources#flow#flow_bin = g:flow_path
+endif
+
 
 "" fzf.vim
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules

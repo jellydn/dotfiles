@@ -30,7 +30,10 @@ Step 3: Update to latest version
 Step 0:
 
 ```bash
+brew install pyenv
 brew install neovim
+pip install --upgrade neovim
+pip3 install --upgrade neovim
 ```
 
 Step 1:

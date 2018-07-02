@@ -9,6 +9,15 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'w0rp/ale'
 
+" autocomplete
+if g:vim_bootstrap_editor == 'nvim'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
 " Color
 Plug 'sheerun/vim-polyglot'
 Plug 'trevordmiller/nova-vim'

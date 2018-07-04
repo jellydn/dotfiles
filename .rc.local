@@ -7,7 +7,7 @@ let g:snips_author = "Kaka Huynh"
 
 " NERDTree
 let g:NERDTreeWinSize = 40
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__','node_modules','flow-typed','.git']
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__','node_modules','flow-typed','.git', 'build']
 
 " Asynchronous Lint Engine (ALE)
 let g:airline#extensions#ale#enabled = 1
@@ -16,7 +16,9 @@ let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
 \  'javascript': ['flow', 'eslint', 'prettier']
 \}
+let g:ale_fixers = ['prettier', 'eslint']
 let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
 let g:ale_javascript_prettier_use_local_config = 1
 
 highlight clear ALEErrorSign
@@ -60,4 +62,7 @@ endif
 
 
 "" fzf.vim
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules,build
+
+" grep.vim
+let Grep_Skip_Dirs = '.git node_modules build'

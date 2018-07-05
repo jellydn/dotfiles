@@ -8,6 +8,13 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'w0rp/ale'
+Plug 'heavenshell/vim-jsdoc'
+
+" ES2015 code snippets (Optional)
+Plug 'epilande/vim-es2015-snippets'
+
+" React code snippets
+Plug 'epilande/vim-react-snippets'
 
 " autocomplete
 if g:vim_bootstrap_editor == 'nvim'
@@ -19,5 +26,4 @@ else
 endif
 
 " Color
-Plug 'sheerun/vim-polyglot'
-Plug 'trevordmiller/nova-vim'
+Plug 'flazz/vim-colorschemes'

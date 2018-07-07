@@ -69,5 +69,5 @@ set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules,build
 " grep.vim
 let Grep_Skip_Dirs = '.git node_modules build'
 
-"" jsdoc
-nmap <silent> <C-l> <Plug>(jsdoc)
+"" jsdo
+nmap <leader>j <Plug>(jsdoc)

@@ -1,4 +1,7 @@
 " UI
+syntax on
+set foldlevel=1
+set foldmethod=syntax
 set relativenumber
 set guifont=Operator\ Mono:h12
 colorscheme cobalt2

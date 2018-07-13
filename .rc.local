@@ -65,6 +65,8 @@ if g:flow_path != 'flow not found'
 endif
 
 autocmd BufNewFile,BufRead *.js.flow setlocal filetype=javascript.jsx
+autocmd BufNewFile,BufRead .babelrc setlocal filetype=json
+autocmd BufNewFile,BufRead .eslintrc setlocal filetype=json
 
 "" fzf.vim
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules,build

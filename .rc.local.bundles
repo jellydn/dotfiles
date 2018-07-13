@@ -24,6 +24,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
+Plug 'steelsojka/deoplete-flow'
 
 " Color
 Plug 'flazz/vim-colorschemes'

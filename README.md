@@ -8,46 +8,14 @@ Step 1:
 
 ```bash
 cp .vimrc ~/.vimrc
-cp .rc.local ~/.rc.local
-cp .rc.local.bundles ~/.rc.local.bundles
+cp .vimrc.local ~/.vimrc.local
+cp .vimrc.local.bundles ~/.vimrc.local.bundles
 ```
 
 Step 2:
 
 ```bash
 vim +PlugInstall +qall
-```
-
-Step 3: Update to latest version
-
-```bash
-:VimBootstrapUpdate
-:PlugInstall
-```
-
-## Neovim
-
-Step 0:
-
-```bash
-brew install pyenv
-brew install neovim
-pip install --upgrade neovim
-pip3 install --upgrade neovim
-```
-
-Step 1:
-
-```bash
-cp init.vim ~/.config/nvim/init.vim
-cp .rc.local ~/.rc.local
-cp .rc.local.bundles ~/.rc.local.bundles
-```
-
-Step 2:
-
-```bash
-nvim +PlugInstall +qall
 ```
 
 Step 3: Update to latest version

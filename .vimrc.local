@@ -11,7 +11,7 @@ let g:snips_author = "Kaka Huynh"
 
 " NERDTree
 let g:NERDTreeWinSize = 40
-let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__','node_modules','flow-typed','.git', 'build']
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__','node_modules','flow-typed', 'flow-coverage', '.git', 'build']
 
 " Asynchronous Lint Engine (ALE)
 let g:airline#extensions#ale#enabled = 1
@@ -67,6 +67,7 @@ endif
 autocmd BufNewFile,BufRead *.js.flow setlocal filetype=javascript.jsx
 autocmd BufNewFile,BufRead .babelrc setlocal filetype=json
 autocmd BufNewFile,BufRead .eslintrc setlocal filetype=json
+autocmd BufNewFile,BufRead .graphqlconfig setlocal filetype=json
 
 "" fzf.vim
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules,build

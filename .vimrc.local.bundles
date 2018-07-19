@@ -16,7 +16,7 @@ Plug 'epilande/vim-es2015-snippets'
 " React code snippets
 Plug 'epilande/vim-react-snippets'
 
-" autocomplete
+" Autocomplete
 if g:vim_bootstrap_editor == 'nvim'
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -28,3 +28,6 @@ Plug 'steelsojka/deoplete-flow'
 
 " Color
 Plug 'flazz/vim-colorschemes'
+
+" Surround
+Plug 'tpope/vim-surround'

@@ -32,9 +32,8 @@ Plug 'flazz/vim-colorschemes'
 " Surround
 Plug 'tpope/vim-surround'
 
-" Jump to any location
-Plug 'justinmk/vim-sneak'
-
 " Move line
 Plug 'matze/vim-move'
 
+" Vim easymotion
+Plug 'easymotion/vim-easymotion'

@@ -82,9 +82,6 @@ nmap <leader>j <Plug>(jsdoc)
 " Spellcheck
 map <leader>sc :setlocal spell!<CR>
 
-" Vim sneak
-let g:sneak#label = 1
-
 " Vim-move config
 " for terms that send Alt as Escape sequence
 " see http://vim.wikia.com/wiki/Mapping_fast_keycodes_in_terminal_Vim
@@ -96,4 +93,11 @@ vmap <F20> <Plug>MoveBlockDown
 vmap <F21> <Plug>MoveBlockUp
 nmap <F20> <Plug>MoveLineDown
 nmap <F21> <Plug>MoveLineUp
+
+" Vim easymotion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap <space> <Plug>(easymotion-overwin-f)
 

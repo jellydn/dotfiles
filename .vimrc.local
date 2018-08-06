@@ -101,3 +101,6 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 " `s{char}{label}`
 nmap <space> <Plug>(easymotion-overwin-f)
 
+" Quick save file
+noremap <Leader>s :update<CR>
+

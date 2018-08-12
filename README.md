@@ -61,5 +61,6 @@ cp .gitconfig ~/.gitconfig
 ### commitizen
 
 ```bash
-npm install -g commitizen
+yarn global add commitizen cz-conventional-changelog
+echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 ```

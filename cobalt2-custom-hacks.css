@@ -1,5 +1,5 @@
 .monaco-shell {
-  font-family: "Operator Mono", "Inconsolata", monospace;
+  font-family: 'Operator Mono', 'Inconsolata', monospace;
 }
 
 /* This makes the dirty tab circle yellow */
@@ -7,8 +7,7 @@
   .monaco-workbench
   > .part.editor
   > .content
-  > .one-editor-silo
-  > .container
+  .editor-group-container
   > .title
   .tabs-container
   > .tab.dirty
@@ -17,11 +16,11 @@
     50% no-repeat;
 }
 
-.monaco-workbench > .editor > .content > .one-editor-silo {
+.monaco-workbench > .part.editor > .content .editor-group-container {
   border-top: 1px solid #15232d !important;
 }
 
-.one-editor-silo + .one-editor-silo {
+.editor-group-container + .editor-group-container {
   border-left: 1px solid #15232d !important;
 }
 
@@ -33,6 +32,16 @@
   border: 1px solid #ffc600;
   border-radius: 2px;
   background: transparent;
+}
+
+/* This puts an inset shadow onto the minimap scrollbar and permanently shows it */
+.monaco-editor .minimap .minimap-shadow-visible,
+.monaco-editor .minimap .minimap-shadow-hidden {
+  box-shadow: rgba(0, 0, 0, 0.4) -6px 0 6px -6px inset !important;
+  /* taken from vanilla VS Code theme */
+  position: absolute;
+  left: -6px;
+  width: 6px;
 }
 
 /* This accounts for larger font cutting off - bump up 3px */

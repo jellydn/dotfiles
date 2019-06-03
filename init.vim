@@ -72,6 +72,7 @@ if v:version >= 704
 endif
 
 Plug 'honza/vim-snippets'
+Plug 'wakatime/vim-wakatime'
 
 "*****************************************************************************
 "" Custom bundles

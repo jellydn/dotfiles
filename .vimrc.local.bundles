@@ -7,7 +7,6 @@ Plug 'editorconfig/editorconfig-vim'
 " Javascript
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'w0rp/ale'
 Plug 'heavenshell/vim-jsdoc'
 
 " ES2015 code snippets (Optional)
@@ -37,3 +36,6 @@ Plug 'matze/vim-move'
 
 " Vim easymotion
 Plug 'easymotion/vim-easymotion'
+
+" Vim tracking working time
+Plug 'wakatime/vim-wakatime'

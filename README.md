@@ -13,6 +13,7 @@ A set of vim, zsh, and git configuration files.
 - [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with ease
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display adapt to the time of day, warm at night and like sunlight during the day.
 - [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
+- [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
 
 ## Vim
 

@@ -44,6 +44,10 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 brew install zsh-autosuggestions
 brew install zsh-syntax-highlighting
 brew install starship
+brew install atuin
+git clone \
+  git@github.com:grigorii-zander/zsh-npm-scripts-autocomplete.git \
+  ~/.oh-my-zsh/custom/plugins/zsh-npm-scripts-autocomplete
 ```
 
 ### Config

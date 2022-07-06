@@ -3,7 +3,6 @@
 A set of vim, zsh, and git configuration files.
 
 ## Tools
-
 - [ohmyz](https://ohmyz.sh/) - a delightful, open source, community-driven framework for managing your Zsh configuration
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Termina
@@ -16,6 +15,7 @@ A set of vim, zsh, and git configuration files.
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your Mac fall asleep.
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
 - [karabiner-elements](https://karabiner-elements.pqrs.org) - A powerful and stable keyboard customizer for macOS.
+- [fnm](https://github.com/Schniz/fnm) - Fast Node Manager
 
 ## Vim
 

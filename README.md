@@ -88,5 +88,6 @@ Use commitizen
 
 ```sh
 yarn global add commitizen cz-conventional-changelog
+brew install commitizen
 echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 ```

@@ -15,7 +15,7 @@ A set of vim, zsh, and git configuration files.
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your Mac fall asleep.
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
 - [karabiner-elements](https://karabiner-elements.pqrs.org) - A powerful and stable keyboard customizer for macOS.
-- [fnm](https://github.com/Schniz/fnm) - Fast Node Manager
+- [fnm](https://github.com/Schniz/fnm) - 🚀 Fast and simple Node.js version manager, built in Rust
 
 ## Vim
 

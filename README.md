@@ -49,6 +49,8 @@ vim +PlugInstall +qall
 git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 cd ~/.config/nvim/lua
 git clone https://github.com/NvChad/example_config custom
+cd custom
+rm -rf .git
 ```
 ### Uninstall
 

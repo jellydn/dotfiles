@@ -41,6 +41,23 @@ vim +PlugInstall +qall
 :PlugInstall
 ```
 
+### NVim
+
+### Install [NvChad](https://nvchad.com/quickstart/install)
+
+```sh
+git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+cd ~/.config/nvim/lua
+git clone https://github.com/NvChad/example_config custom
+```
+### Uninstall
+
+```sh
+rm -rf ~/.config/nvim
+rm -rf ~/.local/share/nvim
+rm -rf ~/.cache/nvim
+```
+
 ## CLI
 
 ### Install

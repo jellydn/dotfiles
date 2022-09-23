@@ -18,6 +18,7 @@ return {
 
   -- rusttool
   ["simrat39/rust-tools.nvim"] = {
+    override_options = overrides.rusttool,
   },
 
   -- overrde plugin configs
@@ -33,11 +34,23 @@ return {
     override_options = overrides.nvimtree,
   },
 
-  -- Install a plugin
   ["max397574/better-escape.nvim"] = {
     event = "InsertEnter",
     config = function()
       require("better_escape").setup()
+    end,
+  },
+
+  -- autoclose tags in html, jsx only
+  ["windwp/nvim-ts-autotag"] = {
+    ft = { "html", "javascriptreact" },
+    after = "nvim-treesitter",
+    config = function()
+      local present, autotag = pcall(require, "nvim-ts-autotag")
+
+      if present then
+        autotag.setup()
+      end
     end,
   },
 

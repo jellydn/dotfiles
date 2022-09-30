@@ -8,6 +8,7 @@ M.treesitter = {
     "css",
     "typescript",
     "javascript",
+    "graphql",
     "tsx",
     "rust",
     "toml",

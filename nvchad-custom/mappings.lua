@@ -6,7 +6,6 @@ M.general = {
   },
 }
 
--- more keybinds!
 -- toggle float term
 M.term = {
   n = {

@@ -62,6 +62,14 @@ return {
     end,
   },
 
+  -- jump
+  ["phaazon/hop.nvim"] = {
+    branch = "v2",
+    config = function()
+      require("hop").setup {}
+    end,
+  },
+
   -- remove plugin
   -- ["hrsh7th/cmp-path"] = false,
 }

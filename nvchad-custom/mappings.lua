@@ -19,4 +19,17 @@ M.term = {
   },
 }
 
+-- hop mapping key
+M.hop = {
+  n = {
+    ["f"] = {
+      function()
+        require("hop").hint_char1()
+      end,
+      "hope mode",
+      opts = { nowait = true },
+    },
+  },
+}
+
 return M

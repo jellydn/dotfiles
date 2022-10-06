@@ -62,7 +62,7 @@ return {
     end,
   },
 
-  -- jump
+  -- jump motions on speed
   ["phaazon/hop.nvim"] = {
     branch = "v2",
     config = function()

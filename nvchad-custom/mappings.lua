@@ -62,6 +62,13 @@ M.hop = {
       "hope target backwards",
       opts = { nowait = true },
     },
+    ["<leader>w"] = {
+      function()
+        require("hop").hint_words()
+      end,
+      "hope words",
+      opts = { nowait = true },
+    },
   },
 }
 

@@ -5,6 +5,7 @@ A set of vim, zsh, and git configuration files.
 ## Tools
 
 - [ohmyz](https://ohmyz.sh/) - a delightful, open source, community-driven framework for managing your Zsh configuration
+- [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained, pretty & versatile tmux configuration made with ❤️
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
 - [warp](https://www.warp.dev/) - the terminal for the 21st century

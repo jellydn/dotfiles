@@ -2,6 +2,7 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {
     config = function()
       require "plugins.configs.cmp"
@@ -15,6 +16,22 @@ return {
     requires = "hrsh7th/nvim-cmp",
     config = function()
       require "custom.plugins.configs.tabnine"
+    end,
+  },
+
+  -- outline
+  ["stevearc/aerial.nvim"] = {
+    after = "telescope.nvim",
+    config = function()
+      require("telescope").load_extension "aerial"
+      require("aerial").setup {
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+          -- Jump forwards/backwards with '{' and '}'
+          vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+          vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        end,
+      }
     end,
   },
 

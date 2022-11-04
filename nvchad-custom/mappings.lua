@@ -6,22 +6,18 @@ M.general = {
   },
 }
 
--- toggle float term
-M.term = {
-  n = {
-    ["<leader>t"] = {
-      function()
-        require("nvterm.terminal").toggle "float"
-      end,
-      "toggle floating term",
-    },
-  },
-}
-
 -- folding
 M.folding = {
   n = {
-    ["<leader>fe"] = { "<cmd> FoldingEnabled <CR>" },
+    ["<leader>d"] = { "<cmd>FoldingEnabled<CR>" },
+  },
+}
+
+-- outline
+M.aerial = {
+  n = {
+    ["<leader>a"] = { "<cmd>AerialToggle!<CR>" },
+    ["<leader>fi"] = { "<cmd>Telescope aerial<CR>" },
   },
 }
 

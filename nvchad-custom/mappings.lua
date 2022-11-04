@@ -18,6 +18,13 @@ M.term = {
   },
 }
 
+-- folding
+M.folding = {
+  n = {
+    ["<leader>fe"] = { "<cmd> FoldingEnabled <CR>" },
+  },
+}
+
 -- hop mapping key
 M.hop = {
   n = {

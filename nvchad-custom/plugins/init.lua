@@ -2,6 +2,22 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  ["hrsh7th/nvim-cmp"] = {
+    config = function()
+      require "plugins.configs.cmp"
+      require("custom.plugins.configs.tabnine").cmp()
+    end,
+  },
+
+  ["tzachar/cmp-tabnine"] = {
+    after = "nvim-cmp",
+    run = "./install.sh",
+    requires = "hrsh7th/nvim-cmp",
+    config = function()
+      require "custom.plugins.configs.tabnine"
+    end,
+  },
+
   -- enables dashboard
   ["goolord/alpha-nvim"] = {
     disable = false,

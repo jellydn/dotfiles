@@ -12,9 +12,12 @@ M.treesitter = {
     "prisma",
     "tsx",
     "rust",
+    "go",
     "toml",
     "c",
+    "proto",
   },
+  auto_install = true
 }
 
 M.alpha = {
@@ -32,6 +35,8 @@ M.alpha = {
 
 M.mason = {
   ensure_installed = {
+    -- common
+    "codespell",
     -- lua stuff
     "lua-language-server",
     "stylua",
@@ -43,6 +48,13 @@ M.mason = {
     "deno",
     "emmet-ls",
     "json-lsp",
+
+    -- go
+    "gopls",
+
+    -- grpc
+    "buf",
+    "buf-language-server",
   },
 }
 

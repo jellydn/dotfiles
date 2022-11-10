@@ -54,6 +54,8 @@ return {
     override_options = overrides.rusttool,
   },
 
+  -- TODO: setup golang
+
   -- overrde plugin configs
   ["nvim-treesitter/nvim-treesitter"] = {
     override_options = overrides.treesitter,
@@ -112,5 +114,5 @@ return {
   },
 
   -- remove plugin
-  -- ["hrsh7th/cmp-path"] = false,
+  ["NvChad/nvterm"] = false,
 }

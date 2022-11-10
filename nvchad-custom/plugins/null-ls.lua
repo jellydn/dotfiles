@@ -10,7 +10,9 @@ local sources = {
 
   -- webdev stuff
   b.formatting.deno_fmt,
-  b.formatting.prettier.with { filetypes = { "html", "markdown", "css" } },
+  b.formatting.prettier.with {
+    filetypes = { "html", "markdown", "css" },
+  },
 
   -- Lua
   b.formatting.stylua,
@@ -19,16 +21,17 @@ local sources = {
   b.formatting.shfmt,
   b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
 
-  -- cpp
-  b.formatting.clang_format,
+  -- rust
   b.formatting.rustfmt.with {
     extra_args = { "--edition", "2018" },
   },
+
+  -- go lang
 }
 
 null_ls.setup {
   debug = true,
-   on_attach = function()
+  on_attach = function()
     vim.api.nvim_create_autocmd("BufWritePost", {
       callback = function()
         vim.lsp.buf.format()

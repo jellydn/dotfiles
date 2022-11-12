@@ -26,7 +26,8 @@ local sources = {
     extra_args = { "--edition", "2018" },
   },
 
-  -- go lang
+  -- go 
+  b.formatting.gofmt,
 }
 
 null_ls.setup {

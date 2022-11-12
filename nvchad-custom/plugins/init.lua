@@ -54,7 +54,15 @@ return {
     override_options = overrides.rusttool,
   },
 
-  -- TODO: setup golang
+  -- golang
+  ["crispgm/nvim-go"] = {
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require('go').config.update_tool('quicktype', function(tool)
+    tool.pkg_mgr = 'yarn'
+end)
+    end,
+  },
 
   -- overrde plugin configs
   ["nvim-treesitter/nvim-treesitter"] = {

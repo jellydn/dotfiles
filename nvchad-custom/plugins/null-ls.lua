@@ -9,7 +9,9 @@ local b = null_ls.builtins
 local sources = {
 
   -- spell check
-  b.diagnostics.cspell, b.code_actions.cspell,
+  -- b.diagnostics.cspell, b.code_actions.cspell,
+  b.completion.spell,
+  b.diagnostics.codespell,
 
   -- webdev stuff
   b.formatting.deno_fmt,
@@ -29,7 +31,7 @@ local sources = {
     extra_args = { "--edition", "2018" },
   },
 
-  -- go 
+  -- go
   b.formatting.gofmt,
 }
 

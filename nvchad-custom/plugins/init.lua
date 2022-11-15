@@ -2,6 +2,14 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  -- highlight todo on comment
+  ["folke/todo-comments.nvim"] = {
+    requires = "nvim-lua/plenary.nvim",
+    config = function()
+      require("todo-comments").setup {}
+    end,
+  },
+
   -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {
     config = function()
@@ -58,9 +66,9 @@ return {
   ["crispgm/nvim-go"] = {
     requires = "nvim-lua/plenary.nvim",
     config = function()
-      require('go').config.update_tool('quicktype', function(tool)
-    tool.pkg_mgr = 'yarn'
-end)
+      require("go").config.update_tool("quicktype", function(tool)
+        tool.pkg_mgr = "yarn"
+      end)
     end,
   },
 

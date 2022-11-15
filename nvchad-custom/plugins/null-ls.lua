@@ -8,6 +8,9 @@ local b = null_ls.builtins
 
 local sources = {
 
+  -- spell check
+  b.diagnostics.cspell, b.code_actions.cspell,
+
   -- webdev stuff
   b.formatting.deno_fmt,
   b.formatting.prettier.with {

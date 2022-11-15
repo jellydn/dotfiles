@@ -10,6 +10,18 @@ return {
     end,
   },
 
+  -- lsp plugin
+  ["glepnir/lspsaga.nvim"] = {
+    branch = "main",
+    config = function()
+      local saga = require "lspsaga"
+
+      saga.init_lsp_saga {
+        -- your configuration
+      }
+    end,
+  },
+
   -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {
     config = function()

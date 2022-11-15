@@ -21,6 +21,16 @@ M.aerial = {
   },
 }
 
+-- lsp saga
+M.lspsaga = {
+  n = {
+    -- Lsp finder find the symbol definition implement reference
+    ["<leader>fd"] = { "<cmd>Lspsaga lsp_finder<CR>" },
+    -- Code action (fix code)
+    ["<leader>fc"] = { "<cmd>Lspsaga code_action<CR>" },
+  },
+}
+
 -- hop mapping key
 M.hop = {
   n = {

@@ -13,8 +13,12 @@ local sources = {
   b.completion.spell,
   b.diagnostics.codespell,
 
+  -- refactoring
+  b.code_actions.refactoring,
+
   -- webdev stuff
   b.formatting.deno_fmt,
+  -- TODO: install romejs if possible
   b.formatting.prettier.with {
     filetypes = { "html", "markdown", "css" },
   },
@@ -22,17 +26,17 @@ local sources = {
   -- Lua
   b.formatting.stylua,
 
-  -- Shell
-  b.formatting.shfmt,
-  b.diagnostics.shellcheck.with { diagnostics_format = "#{m} [#{c}]" },
-
   -- rust
   b.formatting.rustfmt.with {
     extra_args = { "--edition", "2018" },
   },
 
   -- go
+  b.diagnostics.revive,
   b.formatting.gofmt,
+
+  -- proto buf
+  b.diagnostics.protolint,
 }
 
 null_ls.setup {

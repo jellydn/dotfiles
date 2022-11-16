@@ -21,6 +21,20 @@ M.aerial = {
   },
 }
 
+-- refactoring
+M.refatoring = {
+  n = {
+    ["<leader>rr"] = {
+      "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+    },
+  },
+  v = {
+["<leader>rr"] = {
+      "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
+    },
+  }
+}
+
 -- lsp saga
 M.lspsaga = {
   n = {

@@ -29,10 +29,10 @@ M.refatoring = {
     },
   },
   v = {
-["<leader>rr"] = {
+    ["<leader>rr"] = {
       "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
     },
-  }
+  },
 }
 
 -- lsp saga
@@ -42,6 +42,24 @@ M.lspsaga = {
     ["<leader>fd"] = { "<cmd>Lspsaga lsp_finder<CR>" },
     -- Code action (fix code)
     ["<leader>fc"] = { "<cmd>Lspsaga code_action<CR>" },
+
+    -- -- Diagnsotic jump can use `<c-o>` to jump back
+    ["[e"] = { "<cmd>Lspsaga diagnostic_jump_prev<CR>" },
+    ["]e"] = { "<cmd>Lspsaga diagnostic_jump_next<CR>" },
+
+    -- Only jump to error
+    ["[E"] = {
+      function()
+        require("lspsaga.diagnostic").goto_prev { severity = vim.diagnostic.severity.ERROR }
+      end,
+      { silent = true },
+    },
+    ["]E"] = {
+      function()
+        require("lspsaga.diagnostic").goto_next { severity = vim.diagnostic.severity.ERROR }
+      end,
+      { silent = true },
+    },
   },
 }
 

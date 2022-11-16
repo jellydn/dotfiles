@@ -5,10 +5,19 @@ return {
   -- mason plugin
   ["williamboman/mason-lspconfig.nvim"] = {
     after = "mason.nvim",
-    config = function() 
-    require("mason-lspconfig").setup()
+    config = function()
+      require("mason-lspconfig").setup()
     end,
   },
+
+  -- search and replace
+  ["ray-x/sad.nvim"] = {
+    requires = "ray-x/guihua.lua",
+    config = function()
+      require("sad").setup {}
+    end,
+  },
+
   -- highlight todo on comment
   ["folke/todo-comments.nvim"] = {
     requires = "nvim-lua/plenary.nvim",

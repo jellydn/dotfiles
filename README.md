@@ -6,8 +6,6 @@ A set of vim, zsh, and git configuration files.
 
 - [ohmyz](https://ohmyz.sh/) - a delightful, open source, community-driven framework for managing your Zsh configuration
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained, pretty & versatile tmux configuration made with ❤️
-- [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
-- [iterm2](https://iterm2.com/) - a replacement for Terminal
 - [warp](https://www.warp.dev/) - the terminal for the 21st century
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable launcher.
@@ -21,6 +19,8 @@ A set of vim, zsh, and git configuration files.
 - [karabiner-elements](https://karabiner-elements.pqrs.org) - a powerful and stable keyboard customizer for macOS.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version manager, built in Rust
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
+- [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
+- [iterm2](https://iterm2.com/) - a replacement for Terminal
 
 ## Vim
 
@@ -44,13 +44,14 @@ vim +PlugInstall +qall
 
 ### NvChad
 
-### Install [NvChad](https://nvchad.com/quickstart/install)
+#### Install [NvChad](https://nvchad.com/quickstart/install)
 
 ```sh
 git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
 cp -R nvchad-custom ~/.config/nvim/lua/custom
 ```
-### Uninstall
+
+#### Uninstall
 
 ```sh
 rm -rf ~/.config/nvim

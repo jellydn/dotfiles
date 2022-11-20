@@ -13,9 +13,6 @@ local sources = {
   b.completion.spell,
   b.diagnostics.codespell,
 
-  -- refactoring
-  b.code_actions.refactoring,
-
   -- webdev stuff
   b.formatting.deno_fmt,
   -- TODO: install romejs if possible

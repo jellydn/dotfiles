@@ -2,6 +2,8 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  -- markdown
+
   -- mason plugin
   ["williamboman/mason-lspconfig.nvim"] = {
     after = "mason.nvim",
@@ -35,19 +37,6 @@ return {
       saga.init_lsp_saga {
         -- your configuration
       }
-    end,
-  },
-
-  -- refactoring
-  ["ThePrimeagen/refactoring.nvim"] = {
-    requires = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
-    },
-    after = "telescope.nvim",
-    config = function()
-      require("telescope").load_extension "refactoring"
-      require("refactoring").setup {}
     end,
   },
 

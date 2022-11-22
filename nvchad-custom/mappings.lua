@@ -13,25 +13,23 @@ M.folding = {
   },
 }
 
+-- NOTE: Install https://github.com/fedepujol/move.nvim if needed
+-- moving
+M.moving = {
+  n = {
+    ["<A-Down>"] = { ":m .+1<CR>", "move line down" },
+    ["<A-Up>"] = { ":m .-2<CR>", "move line up" },
+  },
+}
+
+-- override nvterm
+M.nvterm = {}
+
 -- outline
 M.aerial = {
   n = {
     ["<leader>a"] = { "<cmd>AerialToggle!<CR>" },
     ["<leader>fi"] = { "<cmd>Telescope aerial<CR>" },
-  },
-}
-
--- refactoring
-M.refatoring = {
-  n = {
-    ["<leader>rr"] = {
-      "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-    },
-  },
-  v = {
-    ["<leader>rr"] = {
-      "<Esc><cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
-    },
   },
 }
 

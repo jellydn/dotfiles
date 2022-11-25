@@ -22,6 +22,21 @@ M.moving = {
   },
 }
 
+-- Mac OSX
+M.macosx = {
+  n = {
+    -- save
+    ["<leader>s"] = { "<cmd> w <CR>", "save file" },
+  },
+}
+
+-- spell check, refer https://jdhao.github.io/2019/04/29/nvim_spell_check/
+M.spellcheck = {
+  n = {
+    ["<F10>"] = { "<cmd> set spell! <CR>", "Toggle spell check" },
+  },
+}
+
 -- override nvterm
 M.nvterm = {}
 

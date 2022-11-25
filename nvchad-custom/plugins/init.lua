@@ -2,6 +2,8 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  -- NOTE: install spellcheck if needed
+  --
   -- markdown
 
   -- mason plugin

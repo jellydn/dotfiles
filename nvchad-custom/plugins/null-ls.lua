@@ -9,11 +9,17 @@ local b = null_ls.builtins
 local sources = {
 
   -- spell check
-  -- b.diagnostics.cspell, b.code_actions.cspell,
-  b.completion.spell,
+  -- b.code_actions.cspell,
+  -- b.diagnostics.cspell,
   b.diagnostics.codespell,
+  b.diagnostics.misspell,
+  b.diagnostics.write_good,
+  b.code_actions.proselint,
 
   -- webdev stuff
+  b.diagnostics.eslint_d,
+  b.code_actions.eslint_d,
+  b.formatting.eslint_d,
   b.formatting.deno_fmt,
   -- TODO: install romejs if possible
   b.formatting.prettier.with {

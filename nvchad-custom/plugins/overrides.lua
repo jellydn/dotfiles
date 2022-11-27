@@ -75,10 +75,8 @@ M.rusttool = {
 
 -- git support in nvimtree
 M.nvimtree = {
-  filters = {
-    custom = { ".git" },
-    exclude = { ".gitignore" },
-  },
+  -- hide the .git folder via a custom filter, see :help nvim-tree.filters.custom
+  filters = { custom = { "^.git$" } },
 
   git = {
     enable = true,

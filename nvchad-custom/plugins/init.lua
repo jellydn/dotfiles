@@ -5,6 +5,11 @@ return {
   -- NOTE: install spellcheck if needed
   --
   -- markdown
+  --
+  -- lazygit
+  ["kdheepak/lazygit.nvim"] = {
+    requires = "nvim-lua/plenary.nvim",
+  },
 
   -- mason plugin
   ["williamboman/mason-lspconfig.nvim"] = {

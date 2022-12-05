@@ -40,7 +40,7 @@ A set of vim, zsh, and git configuration files.
 
 ## Vim
 
-Basically, this is modified version of JS/Typescript/HTML generation from
+Basically, this is a version of JS/Typescript/HTML generation from
 https://vim-bootstrap.com/
 
 ### Config
@@ -132,7 +132,6 @@ Or install other theme with below command
 ```sh
 npx alacritty-themes
 ```
-
 
 ## Git
 

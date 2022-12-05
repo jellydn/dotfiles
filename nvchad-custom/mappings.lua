@@ -15,11 +15,11 @@ M.moving = {
   },
 }
 
--- Mac OSX
-M.macosx = {
+-- Lazy git
+M.lazygit = {
   n = {
-    -- save
-    ["<leader>s"] = { "<cmd> w <CR>", "save file" },
+    -- open lazy git
+    ["<leader>gg"] = { "<cmd> :LazyGit <CR>", "Open Lazy Git" },
   },
 }
 

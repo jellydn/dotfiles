@@ -6,13 +6,6 @@ M.general = {
   },
 }
 
--- folding
-M.folding = {
-  n = {
-    ["<leader>d"] = { "<cmd>FoldingEnabled<CR>" },
-  },
-}
-
 -- NOTE: Install https://github.com/fedepujol/move.nvim if needed
 -- moving
 M.moving = {

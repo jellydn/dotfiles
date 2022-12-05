@@ -22,7 +22,7 @@ local sources = {
   b.formatting.eslint_d,
   b.formatting.deno_fmt,
   -- TODO: install romejs if possible
-  b.formatting.prettier.with {
+  b.formatting.prettierd.with {
     filetypes = { "html", "markdown", "css" },
   },
 

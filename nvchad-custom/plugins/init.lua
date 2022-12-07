@@ -2,6 +2,13 @@ local overrides = require "custom.plugins.overrides"
 
 return {
 
+  -- format on save with LSP
+  ["lukas-reineke/lsp-format.nvim"] = {
+    config = function()
+      require("lsp-format").setup {}
+    end,
+  },
+
   -- NOTE: install spellcheck if needed
   --
   -- markdown

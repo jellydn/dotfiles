@@ -20,7 +20,9 @@ local sources = {
   b.diagnostics.eslint_d,
   b.code_actions.eslint_d,
   b.formatting.eslint_d,
-  b.formatting.deno_fmt,
+  -- b.formatting.deno_fmt.with({
+  --   	filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" }, 
+  -- }),
   -- TODO: install romejs if possible
   b.formatting.prettierd.with {
     filetypes = { "html", "markdown", "css" },
@@ -43,13 +45,9 @@ local sources = {
 }
 
 null_ls.setup {
-  debug = true,
-  on_attach = function()
-    vim.api.nvim_create_autocmd("BufWritePost", {
-      callback = function()
-        vim.lsp.buf.format()
-      end,
-    })
+  on_attach = function(client)
+    -- format on save
+    require("lsp-format").on_attach(client)
   end,
   sources = sources,
 }

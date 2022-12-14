@@ -15,7 +15,7 @@ local function eslint_config_exists()
 
   local current_dir = vim.fn.getcwd()
   local config_file = current_dir .. "/package.json"
-  if vim.fn.filereadable(confile_file) == 1 then
+  if vim.fn.filereadable(config_file) == 1 then
     if vim.fn.json_decode(vim.fn.readfile(config_file))["eslintConfig"] then
       return true
     end
@@ -56,7 +56,11 @@ local sources = {
 
   -- webdev stuff
   b.formatting.rustywind,
-  b.code_actions.eslint_d,
+  b.code_actions.eslint_d.with {
+    condition = function()
+      return eslint_config_exists() and not rome_config_exists()
+    end,
+  },
   b.diagnostics.eslint_d.with {
     condition = function()
       return eslint_config_exists() and not rome_config_exists()
@@ -75,7 +79,7 @@ local sources = {
   },
   b.formatting.rome.with {
     condition = function()
-      return rome_config_exists()
+      return rome_config_exists() and not eslint_config_exists() and not deno_config_exists()
     end,
   },
   b.formatting.prettierd.with {

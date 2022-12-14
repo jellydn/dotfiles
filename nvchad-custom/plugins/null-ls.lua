@@ -14,11 +14,31 @@ local function eslint_config_exists()
   end
 
   local current_dir = vim.fn.getcwd()
-  local pkg_json = current_dir .. "/package.json"
-  if vim.fn.filereadable(pkg_json) == 1 then
-    if vim.fn.json_decode(vim.fn.readfile(pkg_json))["eslintConfig"] then
+  local config_file = current_dir .. "/package.json"
+  if vim.fn.filereadable(confile_file) == 1 then
+    if vim.fn.json_decode(vim.fn.readfile(config_file))["eslintConfig"] then
       return true
     end
+  end
+
+  return false
+end
+
+local function rome_config_exists()
+  local current_dir = vim.fn.getcwd()
+  local config_file = current_dir .. "/rome.json"
+  if vim.fn.filereadable(config_file) == 1 then
+    return true
+  end
+
+  return false
+end
+
+local function deno_config_exists()
+  local current_dir = vim.fn.getcwd()
+  local config_file = current_dir .. "/deno.json"
+  if vim.fn.filereadable(config_file) == 1 then
+    return true
   end
 
   return false
@@ -35,19 +55,34 @@ local sources = {
   b.code_actions.proselint,
 
   -- webdev stuff
+  b.formatting.rustywind,
+  b.code_actions.eslint_d,
   b.diagnostics.eslint_d.with {
     condition = function()
-      return eslint_config_exists()
+      return eslint_config_exists() and not rome_config_exists()
     end,
   },
-  b.code_actions.eslint_d,
-  b.formatting.eslint_d,
-  -- b.formatting.deno_fmt.with({
-  --   	filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" },
-  -- }),
-  -- TODO: install romejs if possible
+  b.formatting.eslint_d.with {
+    condition = function()
+      return eslint_config_exists() and not rome_config_exists()
+    end,
+  },
+  b.formatting.deno_fmt.with {
+    filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" },
+    condition = function()
+      return deno_config_exists()
+    end,
+  },
+  b.formatting.rome.with {
+    condition = function()
+      return rome_config_exists()
+    end,
+  },
   b.formatting.prettierd.with {
     filetypes = { "javascript", "javascriptreact", "json", "jsonc", "typescript", "typescriptreact" },
+    condition = function()
+      return not rome_config_exists() and not deno_config_exists()
+    end,
   },
 
   -- Lua

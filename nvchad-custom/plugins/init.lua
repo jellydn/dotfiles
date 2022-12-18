@@ -175,4 +175,6 @@ return {
 
   -- remove plugin
   ["NvChad/nvterm"] = false,
+
+  ["folke/which-key.nvim"] = { disable = false },
 }

@@ -24,8 +24,9 @@ lspconfig.denols.setup {
   root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
 }
 
-lspconfig.rome.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = lspconfig.util.root_pattern "rome.json",
-}
+-- rome is not stable
+-- lspconfig.rome.setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+--   root_dir = lspconfig.util.root_pattern "rome.json",
+-- }

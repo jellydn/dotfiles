@@ -41,6 +41,11 @@ local function deno_config_exists()
     return true
   end
 
+  local jsonc_file = current_dir .. "/deno.jsonc"
+  if vim.fn.filereadable(jsonc_file) == 1 then
+    return true
+  end
+
   return false
 end
 

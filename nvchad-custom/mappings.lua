@@ -6,6 +6,15 @@ M.general = {
   },
 }
 
+-- Github Copilot
+M.copilot = {
+  i = {
+    ["<C-j>"] = { "<Plug>(copilot-next)", "copilot next", opts = { nowait = true } },
+    ["<C-k>"] = { "<Plug>(copilot-previous)", "copilot previous", opts = { nowait = true } },
+    ["<C-l>"] = { "<Plug>(copilot-suggest)", "copilot suggest", opts = { nowait = true } },
+  },
+}
+
 -- NOTE: Install https://github.com/fedepujol/move.nvim if needed
 -- moving
 M.moving = {

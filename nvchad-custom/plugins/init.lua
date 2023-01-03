@@ -55,21 +55,7 @@ return {
   },
 
   -- copilot
-  ["zbirenbaum/copilot.lua"] = {
-    event = "InsertEnter",
-    config = function()
-      vim.schedule(function()
-        require("copilot").setup()
-      end)
-    end,
-  },
-
-  ["zbirenbaum/copilot-cmp"] = {
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
+  ["github/copilot.vim"] = {},
 
   -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {

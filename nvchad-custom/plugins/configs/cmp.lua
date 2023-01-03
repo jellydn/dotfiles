@@ -16,7 +16,6 @@ M.cmp = function()
       end,
     },
     sources = {
-      { name = "copilot" },
       { name = "cmp_tabnine" },
       { name = "luasnip" },
       { name = "buffer" },

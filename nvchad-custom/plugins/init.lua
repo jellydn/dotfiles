@@ -55,7 +55,37 @@ return {
   },
 
   -- copilot
-  ["github/copilot.vim"] = {},
+  -- ["github/copilot.vim"] = {},
+  ["zbirenbaum/copilot.lua"] = {
+    event = "VimEnter",
+    config = function()
+      vim.defer_fn(function()
+        require("copilot").setup {
+          cmp = {
+            enabled = true,
+            method = "getCompletionsCycling",
+          },
+          panel = {
+            enabled = true,
+          },
+          ft_disable = { "markdown" },
+          server_opts_overrides = {
+            settings = {
+              advanced = {
+                inlineSuggestCount = 3, -- #completions for getCompletions
+              },
+            },
+          },
+        }
+      end, 100)
+    end,
+  },
+  ["zbirenbaum/copilot-cmp"] = {
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
 
   -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {

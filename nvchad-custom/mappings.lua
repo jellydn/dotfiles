@@ -8,39 +8,10 @@ M.general = {
 
 -- Github Copilot
 M.copilot = {
-  -- below is key biding for copilot.vim
-  -- i = {
-  -- ["<C-j>"] = { "<Plug>(copilot-next)", "copilot next", opts = { nowait = true } },
-  -- ["<C-k>"] = { "<Plug>(copilot-previous)", "copilot previous", opts = { nowait = true } },
-  -- ["<C-l>"] = { "<Plug>(copilot-suggest)", "copilot suggest", opts = { nowait = true } },
-  -- },
   i = {
-    ["<C-a>"] = {
-      function()
-        require("copilot.suggestion").accept()
-      end,
-      "copilot accept",
-    },
-
-    ["<C-j>"] = {
-      function()
-        require("copilot.suggestion").next()
-      end,
-      "copilot next",
-    },
-    ["<C-k>"] = {
-      function()
-        require("copilot.suggestion").prev()
-      end,
-      "copilot previous",
-    },
-    --- toggle auto trigger
-    ["<leader>tc"] = {
-      function()
-        require("copilot.suggestion").toggle_auto_trigger()
-      end,
-      "toggle auto trigger",
-    },
+    ["<C-j>"] = { "<Plug>(copilot-next)", "copilot next", opts = { nowait = true } },
+    ["<C-k>"] = { "<Plug>(copilot-previous)", "copilot previous", opts = { nowait = true } },
+    ["<C-l>"] = { "<Plug>(copilot-suggest)", "copilot suggest", opts = { nowait = true } },
   },
 }
 

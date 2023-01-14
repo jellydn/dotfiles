@@ -27,12 +27,7 @@ return {
   },
 
   -- search and replace
-  ["ray-x/sad.nvim"] = {
-    requires = "ray-x/guihua.lua",
-    config = function()
-      require("sad").setup {}
-    end,
-  },
+  -- TODO: add plugin if needed
 
   -- highlight todo on comment
   ["folke/todo-comments.nvim"] = {
@@ -55,37 +50,7 @@ return {
   },
 
   -- copilot
-  -- ["github/copilot.vim"] = {},
-  ["zbirenbaum/copilot.lua"] = {
-    event = "VimEnter",
-    config = function()
-      vim.defer_fn(function()
-        require("copilot").setup {
-          cmp = {
-            enabled = true,
-            method = "getCompletionsCycling",
-          },
-          panel = {
-            enabled = true,
-          },
-          ft_disable = { "markdown" },
-          server_opts_overrides = {
-            settings = {
-              advanced = {
-                inlineSuggestCount = 3, -- #completions for getCompletions
-              },
-            },
-          },
-        }
-      end, 100)
-    end,
-  },
-  ["zbirenbaum/copilot-cmp"] = {
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
+  ["github/copilot.vim"] = {},
 
   -- tabnine auto completion
   ["hrsh7th/nvim-cmp"] = {
@@ -210,5 +175,5 @@ return {
   -- remove plugin
   ["NvChad/nvterm"] = false,
 
-  ["folke/which-key.nvim"] = { disable = false },
+  ["folke/which-key.nvim"] = false,
 }

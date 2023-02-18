@@ -38,42 +38,10 @@ A set of vim, zsh, and git configuration files.
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
 
-## Vim
-
-Basically, this is a version of JS/Typescript/HTML generation from
-https://vim-bootstrap.com/
-
-### Config
+### Nvim IDE
 
 ```sh
-cp .vimrc ~/.vimrc
-cp .vimrc.local ~/.vimrc.local
-cp .vimrc.local.bundles ~/.vimrc.local.bundles
-```
-
-### Install
-
-```sh
-vim +PlugInstall +qall
-:VimBootstrapUpdate
-:PlugInstall
-```
-
-### NvChad
-
-#### Install [NvChad](https://nvchad.com/quickstart/install)
-
-```sh
-git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-cp -R nvchad-custom ~/.config/nvim/lua/custom
-```
-
-#### Uninstall
-
-```sh
-rm -rf ~/.config/nvim
-rm -rf ~/.local/share/nvim
-rm -rf ~/.cache/nvim
+git clone https://github.com/jellydn/nvim-ide ~/.config/nvim 
 ```
 
 ## CLI

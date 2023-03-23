@@ -10,7 +10,6 @@ A set of vim, zsh, and git configuration files.
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
-- [warp](https://www.warp.dev/) - the terminal for the 21st century
 - [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
   emulator
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
@@ -35,13 +34,17 @@ A set of vim, zsh, and git configuration files.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
+
+## Deprecated tools
+
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
+- [warp](https://www.warp.dev/) - the terminal for the 21st century
 
-### Nvim IDE
+### Neovim IDE
 
 ```sh
-git clone https://github.com/jellydn/nvim-ide ~/.config/nvim 
+git clone https://github.com/jellydn/lazy-nvim-ide ~/.config/nvim
 ```
 
 ## CLI

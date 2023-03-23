@@ -36,11 +36,11 @@ window:
 # Font configuration (changes require restart)
 font:
   normal:
-    # Font family
-    family: "FiraCode Nerd Font"
+    # Font family: JetBrainsMono NF / FiraCode Nerd Font
+    family: "JetBrainsMono NF"
 
   # Point size
-  size: 17
+  size: 17.5
 
 colors:
   cursor:
@@ -75,3 +75,10 @@ colors:
     cyan: '#6ae3fa'
     white: '#ffffff'
 theme: Cobalt-2
+
+selection:
+  # This string contains all characters that are used as separators for
+  # "semantic words" in Alacritty.
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  # When set to `true`, selected text will be copied to the primary clipboard.
+  save_to_clipboard: true

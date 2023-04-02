@@ -34,6 +34,7 @@ A set of vim, zsh, and git configuration files.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
+- [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
 
 ## Deprecated tools
 

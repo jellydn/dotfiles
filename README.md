@@ -18,6 +18,7 @@ A set of vim, zsh, and git configuration files.
   launcher.
 - [delta](https://github.com/dandavison/delta) - a syntax-highlighting pager for
   git, diff, and grep output
+- [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - simplicity and power in a
   beautiful Git GUI
 - [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with
@@ -34,6 +35,7 @@ A set of vim, zsh, and git configuration files.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
+- [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
 - [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
 
 ## Deprecated tools
@@ -55,7 +57,11 @@ git clone https://github.com/jellydn/lazy-nvim-ide ~/.config/nvim
 ```sh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 brew install starship
-brew install etuin
+brew install atuin
+brew install zoxide
+brew install bat
+brew install fd
+brew install ripgrep
 brew install wget
 
 cd ~/.oh-my-zsh/themes/

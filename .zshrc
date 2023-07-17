@@ -1,5 +1,10 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -9,7 +14,7 @@ export ZSH="~/.oh-my-zsh"
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="cobalt2"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -70,6 +75,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Set locale
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -97,6 +106,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+if [ -d "$HOME/Library/Python/2.7/bin" ]; then
+    PATH="$HOME/Library/Python/2.7/bin:$PATH"
+fi
+
+# Python3
+
+if [ -d "$HOME/Library/Python/3.9/bin" ]; then
+    PATH="$HOME/Library/Python/3.9/bin:$PATH"
+fi
+
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
@@ -105,16 +124,31 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
+eval "$(zoxide init zsh)"
 
-# FNM - node manager
-export PATH="/Users/huynhducdung/Library/Caches/fnm_multishells/19940_1657276277749/bin":$PATH
-export FNM_MULTISHELL_PATH="/Users/huynhducdung/Library/Caches/fnm_multishells/19940_1657276277749"
-export FNM_VERSION_FILE_STRATEGY="local"
-export FNM_DIR="/Users/huynhducdung/Library/Application Support/fnm"
-export FNM_LOGLEVEL="info"
-export FNM_NODE_DIST_MIRROR="https://nodejs.org/dist"
-export FNM_ARCH="x64"
-rehash
+# Go
+export PATH="$PATH:$(go env GOPATH)/bin"
+export PATH="$PATH:$(go env GOROOT)/bin"
+export GOPATH="$(go env GOPATH)"
+export GOROOT="$(go env GOROOT)"
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+# Sublime
+export PATH="/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# direnv
+eval "$(direnv hook zsh)"
+
+# nvim
+export PATH=$PATH:~/.local/share/bob/nvim-bin
+
+# alias
+alias vi='nvim'
+alias vim='nvim'
+alias cat='bat'
+
+export PATH="/usr/local/sbin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

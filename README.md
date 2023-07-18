@@ -36,13 +36,16 @@ A set of vim, zsh, and git configuration files.
   manager, built in Rust
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
+- [luin/medis](https://github.com/luin/medis) -  Medis is a beautiful, easy-to-use Mac database management application for Redis
+- [httpie/httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
+- [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
 
 ## Deprecated tools
 
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
-- [warp](https://www.warp.dev/) - the terminal for the 21st century
+- [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
 
 ### Neovim IDE
 
@@ -62,7 +65,9 @@ brew install zoxide
 brew install bat
 brew install fd
 brew install ripgrep
+brew install the_silver_searcher
 brew install wget
+brew install make
 
 cd ~/.oh-my-zsh/themes/
 wget https://raw.githubusercontent.com/wesbos/Cobalt2-iterm/master/cobalt2.zsh-theme

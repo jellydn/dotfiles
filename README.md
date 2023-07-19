@@ -39,6 +39,7 @@ A set of vim, zsh, and git configuration files.
 - [luin/medis](https://github.com/luin/medis) -  Medis is a beautiful, easy-to-use Mac database management application for Redis
 - [httpie/httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
+- [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
 
 ## Deprecated tools
@@ -66,7 +67,11 @@ brew install bat
 brew install fd
 brew install ripgrep
 brew install the_silver_searcher
+brew install jq
 brew install wget
+brew install mkcert
+brew install tree
+brew install nss # if you use Firefox
 brew install make
 
 cd ~/.oh-my-zsh/themes/

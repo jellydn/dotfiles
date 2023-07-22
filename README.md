@@ -34,9 +34,10 @@ A set of vim, zsh, and git configuration files.
   stable keyboard customizer for macOS.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
+- [direnv/direnv](https://github.com/direnv/direnv) - unclutter your .profile.
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
-- [luin/medis](https://github.com/luin/medis) -  Medis is a beautiful, easy-to-use Mac database management application for Redis
+- [luin/medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
 - [httpie/httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard

@@ -34,12 +34,13 @@ A set of vim, zsh, and git configuration files.
   stable keyboard customizer for macOS.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
-- [direnv/direnv](https://github.com/direnv/direnv) - unclutter your .profile.
+- [poetry](https://github.com/python-poetry/poetry) - Python packaging and dependency management made easy
+- [direnv](https://github.com/direnv/direnv) - unclutter your .profile.
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
-- [luin/medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
-- [httpie/httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
-- [keycastr/keycastr: KeyCastr, an open-source keystroke visualizer](https://github.com/keycastr/keycastr)
+- [medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
+- [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
+- [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
 
@@ -74,6 +75,8 @@ brew install mkcert
 brew install tree
 brew install nss # if you use Firefox
 brew install make
+brew install gnu-sed
+brew install ast-grep # structural search and replace
 
 cd ~/.oh-my-zsh/themes/
 wget https://raw.githubusercontent.com/wesbos/Cobalt2-iterm/master/cobalt2.zsh-theme

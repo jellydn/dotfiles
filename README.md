@@ -10,8 +10,7 @@ A set of vim, zsh, and git configuration files.
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
-- [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
-  emulator
+- [WezTerm](https://wezfurlong.org/wezterm/) - Wez's Terminal Emulator
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
@@ -49,6 +48,8 @@ A set of vim, zsh, and git configuration files.
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
 - [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
+- [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
+  emulator
 
 ### Neovim IDE
 

@@ -42,6 +42,7 @@ A set of vim, zsh, and git configuration files.
 - [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
+- [BetterDisplay](https://github.com/waydabber/BetterDisplay?tab=readme-ov-file) - Unlock your displays on your Mac! Smooth scaling, HiDPI unlock, XDR/HDR extra brightness upscale, DDC, brightness and dimming, virtual screens, PIP and lots more!
 
 ## Deprecated tools
 

@@ -43,7 +43,8 @@ A set of vim, zsh, and git configuration files.
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay?tab=readme-ov-file) - Unlock your displays on your Mac! Smooth scaling, HiDPI unlock, XDR/HDR extra brightness upscale, DDC, brightness and dimming, virtual screens, PIP and lots more!
-- [Open Broadcaster Software | OBS](https://obsproject.com/)
+- [OBS](https://obsproject.com/) - Open Broadcaster Software
+- [Hurl](https://hurl.dev/) - Run and Test HTTP Requests
 
 ## Deprecated tools
 

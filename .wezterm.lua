@@ -2,6 +2,30 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
 
+local function is_day_time()
+	local hour = tonumber(os.date("%H"))
+	return hour >= 9 and hour < 19
+end
+
+--- Set color scheme for window
+---@param window any
+local function apply_color_scheme(window)
+	local overrides = window:get_config_overrides() or {}
+	if is_day_time() then
+		overrides.color_scheme = "Cobalt2"
+		overrides.window_background_opacity = 0.85
+	else
+		overrides.color_scheme = "Dracula (Official)"
+		overrides.window_background_opacity = 1
+	end
+	window:set_config_overrides(overrides)
+end
+
+-- Reload theme on window focus
+wezterm.on("window-focus-changed", function(window, pane)
+	apply_color_scheme(window)
+end)
+
 -- Full screen on startup, refer
 wezterm.on("gui-startup", function()
 	local tab, pane, window = mux.spawn_window(cmd or {})
@@ -18,7 +42,7 @@ local tab_title = function(tab_info)
 end
 
 -- Format title
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+wezterm.on("format-tab-title", function(tab, tabs)
 	-- Not sure if it will slow down the performance, at least so far it's good
 	-- Is there a better way to get the tab or window cols ?
 	local mux_window = wezterm.mux.get_window(tab.window_id)
@@ -80,7 +104,36 @@ end
 
 -- Setup font and font size
 config.font = wezterm.font("JetBrainsMono NF")
-config.font_size = 17.0
+-- Customize font rules
+-- config.font_rules = {
+-- 	{
+-- 		intensity = "Bold",
+-- 		italic = true,
+-- 		font = wezterm.font({
+-- 			family = "Operator Mono",
+-- 			weight = "Bold",
+-- 			style = "Italic",
+-- 		}),
+-- 	},
+-- 	{
+-- 		italic = true,
+-- 		intensity = "Half",
+-- 		font = wezterm.font({
+-- 			family = "Operator Mono",
+-- 			weight = "DemiBold",
+-- 			style = "Italic",
+-- 		}),
+-- 	},
+-- 	{
+-- 		italic = true,
+-- 		intensity = "Normal",
+-- 		font = wezterm.font({
+-- 			family = "Operator Mono",
+-- 			style = "Italic",
+-- 		}),
+-- 	},
+-- }
+config.font_size = 17.5
 
 -- Hide tab bar when there is only one tab
 config.hide_tab_bar_if_only_one_tab = true
@@ -88,25 +141,46 @@ config.hide_tab_bar_if_only_one_tab = true
 -- Disable IME
 config.use_ime = false
 
--- Set colorscheme
-config.color_scheme = "Cobalt2"
+-- Set colorscheme: Cobalt2 at datetime and Dracula at night
+if is_day_time() then
+	config.color_scheme = "Cobalt2"
+else
+	config.color_scheme = "Dracula (Official)"
+end
 
 -- Set window padding
 config.window_padding = {
 	left = 0,
 	right = 0,
 	top = 0,
-	bottom = 0,
+	bottom = 0, -- Tab bar is at bottom, so there is extra padding
 }
 
 -- Set window decorations
 config.window_decorations = "RESIZE"
 
--- Set native macos full screen
+-- Set native macos full screen - Not working nicely
 config.native_macos_fullscreen_mode = true
 
 -- Set transparency (0.0 - 1.0)
-config.window_background_opacity = 0.85
+if is_day_time() then
+	config.window_background_opacity = 0.85
+end
+
+-- Setup background image
+-- config.background = {
+-- 	{
+-- 		source = { File = "/Users/huynhdung/Downloads/coding.jpg" },
+-- 		-- When the viewport scrolls, move this layer 10% of the number of
+-- 		-- pixels moved by the main viewport. This makes it appear to be
+-- 		-- further behind the text.
+-- 		repeat_x = "Mirror",
+-- 		hsb = {
+-- 			-- Reduce the brightness by 10%
+-- 			brightness = 0.1,
+-- 		},
+-- 	},
+-- }
 
 -- Do not show confirmation dialog when quitting
 config.window_close_confirmation = "NeverPrompt"
@@ -130,6 +204,8 @@ config.keys = {
 	{ key = "l", mods = "SUPER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
 	{ key = "j", mods = "SUPER", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
 	{ key = "k", mods = "SUPER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+	-- Clear console with CMD + K
+	{ key = "k", mods = "SUPER", action = wezterm.action({ ClearScrollback = "ScrollbackAndViewport" }) },
 }
 
 -- Hyperlink rule

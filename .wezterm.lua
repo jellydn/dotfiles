@@ -21,8 +21,8 @@ local function apply_color_scheme(window)
 	window:set_config_overrides(overrides)
 end
 
--- Reload theme on window focus
-wezterm.on("window-focus-changed", function(window, pane)
+-- Reload theme on update status
+wezterm.on("update-status", function(window, pane)
 	apply_color_scheme(window)
 end)
 
@@ -133,7 +133,7 @@ config.font = wezterm.font("JetBrainsMono NF")
 -- 		}),
 -- 	},
 -- }
-config.font_size = 17.5
+config.font_size = 18.5
 
 -- Hide tab bar when there is only one tab
 config.hide_tab_bar_if_only_one_tab = true

@@ -2,6 +2,11 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
 
+local function is_weekend()
+	local day = tonumber(os.date("%w"))
+	return day == 0 or day == 6
+end
+
 local function is_day_time()
 	local hour = tonumber(os.date("%H"))
 	return hour >= 9 and hour < 19
@@ -11,7 +16,7 @@ end
 ---@param window any
 local function apply_color_scheme(window)
 	local overrides = window:get_config_overrides() or {}
-	if is_day_time() then
+	if is_day_time() and not is_weekend() then
 		overrides.color_scheme = "Cobalt2"
 		overrides.window_background_opacity = 0.85
 	else
@@ -142,7 +147,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.use_ime = false
 
 -- Set colorscheme: Cobalt2 at datetime and Dracula at night
-if is_day_time() then
+if is_day_time() and not is_weekend() then
 	config.color_scheme = "Cobalt2"
 else
 	config.color_scheme = "Dracula (Official)"
@@ -163,7 +168,7 @@ config.window_decorations = "RESIZE"
 config.native_macos_fullscreen_mode = true
 
 -- Set transparency (0.0 - 1.0)
-if is_day_time() then
+if is_day_time() and not is_weekend() then
 	config.window_background_opacity = 0.85
 end
 

@@ -156,14 +156,31 @@ echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 
 ### OBS setting for Blue Yeti Microphone
 
-- Noice Suppression
+- Noise Suppression
 
  [![Image from Gyazo](https://i.gyazo.com/d56efbfb5526573702527574f6fa00c7.png)](https://gyazo.com/d56efbfb5526573702527574f6fa00c7)
 
-- Noice Gate
+- Noise Gate
 
  [![Image from Gyazo](https://i.gyazo.com/5c21fd448eea64903b62e1faf7b2309b.png)](https://gyazo.com/5c21fd448eea64903b62e1faf7b2309b)
 
 - Compressor
 
 [![Image from Gyazo](https://i.gyazo.com/f96c1d8d35126cc5f259629f61eea64e.png)](https://gyazo.com/f96c1d8d35126cc5f259629f61eea64e)
+
+### Oh My Tmux
+
+- Enable vi mode
+
+```sh
+# force Vi mode
+#   really you should export VISUAL or EDITOR environment variable, see manual
+set -g status-keys vi
+set -g mode-keys vi
+```
+
+- Enable Tmux Resurrect
+
+```sh
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+```

@@ -1,0 +1,39 @@
+#!/bin/sh
+
+bar=(
+  color=0xff24273a
+  height=32
+  sticky=on
+  padding_left=7
+  padding_right=7
+)
+
+default=(
+  icon.drawing=off
+  label.padding_left=4
+  label.padding_right=4
+  label.color=0xffcad3f5
+)
+
+sketchybar \
+  --bar "${bar[@]}" \
+  --default "${default[@]}"
+
+sketchybar \
+  --add item space left \
+  --set space script='sketchybar --set $NAME label="[$(echo "$INFO" | jq .[])]"'\
+  --subscribe space space_change
+
+
+sketchybar \
+  --add item app_name left \
+  --set app_name script='sketchybar --set $NAME label="$USER::$INFO"' \
+  --subscribe app_name front_app_switched
+
+sketchybar \
+  --add item time right \
+  --set time script='sketchybar --set $NAME label="$(date "+%H:%M")"' \
+             update_freq=30 \
+  --subscribe time system_woke
+
+sketchybar --update

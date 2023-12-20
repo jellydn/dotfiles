@@ -6,7 +6,7 @@ A set of vim, zsh, and git configuration files.
 
 - [ohmyz](https://ohmyz.sh/) - a delightful, open source, community-driven
   framework for managing your Zsh configuration
-- [romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh) A
+- [powerlevel10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh) A
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
@@ -24,7 +24,6 @@ A set of vim, zsh, and git configuration files.
   ease
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display
   adapt to the time of day, warm at night and like sunlight during the day.
-- [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your
   Mac fall asleep.
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) -
@@ -36,9 +35,8 @@ A set of vim, zsh, and git configuration files.
 - [poetry](https://github.com/python-poetry/poetry) - Python packaging and dependency management made easy
 - [direnv](https://github.com/direnv/direnv) - unclutter your .profile.
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
-- [abiosoft/colima: Container runtimes on macOS (and Linux) with minimal setup](https://github.com/abiosoft/colima)
+- [colima](https://github.com/abiosoft/colima) - Container runtimes on macOS (and Linux) with minimal setup
 - [medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
-- [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
@@ -46,6 +44,7 @@ A set of vim, zsh, and git configuration files.
 - [SketchyBar](https://felixkratz.github.io/SketchyBar/) - A highly customizable macOS status bar replacement
 - [OBS](https://obsproject.com/) - Open Broadcaster Software
 - [Hurl](https://hurl.dev/) - Run and Test HTTP Requests
+- [restish](https://github.com/danielgtaylor/restish) - Restish is a CLI for interacting with REST-ish HTTP APIs with some nice features built-in
 
 ## Deprecated tools
 
@@ -55,6 +54,8 @@ A set of vim, zsh, and git configuration files.
 - [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
   emulator
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
+- [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
+- [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 
 ### Neovim IDE
 

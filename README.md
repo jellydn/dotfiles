@@ -36,7 +36,7 @@ A set of vim, zsh, and git configuration files.
 - [poetry](https://github.com/python-poetry/poetry) - Python packaging and dependency management made easy
 - [direnv](https://github.com/direnv/direnv) - unclutter your .profile.
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
-- [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
+- [abiosoft/colima: Container runtimes on macOS (and Linux) with minimal setup](https://github.com/abiosoft/colima)
 - [medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
 - [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
@@ -54,6 +54,7 @@ A set of vim, zsh, and git configuration files.
 - [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
 - [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
   emulator
+- [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
 
 ### Neovim IDE
 
@@ -159,11 +160,11 @@ echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 
 - Noise Suppression
 
- [![Image from Gyazo](https://i.gyazo.com/d56efbfb5526573702527574f6fa00c7.png)](https://gyazo.com/d56efbfb5526573702527574f6fa00c7)
+[![Image from Gyazo](https://i.gyazo.com/d56efbfb5526573702527574f6fa00c7.png)](https://gyazo.com/d56efbfb5526573702527574f6fa00c7)
 
 - Noise Gate
 
- [![Image from Gyazo](https://i.gyazo.com/5c21fd448eea64903b62e1faf7b2309b.png)](https://gyazo.com/5c21fd448eea64903b62e1faf7b2309b)
+[![Image from Gyazo](https://i.gyazo.com/5c21fd448eea64903b62e1faf7b2309b.png)](https://gyazo.com/5c21fd448eea64903b62e1faf7b2309b)
 
 - Compressor
 

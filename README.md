@@ -33,6 +33,7 @@ A set of vim, zsh, and git configuration files.
 - [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version
   manager, built in Rust
 - [poetry](https://github.com/python-poetry/poetry) - Python packaging and dependency management made easy
+- [astral-sh/rye](https://github.com/astral-sh/rye) - a Hassle-Free Python Experience
 - [direnv](https://github.com/direnv/direnv) - unclutter your .profile.
 - [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
 - [colima](https://github.com/abiosoft/colima) - Container runtimes on macOS (and Linux) with minimal setup

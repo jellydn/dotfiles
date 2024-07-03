@@ -20,8 +20,8 @@ A set of vim, zsh, and git configuration files.
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - simplicity and power in a
   beautiful Git GUI
-- [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with
-  ease
+- [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
+- [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display
   adapt to the time of day, warm at night and like sunlight during the day.
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your
@@ -58,11 +58,12 @@ A set of vim, zsh, and git configuration files.
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
 - [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
 - [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
+- [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with ease
 
 ### Neovim IDE
 
 ```sh
-git clone https://github.com/jellydn/lazy-nvim-ide ~/.config/nvim
+git clone https://github.com/jellydn/my-nvim-ide ~/.config/nvim
 ```
 
 ## CLI
@@ -132,6 +133,13 @@ Or install other theme with below command
 
 ```sh
 npx alacritty-themes
+```
+
+### Yabai
+
+```sh
+cp .yabairc ~/.yabairc
+cp .skhdrc ~/.skhdrc
 ```
 
 ## Git

@@ -2,40 +2,28 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
 
-local function is_weekend()
-	local day = tonumber(os.date("%w"))
-	return day == 0 or day == 6
-end
-
-local function is_day_time()
-	local hour = tonumber(os.date("%H"))
-	return hour >= 9 and hour < 19
-end
-
---- Set color scheme for window
----@param window any
-local function apply_color_scheme(window)
+-- Resize font when user var changed
+wezterm.on("user-var-changed", function(window, pane, name, value)
 	local overrides = window:get_config_overrides() or {}
-	if is_day_time() and not is_weekend() then
-		overrides.color_scheme = "Cobalt2"
-		overrides.window_background_opacity = 0.85
-	else
-		overrides.color_scheme = "Dracula (Official)"
-		overrides.window_background_opacity = 1
+	if name == "ZEN_MODE" then
+		local incremental = value:find("+")
+		local number_value = tonumber(value)
+		if incremental ~= nil then
+			while number_value > 0 do
+				window:perform_action(wezterm.action.IncreaseFontSize, pane)
+				number_value = number_value - 1
+			end
+			overrides.enable_tab_bar = false
+		elseif number_value < 0 then
+			window:perform_action(wezterm.action.ResetFontSize, pane)
+			overrides.font_size = nil
+			overrides.enable_tab_bar = true
+		else
+			overrides.font_size = number_value
+			overrides.enable_tab_bar = false
+		end
 	end
 	window:set_config_overrides(overrides)
-end
-
--- Reload theme on update status
-wezterm.on("update-status", function(window, pane)
-	apply_color_scheme(window)
-end)
-
--- Full screen on startup, refer
-wezterm.on("gui-startup", function()
-	local tab, pane, window = mux.spawn_window(cmd or {})
-	local gui_window = window:gui_window()
-	gui_window:perform_action(wezterm.action.ToggleFullScreen, pane)
 end)
 
 local tab_title = function(tab_info)
@@ -45,7 +33,6 @@ local tab_title = function(tab_info)
 	end
 	return tab_info.active_pane.title
 end
-
 -- Format title
 wezterm.on("format-tab-title", function(tab, tabs)
 	-- Not sure if it will slow down the performance, at least so far it's good
@@ -64,7 +51,6 @@ wezterm.on("format-tab-title", function(tab, tabs)
 	title = " " .. title .. " "
 	local title_cols = wezterm.column_width(title)
 	local icon = " ⦿"
-	local icon_cols = wezterm.column_width(icon)
 
 	-- Divide into 3 areas and center the title
 	if tab.is_active then
@@ -108,14 +94,17 @@ if wezterm.config_builder then
 end
 
 -- Setup font and font size
-config.font = wezterm.font("JetBrainsMono NF")
--- Customize font rules
+-- config.font = wezterm.font("OperatorMono Nerd Font")
+-- Patch the ligature https://github.com/kiliman/operator-mono-lig then run font patcher for nerd font https://github.com/ryanoasis/nerd-fonts#font-patcher
+config.font = wezterm.font("OperatorMonoLig Nerd Font")
+
+-- config.font = wezterm.font("JetBrainsMono NF")
 -- config.font_rules = {
 -- 	{
 -- 		intensity = "Bold",
 -- 		italic = true,
 -- 		font = wezterm.font({
--- 			family = "Operator Mono",
+-- 			family = "OperatorMonoLig Nerd Font",
 -- 			weight = "Bold",
 -- 			style = "Italic",
 -- 		}),
@@ -124,7 +113,7 @@ config.font = wezterm.font("JetBrainsMono NF")
 -- 		italic = true,
 -- 		intensity = "Half",
 -- 		font = wezterm.font({
--- 			family = "Operator Mono",
+-- 			family = "OperatorMonoLig Nerd Font",
 -- 			weight = "DemiBold",
 -- 			style = "Italic",
 -- 		}),
@@ -133,12 +122,12 @@ config.font = wezterm.font("JetBrainsMono NF")
 -- 		italic = true,
 -- 		intensity = "Normal",
 -- 		font = wezterm.font({
--- 			family = "Operator Mono",
+-- 			family = "OperatorMonoLig Nerd Font",
 -- 			style = "Italic",
 -- 		}),
 -- 	},
 -- }
-config.font_size = 18.5
+config.font_size = 20
 
 -- Hide tab bar when there is only one tab
 config.hide_tab_bar_if_only_one_tab = true
@@ -146,31 +135,55 @@ config.hide_tab_bar_if_only_one_tab = true
 -- Disable IME
 config.use_ime = false
 
--- Set colorscheme: Cobalt2 at datetime and Dracula at night
-if is_day_time() and not is_weekend() then
-	config.color_scheme = "Cobalt2"
-else
-	config.color_scheme = "Dracula (Official)"
-end
+-- Set colorscheme
+-- config.color_scheme = "Kanagawa (Gogh)"
+-- local function scheme_for_appearance(appearance)
+-- 	if appearance:find("Dark") then
+-- 		return "Catppuccin Mocha"
+-- 	else
+-- 		return "Catppuccin Latte"
+-- 	end
+-- end
+-- config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+
+config.force_reverse_video_cursor = true
+config.colors = {
+	foreground = "#dcd7ba",
+	background = "#1f1f28",
+
+	cursor_bg = "#c8c093",
+	cursor_fg = "#c8c093",
+	cursor_border = "#c8c093",
+
+	selection_fg = "#c8c093",
+	selection_bg = "#2d4f67",
+
+	scrollbar_thumb = "#16161d",
+	split = "#16161d",
+
+	ansi = { "#090618", "#c34043", "#76946a", "#c0a36e", "#7e9cd8", "#957fb8", "#6a9589", "#c8c093" },
+	brights = { "#727169", "#e82424", "#98bb6c", "#e6c384", "#7fb4ca", "#938aa9", "#7aa89f", "#dcd7ba" },
+	indexed = { [16] = "#ffa066", [17] = "#ff5d62" },
+}
 
 -- Set window padding
 config.window_padding = {
-	left = 0,
-	right = 0,
-	top = 0,
-	bottom = 0, -- Tab bar is at bottom, so there is extra padding
+	left = 5,
+	right = 5,
+	top = 10,
+	bottom = 0,
 }
 
 -- Set window decorations
 config.window_decorations = "RESIZE"
 
--- Set native macos full screen - Not working nicely
-config.native_macos_fullscreen_mode = true
-
 -- Set transparency (0.0 - 1.0)
-if is_day_time() and not is_weekend() then
-	config.window_background_opacity = 0.85
-end
+-- local is_transparent = true
+-- if is_transparent then
+-- 	config.window_background_opacity = 0.85
+-- else
+-- 	config.window_background_opacity = 1
+-- end
 
 -- Setup background image
 -- config.background = {

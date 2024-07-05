@@ -167,6 +167,13 @@ brew install commitizen
 echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
 ```
 
+Hide desktop icon
+
+```sh
+defaults write com.apple.finder CreateDesktop false
+killall Finder
+```
+
 ### OBS setting for Blue Yeti Microphone
 
 - Noise Suppression

@@ -3,10 +3,10 @@
   Flexible status bar for macOS
 </p>
 
-## Install 
+## Install
 
 ```sh
-(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+curl -L https://raw.githubusercontent.com/FelixKratz/dotfiles/master/install_sketchybar.sh | sh
 ```
 
 ## Credits
@@ -14,6 +14,5 @@
 - [FelixKratz/SbarLua: A Lua API for SketchyBar](https://github.com/FelixKratz/SbarLua)
 
 ## Show your support
+
 Give a ⭐️ if this project helped you!
-
-

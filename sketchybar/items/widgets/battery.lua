@@ -1,15 +1,17 @@
 local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
 
-local battery = sbar.add("item", {
+local battery = sbar.add("item", "widgets.battery", {
 	position = "right",
 	icon = {
 		font = {
-			style = "Regular",
+			style = settings.font.style_map["Regular"],
 			size = 19.0,
 		},
 	},
-	label = { drawing = false },
-	update_freq = 120,
+	label = { font = { family = settings.font.numbers } },
+	update_freq = 180,
 })
 
 local function battery_update()
@@ -42,3 +44,12 @@ local function battery_update()
 end
 
 battery:subscribe({ "routine", "power_source_change", "system_woke" }, battery_update)
+
+sbar.add("bracket", "widgets.battery.bracket", { battery.name }, {
+	background = { color = colors.bg1 },
+})
+
+sbar.add("item", "widgets.battery.padding", {
+	position = "right",
+	width = settings.group_paddings,
+})

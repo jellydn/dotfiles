@@ -2,7 +2,7 @@
 local wezterm = require("wezterm")
 local mux = wezterm.mux
 
--- Resize font when user var changed
+-- Resize font when user var changed, for zen-mode.nvim
 wezterm.on("user-var-changed", function(window, pane, name, value)
 	local overrides = window:get_config_overrides() or {}
 	if name == "ZEN_MODE" then
@@ -96,8 +96,8 @@ end
 -- Setup font and font size
 -- config.font = wezterm.font("OperatorMono Nerd Font")
 -- Patch the ligature https://github.com/kiliman/operator-mono-lig then run font patcher for nerd font https://github.com/ryanoasis/nerd-fonts#font-patcher
-config.font = wezterm.font("OperatorMonoLig Nerd Font")
-
+config.font = wezterm.font("GeistMono Nerd Font")
+-- config.font = wezterm.font("MonaspiceAr Nerd Font")
 -- config.font = wezterm.font("JetBrainsMono NF")
 -- config.font_rules = {
 -- 	{
@@ -127,7 +127,7 @@ config.font = wezterm.font("OperatorMonoLig Nerd Font")
 -- 		}),
 -- 	},
 -- }
-config.font_size = 20
+config.font_size = 19.5
 
 -- Hide tab bar when there is only one tab
 config.hide_tab_bar_if_only_one_tab = true

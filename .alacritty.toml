@@ -11,6 +11,9 @@ TERM = "xterm-256color"
 
 [font]
 size = 19
+# Other good fonts:
+# MonaspiceAr Nerd Font
+# JetBrainsMono Nerd Font
 normal.family = "GeistMono Nerd Font"
 
 [selection]

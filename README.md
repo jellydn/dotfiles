@@ -126,7 +126,9 @@ git clone https://github.com/powerline/fonts.git
 ### Alacritty
 
 ```sh
-cp .alacritty.yml ~/.alacritty.yml
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+cp .alacritty.toml ~/.alacritty.toml
 ```
 
 Or install other theme with below command

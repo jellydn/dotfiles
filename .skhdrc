@@ -54,3 +54,9 @@ shift + alt - 6 : yabai -m window --space 6
 
 # Restart yabai
 ctrl + alt - r : yabai --restart-service
+
+# Resize window padding
+ctrl + alt - z: yabai -m config top_padding 20 bottom_padding 20 config left_padding 20 config right_padding 20 config window_gap 20
+
+# Start terminal
+ctrl + alt - t : alacritty

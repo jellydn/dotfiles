@@ -24,12 +24,15 @@ yabai -m config \
   split_type auto \
   auto_balance off
 
-# Padding set to 10px
-yabai -m config top_padding 10
-yabai -m config bottom_padding 10
-yabai -m config left_padding 10
-yabai -m config right_padding 10
+# Windows padding
+yabai -m config top_padding 15
+yabai -m config bottom_padding 15
+yabai -m config left_padding 15
+yabai -m config right_padding 15
 yabai -m config window_gap 10
+
+# Add 25 padding to the top and 0 padding to the bottom of every spaces
+yabai -m config external_bar all:25:0
 
 # signals
 yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
@@ -53,16 +56,19 @@ yabai -m rule --add title="${app_titles}" manage=off
 
 # Disable tiling for those apps
 yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^CleanMyMac X$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Sourcetree$" manage=off
+# Not working yet
+# yabai -m rule --add app="^Arc" title="^Little Arc" manage=off
 
-# Assign apps to space
-# Space 1 - Web browsers
-yabai -m rule --add app="^(Google Chrome|Arc)" space=1
-# Space 2 - Coding
-yabai -m rule --add app="^(WezTerm|Warp)" space=2
+# Assign apps to space and Raycast to open
+# Space 1 - Coding
+yabai -m rule --add app="^(WezTerm|Warp|alacritty)" space=1
+# Space 2 - Web browsers
+yabai -m rule --add app="^(Google Chrome|Arc)" space=2
 # Space 3 - Apps
-yabai -m rule --add app="^(Navicat|Zed)" space=3
+yabai -m rule --add app="^(Navicat|Zed|VSCodium|OrbStack|OBS)" space=3
 # Space 4 - Work, external display
 yabai -m rule --add app="^(Slack)" space=4
 # Space 5 - Social app

@@ -1,0 +1,33 @@
+# Make sure to clone the themes first
+import = [
+    "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
+]
+
+[shell]
+program = "/bin/zsh"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 19
+normal.family = "GeistMono Nerd Font"
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ''',│`|:"' ()[]{}<>	'''
+
+[window]
+decorations = "Buttonless"
+decorations_theme_variant = "Dark"
+dynamic_padding = true
+opacity = 0.95
+startup_mode = "Maximized"
+blur = true
+
+[window.padding]
+x = 0
+y = 0
+
+[mouse]
+hide_when_typing = true

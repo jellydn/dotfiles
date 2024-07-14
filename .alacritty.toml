@@ -1,20 +1,21 @@
-# Make sure to clone the themes first
+# Make sure to clone the themes first, refer https://github.com/alacritty/alacritty-theme
 import = [
     "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
 ]
 
-[shell]
-program = "/bin/zsh"
-
 [env]
 TERM = "xterm-256color"
 
+[shell]
+program = "/bin/zsh"
+
 [font]
 size = 19
-# Other good fonts:
-# MonaspiceAr Nerd Font
-# JetBrainsMono Nerd Font
+# Other good fonts: JetBrainsMono Nerd Font, MonaspiceAr Nerd Font
 normal.family = "GeistMono Nerd Font"
+# italic.family = "MonaspiceAr Nerd Font"
+# bold.family = "JetBrainsMono Nerd Font"
+# bold_italic.family = "MonaspiceRn Nerd Font"
 
 [selection]
 save_to_clipboard = true
@@ -29,8 +30,8 @@ startup_mode = "Maximized"
 blur = true
 
 [window.padding]
-x = 0
-y = 0
+x = 6
+y = 6
 
 [mouse]
 hide_when_typing = true

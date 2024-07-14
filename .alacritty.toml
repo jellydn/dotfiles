@@ -9,13 +9,12 @@ TERM = "xterm-256color"
 [shell]
 program = "/bin/zsh"
 
+# Other good fonts: JetBrainsMono Nerd Font, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
 [font]
 size = 19
-# Other good fonts: JetBrainsMono Nerd Font, MonaspiceAr Nerd Font
-normal.family = "GeistMono Nerd Font"
-# italic.family = "MonaspiceAr Nerd Font"
-# bold.family = "JetBrainsMono Nerd Font"
-# bold_italic.family = "MonaspiceRn Nerd Font"
+normal = { family = "GeistMono Nerd Font", style = "Regular" }
+bold = { family = "GeistMono Nerd Font", style = "Bold" }
+italic = { family = "GeistMono Nerd Font", style = "Italic" }
 
 [selection]
 save_to_clipboard = true
@@ -35,3 +34,8 @@ y = 6
 
 [mouse]
 hide_when_typing = true
+
+[[keyboard.bindings]]
+chars = "\u001F"
+key = "Minus"
+mods = "Control"

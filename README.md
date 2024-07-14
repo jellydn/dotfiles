@@ -10,7 +10,7 @@ A set of vim, zsh, and git configuration files.
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
-- [WezTerm](https://wezfurlong.org/wezterm/) - Wez's Terminal Emulator
+- [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
@@ -52,8 +52,8 @@ A set of vim, zsh, and git configuration files.
 
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
+- [WezTerm](https://wezfurlong.org/wezterm/) - Wez's Terminal Emulator
 - [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
-- [Alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
   emulator
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
 - [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
@@ -75,6 +75,7 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 brew install starship
 brew install atuin
 brew install zoxide
+brew install fzf
 brew install bat
 brew install fd
 brew install ripgrep
@@ -86,10 +87,11 @@ brew install tree
 brew install nss # if you use Firefox
 brew install make
 brew install gnu-sed
+brew install tmux
 brew install ast-grep # structural search and replace
-
-cd ~/.oh-my-zsh/themes/
-wget https://raw.githubusercontent.com/wesbos/Cobalt2-iterm/master/cobalt2.zsh-theme
+brew install stow # manage symlinks
+brew install yabai # tiling window manager
+brew install koekeishiya/formulae/skhd # hotkey daemon
 
 cd ~/.oh-my-zsh/custom/plugins/
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
@@ -113,28 +115,12 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 cp .zshrc ~/.zshrc
 ```
 
-### Theme
-
-- Import cobalt2.itermcolors
-- Install font and choose `Meslo LG DZ for Powerline` or download directly from
-  https://github.com/ryanoasis/nerd-fonts#patched-fonts
-
-```sh
-git clone https://github.com/powerline/fonts.git
-```
-
 ### Alacritty
 
 ```sh
 mkdir -p ~/.config/alacritty/themes
 git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 cp .alacritty.toml ~/.alacritty.toml
-```
-
-Or install other theme with below command
-
-```sh
-npx alacritty-themes
 ```
 
 ### Yabai
@@ -161,15 +147,7 @@ cp .gitconfig ~/.gitconfig
 
 ### Tip
 
-Use commitizen
-
-```sh
-yarn global add commitizen cz-conventional-changelog
-brew install commitizen
-echo '{ "path": "cz-conventional-changelog" }' > ~/.czrc
-```
-
-Hide desktop icon
+- Hide desktop icon
 
 ```sh
 defaults write com.apple.finder CreateDesktop false

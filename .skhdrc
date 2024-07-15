@@ -60,3 +60,6 @@ ctrl + alt - z: yabai -m config top_padding 20 bottom_padding 20 config left_pad
 
 # Start terminal
 ctrl + alt - t : alacritty
+
+# Start VSCode
+ctrl + alt - c : code

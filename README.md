@@ -72,6 +72,7 @@ git clone https://github.com/jellydn/my-nvim-ide ~/.config/nvim
 
 ```sh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+brew install --cask alacritty
 brew install starship
 brew install atuin
 brew install zoxide

@@ -39,8 +39,8 @@ yabai -m signal --add event=window_destroyed active=yes action="yabai -m query -
 yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
 
 # mission-control desktop labels
-yabai -m space 1 --label web
-yabai -m space 2 --label code
+yabai -m space 1 --label code
+yabai -m space 2 --label web
 yabai -m space 3 --label apps
 yabai -m space 4 --label work
 yabai -m space 5 --label social
@@ -68,7 +68,7 @@ yabai -m rule --add app="^(WezTerm|Warp|alacritty)" space=1
 # Space 2 - Web browsers
 yabai -m rule --add app="^(Google Chrome|Arc)" space=2
 # Space 3 - Apps
-yabai -m rule --add app="^(Navicat|Zed|VSCodium|OrbStack|OBS)" space=3
+yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|OrbStack|OBS)" space=3
 # Space 4 - Work, external display
 yabai -m rule --add app="^(Slack)" space=4
 # Space 5 - Social app

@@ -12,9 +12,9 @@ program = "/bin/zsh"
 # Other good fonts: JetBrainsMono Nerd Font, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
 [font]
 size = 19
-normal = { family = "GeistMono Nerd Font", style = "Regular" }
-bold = { family = "GeistMono Nerd Font", style = "Bold" }
-italic = { family = "GeistMono Nerd Font", style = "Italic" }
+normal = { family = "GeistMono Nerd Font Mono", style = "Regular" }
+bold = { family = "GeistMono Nerd Font Mono", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
 
 [selection]
 save_to_clipboard = true
@@ -27,6 +27,9 @@ dynamic_padding = true
 opacity = 0.95
 startup_mode = "Maximized"
 blur = true
+
+# Make Option key behave as Alt.
+option_as_alt = "Both" # Mac only
 
 [window.padding]
 x = 6

@@ -52,6 +52,8 @@ shift + alt - 4 : yabai -m window --space 4
 shift + alt - 5 : yabai -m window --space 5
 shift + alt - 6 : yabai -m window --space 6
 
+# Setup Ctrl + number from on Mission Control: `open /System/Library/PreferencePanes/Keyboard.prefPane`
+
 # Restart yabai
 ctrl + alt - r : yabai --restart-service
 

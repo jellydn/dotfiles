@@ -11,7 +11,7 @@ program = "/bin/zsh"
 
 # Other good fonts: JetBrainsMono Nerd Font, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
 [font]
-size = 19
+size = 18.5
 normal = { family = "GeistMono Nerd Font Mono", style = "Regular" }
 bold = { family = "GeistMono Nerd Font Mono", style = "Bold" }
 italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }

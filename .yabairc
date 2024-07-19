@@ -81,6 +81,6 @@ yabai -m signal --add event=window_focused action="sketchybar --trigger window_f
 yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces"
 
 # lightweight border, refer https://github.com/FelixKratz/JankyBorders
-borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0 &
+borders active_color=0xff54546D inactive_color=0xff1f1f28 width=5.0 &
 
 echo "yabai configuration loaded.."

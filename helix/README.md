@@ -2,6 +2,8 @@
 
 > How to setup a Helix editor
 
+[![IT Man - How to Set Up #Helix Like my #Neovim](https://i.ytimg.com/vi/5OOeqEqZEyE/hqdefault.jpg)](https://www.youtube.com/watch?v=5OOeqEqZEyE)
+
 ## Table of Contents
 
 <!--toc:start-->

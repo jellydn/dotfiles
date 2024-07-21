@@ -1,0 +1,116 @@
+# Toml, refer https://github.com/helix-editor/helix/wiki/External-formatter-configuration#taplo
+[[language]]
+name = "toml"
+formatter = { command = "taplo", args = ["format", "-"] }
+auto-format = true
+
+# LSP https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#go
+[[language]]
+name = "go"
+auto-format = true
+formatter = { command = "goimports" }
+
+# TODO: Mojo, refer https://github.com/helix-editor/helix/pull/8583
+# HTML https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#html
+[[language]]
+name = "html"
+language-servers = ["vscode-html-language-server", "tailwindcss-ls"]
+auto-format = true
+
+# CSS https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#css
+[[language]]
+name = "css"
+language-servers = ["vscode-html-language-server", "tailwindcss-ls"]
+auto-format = true
+
+# Biome https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#biome
+[language-server]
+biome = { command = "biome", args = ["lsp-proxy"] }
+
+# Lua
+[language-server.lua-language-server.config.Lua.hint]
+setType = false
+paramType = true
+paramName = "Disable"
+semicolon = "Disable"
+arrayIndex = "Disable"
+
+# Typescript
+[language-server.typescript-language-server.config]
+hostInfo = "helix"
+
+[language-server.typescript-language-server.config.typescript.inlayHints]
+includeInlayEnumMemberValueHints = true
+includeInlayFunctionLikeReturnTypeHints = true
+includeInlayFunctionParameterTypeHints = true
+includeInlayParameterNameHints = "literals"
+includeInlayParameterNameHintsWhenArgumentMatchesName = false
+includeInlayPropertyDeclarationTypeHints = false
+includeInlayVariableTypeHints = false
+
+[language-server.typescript-language-server.config.javascript.inlayHints]
+includeInlayEnumMemberValueHints = true
+includeInlayFunctionLikeReturnTypeHints = true
+includeInlayFunctionParameterTypeHints = true
+includeInlayParameterNameHints = "literals"
+includeInlayParameterNameHintsWhenArgumentMatchesName = false
+includeInlayPropertyDeclarationTypeHints = false
+includeInlayVariableTypeHints = false
+
+# TODO: Setup Typescript vs Deno base on https://github.com/helix-editor/helix/discussions/8372#discussioncomment-9697944
+[[language]]
+name = "javascript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [
+    "format",
+  ] },
+  "biome",
+]
+auto-format = true
+
+[[language]]
+name = "typescript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [
+    "format",
+  ] },
+  "biome",
+]
+auto-format = true
+
+[[language]]
+name = "tsx"
+auto-format = true
+language-servers = [
+  { name = "typescript-language-server", except-features = [
+    "format",
+  ] },
+  "tailwindcss-ls",
+  "biome",
+]
+
+[[language]]
+name = "jsx"
+auto-format = true
+language-servers = [
+  { name = "typescript-language-server", except-features = [
+    "format",
+  ] },
+  "tailwindcss-ls",
+  "biome",
+]
+
+# JSON https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#json
+[[language]]
+name = "json"
+# Install dprint, refer https://dprint.dev/install/
+formatter = { command = "dprint", args = ["fmt", "--stdin", "json"] }
+auto-format = true
+
+# TODO: Typo LSP https://github.com/tekumara/typos-lsp/blob/main/docs/helix-config.md
+
+# Markdown
+[[language]]
+name = "markdown"
+formatter = { command = "prettierd", args = ["--parser", "markdown"] }
+language-servers = ["marksman", "markdown-oxide"]

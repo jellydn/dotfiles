@@ -461,6 +461,10 @@ bind-key -T copy-mode-vi 'C-k' select-pane -U
 bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
 
+# Set ecapse time
+
+set -sg escape-time 10
+
 # -- custom variables ----------------------------------------------------------
 
 # to define a custom #{foo} variable, define a POSIX shell function between the

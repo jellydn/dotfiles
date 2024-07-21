@@ -49,7 +49,6 @@ cp -R helix ~/.config/helix
 - Code folding capability.
 - Snippet support.
 - Built-in terminal
-- An integrated terminal.
 - A file explorer.
 - LazyGit / [VCS/git support](https://github.com/helix-editor/helix/issues/227)
 - Github Copilot

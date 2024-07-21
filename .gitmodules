@@ -1,0 +1,9 @@
+[submodule "nvim"]
+	path = nvim
+	url = https://github.com/jellydn/my-nvim-ide.git
+[submodule "zed"]
+	path = zed
+	url = https://github.com/jellydn/zed-101-setup.git
+[submodule "vscode"]
+	path = vscode
+	url = https://github.com/jellydn/vscode-like-pro.git

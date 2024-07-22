@@ -114,3 +114,21 @@ auto-format = true
 name = "markdown"
 formatter = { command = "prettierd", args = ["--parser", "markdown"] }
 language-servers = ["marksman", "markdown-oxide"]
+
+# Python, refer https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#python---pyright--ruff--black and https://docs.astral.sh/ruff/editors/setup/#helix
+# Ruff & Pyright
+[[language]]
+name = "python"
+language-servers = ["pyright", "ruff"]
+auto-format = true
+
+[language.formatter]
+command = "ruff"
+args = ["format", "--quiet", "-"]
+
+[language-server.pyright.config.python.analysis]
+typeCheckingMode = "basic"
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]

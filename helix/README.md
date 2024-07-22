@@ -65,6 +65,7 @@ cp -R helix ~/.config/helix
   - https://youtu.be/tGYvUXYN-c0?si=vOsqblOeLUir5GBT
   - https://youtu.be/xHebvTGOdH8?si=A8BZxl6LPw7kSHCe
   - https://youtu.be/aiSI6vdZWgE?si=dBR6jNdW9JGoC37v
+- [Vim-like configuration for Helix](https://github.com/LGUG2Z/helix-vim)
 
 ## Show your support
 

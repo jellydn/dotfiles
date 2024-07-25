@@ -132,3 +132,6 @@ typeCheckingMode = "basic"
 [language-server.ruff]
 command = "ruff"
 args = ["server"]
+
+# Zig, refer https://github.com/zigtools/zls/wiki/Installation#helixInstallation
+# brew install zig zls

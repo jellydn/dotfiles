@@ -11,6 +11,7 @@ A set of vim, zsh, and git configuration files.
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
 - [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
+- [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable

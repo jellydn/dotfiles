@@ -51,7 +51,7 @@ yabai -m config --space work layout stack
 yabai -m config --space media layout stack
 
 # Unmanaged apps
-app_titles="(Copy|Bin|About This Mac|Info|Finder Preferences|Preferences|QuickTime Player)"
+app_titles="(Copy|Bin|About This Mac|Info|Finder Preferences|Preferences|QuickTime Player|Raycast Settings)"
 yabai -m rule --add title="${app_titles}" manage=off
 
 # Disable tiling for those apps
@@ -59,12 +59,14 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^CleanMyMac X$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Sourcetree$" manage=off
+yabai -m rule --add app="^Raycast" manage=off
+
 # Not working yet
 # yabai -m rule --add app="^Arc" title="^Little Arc" manage=off
 
 # Assign apps to space and Raycast to open
 # Space 1 - Coding
-yabai -m rule --add app="^(WezTerm|Warp|alacritty)" space=1
+yabai -m rule --add app="^(WezTerm|Warp|alacritty|kitty)" space=1
 # Space 2 - Web browsers
 yabai -m rule --add app="^(Google Chrome|Arc)" space=2
 # Space 3 - Apps

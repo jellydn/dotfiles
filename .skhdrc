@@ -1,5 +1,10 @@
 # Created this config based on https://www.josean.com/posts/yabai-setup and https://anuj-chandra.medium.com/using-i5-like-tiling-window-managers-in-macos-with-yabai-ebf0e002b992
-#
+# Install:
+#  brew install koekeishiya/formulae/skhd
+#  skhd --start-service
+#  Reload:
+#  skhd --reload
+
 # Change window focus within space
 alt - j : yabai -m window --focus south
 alt - k : yabai -m window --focus north
@@ -57,11 +62,12 @@ shift + alt - 6 : yabai -m window --space 6
 # Restart yabai
 ctrl + alt - r : yabai --restart-service
 
-# Resize window padding
-ctrl + alt - z: yabai -m config top_padding 20 bottom_padding 20 config left_padding 20 config right_padding 20 config window_gap 20
+# Open Zed
+ctrl + alt - z: zed
 
 # Start terminal
 ctrl + alt - t : alacritty
+ctrl + alt - k : open /Applications/kitty.app
 
 # Start VSCode
 ctrl + alt - c : code

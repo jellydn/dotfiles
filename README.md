@@ -45,6 +45,7 @@ A set of vim, zsh, and git configuration files.
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay?tab=readme-ov-file) - Unlock your displays on your Mac! Smooth scaling, HiDPI unlock, XDR/HDR extra brightness upscale, DDC, brightness and dimming, virtual screens, PIP and lots more!
 - [SketchyBar](https://felixkratz.github.io/SketchyBar/) - A highly customizable macOS status bar replacement
 - [OBS](https://obsproject.com/) - Open Broadcaster Software
+- [Yeti X](https://support.logi.com/hc/en-us/articles/13171603624471-Download-Yeti-X)
 - [Hurl](https://hurl.dev/) - Run and Test HTTP Requests
 - [restish](https://github.com/danielgtaylor/restish) - Restish is a CLI for interacting with REST-ish HTTP APIs with some nice features built-in
 

@@ -1,0 +1,25 @@
+gui:
+  # kanagawa theme, base on https://github.com/rebelot/kanagawa.nvim
+  theme:
+    activeBorderColor:
+      - "#DCD7BA" # fujiWhite
+      - bold
+    inactiveBorderColor:
+      - "#54546D" # sumiInk4
+    optionsTextColor:
+      - "#6A9589" # waveAqua1
+    selectedLineBgColor:
+      - "#363646" # sumiInk3
+    cherryPickedCommitBgColor:
+      - "#2D4F67" # waveBlue2
+    cherryPickedCommitFgColor:
+      - "#E46876" # waveRed
+    unstagedChangesColor:
+      - "#C34043" # autumnRed
+    defaultFgColor:
+      - "#C8C093" # oldWhite
+    searchingActiveBorderColor:
+      - "#DCA561" # autumnYellow
+
+  authorColors:
+    "*": "#7E9CD8" # crystalBlue

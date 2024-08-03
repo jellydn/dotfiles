@@ -59,7 +59,9 @@ shift + alt - 6 : yabai -m window --space 6
 
 # Setup Ctrl + number from on Mission Control: `open /System/Library/PreferencePanes/Keyboard.prefPane`
 
-# Restart yabai
+# Stop/Start/Restart yabai
+ctrl + alt - q : yabai --stop-service
+ctrl + alt - s : yabai --start-service
 ctrl + alt - r : yabai --restart-service
 
 # Open Zed
@@ -71,3 +73,6 @@ ctrl + alt - k : open /Applications/kitty.app
 
 # Start VSCode
 ctrl + alt - c : code
+
+# Start Yeti
+ctrl + alt - m: open /Applications/lghub.app

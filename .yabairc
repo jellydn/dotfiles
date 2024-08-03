@@ -57,13 +57,15 @@ yabai -m rule --add title="${app_titles}" manage=off
 # Disable tiling for those apps
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^CleanMyMac X$" manage=off
-yabai -m rule --add app="^Karabiner-Elements$" manage=off
+yabai -m rule --add app="^Karabiner-" manage=off
 yabai -m rule --add app="^Sourcetree$" manage=off
 yabai -m rule --add app="^Raycast" manage=off
+yabai -m rule --add app="^Iphone" manage=off
 
 # Not working yet
 # yabai -m rule --add app="^Arc" title="^Little Arc" manage=off
 
+# NOTE: Assign to the workspace is not working well with Mac OS 15
 # Assign apps to space and Raycast to open
 # Space 1 - Coding
 yabai -m rule --add app="^(WezTerm|Warp|alacritty|kitty)" space=1
@@ -72,7 +74,7 @@ yabai -m rule --add app="^(Google Chrome|Arc)" space=2
 # Space 3 - Apps
 yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|OrbStack|OBS)" space=3
 # Space 4 - Work, external display
-yabai -m rule --add app="^(Slack)" space=4
+yabai -m rule --add app="^(Slack|zoom.us)" space=4
 # Space 5 - Social app
 yabai -m rule --add app="^(WhatsApp|Messenger)" space=5
 # Space 6 - Music & Email

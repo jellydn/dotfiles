@@ -148,6 +148,37 @@ brew install git-delta
 cp .gitconfig ~/.gitconfig
 ```
 
+### Karabiner Complex Modification
+
+Change `caps_lock` to `left_control` if pressed with other keys, change `caps_lock` to `escape` if pressed alone. More on https://ke-complex-modifications.pqrs.org/
+
+```json
+{
+  "description": "Change caps_lock to left_control if pressed with other keys, change caps_lock to escape if pressed alone.",
+  "manipulators": [
+    {
+      "from": {
+        "key_code": "caps_lock",
+        "modifiers": { "optional": ["any"] }
+      },
+      "to": [
+        {
+          "hold_down_milliseconds": 400,
+          "key_code": "left_control"
+        }
+      ],
+      "to_if_alone": [
+        {
+          "key_code": "escape",
+          "lazy": true
+        }
+      ],
+      "type": "basic"
+    }
+  ]
+}
+```
+
 ### Tip
 
 - Hide desktop icon

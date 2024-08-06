@@ -188,6 +188,20 @@ defaults write com.apple.finder CreateDesktop false
 killall Finder
 ```
 
+- Hide Dock
+```sh
+defaults write com.apple.dock autohide -bool true && killall Dock
+defaults write com.apple.dock autohide-delay -float 1000 && killall Dock
+defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
+```
+
+- Restore Dock
+```sh
+defaults write com.apple.dock autohide -bool false && killall Dock
+defaults delete com.apple.dock autohide-delay && killall Dock
+defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
+```
+
 ### OBS setting for Blue Yeti Microphone
 
 - Noise Suppression

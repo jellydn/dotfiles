@@ -126,6 +126,14 @@ git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/theme
 cp .alacritty.toml ~/.alacritty.toml
 ```
 
+### Amethyst
+
+[![Amethyst - General](https://i.gyazo.com/adc85c4ac89b69a71826361a4ff45ef9.png)](https://gyazo.com/adc85c4ac89b69a71826361a4ff45ef9)
+
+[![Amethyst - Mouse](https://i.gyazo.com/5af8d3a7d1513c8c04572774e7cc47a2.png)](https://gyazo.com/5af8d3a7d1513c8c04572774e7cc47a2)
+
+[![Amethyst - Shortcuts](https://i.gyazo.com/ada48e5d31f4b78fccf5edfbd1703c3d.png)](https://gyazo.com/ada48e5d31f4b78fccf5edfbd1703c3d)
+
 ### Yabai
 
 ```sh

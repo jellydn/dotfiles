@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# Refer to https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(from-HEAD)#configure-scripting-addition for how to do this
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
 # Created this config based on https://www.josean.com/posts/yabai-setup and https://anuj-chandra.medium.com/using-i3-like-tiling-window-managers-in-macos-with-yabai-ebf0e002b992
 # Setup external display as stack, it's easier to manage as it's 16 inch
 # Default layout (can be bsp, stack or float)
@@ -65,12 +69,12 @@ yabai -m rule --add app="^Iphone" manage=off
 # Not working yet
 # yabai -m rule --add app="^Arc" title="^Little Arc" manage=off
 
-# NOTE: Assign to the workspace is not working well with Mac OS 15
+# NOTE: Disable SIP for Mac OSX 15, refer https://github.com/koekeishiya/yabai/blob/master/CHANGELOG.md#712---2024-08-10
 # Assign apps to space and Raycast to open
 # Space 1 - Coding
 yabai -m rule --add app="^(WezTerm|Warp|alacritty|kitty)" space=1
 # Space 2 - Web browsers
-yabai -m rule --add app="^(Google Chrome|Arc)" space=2
+yabai -m rule --add app="^(Google Chrome|Arc|Brave)" space=2
 # Space 3 - Apps
 yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|OrbStack|OBS)" space=3
 # Space 4 - Work, external display

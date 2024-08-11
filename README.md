@@ -10,7 +10,7 @@ A set of vim, zsh, and git configuration files.
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
-- [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
+- [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Automatic tiling window manager for macOS à la xmonad.
 - [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
@@ -21,8 +21,6 @@ A set of vim, zsh, and git configuration files.
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - simplicity and power in a
   beautiful Git GUI
-- [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
-- [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display
   adapt to the time of day, warm at night and like sunlight during the day.
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your
@@ -61,7 +59,9 @@ A set of vim, zsh, and git configuration files.
 - [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
 - [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with ease
 - [AltTab](https://alt-tab-macos.netlify.app/) - Windows alt-tab on macOS
-
+- [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
+- [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
+- [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
 ### Neovim IDE
 
 ```sh

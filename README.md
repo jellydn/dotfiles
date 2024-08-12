@@ -62,6 +62,7 @@ A set of vim, zsh, and git configuration files.
 - [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
 - [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
 - [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
+
 ### Neovim IDE
 
 ```sh
@@ -197,6 +198,7 @@ killall Finder
 ```
 
 - Hide Dock
+
 ```sh
 defaults write com.apple.dock autohide -bool true && killall Dock
 defaults write com.apple.dock autohide-delay -float 1000 && killall Dock
@@ -204,6 +206,7 @@ defaults write com.apple.dock no-bouncing -bool TRUE && killall Dock
 ```
 
 - Restore Dock
+
 ```sh
 defaults write com.apple.dock autohide -bool false && killall Dock
 defaults delete com.apple.dock autohide-delay && killall Dock
@@ -226,17 +229,8 @@ defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 
 ### Oh My Tmux
 
-- Enable vi mode
+- Refer to [./tmux/README.md](/tmux/README.md) for more details.
 
-```sh
-# force Vi mode
-#   really you should export VISUAL or EDITOR environment variable, see manual
-set -g status-keys vi
-set -g mode-keys vi
-```
+### Helix
 
-- Enable Tmux Resurrect
-
-```sh
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-```
+- Refer to [./helix/README.md](/helix/README.md) for how to setup like my Neovim.

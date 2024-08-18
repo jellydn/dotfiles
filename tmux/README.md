@@ -16,7 +16,8 @@ This is my workflow for setting up tmux with Tmux Plugin Manager, Tmux Resurrect
 $ cd ~
 $ git clone https://github.com/gpakosz/.tmux.git
 $ ln -s -f .tmux/.tmux.conf
-$ cp .tmux/.tmux.conf.local .
+$ git clone https://github.com/jellydn/dotfiles.git
+$ cp dotfiles/tmux/.tmux.conf.local .
 ```
 
 ## Force vi mode

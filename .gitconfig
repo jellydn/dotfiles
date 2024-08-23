@@ -10,23 +10,6 @@
 [interactive]
     	diffFilter = delta --color-only
 
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-
-[merge]
-    conflictstyle = diff3
-
-[diff]
-    colorMoved = default
-
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-
-[commit]
-	template = ~/.stCommitMsg
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -35,13 +18,6 @@
 
 [init]
 	defaultBranch = main
-
-[credential]
-	helper =
-	helper = /usr/local/share/gcm-core/git-credential-manager-core
-
-[credential "https://dev.azure.com"]
-	useHttpPath = true
 
 [delta]
     navigate = true  # use n and N to move between diff sections%

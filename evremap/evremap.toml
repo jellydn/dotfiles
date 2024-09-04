@@ -1,0 +1,22 @@
+# The name of the device to remap.
+# Run `sudo evremap list-devices` to see the devices available
+# on your system.
+# device_name = "Apple MTP keyboard"
+device_name = "Keychron Keychron K7"
+
+# If you have multiple devices with the same name, you can optionally
+# specify the `phys` value that is printed by the `list-devices` subcommand
+# phys = "usb-0000:07:00.3-2.1.1/input0"
+
+# Configure CAPSLOCK as a Dual Role key.
+# Holding it produces LEFTCTRL, but tapping it
+# will produce ESC.
+# Both `tap` and `hold` can expand to multiple output keys.
+[[dual_role]]
+input = "KEY_CAPSLOCK"
+hold = ["KEY_LEFTCTRL"]
+tap = ["KEY_ESC"]
+
+[[remap]]
+input = ["KEY_ESC"]
+output = ["KEY_GRAVE"]

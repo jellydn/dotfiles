@@ -1,0 +1,8 @@
+# Usage: https://github.com/wez/evremap?tab=readme-ov-file#systemd
+[Service]
+WorkingDirectory=/
+ExecStart=bash -c "/home/dunghd/evremap/target/release/evremap remap /home/dunghd/.config/evremap.toml -d 0"
+Restart=always
+[Install]
+WantedBy=multi-user.target
+

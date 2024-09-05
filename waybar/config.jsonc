@@ -8,6 +8,7 @@
   ],
   "modules-center": [],
   "modules-right": [
+    "idle_inhibitor",
     "temperature",
     "pulseaudio",
     "clock",
@@ -27,6 +28,10 @@
     "spacing": 5
   },
   "clock": {
+    "interval": 60,
+    "tooltip": true,
+    "format": "{:%H.%M}",
+    "tooltip-format": "{:%Y-%m-%d}",
     "on-click": "gnome-calendar"
   },
   "temperature": {
@@ -36,6 +41,13 @@
       ""
     ],
     "interval": 30
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
   },
   "pulseaudio": {
     "format": "{volume}% {icon} ",

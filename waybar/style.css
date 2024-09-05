@@ -64,7 +64,7 @@ window#waybar.empty {
 }
 
 
-#temperature, #pulseudio {
+#temperature, #pulseudio, #idle_inhibitor {
     padding: 0px 15px 0px 15px;
 }
     

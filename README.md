@@ -21,6 +21,7 @@ A set of vim, zsh, and git configuration files.
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - simplicity and power in a
   beautiful Git GUI
+- [Marta](https://marta.sh/) - file manager
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display
   adapt to the time of day, warm at night and like sunlight during the day.
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your

@@ -40,7 +40,7 @@ A set of vim, zsh, and git configuration files.
 - [medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
 - [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
-- [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
+- [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay?tab=readme-ov-file) - Unlock your displays on your Mac! Smooth scaling, HiDPI unlock, XDR/HDR extra brightness upscale, DDC, brightness and dimming, virtual screens, PIP and lots more!
 - [SketchyBar](https://felixkratz.github.io/SketchyBar/) - A highly customizable macOS status bar replacement
 - [OBS](https://obsproject.com/) - Open Broadcaster Software
@@ -63,6 +63,8 @@ A set of vim, zsh, and git configuration files.
 - [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
 - [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
 - [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
+- [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
+
 
 ### Neovim IDE
 

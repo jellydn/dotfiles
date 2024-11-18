@@ -10,7 +10,7 @@ A set of vim, zsh, and git configuration files.
   Zsh theme
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
-- [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Automatic tiling window manager for macOS à la xmonad.
+- [nikitabobko/AeroSpace](https://github.com/nikitabobko/AeroSpace) - AeroSpace is an i3-like tiling window manager for macOS.
 - [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
@@ -64,7 +64,7 @@ A set of vim, zsh, and git configuration files.
 - [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
 - [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
-
+- [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Automatic tiling window manager for macOS à la xmonad.
 
 ### Neovim IDE
 

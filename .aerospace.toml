@@ -66,10 +66,10 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = 10
 inner.vertical =   10
-outer.left =       10
+outer.left =       12
 outer.bottom =     10
-outer.top =        [{monitor."Built-in Retina Display" = 10}, 35]
-outer.right =      10
+outer.top =        [{monitor."Built-in Retina Display" = 13}, 38]
+outer.right =      12
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -120,8 +120,8 @@ alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
 # Monitor focus
-alt-p = 'focus-monitor prev'
-alt-n = 'focus-monitor next'
+alt-shift-p = 'focus-monitor prev'
+alt-shift-n = 'focus-monitor next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'

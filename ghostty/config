@@ -13,7 +13,7 @@ font-family =  "Operator Mono Book"
 font-family-bold = "Operator Mono Medium"
 font-family-italic = "Operator Mono Book Italic"
 font-family-bold-italic = "Operator Mono Medium Italic"
-font-size = 16.5
+font-size = 18
 
 # Background
 background-opacity = 0.98
@@ -21,11 +21,14 @@ background-opacity = 0.98
 # Hide title
 title = " "
 macos-titlebar-style = hidden
-macos-titlebar-style = hidden
 # Hide cursor while typing
 mouse-hide-while-typing = true
 
 # Keymap
+# Make Alt/Option key work nicely with Zellij, refer https://github.com/ghostty-org/ghostty/discussions/3207
+keybind = alt+left=unbind
+keybind = alt+right=unbind
 macos-option-as-alt = true
+# Open terminal on neovim
 keybind = ctrl+minus=text:\x1f
 

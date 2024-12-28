@@ -1,0 +1,31 @@
+# How to reload:
+#   Linux: ctrl+shift+,
+#   macOS: cmd+shift+,
+#   Refer to https://ghostty.org/docs
+
+# Theme
+# Usage: ghostty +list-themes
+theme = "Kanagawa Wave"
+
+# Font family
+# Usage: ghostty +list-fonts
+font-family =  "Operator Mono Book"
+font-family-bold = "Operator Mono Medium"
+font-family-italic = "Operator Mono Book Italic"
+font-family-bold-italic = "Operator Mono Medium Italic"
+font-size = 16.5
+
+# Background
+background-opacity = 0.98
+
+# Hide title
+title = " "
+macos-titlebar-style = hidden
+macos-titlebar-style = hidden
+# Hide cursor while typing
+mouse-hide-while-typing = true
+
+# Keymap
+macos-option-as-alt = true
+keybind = ctrl+minus=text:\x1f
+

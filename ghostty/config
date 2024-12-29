@@ -24,8 +24,11 @@ macos-titlebar-style = hidden
 # Hide cursor while typing
 mouse-hide-while-typing = true
 
+# Copy on select
+copy-on-select = true
+
 # Keymap
-# Make Alt/Option key work nicely with Zellij, refer https://github.com/ghostty-org/ghostty/discussions/3207
+# Make Alt/Option key work nicely with Zeliij on macOS, refer https://github.com/ghostty-org/ghostty/discussions/3207
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 macos-option-as-alt = true

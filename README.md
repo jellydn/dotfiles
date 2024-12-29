@@ -11,7 +11,7 @@ A set of vim, zsh, and git configuration files.
 - [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained,
   pretty & versatile tmux configuration made with ❤️
 - [nikitabobko/AeroSpace](https://github.com/nikitabobko/AeroSpace) - AeroSpace is an i3-like tiling window manager for macOS.
-- [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
+- [ghostty](https://github.com/ghostty-org/ghostty) - 👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.
 - [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely
   customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
@@ -53,6 +53,7 @@ A set of vim, zsh, and git configuration files.
 - [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
 - [iterm2](https://iterm2.com/) - a replacement for Terminal
 - [WezTerm](https://wezfurlong.org/wezterm/) - Wez's Terminal Emulator
+- [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
 - [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
   emulator
 - [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS

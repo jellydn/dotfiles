@@ -5,7 +5,7 @@
 
 # Theme
 # Usage: ghostty +list-themes
-theme = "Kanagawa Wave"
+theme = kanagawa-wave
 
 # Font family
 # Usage: ghostty +list-fonts
@@ -13,6 +13,7 @@ font-family =  "Operator Mono Book"
 font-family-bold = "Operator Mono Medium"
 font-family-italic = "Operator Mono Book Italic"
 font-family-bold-italic = "Operator Mono Medium Italic"
+# 14 on small screen, 18 on large screen
 font-size = 18
 
 # Background
@@ -23,6 +24,9 @@ title = " "
 macos-titlebar-style = hidden
 # Hide cursor while typing
 mouse-hide-while-typing = true
+
+# No need to confirm
+confirm-close-surface = false
 
 # Copy on select
 copy-on-select = true

@@ -21,7 +21,9 @@ background-opacity = 0.98
 
 # Hide title
 title = " "
-macos-titlebar-style = hidden
+# The style of the macOS titlebar. 
+# Available values are: "native", "transparent", "tabs", and "hidden".
+macos-titlebar-style = tabs
 # Hide cursor while typing
 mouse-hide-while-typing = true
 

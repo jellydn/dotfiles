@@ -39,6 +39,7 @@ alias cat 'bat'
 # Add paths
 fish_add_path "/usr/local/sbin" "/opt/homebrew/bin" "/opt/homebrew/sbin"
 fish_add_path "$HOME/.cargo/bin" "$HOME/.warpstream" "$HOME/.moon/bin" "$HOME/.grit/bin"
+fish_add_path "$HOME/Library/Python/3.11/bin/"
 
 # Bun setup: https://bun.sh/docs/installation or https://mise.jdx.dev/lang/bun.html
 # mise use -g bun@latest  # install latest bun

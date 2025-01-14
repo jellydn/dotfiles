@@ -30,6 +30,11 @@ mouse-hide-while-typing = true
 # No need to confirm
 confirm-close-surface = false
 
+# Shell
+# Add to shells: ❯ echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
+# Change default shell: ❯ chsh -s /opt/homebrew/bin/fish
+shell-integration = fish
+
 # Copy on select
 copy-on-select = true
 
@@ -40,4 +45,14 @@ keybind = alt+right=unbind
 macos-option-as-alt = true
 # Open terminal on neovim
 keybind = ctrl+minus=text:\x1f
+
+# Credit to https://github.com/ghostty-org/ghostty/issues/189#issuecomment-2588366699
+# Search entire scrollback history in default text editor
+# Set default text editor
+# brew install duti
+# duti -s com.neovide.neovide public.plain-text all
+keybind = super+f=write_screen_file:open
+
+# Search Selection
+keybind = super+shift+f=write_selection_file:open
 

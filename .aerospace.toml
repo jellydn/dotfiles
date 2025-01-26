@@ -197,6 +197,10 @@ if.app-id = 'com.brave.Browser'
 run = ['move-node-to-workspace B']
 
 [[on-window-detected]]
+if.app-id = 'com.brave.Browser.nightly'
+run = ['move-node-to-workspace B']
+
+[[on-window-detected]]
 if.app-id = 'com.apple.Safari'
 run = ['move-node-to-workspace B']
 
@@ -206,6 +210,7 @@ run = ['move-node-to-workspace T']
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
+# Refer https://ghostty.org/docs/help/macos-tiling-wms#aerospace
 run = ['move-node-to-workspace T']
 
 [[on-window-detected]]
@@ -238,6 +243,10 @@ run = ['move-node-to-workspace C']
 
 [[on-window-detected]]
 if.app-id = 'com.exafunction.windsurf'
+run = ['move-node-to-workspace C']
+
+[[on-window-detected]]
+if.app-id = 'com.trae.app'
 run = ['move-node-to-workspace C']
 
 [[on-window-detected]]

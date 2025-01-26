@@ -97,3 +97,6 @@ end
 # mise use -g node@lts
 # Increase memory for Node.js
 set -x NODE_OPTIONS --max_old_space_size=8192
+
+# Pure fish configuration
+set --universal pure_shorten_prompt_current_directory_length 2

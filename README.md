@@ -16,6 +16,7 @@ A set of vim, zsh, and git configuration files.
   customizable prompt for any shell!
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
   launcher.
+- [leader-key](https://github.com/mikker/LeaderKey.app) - Faster than your launcher
 - [delta](https://github.com/dandavison/delta) - a syntax-highlighting pager for
   git, diff, and grep output
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands

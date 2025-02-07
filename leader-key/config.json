@@ -1,0 +1,91 @@
+{
+  "type" : "group",
+  "actions" : [
+    {
+      "label" : "",
+      "value" : "/Applications/Ghostty.app",
+      "key" : "t",
+      "type" : "application"
+    },
+    {
+      "type" : "group",
+      "key" : "o",
+      "label" : "Open",
+      "actions" : [
+        {
+          "value" : "/Applications/zoom.us.app",
+          "label" : "",
+          "key" : "z",
+          "type" : "application"
+        },
+        {
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Slack.app",
+          "key" : "s"
+        },
+        {
+          "value" : "/Applications/Spark Desktop.app",
+          "label" : "Mail",
+          "type" : "application",
+          "key" : "m"
+        },
+        {
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Messenger.app",
+          "key" : "f"
+        },
+        {
+          "value" : "/Applications/Spotify.app",
+          "label" : "",
+          "type" : "application",
+          "key" : "r"
+        },
+        {
+          "type" : "application",
+          "value" : "/Applications/OBS.app",
+          "label" : "",
+          "key" : "o"
+        }
+      ]
+    },
+    {
+      "type" : "group",
+      "actions" : [
+        {
+          "type" : "url",
+          "value" : "raycast://confetti",
+          "key" : "p",
+          "label" : ""
+        },
+        {
+          "value" : "raycast://extensions/raycast/system/open-camera",
+          "key" : "c",
+          "type" : "url",
+          "label" : ""
+        }
+      ],
+      "label" : "Raycast",
+      "key" : "r"
+    },
+    {
+      "value" : "/Applications/Cursor.app",
+      "type" : "application",
+      "label" : "",
+      "key" : "e"
+    },
+    {
+      "value" : "/Applications/Brave Browser.app",
+      "key" : "b",
+      "label" : "",
+      "type" : "application"
+    },
+    {
+      "value" : "/Applications/Navicat Premium Lite.app",
+      "key" : "d",
+      "label" : "",
+      "type" : "application"
+    }
+  ]
+}

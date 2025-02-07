@@ -1,62 +1,66 @@
 {
-  "type" : "group",
   "actions" : [
     {
-      "label" : "",
       "value" : "/Applications/Ghostty.app",
       "key" : "t",
-      "type" : "application"
+      "type" : "application",
+      "label" : ""
     },
     {
-      "type" : "group",
-      "key" : "o",
-      "label" : "Open",
       "actions" : [
         {
-          "value" : "/Applications/zoom.us.app",
-          "label" : "",
           "key" : "z",
-          "type" : "application"
+          "type" : "application",
+          "label" : "",
+          "value" : "/Applications/zoom.us.app"
         },
         {
           "label" : "",
+          "key" : "s",
           "type" : "application",
-          "value" : "/Applications/Slack.app",
-          "key" : "s"
+          "value" : "/Applications/Slack.app"
         },
         {
+          "type" : "application",
+          "key" : "m",
           "value" : "/Applications/Spark Desktop.app",
-          "label" : "Mail",
-          "type" : "application",
-          "key" : "m"
+          "label" : "Mail"
         },
         {
-          "label" : "",
-          "type" : "application",
           "value" : "/Applications/Messenger.app",
-          "key" : "f"
+          "key" : "f",
+          "type" : "application",
+          "label" : ""
         },
         {
-          "value" : "/Applications/Spotify.app",
-          "label" : "",
           "type" : "application",
+          "label" : "",
+          "value" : "/Applications/Spotify.app",
           "key" : "r"
         },
         {
+          "label" : "",
           "type" : "application",
           "value" : "/Applications/OBS.app",
-          "label" : "",
           "key" : "o"
+        },
+        {
+          "value" : "/System/Applications/Notes.app",
+          "label" : null,
+          "type" : "application",
+          "key" : "n"
         }
-      ]
+      ],
+      "label" : "Open",
+      "type" : "group",
+      "key" : "o"
     },
     {
-      "type" : "group",
       "actions" : [
         {
+          "key" : "p",
           "type" : "url",
           "value" : "raycast://confetti",
-          "key" : "p",
           "label" : ""
         },
         {
@@ -66,26 +70,34 @@
           "label" : ""
         }
       ],
+      "key" : "r",
       "label" : "Raycast",
-      "key" : "r"
+      "type" : "group"
     },
     {
-      "value" : "/Applications/Cursor.app",
-      "type" : "application",
       "label" : "",
+      "type" : "application",
+      "value" : "/Applications/Cursor.app",
       "key" : "e"
     },
     {
       "value" : "/Applications/Brave Browser.app",
-      "key" : "b",
       "label" : "",
+      "key" : "b",
       "type" : "application"
     },
     {
       "value" : "/Applications/Navicat Premium Lite.app",
       "key" : "d",
-      "label" : "",
-      "type" : "application"
+      "type" : "application",
+      "label" : ""
+    },
+    {
+      "value" : "/Applications/Zed Preview.app",
+      "type" : "application",
+      "key" : "z",
+      "label" : ""
     }
-  ]
+  ],
+  "type" : "group"
 }

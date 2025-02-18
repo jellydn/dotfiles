@@ -144,6 +144,9 @@ alt-c = 'workspace C' # Code
 alt-e = 'workspace E' # Explorer
 alt-m = 'workspace M' # Email
 alt-t = 'workspace T' # Terminal
+alt-x = 'workspace X' # Spotify, Social
+alt-z = 'workspace Z' # Zen
+alt-w = 'workspace W' # Work
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -160,6 +163,9 @@ alt-shift-c = 'move-node-to-workspace C'
 alt-shift-e = 'move-node-to-workspace E'
 alt-shift-m = 'move-node-to-workspace M'
 alt-shift-t = 'move-node-to-workspace T'
+alt-shift-x = 'move-node-to-workspace X'
+alt-shift-z = 'move-node-to-workspace Z'
+alt-shift-w = 'move-node-to-workspace W'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 
 alt-tab = 'workspace-back-and-forth'
@@ -195,6 +201,10 @@ alt-shift-l = ['join-with right', 'mode main']
 [[on-window-detected]]
 if.app-id = 'com.brave.Browser'
 run = ['move-node-to-workspace B']
+
+[[on-window-detected]]
+if.app-id = 'app.zen-browser.zen'
+run = ['move-node-to-workspace Z']
 
 [[on-window-detected]]
 if.app-id = 'com.brave.Browser.nightly'
@@ -271,11 +281,11 @@ run = ['move-node-to-workspace 2']
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace X']
 
 [[on-window-detected]]
 if.app-id = 'com.apple.podcasts'
-run = ['move-node-to-workspace 2']
+run = ['move-node-to-workspace X']
 
 [[on-window-detected]]
 if.app-id = 'com.obsproject.obs-studio'
@@ -287,19 +297,23 @@ run = ['move-node-to-workspace 3']
 
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace W']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = ['move-node-to-workspace W']
 
 [[on-window-detected]]
 if.app-id = 'us.zoom.xos'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace W']
 
 [[on-window-detected]]
 if.app-id = 'com.facebook.archon'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace X']
 
 [[on-window-detected]]
 if.app-id = 'com.hnc.Discord'
-run = ['move-node-to-workspace 4']
+run = ['move-node-to-workspace X']
 
 [[on-window-detected]]
 if.app-id = 'com.macpaw.CleanMyMac4'

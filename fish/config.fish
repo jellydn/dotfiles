@@ -60,6 +60,8 @@ if test -f "$HOME/.cargo/env.fish"
     source "$HOME/.cargo/env.fish"
 end
 
+set -x EDITOR nvim
+
 # Walk setup: https://github.com/antonmedv/walk
 set -x WALK_EDITOR nvim
 function lk

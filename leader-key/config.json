@@ -1,24 +1,24 @@
 {
   "actions" : [
     {
-      "type" : "application",
+      "key" : "t",
       "label" : "",
-      "value" : "/Applications/Ghostty.app",
-      "key" : "t"
+      "type" : "application",
+      "value" : "/Applications/Ghostty.app"
     },
     {
       "actions" : [
         {
-          "type" : "application",
           "key" : "z",
           "label" : "",
+          "type" : "application",
           "value" : "/Applications/zoom.us.app"
         },
         {
-          "type" : "application",
           "key" : "s",
-          "value" : "/Applications/Slack.app",
-          "label" : ""
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Slack.app"
         },
         {
           "key" : "m",
@@ -28,105 +28,135 @@
         },
         {
           "key" : "f",
-          "type" : "application",
           "label" : "",
+          "type" : "application",
           "value" : "/Applications/Messenger.app"
         },
         {
-          "value" : "/Applications/Spotify.app",
-          "type" : "application",
+          "key" : "r",
           "label" : "",
-          "key" : "r"
+          "type" : "application",
+          "value" : "/Applications/Spotify.app"
         },
         {
           "key" : "o",
-          "value" : "/Applications/OBS.app",
           "label" : "",
-          "type" : "application"
+          "type" : "application",
+          "value" : "/Applications/OBS.app"
         },
         {
-          "type" : "application",
-          "label" : "",
           "key" : "n",
+          "label" : "",
+          "type" : "application",
           "value" : "/System/Applications/Notes.app"
         },
         {
-          "value" : "/Applications/Microsoft Teams.app",
-          "type" : "application",
           "key" : "t",
-          "label" : ""
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Microsoft Teams.app"
         },
         {
-          "type" : "application",
-          "label" : "",
           "key" : "c",
+          "label" : "",
+          "type" : "application",
           "value" : "/Applications/Visual Studio Code - Insiders.app"
         },
         {
-          "value" : "/Applications/KeyCastr.app",
-          "label" : null,
+          "key" : "k",
+          "label" : "",
           "type" : "application",
-          "key" : "k"
+          "value" : "/Applications/KeyCastr.app"
+        },
+        {
+          "key" : "w",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Warp.app"
+        },
+        {
+          "key" : "e",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Marta.app"
+        },
+        {
+          "key" : "y",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/spotube.app"
         }
       ],
       "key" : "o",
-      "type" : "group",
-      "label" : "Open"
+      "label" : "Open",
+      "type" : "group"
     },
     {
       "actions" : [
         {
           "key" : "p",
-          "value" : "raycast://confetti",
+          "label" : "",
           "type" : "url",
-          "label" : ""
+          "value" : "raycast://confetti"
         },
         {
-          "type" : "url",
           "key" : "c",
-          "value" : "raycast://extensions/raycast/system/open-camera",
-          "label" : ""
+          "label" : "",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/system/open-camera"
         }
       ],
+      "key" : "r",
       "label" : "Raycast",
-      "type" : "group",
-      "key" : "r"
+      "type" : "group"
     },
     {
+      "key" : "c",
       "label" : "",
       "type" : "application",
-      "key" : "c",
       "value" : "/Applications/Cursor.app"
     },
     {
-      "type" : "application",
       "key" : "d",
       "label" : "",
+      "type" : "application",
       "value" : "/Applications/Navicat Premium Lite.app"
     },
     {
       "key" : "z",
-      "type" : "application",
       "label" : "",
+      "type" : "application",
       "value" : "/Applications/Zed Preview.app"
     },
     {
-      "key" : "b",
-      "label" : "Browser",
       "actions" : [
         {
-          "value" : "/Applications/Brave Browser.app",
-          "label" : "",
           "key" : "b",
-          "type" : "application"
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Brave Browser.app"
         },
         {
-          "value" : "/Applications/Zen Browser.app",
-          "label" : "",
           "key" : "z",
-          "type" : "application"
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Zen Browser.app"
+        },
+        {
+          "key" : "c",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Google Chrome Canary.app"
+        },
+        {
+          "key" : "s",
+          "label" : "",
+          "type" : "application",
+          "value" : "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
         }
       ],
+      "key" : "b",
+      "label" : "Browser",
       "type" : "group"
     }
   ],

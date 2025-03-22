@@ -134,7 +134,7 @@ alt-1 = 'workspace 1' # General
 alt-2 = 'workspace 2' # Relax
 alt-3 = 'workspace 3' # Obs, iMovie (Recording)
 alt-4 = 'workspace 4' # Chat
-alt-5 = 'workspace 5'
+alt-5 = 'workspace 5' # UTM
 alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
@@ -215,6 +215,10 @@ if.app-id = 'com.apple.Safari'
 run = ['move-node-to-workspace B']
 
 [[on-window-detected]]
+if.app-id = 'com.google.Chrome.canary'
+run = ['move-node-to-workspace B']
+
+[[on-window-detected]]
 if.app-id = 'net.kovidgoyal.kitty'
 run = ['move-node-to-workspace T']
 
@@ -284,6 +288,10 @@ if.app-id = 'com.spotify.client'
 run = ['move-node-to-workspace X']
 
 [[on-window-detected]]
+if.app-id = 'oss.krtirtho.spotube'
+run = ['move-node-to-workspace X']
+
+[[on-window-detected]]
 if.app-id = 'com.apple.podcasts'
 run = ['move-node-to-workspace X']
 
@@ -294,6 +302,10 @@ run = ['move-node-to-workspace 3']
 [[on-window-detected]]
 if.app-id = 'com.apple.iMovieApp'
 run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.utmapp.UTM'
+run = ['move-node-to-workspace 5']
 
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'

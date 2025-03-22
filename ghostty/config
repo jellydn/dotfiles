@@ -9,10 +9,10 @@ theme = kanagawa-wave
 
 # Font family
 # Usage: ghostty +list-fonts
-font-family =  "Operator Mono Book"
-font-family-bold = "Operator Mono Medium"
-font-family-italic = "Operator Mono Book Italic"
-font-family-bold-italic = "Operator Mono Medium Italic"
+font-family =  "Maple Mono NF"
+font-family-bold = "Maple Mono NF Medium"
+font-family-italic = "Maple Mono NF Book Italic"
+font-family-bold-italic = "Maple Mono NF Medium Italic"
 # 14 on small screen, 18 on large screen
 font-size = 18
 

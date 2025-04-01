@@ -1,0 +1,145 @@
+{
+  "profiles" : [
+    {
+      "id" : "21031917-24FF-44F6-B7B7-144E797ADA58",
+      "name" : "Default",
+      "workspaces" : [
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.todesktop.230313mzl4w4u92",
+              "iconPath" : "/Applications/Cursor.app/Contents/Resources/Cursor.icns",
+              "name" : "Cursor"
+            },
+            {
+              "bundleIdentifier" : "com.microsoft.VSCodeInsiders",
+              "iconPath" : "/Applications/Visual Studio Code - Insiders.app/Contents/Resources/Code - Insiders.icns",
+              "name" : "Code - Insiders"
+            },
+            {
+              "bundleIdentifier" : "dev.zed.Zed-Preview",
+              "iconPath" : "/Applications/Zed Preview.app/Contents/Resources/Zed Preview.icns",
+              "name" : "Zed Preview"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+1",
+          "display" : "S24R35xFZ",
+          "id" : "EC4EFF85-1D4C-4FC6-A5A8-E0EA76E428CF",
+          "name" : "Code",
+          "shortcut" : "opt+1",
+          "symbolIconName" : "pencil"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.mitchellh.ghostty",
+              "iconPath" : "/Applications/Ghostty.app/Contents/Resources/AppIcon.icns",
+              "name" : "Ghostty"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+2",
+          "display" : "S24R35xFZ",
+          "id" : "4A3F939E-5C30-40B4-95D9-89AF57267B41",
+          "name" : "Terminal",
+          "shortcut" : "opt+2",
+          "symbolIconName" : "apple.terminal"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.tinyspeck.slackmacgap",
+              "iconPath" : "/Applications/Slack.app/Contents/Resources/electron.icns",
+              "name" : "Slack"
+            },
+            {
+              "bundleIdentifier" : "us.zoom.xos",
+              "iconPath" : "/Applications/zoom.us.app/Contents/Resources/ZPLogo.icns",
+              "name" : "zoom.us"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+9",
+          "display" : "Built-in Retina Display",
+          "id" : "E615A0C7-E2A7-45B6-BB8C-8154655A01AC",
+          "name" : "Work",
+          "shortcut" : "opt+9",
+          "symbolIconName" : "hand.thumbsup.fill"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.facebook.archon",
+              "iconPath" : "/Applications/Messenger.app/Contents/Resources/messenger.icns",
+              "name" : "Messenger"
+            },
+            {
+              "bundleIdentifier" : "com.spotify.client",
+              "iconPath" : "/Applications/Spotify.app/Contents/Resources/Icon.icns",
+              "name" : "Spotify"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+0",
+          "display" : "Built-in Retina Display",
+          "id" : "72AD9768-9C53-4569-AB85-051618E95C80",
+          "name" : "Relax",
+          "shortcut" : "opt+0"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.brave.Browser",
+              "iconPath" : "/Applications/Brave Browser.app/Contents/Resources/app.icns",
+              "name" : "Brave Browser"
+            },
+            {
+              "bundleIdentifier" : "com.google.Chrome.canary",
+              "iconPath" : "/Applications/Google Chrome Canary.app/Contents/Resources/app.icns",
+              "name" : "Google Chrome Canary"
+            },
+            {
+              "bundleIdentifier" : "app.zen-browser.zen",
+              "iconPath" : "/Applications/Zen Browser.app/Contents/Resources/firefox.icns",
+              "name" : "Zen"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+3",
+          "display" : "S24R35xFZ",
+          "id" : "C9D64DCE-8529-434A-A9CF-8D06D0287EC1",
+          "name" : "Browser",
+          "shortcut" : "opt+3",
+          "symbolIconName" : "wifi"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.readdle.SparkDesktop.appstore",
+              "iconPath" : "/Applications/Spark Desktop.app/Contents/Resources/icon.icns",
+              "name" : "Spark Desktop"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+4",
+          "display" : "S24R35xFZ",
+          "id" : "F797E159-2025-4DC0-8028-57A7D366CA1E",
+          "name" : "Email",
+          "shortcut" : "opt+4",
+          "symbolIconName" : "mail.fill"
+        },
+        {
+          "apps" : [
+            {
+              "bundleIdentifier" : "com.navicat.NavicatPremiumLite",
+              "iconPath" : "/Applications/Navicat Premium Lite.app/Contents/Resources/Navicat Premium Lite.icns",
+              "name" : "Navicat Premium Lite"
+            }
+          ],
+          "assignAppShortcut" : "cmd+ctrl+opt+5",
+          "display" : "S24R35xFZ",
+          "id" : "753D67B0-CE92-4C43-AAD0-A038D179B60C",
+          "name" : "Tools",
+          "shortcut" : "opt+5",
+          "symbolIconName" : "pencil.slash"
+        }
+      ]
+    }
+  ],
+  "selectedProfileId" : "21031917-24FF-44F6-B7B7-144E797ADA58"
+}

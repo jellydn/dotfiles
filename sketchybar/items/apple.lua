@@ -32,27 +32,28 @@ local apple = sbar.add("item", {
 	click_script = "$CONFIG_DIR/helpers/menus/bin/menus -s 0",
 })
 
-local function highlight_focused_workspace(env)
-	sbar.exec("aerospace list-workspaces --focused", function(focused_workspace)
-		for id in focused_workspace:gmatch("%S+") do
-			local is_focused = tostring(id) == focused_workspace:match("%S+")
-			sbar.animate("sin", 10, function()
-				apple:set({
-					label = {
-						highlight = is_focused,
-						string = id,
-					},
-				})
-			end)
-		end
-	end)
-end
-
--- Subscribe to the front_app_switched event to highlight the focused workspace
-apple:subscribe("front_app_switched", highlight_focused_workspace)
-
--- Initially highlight the focused workspace
-highlight_focused_workspace()
+-- local function highlight_focused_workspace(env)
+-- 	sbar.exec("aerospace list-workspaces --focused", function(focused_workspace)
+-- 		for id in focused_workspace:gmatch("%S+") do
+-- 			local is_focused = tostring(id) == focused_workspace:match("%S+")
+-- 			sbar.animate("sin", 10, function()
+-- 				apple:set({
+-- 					label = {
+-- 						highlight = is_focused,
+-- 						string = id,
+-- 					},
+-- 				})
+-- 			end)
+-- 		end
+-- 	end)
+-- end
+--
+-- -- Subscribe to the front_app_switched event to highlight the focused workspace
+-- apple:subscribe("front_app_switched", highlight_focused_workspace)
+--
+-- -- Initially highlight the focused workspace
+-- highlight_focused_workspace()
+--
 
 -- Double border for apple using a single item bracket
 sbar.add("bracket", { apple.name }, {

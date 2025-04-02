@@ -35,6 +35,11 @@
               "bundleIdentifier" : "com.mitchellh.ghostty",
               "iconPath" : "/Applications/Ghostty.app/Contents/Resources/AppIcon.icns",
               "name" : "Ghostty"
+            },
+            {
+              "bundleIdentifier" : "dev.warp.Warp-Stable",
+              "iconPath" : "/Applications/Warp.app/Contents/Resources/Warp.icns",
+              "name" : "Warp"
             }
           ],
           "assignAppShortcut" : "cmd+ctrl+opt+2",

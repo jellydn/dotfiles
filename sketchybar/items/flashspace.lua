@@ -286,13 +286,23 @@ local function update_display(app_name)
 	end
 
 	local workspace_name = get_workspace_name(app_name)
-	local _, display_name = get_app_info(app_name)
+	local app_icon, display_name = get_app_info(app_name)
 
 	if workspace_name ~= "" then
 		local key = get_workspace_key(workspace_name)
 		app_space:set({
+			icon = {
+				string = get_workspace_icon(workspace_name),
+				font = {
+					family = "SF Pro",
+					style = "Regular",
+					size = 14.0,
+				},
+				color = colors.white,
+				padding_right = 4,
+			},
 			label = {
-				string = string.format("%s - %s", key or "", workspace_name),
+				string = string.format("%s - %s", key and "W".. key or "", app_name),
 				color = colors.white,
 			},
 			drawing = true,
@@ -306,8 +316,18 @@ local function update_display(app_name)
 		})
 	else
 		app_space:set({
+			icon = {
+				string = app_icon,
+				font = {
+					family = "SF Pro",
+					style = "Regular",
+					size = 14.0,
+				},
+				color = colors.white,
+				padding_right = 4,
+			},
 			label = {
-				string = display_name,
+				string = app_name,
 				color = colors.white,
 			},
 			drawing = true,

@@ -22,12 +22,31 @@ local profiles_path = os.getenv("HOME") .. "/.config/flashspace/profiles.json"
 local cached_workspaces = {}
 local app_to_workspace = {}
 
--- Table to hold references to created workspace items (keyed by workspace name)
-local workspace_items = {}
+-- Monitor mapping
+-- TODO: In the future, we should modify this to show workspaces per monitor
+-- Current implementation shows all workspaces regardless of monitor
+-- Future plan:
+-- 1. Group workspaces by monitor
+-- 2. Show only workspaces for the current monitor
+-- 3. Add a way to switch between monitors
+-- 4. Consider adding a monitor indicator in the bar
+local MONITORS = {
+	["S24R35xFZ"] = "Main", -- Your external monitor
+	["Built-in Retina Display"] = "Laptop", -- Your laptop screen
+}
 
-local function debug_log(msg)
-	os.execute("echo '[flashspace] " .. msg .. "' >> /tmp/sketchybar_debug.log")
+-- Find main monitor from mapping
+local main_monitor
+for monitor, label in pairs(MONITORS) do
+	if label == "Main" then
+		main_monitor = monitor
+		break
+	end
 end
+
+-- local function debug_log(msg)
+--     os.execute("echo '[flashspace] " .. msg .. "' >> /tmp/sketchybar_debug.log")
+-- end
 
 local function exec_cmd(cmd)
 	local handle = io.popen(cmd .. " 2>&1")
@@ -40,16 +59,6 @@ local function exec_cmd(cmd)
 	return result, result ~= ""
 end
 
-local function get_active_display()
-	local cmd = "/usr/local/bin/flashspace get-display"
-	local result, success = exec_cmd(cmd)
-	if success then
-		return result
-	else
-		return ""
-	end
-end
-
 local function load_workspaces()
 	-- NOTE: Make sure you have jq installed
 	local cmd = "jq -r '.profiles[0].workspaces[] | tojson' " .. profiles_path
@@ -58,28 +67,24 @@ local function load_workspaces()
 
 	for line in result:gmatch("[^\n]+") do
 		local success, workspace = pcall(function()
-			-- Try to extract fields more specifically
-			-- Look for name after id, display after assignAppShortcut/apps
-			local ws_name = line:match('"id":"[^"]+","name":"([^"]+)"')
+			local name = line:match('"name":"([^"]+)"')
 			local shortcut = line:match('"shortcut":"([^"]+)"')
 			local display = line:match('"display":"([^"]+)"')
-			-- Keep the first app icon path logic as is
-			local first_app_icon_path = line:match('"apps"%s*:%s*%[%s*{[^}]*"iconPath"%s*:%s*"([^"]+)"')
+			local icon_path = line:match('"apps"%s*:%s*%[%s*{[^}]*"iconPath"%s*:%s*"([^"]+)"')
 
-			if ws_name and shortcut and display then
-				local apps_json = line:match('"apps":(%[.-%])')
-				if apps_json then
-					for app_name in apps_json:gmatch('"name":"([^"]+)"') do
-						-- Use the correctly extracted ws_name for the mapping
-						app_to_workspace[app_name] = ws_name
+			if name and shortcut and display then
+				local apps = line:match('"apps":(%[.-%])')
+				if apps then
+					for app in apps:gmatch('"name":"([^"]+)"') do
+						app_to_workspace[app] = name
 					end
 				end
 				return {
-					name = ws_name, -- Use the correct workspace name
+					name = name,
 					shortcut = shortcut,
 					display = display,
 					key = shortcut:match("opt%+(.)"),
-					icon_path = first_app_icon_path,
+					icon_path = icon_path,
 				}
 			end
 			return nil
@@ -93,7 +98,10 @@ local function load_workspaces()
 	table.sort(workspaces, function(a, b)
 		local a_num = tonumber(a.key) or 0
 		local b_num = tonumber(b.key) or 0
-		return a_num < b_num
+		if a.display == b.display then
+			return a_num < b_num
+		end
+		return a.display == main_monitor
 	end)
 
 	cached_workspaces = workspaces
@@ -111,7 +119,6 @@ local function get_workspace_icon(workspace_name)
 	for _, workspace in ipairs(cached_workspaces) do
 		if workspace.name == workspace_name then
 			if workspace.icon_path then
-				-- NOTE: Add mapping when we have a new app to workspace
 				local icon_map = {
 					["Warp.icns"] = workspace_icons.workspace.Terminal,
 					["Cursor.icns"] = workspace_icons.workspace.Code,
@@ -187,33 +194,60 @@ local app_space = sbar.add("item", "app.space", {
 	updates = true,
 })
 
-local function switch_to_workspace(workspace_name)
-	if not workspace_name then
+-- TODO: Implement proper click functionality
+local function switch_to_workspace(workspace_key) end
+
+-- TODO: Implement proper click handling for app_space
+app_space:subscribe("mouse.clicked", function(env)
+	local app_name = env.INFO
+	if not app_name or app_name == "" then
 		return
 	end
-	local cmd = "/usr/local/bin/flashspace workspace --name " .. workspace_name
-	os.execute(cmd)
-end
 
-local function create_workspace_items_once()
-	for _, item in pairs(workspace_items) do
-		if item and type(item.remove) == "function" then
-			item:remove()
+	local workspace_name = get_workspace_name(app_name)
+	if workspace_name ~= "" then
+		local key = get_workspace_key(workspace_name)
+		if key then
+			switch_to_workspace(key)
 		end
+	end
+end)
+
+local workspace_items = {}
+
+local function update_workspace_items()
+	for _, item in pairs(workspace_items) do
+		item:remove()
 	end
 	workspace_items = {}
 
-	local last_display_iterated = nil
-	for i, workspace in ipairs(cached_workspaces) do
-		local item_name = "workspace." .. workspace.name:lower()
-		local item = sbar.add("item", item_name, {
+	local last_display = nil
+
+	for _, workspace in ipairs(cached_workspaces) do
+		if last_display and last_display ~= workspace.display then
+			local separator = sbar.add("item", "workspace.separator." .. workspace.display, {
+				position = "left",
+				padding_right = 8,
+				padding_left = 8,
+				label = {
+					string = "|",
+					font = {
+						style = settings.font.style_map["Regular"],
+						size = 12.0,
+					},
+					color = colors.grey,
+				},
+			})
+			table.insert(workspace_items, separator)
+		end
+
+		local item = sbar.add("item", "workspace." .. workspace.name:lower(), {
 			position = "left",
-			drawing = false, -- Start hidden
 			padding_right = 8,
 			padding_left = 8,
 			background = {
 				height = 26,
-				color = colors.bg0, -- Initial background
+				color = colors.bg0,
 				border_width = 0,
 				corner_radius = 5,
 			},
@@ -224,34 +258,31 @@ local function create_workspace_items_once()
 					style = "Regular",
 					size = 14.0,
 				},
-				color = colors.grey, -- Initial color (inactive)
+				color = colors.white,
 				padding_right = 4,
 			},
 			label = {
-				string = "", -- Start with empty label
-				width = 0, -- Start with zero width
+				string = workspace.key,
 				font = {
 					style = settings.font.style_map["Regular"],
 					size = 12.0,
 				},
-				color = colors.white, -- Color when shown (but initially hidden by width)
+				color = colors.white,
+				padding_left = 0,
+				padding_right = 6,
 			},
-			animate = true,
-			animation = { duration = 0.3 }, -- Add animation properties
+			-- TODO: Implement proper click handling for workspace items
 		})
 
-		-- Keep hover/click effects
-		item:subscribe("mouse.clicked", function()
-			debug_log("Clicked on workspace: " .. workspace.name .. ", key: " .. tostring(workspace.key))
-			switch_to_workspace(workspace.name)
+		-- TODO: Implement proper double-click handling
+		item:subscribe("mouse.double_clicked", function()
+			switch_to_workspace(workspace.key)
 		end)
 
 		item:subscribe("mouse.entered", function()
 			item:set({
-				-- Reveal label on hover
 				label = {
 					string = string.format("%s - %s", workspace.key, workspace.name),
-					width = "dynamic",
 				},
 				background = {
 					color = colors.bg1,
@@ -260,57 +291,35 @@ local function create_workspace_items_once()
 		end)
 
 		item:subscribe("mouse.exited", function()
-			-- Hide label on exit
 			item:set({
 				label = {
-					string = "",
-					width = 0,
+					string = workspace.key,
 				},
-				-- Reset colors (already white from refresh_workspace_visibility)
-				-- icon = { color = colors.white },
-				-- label = { color = colors.white },
 				background = {
 					color = colors.bg0,
 				},
 			})
 		end)
 
-		-- Store the item reference keyed by workspace name
-		workspace_items[workspace.name] = item
-		last_display_iterated = workspace.display
+		table.insert(workspace_items, item)
+		last_display = workspace.display
 	end
 end
 
-local function refresh_workspace_visibility()
-	local current_display = get_active_display()
-	for _, workspace in ipairs(cached_workspaces) do
-		local item = workspace_items[workspace.name]
-		if item then
-			local should_draw = (workspace.display == current_display)
-			item:set({
-				drawing = should_draw,
-				icon = { color = colors.white },
-				label = { color = colors.white },
-			})
-		end
-	end
-end
-
-local function update_app_space(app_name)
+local function update_display(app_name)
 	if not app_name or app_name == "" then
 		app_space:set({ drawing = false })
 		return
 	end
 
 	local workspace_name = get_workspace_name(app_name)
-	local app_icon, _ = get_app_info(app_name)
+	local app_icon, display_name = get_app_info(app_name)
 
 	if workspace_name ~= "" then
 		local key = get_workspace_key(workspace_name)
-		local workspace_icon = get_workspace_icon(workspace_name)
 		app_space:set({
 			icon = {
-				string = workspace_icon,
+				string = get_workspace_icon(workspace_name),
 				font = {
 					family = "SF Pro",
 					style = "Regular",
@@ -358,16 +367,13 @@ local function update_app_space(app_name)
 			},
 		})
 	end
+
+	update_workspace_items()
 end
 
 app_space:subscribe("front_app_switched", function(env)
-	update_app_space(env.INFO)
-	refresh_workspace_visibility()
+	update_display(env.INFO)
 end)
 
--- Load workspaces and create items at startup
+-- Load workspaces at startup
 load_workspaces()
--- Show workspaces on startup
-create_workspace_items_once()
--- Refresh workspace visibility
-refresh_workspace_visibility()

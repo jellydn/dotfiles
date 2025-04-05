@@ -1,33 +1,36 @@
 local icons = {
 	-- Workspace icons (SF Symbols)
 	workspace = {
-		code = "􀤋", -- hammer.fill
-		terminal = "􀪏", -- terminal.fill
-		browser = "􀎬", -- safari.fill
-		chat = "􀌤", -- bubble.left.fill
-		design = "􀤒", -- paintbrush.fill
-		media = "􀑪", -- play.fill
-		default = "􀈊", -- app.fill
+		Code = "􀤋",
+		Terminal = "􀪏",
+		Browser = "􀎬",
+		Chat = "􀌤",
+		Email = "􀍕",
+		Design = "􀤒",
+		Media = "􀑪",
+		Tools = "􀦳",
+		Apps = "􀏜",
+		Default = "􀈊",
 	},
 
 	-- App icons (SF Symbols)
+	-- TODO: Use from icons.lua
 	apps = {
-		["Brave Browser"] = "􀎬", -- safari.fill
-		["Arc"] = "􀎬", -- safari.fill
-		["Safari"] = "􀎬", -- safari.fill
-		["Cursor"] = "􀪏", -- terminal.fill
-		["Code"] = "􀤋", -- hammer.fill
-		["Terminal"] = "􀪏", -- terminal.fill
-		["iTerm2"] = "􀪏", -- terminal.fill
-		["Finder"] = "􀉫", -- folder.fill
-		["Slack"] = "􀌤", -- bubble.left.fill
-		["Discord"] = "􀌤", -- bubble.left.fill
-		["Spotify"] = "􀑪", -- play.fill
-		["Music"] = "􀑪", -- play.fill
-		["Figma"] = "􀤒", -- paintbrush.fill
-		default = "􀈊", -- app.fill
+		["Brave Browser"] = "􀎬",
+		["Arc"] = "􀎬",
+		["Safari"] = "􀎬",
+		["Cursor"] = "􀪏",
+		["Code"] = "􀤋",
+		["Terminal"] = "􀪏",
+		["iTerm2"] = "􀪏",
+		["Finder"] = "􀉫",
+		["Slack"] = "􀌤",
+		["Discord"] = "􀌤",
+		["Spotify"] = "􀑪",
+		["Music"] = "􀑪",
+		["Figma"] = "􀤒",
+		default = "􀈊",
 	},
 }
 
 return icons
-

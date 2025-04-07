@@ -211,6 +211,14 @@ defaults delete com.apple.dock autohide-delay && killall Dock
 defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 ```
 
+### Leader Key
+
+- Map Right-CMD to Hyper key on Raycast
+- Map Right-shift to Right Cmd-Space
+- Map leader key with Hyper + Space
+
+[![Raycast + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
+
 ### OBS setting for Blue Yeti Microphone
 
 - Noise Suppression

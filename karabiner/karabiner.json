@@ -3,7 +3,32 @@
     "profiles": [
         {
             "complex_modifications": {
+                "parameters": { "basic.to_if_held_down_threshold_milliseconds": 150 },
                 "rules": [
+                    {
+                        "description": "Right Shift to Cmd+Space if alone",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_shift",
+                                        "lazy": true
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": ["right_gui"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
                     {
                         "description": "Mouse keys",
                         "manipulators": [
@@ -164,82 +189,7 @@
                         ]
                     },
                     {
-                        "description": "Use Caps Lock as Control when held, Escape when tapped, and Hyper when held for a duration.",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "hold_down_milliseconds": 100,
-                                        "key_code": "left_control"
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "escape",
-                                        "lazy": true
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "key_code": "left_shift",
-                                        "modifiers": ["left_control", "left_option", "left_command"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Change caps_lock to hypper if pressed with other keys, change caps_lock to escape if pressed alone.",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_shift",
-                                        "modifiers": ["left_command", "left_control", "left_option"]
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "escape",
-                                        "lazy": true
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "description": "Change caps_lock to command+control+option+shift.",
-                                "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_shift",
-                                        "modifiers": ["left_command", "left_control", "left_option"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Change caps_lock to left_control if pressed with other keys, change caps_lock to escape if pressed alone.",
-                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {

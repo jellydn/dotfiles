@@ -1,7 +1,7 @@
 {
   "alternativeDisplays" : "",
-  "centerCursorOnFocusChange" : false,
-  "centerCursorOnWorkspaceChange" : false,
+  "centerCursorOnFocusChange" : true,
+  "centerCursorOnWorkspaceChange" : true,
   "changeWorkspaceOnAppAssign" : true,
   "checkForUpdatesAutomatically" : true,
   "enableFocusManagement" : true,

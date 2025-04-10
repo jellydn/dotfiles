@@ -42,7 +42,8 @@ local app_to_workspace = {}
 local workspace_items = {}
 
 local function debug_log(msg)
-	os.execute("echo '[flashspace] " .. msg .. "' >> /tmp/sketchybar_debug.log")
+	-- NOTE: uncomment the line below to enable debug logging
+	-- os.execute("echo '[flashspace] " .. msg .. "' >> /tmp/sketchybar_debug.log")
 end
 
 local function exec_cmd(cmd)
@@ -272,7 +273,7 @@ local function update_app_space(app_name)
 
 	-- If app has been associated with a workspace, show the workspace icon
 	if workspace_name ~= "" then
-		local key = get_workspace_key(workspace_name)
+		-- local key = get_workspace_key(workspace_name)
 		local workspace_icon = get_workspace_icon(workspace_name)
 		app_space:set({
 			icon = {
@@ -286,7 +287,10 @@ local function update_app_space(app_name)
 				padding_right = 4,
 			},
 			label = {
-				string = string.format("%s - %s", key and "W" .. key or "", app_name),
+				-- This option is showing workspace + key
+				-- string = string.format("%s - %s", key and "W" .. key or "", app_name),
+				-- Below only showing the app name which make it more cleaner
+				string = app_name,
 				color = colors.white,
 			},
 			drawing = true,

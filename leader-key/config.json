@@ -85,6 +85,24 @@
           "label" : "",
           "type" : "application",
           "value" : "/Applications/spotube.app"
+        },
+        {
+          "key" : "d",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/OrbStack.app"
+        },
+        {
+          "key" : "M",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/MongoDB Compass.app"
+        },
+        {
+          "key" : "v",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Vial.app"
         }
       ],
       "key" : "o",
@@ -153,10 +171,115 @@
           "label" : "",
           "type" : "application",
           "value" : "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app"
+        },
+        {
+          "key" : "B",
+          "label" : "",
+          "type" : "application",
+          "value" : "/Applications/Brave Browser Nightly.app"
         }
       ],
       "key" : "b",
       "label" : "Browser",
+      "type" : "group"
+    },
+    {
+      "actions" : [
+        {
+          "key" : "1",
+          "label" : "Maximize",
+          "type" : "url",
+          "value" : "rectangle://execute-action?name=maximize"
+        },
+        {
+          "actions" : [
+            {
+              "key" : "1",
+              "label" : "Left half",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=left-half"
+            },
+            {
+              "key" : "2",
+              "label" : "Right half",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=right-half"
+            },
+            {
+              "key" : "7",
+              "label" : "Top-left",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=top-left"
+            },
+            {
+              "key" : "8",
+              "label" : "Top-right",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=top-right"
+            },
+            {
+              "key" : "9",
+              "label" : "Bottom-left",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=bottom-left"
+            },
+            {
+              "key" : "0",
+              "label" : "Bottom-right",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=bottom-right"
+            }
+          ],
+          "key" : "2",
+          "label" : "Resize: Two columns",
+          "type" : "group"
+        },
+        {
+          "actions" : [
+            {
+              "key" : "1",
+              "label" : "First third",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=first-third"
+            },
+            {
+              "key" : "2",
+              "label" : "Center third",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=center-third"
+            },
+            {
+              "key" : "3",
+              "label" : "Last third",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=last-third"
+            },
+            {
+              "key" : "9",
+              "label" : "First two-thirds",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=first-two-thirds"
+            },
+            {
+              "key" : "0",
+              "label" : "Last two-thirds",
+              "type" : "url",
+              "value" : "rectangle://execute-action?name=last-two-thirds"
+            }
+          ],
+          "key" : "3",
+          "label" : "Resize: Three columns",
+          "type" : "group"
+        },
+        {
+          "key" : "c",
+          "label" : "Center",
+          "type" : "url",
+          "value" : "rectangle://execute-action?name=center"
+        }
+      ],
+      "key" : "w",
+      "label" : "Window",
       "type" : "group"
     }
   ],

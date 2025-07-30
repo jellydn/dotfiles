@@ -42,6 +42,24 @@ Search the color scheme you like and replace the color in `~/.tmux.conf.local`
 
 More detail on [tmux.conf.local](../.tmux.conf.local)
 
+## Hotkeys
+
+### General Usage
+
+- `Prefix` (default: `Ctrl+b`) is the tmux command key.
+
+| Keybinding   | Action                  |
+| ------------ | ----------------------- |
+| `Prefix + c` | Create new window       |
+| `Prefix + ,` | Rename current window   |
+| `Prefix + -` | Split pane horizontally |
+| `Prefix + _` | Split pane vertically   |
+| `Prefix + d` | Detach session          |
+| `Prefix + t` | Show clock              |
+| `Prefix + ?` | List all key bindings   |
+
+For more, see [tmux cheat sheet](https://github.com/gpakosz/.tmux#bindings) or my `.tmux.conf.local`
+
 ## Author
 
 👤 **Huynh Duc Dung**

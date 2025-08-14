@@ -3,7 +3,7 @@ node 22.11.0
 python 3.12.7
 go 1.23.3
 rust 1.82.0
-deno 2.0.6
+deno 2.4.4
 bun 1.1.38
 
 # CLI tools

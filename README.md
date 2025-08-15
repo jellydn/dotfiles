@@ -84,6 +84,8 @@ stow linux   # On Linux
 stow -D common macos  # or linux
 ```
 
+> 📖 **New to GNU Stow?** Read our comprehensive [Stow Documentation](docs/STOW.md) to understand how it works, why we use it, and how to test and verify your setup.
+
 ## 📦 Adding New Configurations
 
 When adding new dotfiles, organize them by platform:

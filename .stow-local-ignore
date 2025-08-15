@@ -6,6 +6,7 @@ README.md
 .DS_Store
 install.sh
 LICENSE
+docs/
 *.png
 *.jpg
 *.jpeg

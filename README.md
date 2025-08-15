@@ -1,6 +1,120 @@
 # dotfiles
 
-A set of vim, zsh, and git configuration files.
+A cross-platform dotfiles repository organized with GNU Stow for easy management across macOS and Linux systems.
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Complete setup (dotfiles + tools + submodules)
+./install.sh all
+
+# Or install components separately
+./install.sh install       # Install dotfiles only
+./install.sh tools         # Install development tools with mise
+./install.sh submodules    # Update git submodules
+./install.sh uninstall     # Remove dotfiles
+./install.sh restow        # Reinstall dotfiles
+
+# Install with options
+./install.sh install --with-tools    # Install dotfiles + tools
+./install.sh install --update-subs   # Install dotfiles + update submodules
+```
+
+## 📁 Repository Structure
+
+```
+dotfiles/
+├── common/           # Cross-platform configurations
+│   ├── .config/
+│   │   ├── nvim/    # Neovim config
+│   │   ├── fish/    # Fish shell
+│   │   ├── helix/   # Helix editor
+│   │   ├── ghostty/ # Ghostty terminal
+│   │   ├── kitty/   # Kitty terminal
+│   │   ├── lazygit/ # Lazygit TUI
+│   │   ├── zellij/  # Zellij terminal multiplexer
+│   │   └── ...
+│   └── .gitconfig   # Git configuration
+├── macos/           # macOS-specific configurations
+│   ├── .config/
+│   │   ├── karabiner/   # Keyboard customization
+│   │   ├── sketchybar/  # Status bar
+│   │   ├── rectangle/   # Window management
+│   │   └── ...
+│   ├── .zshrc          # Zsh configuration
+│   ├── .yabairc        # Yabai window manager
+│   └── ...
+├── linux/           # Linux-specific configurations
+│   ├── .config/
+│   │   ├── hypr/       # Hyprland compositor
+│   │   ├── waybar/     # Wayland status bar
+│   │   ├── i3/         # i3 window manager
+│   │   ├── foot/       # Foot terminal
+│   │   └── ...
+│   └── ...
+├── scripts/         # Helper scripts
+│   ├── install-tools.sh     # Install development tools with mise
+│   └── update-submodules.sh # Update git submodules
+├── install.sh       # Main installation script
+├── .tool-versions   # Development tools managed by mise
+└── .stow-local-ignore  # Files to ignore during stowing
+```
+
+## 🛠️ Manual Installation
+
+If you prefer manual installation or want to install specific packages:
+
+```bash
+# Install GNU Stow first
+# macOS: brew install stow
+# Linux: sudo apt install stow  # or equivalent for your distro
+
+# Stow common configs (works on both OS)
+stow common
+
+# Stow OS-specific configs
+stow macos   # On macOS
+stow linux   # On Linux
+
+# Unstow (remove symlinks)
+stow -D common macos  # or linux
+```
+
+## 📦 Adding New Configurations
+
+When adding new dotfiles, organize them by platform:
+
+### Cross-platform tools (common/)
+```bash
+# Add to common/.config/ for tools that work on both macOS and Linux
+mkdir -p common/.config/new-tool
+cp ~/.config/new-tool/* common/.config/new-tool/
+```
+
+### Platform-specific tools
+```bash
+# macOS-specific (macos/)
+mkdir -p macos/.config/macos-app
+cp ~/.config/macos-app/* macos/.config/macos-app/
+
+# Linux-specific (linux/)
+mkdir -p linux/.config/linux-tool
+cp ~/.config/linux-tool/* linux/.config/linux-tool/
+```
+
+### Testing configurations
+```bash
+# Test stowing new config
+stow --simulate common  # Dry run to see what would be linked
+stow common            # Actually create symlinks
+
+# Remove if something goes wrong
+stow -D common
+```
 
 ## Tools
 - [mise-en-place](https://github.com/jdx/mise) - The front-end to your dev env.
@@ -61,99 +175,100 @@ A set of vim, zsh, and git configuration files.
 - [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
 - [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Automatic tiling window manager for macOS à la xmonad.
 
-### Neovim IDE
+### Neovim Configuration
 
 ```sh
-git clone https://github.com/jellydn/my-nvim-ide ~/.config/nvim
+git clone https://github.com/jellydn/tiny-nvim ~/.config/nvim
 ```
 
-## CLI
+## 🔧 Development Tools Management
 
-### Install
+### Automated Tool Installation
 
-```sh
+The repository includes automated tool installation using [mise](https://mise.jdx.dev/):
+
+```bash
+# Install all development tools defined in .tool-versions
+./install.sh tools
+
+# Or use the helper script directly
+./scripts/install-tools.sh
+```
+
+### Managed Tools (.tool-versions)
+
+Development tools automatically installed by mise:
+- **Languages**: Node.js, Python, Go, Rust, Deno, Bun
+- **CLI Tools**: ripgrep, fd, bat, fzf, jq, delta, lazygit, gh
+
+### Git Submodules Management
+
+Update editor configurations (Neovim, Zed, VSCode):
+
+```bash
+# Update all submodules
+./install.sh submodules
+
+# Or use the helper script directly
+./scripts/update-submodules.sh
+
+# Update specific submodule
+./scripts/update-submodules.sh update-specific nvim
+
+# List all submodules
+./scripts/update-submodules.sh list
+```
+
+### Manual Prerequisites
+
+Some tools need manual installation:
+
+```bash
+# Install GNU Stow (required)
+# macOS: brew install stow
+# Linux: sudo apt install stow
+
+# Install mise (automatically handled by install-tools.sh)
+curl https://mise.run | sh
+```
+
+### Shell Setup (Optional)
+
+If using Fish shell:
+```bash
+# Install Fish
+brew install fish # macOS
+sudo apt install fish # Linux
+
+# Set as default shell
+chsh -s $(which fish)
+```
+
+If using Zsh with Oh My Zsh:
+```bash
+# Install Oh My Zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-brew install --cask alacritty
-brew install starship
-brew install atuin
-brew install zoxide
-brew install fzf
-brew install bat
-brew install fd
-brew install ripgrep
-brew install the_silver_searcher
-brew install jq
-brew install wget
-brew install mkcert
-brew install tree
-brew install nss # if you use Firefox
-brew install make
-brew install gnu-sed
-brew install tmux
-brew install ast-grep # structural search and replace
-brew install stow # manage symlinks
-brew install yabai # tiling window manager
-brew install koekeishiya/formulae/skhd # hotkey daemon
 
+# Install plugins
 cd ~/.oh-my-zsh/custom/plugins/
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/zsh-users/zsh-autosuggestions.git
-git clone https://github.com/grigorii-zander/zsh-npm-scripts-autocomplete.git
 ```
 
-### Install powerlevel10k theme
+## 📋 Configuration Notes
 
-1. Clone the theme to oh-my-zsh/
+### Window Management
+- **macOS**: Uses Yabai + SKHD for tiling window management
+- **Linux**: Supports Hyprland, i3, and other window managers
 
-```sh
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
+### Terminal Setup
+- **Cross-platform**: Ghostty terminal with Kanagawa theme
+- **Alternatives**: Kitty terminal also configured
+- **Shell**: Fish shell with custom theme and functions
 
-2. Set ZSH_THEME="powerlevel10k/powerlevel10k" in ~/.zshrc
-
-### Config
-
-```sh
-cp .zshrc ~/.zshrc
-```
-
-### Alacritty
-
-```sh
-mkdir -p ~/.config/alacritty/themes
-git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
-cp .alacritty.toml ~/.alacritty.toml
-```
-
-### Amethyst
-
-[![Amethyst - General](https://i.gyazo.com/adc85c4ac89b69a71826361a4ff45ef9.png)](https://gyazo.com/adc85c4ac89b69a71826361a4ff45ef9)
-
-[![Amethyst - Mouse](https://i.gyazo.com/5af8d3a7d1513c8c04572774e7cc47a2.png)](https://gyazo.com/5af8d3a7d1513c8c04572774e7cc47a2)
-
-[![Amethyst - Shortcuts](https://i.gyazo.com/ada48e5d31f4b78fccf5edfbd1703c3d.png)](https://gyazo.com/ada48e5d31f4b78fccf5edfbd1703c3d)
-
-### Yabai
-
-```sh
-cp .yabairc ~/.yabairc
-cp .skhdrc ~/.skhdrc
-```
-
-## Git
-
-### Install
-
-```sh
-brew install git-lfs
-brew install git-delta
-```
-
-### Config
-
-```sh
-cp .gitconfig ~/.gitconfig
-```
+### Editor Configuration
+- **Neovim**: Minimal, fast configuration with essential features
+- **Helix**: Alternative editor setup
 
 ### Karabiner Complex Modification
 

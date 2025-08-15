@@ -1,3 +1,0 @@
-waybar
-indv
-pulseaudio

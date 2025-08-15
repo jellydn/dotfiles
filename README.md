@@ -291,6 +291,7 @@ The install script automatically backs up your existing dotfiles before installa
 
 - **Automatic backup**: Creates timestamped backup directory (e.g., `~/dotfiles-backup-20241201-143022`)
 - **Smart detection**: Only backs up real files, not existing stow symlinks
+- **Hidden files**: Backed up files start with `.` (use `ls -la backup-dir` to see them)
 - **Easy restoration**: Instructions provided to restore from backup
 - **Optional**: Use `--no-backup` flag to skip backup process
 

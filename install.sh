@@ -242,7 +242,8 @@ backup_existing_dotfiles() {
     
     if [[ "$backup_created" == "true" ]]; then
         log_success "Backup completed: $backup_dir"
-        log_info "You can restore files with: cp -r $backup_dir/* ~/"
+        log_info "Backed up files are hidden (start with .). Use 'ls -la $backup_dir' to see them."
+        log_info "You can restore files with: cp -r $backup_dir/.* ~/ (be careful with . and ..)"
     else
         log_info "No existing dotfiles found to backup"
     fi

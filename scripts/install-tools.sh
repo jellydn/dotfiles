@@ -148,6 +148,8 @@ install_system_packages() {
             if command_exists apt; then
                 sudo apt update
                 sudo apt install -y git stow tmux fish curl build-essential
+            elif command_exists yay; then
+                yay -S --noconfirm git stow tmux fish curl base-devel
             elif command_exists pacman; then
                 sudo pacman -S --noconfirm git stow tmux fish curl base-devel
             elif command_exists dnf; then

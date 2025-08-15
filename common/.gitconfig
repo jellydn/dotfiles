@@ -21,3 +21,12 @@
 
 [delta]
     navigate = true  # use n and N to move between diff sections%
+[safe]
+	directory = /mnt/hgfs/Projects/dotfiles
+	directory = /mnt/hgfs/Projects/dotfiles/common/.config/nvim
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential

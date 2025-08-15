@@ -25,9 +25,9 @@ window-padding-y = 5
 
 # Hide title
 title = " "
-# The style of the macOS titlebar. 
+# The style of the macOS titlebar.
 # Available values are: "native", "transparent", "tabs", and "hidden".
-macos-titlebar-style = hidden
+macos-titlebar-style = tabs
 # Hide cursor while typing
 mouse-hide-while-typing = true
 
@@ -44,7 +44,7 @@ copy-on-select = true
 
 # Keymap
 # Make Alt/Option key work nicely with Zeliij on macOS, refer https://github.com/ghostty-org/ghostty/discussions/3207
-keybind = alt+left=unbind
+keybind = alt+left=unbin
 keybind = alt+right=unbind
 macos-option-as-alt = true
 # Open terminal on neovim

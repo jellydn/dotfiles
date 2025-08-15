@@ -1,0 +1,4 @@
+common/.config/fish/functions
+common/.config/fish/fish_variables
+.claude
+common/.config/fish/completions

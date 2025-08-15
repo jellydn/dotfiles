@@ -15,6 +15,7 @@ cd ~/.dotfiles
 # Or install components separately
 ./install.sh install       # Install dotfiles only
 ./install.sh tools         # Install development tools with mise
+./install.sh fish          # Install Fish shell and Fisher plugin manager
 ./install.sh submodules    # Update git submodules
 ./install.sh backup        # Backup existing dotfiles only
 ./install.sh uninstall     # Remove dotfiles
@@ -69,7 +70,8 @@ dotfiles/
 │   └── update-submodules.sh # Update git submodules
 ├── install.sh       # Main installation script
 ├── .tool-versions   # Development tools managed by mise
-└── .stow-local-ignore  # Files to ignore during stowing
+├── .stow-local-ignore  # Files to ignore during stowing
+└── .gitignore       # Git ignore patterns
 ```
 
 ## 🛠️ Manual Installation
@@ -265,6 +267,56 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/zsh-users/zsh-autosuggestions.git
 ```
 
+## 📝 Install Script Usage
+
+### Commands
+```bash
+Usage: ./install.sh [install|uninstall|restow|tools|submodules|all|backup|fish]
+
+Commands:
+  install      - Install dotfiles only (default)
+  uninstall    - Remove dotfiles symlinks
+  restow       - Remove and reinstall dotfiles
+  tools        - Install development tools with mise
+  fish         - Install Fish shell and Fisher plugin manager
+  submodules   - Update git submodules
+  all          - Install dotfiles, tools, and update submodules
+  backup       - Backup existing dotfiles only
+
+Options:
+  --with-tools     - Install tools along with dotfiles
+  --update-subs    - Update submodules along with dotfiles
+  --no-backup      - Skip backing up existing dotfiles
+  --interactive    - Interactive mode with prompts for choices
+  --simulate       - Dry run - show what would be done without doing it
+```
+
+### Examples
+```bash
+# Basic installation
+./install.sh                            # Install dotfiles only
+./install.sh all                         # Complete setup
+
+# Installation with options
+./install.sh install --with-tools        # Dotfiles + development tools
+./install.sh install --update-subs       # Dotfiles + git submodules
+./install.sh install --no-backup         # Skip existing file backup
+./install.sh install --simulate          # Preview changes (dry run)
+
+# Interactive installation
+./install.sh install --interactive       # Guided installation with prompts
+
+# Component-specific installation  
+./install.sh tools                       # Only install development tools
+./install.sh fish                        # Only install Fish shell
+./install.sh submodules                  # Only update git submodules
+./install.sh backup                      # Only backup existing dotfiles
+
+# Maintenance commands
+./install.sh uninstall                   # Remove all dotfile symlinks
+./install.sh restow                      # Reinstall (remove then install)
+```
+
 ## 🤖 Interactive Installation
 
 For first-time users or those who want guided installation:
@@ -301,9 +353,10 @@ The install script automatically backs up your existing dotfiles before installa
 The backup process protects these configurations:
 - Shell configs (`.zshrc`, `.bashrc`, `.config/fish`)
 - Editor configs (`.config/nvim`, `.config/helix`, `.vimrc`)
-- Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`)
-- Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`, `.config/rofi`)
-- Development configs (`.gitconfig`, `.tmux.conf`)
+- Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`, `.config/foot`)
+- Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`, `.config/waybar`, `.config/rofi`)
+- Development configs (`.gitconfig`, `.tmux.conf`, `.config/mise`)
+- Multiplexer configs (`.config/zellij`, `.config/tmux`)
 
 ## 📋 Configuration Notes
 

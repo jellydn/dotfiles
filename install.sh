@@ -63,8 +63,23 @@ install_stow() {
             if command_exists brew; then
                 brew install stow
             else
-                log_error "Homebrew not found. Please install Homebrew first: https://brew.sh/"
-                exit 1
+                log_info "Homebrew not found. Installing Homebrew..."
+                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                
+                # Add Homebrew to PATH for current session
+                if [[ -f "/opt/homebrew/bin/brew" ]]; then
+                    eval "$(/opt/homebrew/bin/brew shellenv)"
+                elif [[ -f "/usr/local/bin/brew" ]]; then
+                    eval "$(/usr/local/bin/brew shellenv)"
+                fi
+                
+                if command_exists brew; then
+                    log_success "Homebrew installed successfully"
+                    brew install stow
+                else
+                    log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
+                    exit 1
+                fi
             fi
             ;;
         linux)
@@ -137,6 +152,7 @@ interactive_backup_choice() {
         ".config/foot"
         ".config/polybar"
         ".config/rofi"
+        ".config/mise"
         ".yabairc"
         ".skhdrc"
         ".aerospace.toml"
@@ -203,6 +219,7 @@ backup_existing_dotfiles() {
         ".config/foot"
         ".config/polybar"
         ".config/rofi"
+        ".config/mise"
         ".yabairc"
         ".skhdrc"
         ".aerospace.toml"
@@ -232,10 +249,12 @@ backup_existing_dotfiles() {
             
             if [[ -d "$full_path" ]]; then
                 cp -r "$full_path" "$backup_path"
-                log_info "Backed up directory: $file"
+                rm -rf "$full_path"
+                log_info "Backed up and removed directory: $file"
             else
                 cp "$full_path" "$backup_path"
-                log_info "Backed up file: $file"
+                rm "$full_path"
+                log_info "Backed up and removed file: $file"
             fi
         fi
     done
@@ -319,30 +338,38 @@ stow_packages() {
         for package in "${packages[@]}"; do
             if [[ "$simulate" == "true" ]]; then
                 log_info "🔍 SIMULATION: Would stow $package configurations..."
-                stow -nv "$package"
+                stow -t "$HOME" -nv "$package"
             else
                 log_info "Stowing $package configurations..."
-                stow -v "$package"
+                stow -t "$HOME" -v --adopt "$package"
             fi
         done
     else
         # Non-interactive: install both common and OS-specific
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow common configurations..."
-            stow -nv common
+            stow -t "$HOME" -nv common
             
             log_info "🔍 SIMULATION: Would stow $os-specific configurations..."
-            stow -nv "$os"
+            stow -t "$HOME" -nv "$os"
         else
             log_info "Stowing common configurations..."
-            stow -v common
+            stow -t "$HOME" -v --adopt common
             
             log_info "Stowing $os-specific configurations..."
-            stow -v "$os"
+            stow -t "$HOME" -v --adopt "$os"
         fi
     fi
     
     log_success "All selected packages stowed successfully!"
+    
+    # Run stow verification check
+    local script_dir="$(dirname "$0")"
+    if [[ -x "$script_dir/scripts/check-stow.sh" && "$simulate" != "true" ]]; then
+        echo ""
+        log_info "Running stow verification check..."
+        "$script_dir/scripts/check-stow.sh" || true  # Don't fail install on check failure
+    fi
 }
 
 # Unstow packages (cleanup)
@@ -352,26 +379,37 @@ unstow_packages() {
     log_info "Unstowing packages for $os..."
     cd "$(dirname "$0")"
     
-    # Unstow in reverse order
-    stow -D "$os" 2>/dev/null || true
-    stow -D common 2>/dev/null || true
+    # Unstow in reverse order with verbose output and explicit target
+    log_info "Unstowing $os-specific configurations..."
+    if stow -t "$HOME" -Dv "$os"; then
+        log_success "$os configurations unstowed successfully"
+    else
+        log_warning "Some $os configurations may not have been fully unstowed"
+    fi
     
-    log_success "Packages unstowed successfully!"
+    log_info "Unstowing common configurations..."
+    if stow -t "$HOME" -Dv common; then
+        log_success "Common configurations unstowed successfully"
+    else
+        log_warning "Some common configurations may not have been fully unstowed"
+    fi
+    
+    log_success "Unstow process completed!"
 }
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|tools|submodules|all|backup]"
+    echo "Usage: $0 [install|uninstall|restow|tools|submodules|all|backup|fish]"
     echo ""
     echo "Commands:"
     echo "  install      - Install dotfiles only (default)"
     echo "  uninstall    - Remove dotfiles symlinks"
     echo "  restow       - Remove and reinstall dotfiles"
     echo "  tools        - Install development tools with mise"
+    echo "  fish         - Install Fish shell and Fisher plugin manager"
     echo "  submodules   - Update git submodules"
     echo "  all          - Install dotfiles, tools, and update submodules"
     echo "  backup       - Backup existing dotfiles only"
-    echo "  migrate-mise - Migrate from mise config.toml to .tool-versions"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
@@ -396,6 +434,76 @@ install_tools() {
     else
         log_error "install-tools.sh script not found or not executable"
         return 1
+    fi
+}
+
+# Install Fish shell and Fisher plugin manager
+install_fish() {
+    local os="$1"
+    
+    # Check if fish is already installed
+    if command_exists fish; then
+        log_info "Fish shell is already installed"
+    else
+        log_info "Installing Fish shell..."
+        case "$os" in
+            macos)
+                if command_exists brew; then
+                    brew install fish
+                else
+                    log_info "Homebrew not found. Installing Homebrew..."
+                    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                    
+                    # Add Homebrew to PATH for current session
+                    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+                        eval "$(/opt/homebrew/bin/brew shellenv)"
+                    elif [[ -f "/usr/local/bin/brew" ]]; then
+                        eval "$(/usr/local/bin/brew shellenv)"
+                    fi
+                    
+                    if command_exists brew; then
+                        log_success "Homebrew installed successfully"
+                        brew install fish
+                    else
+                        log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
+                        return 1
+                    fi
+                fi
+                ;;
+            linux)
+                if command_exists apt; then
+                    sudo apt update && sudo apt install -y fish
+                elif command_exists pacman; then
+                    sudo pacman -S --noconfirm fish
+                elif command_exists dnf; then
+                    sudo dnf install -y fish
+                elif command_exists zypper; then
+                    sudo zypper install -y fish
+                else
+                    log_error "Package manager not found. Please install Fish shell manually."
+                    return 1
+                fi
+                ;;
+        esac
+        log_success "Fish shell installed successfully"
+    fi
+    
+    # Check if Fisher is installed
+    if fish -c "fisher --version" >/dev/null 2>&1; then
+        log_info "Fisher plugin manager is already installed"
+    else
+        log_info "Installing Fisher plugin manager..."
+        fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+        log_success "Fisher plugin manager installed successfully"
+    fi
+    
+    # Install fish plugins if fish_plugins file exists
+    if [[ -f "$HOME/.config/fish/fish_plugins" ]]; then
+        log_info "Installing Fish plugins from fish_plugins..."
+        fish -c "fisher update"
+        log_success "Fish plugins installed successfully"
+    else
+        log_info "No fish_plugins file found, skipping plugin installation"
     fi
 }
 
@@ -519,17 +627,13 @@ main() {
         backup)
             backup_existing_dotfiles
             ;;
-        migrate-mise)
-            local script_dir="$(dirname "$0")"
-            if [[ -x "$script_dir/scripts/migrate-mise-config.sh" ]]; then
-                "$script_dir/scripts/migrate-mise-config.sh"
-            else
-                log_error "migrate-mise-config.sh script not found or not executable"
-                return 1
-            fi
-            ;;
         tools)
             install_tools
+            ;;
+        fish)
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            install_fish "$os"
             ;;
         submodules)
             update_submodules

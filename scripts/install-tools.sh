@@ -94,37 +94,54 @@ install_mise() {
 install_dev_tools() {
     log_info "Installing development tools with mise..."
     
-    # Change to dotfiles directory to find .tool-versions
+    # Change to dotfiles directory to find mise config
     cd "$(dirname "$0")/.."
     
-    if [[ ! -f ".tool-versions" ]]; then
-        log_error ".tool-versions file not found in $(pwd)"
+    # Check for mise config.toml or .tool-versions
+    config_file=""
+    if [[ -f "common/.config/mise/config.toml" ]]; then
+        config_file="common/.config/mise/config.toml"
+        log_info "Using mise config.toml format"
+    elif [[ -f ".tool-versions" ]]; then
+        config_file=".tool-versions"
+        log_info "Using .tool-versions format"
+    else
+        log_error "No mise configuration found (config.toml or .tool-versions) in $(pwd)"
         return 1
     fi
     
-    # Install tools from .tool-versions globally
-    log_info "Installing tools globally..."
-    log_info "This will update tools to the versions specified in .tool-versions"
+    # Install tools globally using mise install
+    log_info "Installing tools globally from $config_file..."
     
-    while IFS= read -r line; do
-        # Skip comments and empty lines
-        if [[ "$line" =~ ^#.*$ ]] || [[ -z "$line" ]]; then
-            continue
+    if [[ "$config_file" == "common/.config/mise/config.toml" ]]; then
+        # Use mise install to read from config.toml
+        if ~/.local/bin/mise install; then
+            log_success "Tools installed successfully from config.toml"
+        else
+            log_warning "Some tools may have failed to install"
         fi
-        
-        # Parse tool and version
-        tool=$(echo "$line" | awk '{print $1}')
-        version=$(echo "$line" | awk '{print $2}')
-        
-        if [[ -n "$tool" && -n "$version" ]]; then
-            log_info "Installing $tool@$version globally..."
-            if ~/.local/bin/mise use -g "$tool@$version"; then
-                log_info "✓ $tool@$version installed successfully"
-            else
-                log_warning "✗ Failed to install $tool@$version"
+    else
+        # Legacy .tool-versions format
+        while IFS= read -r line; do
+            # Skip comments and empty lines
+            if [[ "$line" =~ ^#.*$ ]] || [[ -z "$line" ]]; then
+                continue
             fi
-        fi
-    done < .tool-versions
+            
+            # Parse tool and version
+            tool=$(echo "$line" | awk '{print $1}')
+            version=$(echo "$line" | awk '{print $2}')
+            
+            if [[ -n "$tool" && -n "$version" ]]; then
+                log_info "Installing $tool@$version globally..."
+                if ~/.local/bin/mise use -g "$tool@$version"; then
+                    log_info "✓ $tool@$version installed successfully"
+                else
+                    log_warning "✗ Failed to install $tool@$version"
+                fi
+            fi
+        done < "$config_file"
+    fi
     
     # Clean up unused versions (optional)
     log_info "Cleaning up unused tool versions..."
@@ -150,9 +167,13 @@ install_system_packages() {
             brew install git stow tmux fish
             brew install --cask ghostty
             
-            # Install fonts
-            brew tap homebrew/cask-fonts
-            brew install --cask font-jetbrains-mono-nerd-font
+            # Install fonts (skip if already available)
+            if ! brew list --cask font-jetbrains-mono-nerd-font >/dev/null 2>&1; then
+                log_info "Installing JetBrains Mono Nerd Font..."
+                brew install --cask font-jetbrains-mono-nerd-font || log_warning "Failed to install font (may need manual installation)"
+            else
+                log_info "JetBrains Mono Nerd Font already installed"
+            fi
             ;;
         linux)
             if command_exists apt; then

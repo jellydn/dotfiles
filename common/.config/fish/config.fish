@@ -2,11 +2,14 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 ~/.local/bin/mise activate fish | source
-zoxide init fish | source
+if command -v zoxide >/dev/null
+    zoxide init fish | source
+end
 source "$HOME/.cargo/env.fish"
 
 # Alias
 alias v="nvim"
+alias ccs="claude --dangerously-skip-permissions"
 
 # Kanagawa Fish shell theme
 # A template was taken and modified from Tokyonight:

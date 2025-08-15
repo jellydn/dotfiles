@@ -1,5 +1,5 @@
 /* KooL-inspired Waybar Styling (Performance Optimized) */
-/* Based on JaKooLit's Catppuccin Mocha theme */
+/* Based on Kanagawa theme */
 
 /* Global font settings */
 * {
@@ -10,32 +10,32 @@
   font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
 }
 
-/* Catppuccin Mocha color scheme */
-@define-color base #1e1e2e;
-@define-color mantle #181825;
-@define-color surface0 #313244;
-@define-color surface1 #45475a;
-@define-color surface2 #585b70;
-@define-color overlay0 #6c7086;
-@define-color overlay1 #7f849c;
-@define-color overlay2 #9399b2;
-@define-color subtext0 #a6adc8;
-@define-color subtext1 #bac2de;
-@define-color text #cdd6f4;
-@define-color lavender #b4befe;
-@define-color blue #89b4fa;
-@define-color sapphire #74c7ec;
-@define-color sky #89dceb;
-@define-color teal #94e2d5;
-@define-color green #a6e3a1;
-@define-color yellow #f9e2af;
-@define-color peach #fab387;
-@define-color maroon #eba0ac;
-@define-color red #f38ba8;
-@define-color mauve #cba6f7;
-@define-color pink #f5c2e7;
-@define-color flamingo #f2cdcd;
-@define-color rosewater #f5e0dc;
+/* Kanagawa color scheme */
+@define-color base #1F1F28;
+@define-color mantle #16161D;
+@define-color surface0 #2A2A37;
+@define-color surface1 #363646;
+@define-color surface2 #54546D;
+@define-color overlay0 #727169;
+@define-color overlay1 #727169;
+@define-color overlay2 #9CABCA;
+@define-color subtext0 #C8C093;
+@define-color subtext1 #DCD7BA;
+@define-color text #DCD7BA;
+@define-color lavender #957FB8;
+@define-color blue #7E9CD8;
+@define-color sapphire #7AA89F;
+@define-color sky #7AA89F;
+@define-color teal #7AA89F;
+@define-color green #76946A;
+@define-color yellow #C0A36E;
+@define-color peach #FF9E64;
+@define-color maroon #E82424;
+@define-color red #C34043;
+@define-color mauve #957FB8;
+@define-color pink #D27E99;
+@define-color flamingo #E6C384;
+@define-color rosewater #E6C384;
 
 /* Main waybar window */
 window#waybar {
@@ -53,8 +53,8 @@ window#waybar.hidden {
 .modules-left,
 .modules-center, 
 .modules-right {
-  background: rgba(30, 30, 46, 0.9);
-  border: 1px solid rgba(203, 166, 247, 0.3);
+  background: rgba(31, 31, 40, 0.9);
+  border: 1px solid rgba(149, 127, 184, 0.3);
   border-radius: 12px;
   padding: 4px 8px;
   margin: 2px;

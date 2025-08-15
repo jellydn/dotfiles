@@ -251,11 +251,11 @@ interactive_package_choice() {
     local os="$1"
     local packages_to_install=()
     
-    echo ""
-    log_info "Available package groups for installation:"
-    echo "  1. common     - Cross-platform configs (nvim, fish, git, etc.)"
-    echo "  2. $os        - $os-specific configs"
-    echo ""
+    echo "" >&2
+    log_info "Available package groups for installation:" >&2
+    echo "  1. common     - Cross-platform configs (nvim, fish, git, etc.)" >&2
+    echo "  2. $os        - $os-specific configs" >&2
+    echo "" >&2
     
     if ask_yes_no "Install common (cross-platform) configurations?" "y"; then
         packages_to_install+=("common")
@@ -266,9 +266,9 @@ interactive_package_choice() {
     fi
     
     if [[ ${#packages_to_install[@]} -eq 0 ]]; then
-        log_warning "No packages selected for installation."
+        log_warning "No packages selected for installation." >&2
         if ask_yes_no "Exit without installing anything?" "y"; then
-            log_info "Installation cancelled by user."
+            log_info "Installation cancelled by user." >&2
             exit 0
         else
             # Recurse to ask again
@@ -302,7 +302,9 @@ stow_packages() {
     
     # Interactive package selection
     if [[ "$interactive" == "true" ]]; then
-        local packages=($(interactive_package_choice "$os"))
+        local packages_string
+        packages_string=$(interactive_package_choice "$os")
+        local packages=($packages_string)
         
         for package in "${packages[@]}"; do
             log_info "Stowing $package configurations..."

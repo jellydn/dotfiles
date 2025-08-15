@@ -24,6 +24,10 @@ cd ~/.dotfiles
 ./install.sh install --with-tools    # Install dotfiles + tools
 ./install.sh install --update-subs   # Install dotfiles + update submodules
 ./install.sh install --no-backup     # Install without backing up existing files
+./install.sh install --interactive   # Interactive mode with guided prompts
+
+# Interactive installation (recommended for first-time users)
+./install.sh install --interactive
 ```
 
 ## 📁 Repository Structure
@@ -258,6 +262,28 @@ cd ~/.oh-my-zsh/custom/plugins/
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/zsh-users/zsh-autosuggestions.git
 ```
+
+## 🤖 Interactive Installation
+
+For first-time users or those who want guided installation:
+
+```bash
+./install.sh install --interactive
+```
+
+**Interactive features:**
+- **Conflict detection**: Shows existing dotfiles that would be overwritten
+- **Backup choices**: Ask whether to backup existing files before installation  
+- **Package selection**: Choose which configuration groups to install
+- **Component options**: Prompt for development tools and git submodules
+- **Safety confirmations**: Multiple confirmation prompts for destructive actions
+
+**Interactive prompts include:**
+- `Do you want to backup these files before installation? [Y/n]`
+- `Install common (cross-platform) configurations? [Y/n]`
+- `Install macos-specific configurations? [Y/n]` (or linux-specific)
+- `Install development tools with mise? [y/N]`
+- `Update git submodules (editor configs)? [y/N]`
 
 ## 🛡️ Backup Protection
 

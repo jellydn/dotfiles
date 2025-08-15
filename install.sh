@@ -86,7 +86,100 @@ install_stow() {
     log_success "GNU Stow installed successfully"
 }
 
-# Backup existing dotfiles
+# Interactive prompts
+ask_yes_no() {
+    local question="$1"
+    local default="${2:-n}"
+    local response
+    
+    while true; do
+        if [[ "$default" == "y" ]]; then
+            read -p "$question [Y/n]: " response
+            response=${response:-y}
+        else
+            read -p "$question [y/N]: " response
+            response=${response:-n}
+        fi
+        
+        case "$response" in
+            [Yy]|[Yy][Ee][Ss])
+                return 0
+                ;;
+            [Nn]|[Nn][Oo])
+                return 1
+                ;;
+            *)
+                echo "Please answer yes or no."
+                ;;
+        esac
+    done
+}
+
+# Interactive backup selection
+interactive_backup_choice() {
+    local files_to_backup=(
+        ".gitconfig"
+        ".zshrc"
+        ".bashrc"
+        ".vimrc"
+        ".tmux.conf"
+        ".config/nvim"
+        ".config/fish"
+        ".config/ghostty"
+        ".config/kitty"
+        ".config/helix"
+        ".config/lazygit"
+        ".config/zellij"
+        ".config/tmux"
+        ".config/i3"
+        ".config/waybar"
+        ".config/hypr"
+        ".config/foot"
+        ".config/polybar"
+        ".yabairc"
+        ".skhdrc"
+        ".aerospace.toml"
+        ".alacritty.toml"
+        ".wezterm.lua"
+    )
+    
+    local existing_files=()
+    
+    # Check which files exist
+    log_info "Checking for existing dotfiles..."
+    for file in "${files_to_backup[@]}"; do
+        local full_path="$HOME/$file"
+        if [[ -e "$full_path" ]] && [[ ! -L "$full_path" ]]; then
+            existing_files+=("$file")
+        fi
+    done
+    
+    if [[ ${#existing_files[@]} -eq 0 ]]; then
+        log_info "No existing dotfiles found that would conflict."
+        return 0
+    fi
+    
+    echo ""
+    log_warning "Found ${#existing_files[@]} existing dotfile(s) that would be overwritten:"
+    for file in "${existing_files[@]}"; do
+        echo "  - $file"
+    done
+    echo ""
+    
+    # Ask for backup choice
+    if ask_yes_no "Do you want to backup these files before installation?" "y"; then
+        return 0  # Yes, backup
+    else
+        if ask_yes_no "Are you sure you want to proceed WITHOUT backing up? This may overwrite your existing configs!" "n"; then
+            return 1  # No backup, but proceed
+        else
+            log_info "Installation cancelled by user."
+            exit 0
+        fi
+    fi
+}
+
+# Backup existing dotfiles  
 backup_existing_dotfiles() {
     local backup_dir="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
     local files_to_backup=(
@@ -153,30 +246,78 @@ backup_existing_dotfiles() {
     fi
 }
 
+# Interactive package selection
+interactive_package_choice() {
+    local os="$1"
+    local packages_to_install=()
+    
+    echo ""
+    log_info "Available package groups for installation:"
+    echo "  1. common     - Cross-platform configs (nvim, fish, git, etc.)"
+    echo "  2. $os        - $os-specific configs"
+    echo ""
+    
+    if ask_yes_no "Install common (cross-platform) configurations?" "y"; then
+        packages_to_install+=("common")
+    fi
+    
+    if ask_yes_no "Install $os-specific configurations?" "y"; then
+        packages_to_install+=("$os")
+    fi
+    
+    if [[ ${#packages_to_install[@]} -eq 0 ]]; then
+        log_warning "No packages selected for installation."
+        if ask_yes_no "Exit without installing anything?" "y"; then
+            log_info "Installation cancelled by user."
+            exit 0
+        else
+            # Recurse to ask again
+            interactive_package_choice "$os"
+            return
+        fi
+    fi
+    
+    echo "${packages_to_install[@]}"
+}
+
 # Stow packages
 stow_packages() {
     local os="$1"
     local skip_backup="${2:-false}"
+    local interactive="${3:-false}"
     
     log_info "Stowing packages for $os..."
     
     # Change to dotfiles directory
     cd "$(dirname "$0")"
     
-    # Backup existing dotfiles unless skipped
-    if [[ "$skip_backup" != "true" ]]; then
+    # Interactive backup choice if not skipped and interactive mode
+    if [[ "$skip_backup" != "true" && "$interactive" == "true" ]]; then
+        if interactive_backup_choice; then
+            backup_existing_dotfiles
+        fi
+    elif [[ "$skip_backup" != "true" ]]; then
         backup_existing_dotfiles
     fi
     
-    # Always stow common configs
-    log_info "Stowing common configurations..."
-    stow -v common
+    # Interactive package selection
+    if [[ "$interactive" == "true" ]]; then
+        local packages=($(interactive_package_choice "$os"))
+        
+        for package in "${packages[@]}"; do
+            log_info "Stowing $package configurations..."
+            stow -v "$package"
+        done
+    else
+        # Non-interactive: install both common and OS-specific
+        log_info "Stowing common configurations..."
+        stow -v common
+        
+        log_info "Stowing $os-specific configurations..."
+        stow -v "$os"
+    fi
     
-    # Stow OS-specific configs
-    log_info "Stowing $os-specific configurations..."
-    stow -v "$os"
-    
-    log_success "All packages stowed successfully!"
+    log_success "All selected packages stowed successfully!"
 }
 
 # Unstow packages (cleanup)
@@ -210,9 +351,11 @@ show_usage() {
     echo "  --with-tools     - Install tools along with dotfiles"
     echo "  --update-subs    - Update submodules along with dotfiles"
     echo "  --no-backup      - Skip backing up existing dotfiles"
+    echo "  --interactive    - Interactive mode with prompts for choices"
     echo ""
     echo "This script will automatically detect your OS and install appropriate configs."
     echo "By default, existing dotfiles are backed up before installation."
+    echo "Use --interactive for guided installation with user prompts."
 }
 
 # Install development tools
@@ -246,6 +389,7 @@ parse_args() {
     local with_tools=false
     local update_subs=false
     local no_backup=false
+    local interactive=false
     
     for arg in "$@"; do
         case "$arg" in
@@ -258,10 +402,13 @@ parse_args() {
             --no-backup)
                 no_backup=true
                 ;;
+            --interactive)
+                interactive=true
+                ;;
         esac
     done
     
-    echo "$with_tools $update_subs $no_backup"
+    echo "$with_tools $update_subs $no_backup $interactive"
 }
 
 # Main function
@@ -275,13 +422,30 @@ main() {
     local with_tools="${args[0]}"
     local update_subs="${args[1]}"
     local no_backup="${args[2]}"
+    local interactive="${args[3]}"
     
     case "$command" in
         install)
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_stow "$os"
-            stow_packages "$os" "$no_backup"
+            
+            # Interactive mode prompts
+            if [[ "$interactive" == "true" ]]; then
+                echo ""
+                log_info "=== Interactive Installation Mode ==="
+                
+                # Ask about additional components in interactive mode
+                if [[ "$with_tools" != "true" ]] && ask_yes_no "Install development tools with mise?" "n"; then
+                    with_tools=true
+                fi
+                
+                if [[ "$update_subs" != "true" ]] && ask_yes_no "Update git submodules (editor configs)?" "n"; then
+                    update_subs=true
+                fi
+            fi
+            
+            stow_packages "$os" "$no_backup" "$interactive"
             
             # Handle additional options
             if [[ "$with_tools" == "true" ]]; then
@@ -315,7 +479,7 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_stow "$os"
-            stow_packages "$os" "$no_backup"
+            stow_packages "$os" "$no_backup" "$interactive"
             install_tools
             update_submodules
             ;;

@@ -102,10 +102,25 @@ install_dev_tools() {
         return 1
     fi
     
-    # Install tools from .tool-versions
-    ~/.local/bin/mise install
+    # Install tools from .tool-versions globally
+    log_info "Installing tools globally..."
+    while IFS= read -r line; do
+        # Skip comments and empty lines
+        if [[ "$line" =~ ^#.*$ ]] || [[ -z "$line" ]]; then
+            continue
+        fi
+        
+        # Parse tool and version
+        tool=$(echo "$line" | awk '{print $1}')
+        version=$(echo "$line" | awk '{print $2}')
+        
+        if [[ -n "$tool" && -n "$version" ]]; then
+            log_info "Installing $tool@$version globally..."
+            ~/.local/bin/mise use -g "$tool@$version"
+        fi
+    done < .tool-versions
     
-    log_success "Development tools installed successfully"
+    log_success "Development tools installed globally"
 }
 
 # Install system packages

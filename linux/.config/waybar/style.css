@@ -1,0 +1,285 @@
+/* KooL-inspired Waybar Styling (Performance Optimized) */
+/* Based on JaKooLit's Catppuccin Mocha theme */
+
+/* Global font settings */
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: bold;
+  font-size: 97%;
+  min-height: 0;
+  font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+}
+
+/* Catppuccin Mocha color scheme */
+@define-color base #1e1e2e;
+@define-color mantle #181825;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color surface2 #585b70;
+@define-color overlay0 #6c7086;
+@define-color overlay1 #7f849c;
+@define-color overlay2 #9399b2;
+@define-color subtext0 #a6adc8;
+@define-color subtext1 #bac2de;
+@define-color text #cdd6f4;
+@define-color lavender #b4befe;
+@define-color blue #89b4fa;
+@define-color sapphire #74c7ec;
+@define-color sky #89dceb;
+@define-color teal #94e2d5;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color peach #fab387;
+@define-color maroon #eba0ac;
+@define-color red #f38ba8;
+@define-color mauve #cba6f7;
+@define-color pink #f5c2e7;
+@define-color flamingo #f2cdcd;
+@define-color rosewater #f5e0dc;
+
+/* Main waybar window */
+window#waybar {
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  background: transparent;
+  border-radius: 12px;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* Module groups styling */
+.modules-left,
+.modules-center, 
+.modules-right {
+  background: rgba(30, 30, 46, 0.9);
+  border: 1px solid rgba(203, 166, 247, 0.3);
+  border-radius: 12px;
+  padding: 4px 8px;
+  margin: 2px;
+}
+
+/* Workspaces */
+#workspaces {
+  background: transparent;
+  border-radius: 10px;
+  margin: 0px 6px;
+}
+
+#workspaces button {
+  color: @overlay1;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  margin: 2px;
+  padding: 4px 8px;
+  min-width: 20px;
+  transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+  color: @peach;
+  background: @surface0;
+  border-radius: 8px;
+}
+
+#workspaces button.active {
+  color: @mauve;
+  background: @surface1;
+  border-radius: 8px;
+}
+
+#workspaces button.urgent {
+  color: @red;
+  background: rgba(243, 139, 168, 0.2);
+}
+
+/* Window title */
+#window {
+  color: @text;
+  background: transparent;
+  border-radius: 8px;
+  margin: 0px 4px;
+  padding: 0px 8px;
+  font-weight: normal;
+}
+
+/* Clock styling */
+#clock {
+  color: @lavender;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 12px;
+  font-weight: bold;
+  font-size: 98%;
+}
+
+#clock:hover {
+  color: @mauve;
+}
+
+/* Custom modules */
+#custom-rofi {
+  color: @mauve;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 6px;
+  margin: 0px 2px;
+  font-size: 110%;
+}
+
+#custom-rofi:hover {
+  color: @pink;
+  background: rgba(203, 166, 247, 0.1);
+}
+
+#custom-terminal {
+  color: @yellow;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 6px;
+  margin: 0px 2px;
+}
+
+#custom-terminal:hover {
+  color: @peach;
+  background: rgba(249, 226, 175, 0.1);
+}
+
+#custom-browser {
+  color: @sapphire;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 6px;
+  margin: 0px 2px;
+}
+
+#custom-browser:hover {
+  color: @blue;
+  background: rgba(116, 199, 236, 0.1);
+}
+
+#custom-power {
+  color: @red;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 6px;
+  margin: 0px 2px;
+}
+
+#custom-power:hover {
+  color: @maroon;
+  background: rgba(243, 139, 168, 0.1);
+}
+
+/* System modules */
+#battery {
+  color: @green;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 8px;
+  margin: 0px 2px;
+}
+
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#battery.charging {
+  color: @teal;
+}
+
+#pulseaudio {
+  color: @pink;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 8px;
+  margin: 0px 2px;
+}
+
+#pulseaudio.muted {
+  color: @overlay1;
+}
+
+#pulseaudio:hover {
+  color: @flamingo;
+  background: rgba(245, 194, 231, 0.1);
+}
+
+#network {
+  color: @sky;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 8px;
+  margin: 0px 2px;
+}
+
+#network.disconnected {
+  color: @overlay1;
+}
+
+#network:hover {
+  color: @sapphire;
+  background: rgba(137, 220, 235, 0.1);
+}
+
+#idle_inhibitor {
+  color: @yellow;
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 6px;
+  margin: 0px 2px;
+}
+
+#idle_inhibitor.activated {
+  color: @peach;
+}
+
+#tray {
+  background: transparent;
+  border-radius: 8px;
+  padding: 0px 4px;
+  margin: 0px 2px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* Tooltips */
+tooltip {
+  border-radius: 8px;
+  background: @base;
+  border: 1px solid @surface1;
+  color: @text;
+}
+
+tooltip label {
+  padding: 4px 8px;
+}
+
+/* Animation optimizations for VM performance */
+.modules-left,
+.modules-center,
+.modules-right {
+  transition-duration: 0.2s;
+  animation-duration: 0.2s;
+}
+
+.modules-left *,
+.modules-center *,
+.modules-right * {
+  transition-duration: inherit;
+  animation-duration: inherit;
+}
+
+/* VM Performance: Reduced animations for better performance */

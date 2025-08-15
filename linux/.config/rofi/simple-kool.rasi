@@ -1,0 +1,319 @@
+/* ---- 💫 KooL Rofi Theme (Performance Optimized) 💫 ---- */
+/* Based on JaKooLit's KooL Style themes with VM optimizations */
+
+/*****----- Configuration -----*****/
+configuration {
+  modi:                        "drun,run,filebrowser,window";
+  show-icons:                  true;
+  display-drun:                "󱓞 Apps";
+  display-run:                 "󰆍 Run";
+  display-filebrowser:         "󰉋 Files";
+  display-window:              "󰖯 Windows";
+  
+  drun-display-format:         "{name}";
+  window-format:               "{w} · {c} · {t}";
+  
+  hover-select:                true;
+  me-select-entry:             "";
+  me-accept-entry:             "MousePrimary";
+  click-to-exit:               true;
+  
+  /* Performance optimizations */
+  threads:                     0;
+  scroll-method:               0;
+}
+
+/*****----- Global Properties -----*****/
+@import                          "fonts.rasi"
+
+* {
+  /* Catppuccin Mocha Color Scheme */
+  base:           #1e1e2e;
+  mantle:         #181825;
+  crust:          #11111b;
+  surface0:       #313244;
+  surface1:       #45475a;
+  surface2:       #585b70;
+  overlay0:       #6c7086;
+  overlay1:       #7f849c;
+  overlay2:       #9399b2;
+  subtext0:       #a6adc8;
+  subtext1:       #bac2de;
+  text:           #cdd6f4;
+  lavender:       #b4befe;
+  blue:           #89b4fa;
+  sapphire:       #74c7ec;
+  sky:            #89dceb;
+  teal:           #94e2d5;
+  green:          #a6e3a1;
+  yellow:         #f9e2af;
+  peach:          #fab387;
+  maroon:         #eba0ac;
+  red:            #f38ba8;
+  mauve:          #cba6f7;
+  pink:           #f5c2e7;
+  flamingo:       #f2cdcd;
+  rosewater:      #f5e0dc;
+  
+  /* Theme colors */
+  background:                  @base;
+  background-alt:              @surface0;
+  foreground:                  @text;
+  selected:                    @mauve;
+  active:                      @green;
+  urgent:                      @red;
+  
+  /* Rofi color scheme */
+  border-color:                @selected;
+  handle-color:                @selected;
+  background-color:            transparent;
+  foreground-color:            @foreground;
+  alternate-background:        @background-alt;
+  normal-background:           transparent;
+  normal-foreground:           @foreground;
+  urgent-background:           @urgent;
+  urgent-foreground:           @base;
+  active-background:           @active;
+  active-foreground:           @base;
+  selected-normal-background:  @selected;
+  selected-normal-foreground:  @base;
+  selected-urgent-background:  @active;
+  selected-urgent-foreground:  @base;
+  selected-active-background:  @urgent;
+  selected-active-foreground:  @base;
+  alternate-normal-background: transparent;
+  alternate-normal-foreground: @foreground;
+  alternate-urgent-background: @urgent;
+  alternate-urgent-foreground: @base;
+  alternate-active-background: @active;
+  alternate-active-foreground: @base;
+}
+
+/*****----- Main Window -----*****/
+window {
+  transparency:                "real";
+  location:                    center;
+  anchor:                      center;
+  fullscreen:                  false;
+  width:                       700px;
+  height:                      500px;
+  x-offset:                    0px;
+  y-offset:                    0px;
+  
+  enabled:                     true;
+  margin:                      0px;
+  padding:                     0px;
+  border:                      2px solid;
+  border-radius:               16px;
+  border-color:                @border-color;
+  cursor:                      "default";
+  background-color:            rgba(30, 30, 46, 0.95);
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+  enabled:                     true;
+  spacing:                     15px;
+  margin:                      0px;
+  padding:                     25px;
+  border:                      0px solid;
+  border-radius:               0px;
+  border-color:                @border-color;
+  background-color:            transparent;
+  children:                    [ "inputbar", "listview", "mode-switcher" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+  enabled:                     true;
+  spacing:                     10px;
+  margin:                      0px 0px 15px 0px;
+  padding:                     12px 20px;
+  border:                      0px solid;
+  border-radius:               12px;
+  border-color:                @border-color;
+  background-color:            @background-alt;
+  text-color:                  @foreground;
+  children:                    [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+  enabled:                     true;
+  padding:                     6px 0px;
+  expand:                      false;
+  str:                         "󰍉";
+  font:                        "JetBrainsMono Nerd Font 16";
+  background-color:            transparent;
+  text-color:                  @selected;
+}
+
+entry {
+  enabled:                     true;
+  padding:                     6px 0px;
+  background-color:            transparent;
+  text-color:                  @foreground;
+  cursor:                      text;
+  placeholder:                 "Search applications...";
+  placeholder-color:           @subtext0;
+  font:                        "JetBrainsMono Nerd Font 12";
+}
+
+/*****----- Listview -----*****/
+listview {
+  enabled:                     true;
+  columns:                     2;
+  lines:                       8;
+  cycle:                       true;
+  dynamic:                     true;
+  scrollbar:                   false;
+  layout:                      vertical;
+  reverse:                     false;
+  fixed-height:                true;
+  fixed-columns:               true;
+  
+  spacing:                     8px;
+  margin:                      0px;
+  padding:                     0px;
+  border:                      0px solid;
+  border-radius:               0px;
+  border-color:                @border-color;
+  background-color:            transparent;
+  text-color:                  @foreground-color;
+  cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+  enabled:                     true;
+  spacing:                     12px;
+  margin:                      0px;
+  padding:                     10px 15px;
+  border:                      0px solid;
+  border-radius:               10px;
+  border-color:                @border-color;
+  background-color:            transparent;
+  text-color:                  @foreground-color;
+  cursor:                      pointer;
+}
+
+element normal.normal {
+  background-color:            transparent;
+  text-color:                  @normal-foreground;
+}
+
+element normal.urgent {
+  background-color:            rgba(243, 139, 168, 0.2);
+  text-color:                  @urgent;
+}
+
+element normal.active {
+  background-color:            rgba(166, 227, 161, 0.2);
+  text-color:                  @active;
+}
+
+element selected.normal {
+  background-color:            @selected-normal-background;
+  text-color:                  @selected-normal-foreground;
+  border:                      2px solid;
+  border-color:                rgba(203, 166, 247, 0.5);
+}
+
+element selected.urgent {
+  background-color:            @selected-urgent-background;
+  text-color:                  @selected-urgent-foreground;
+}
+
+element selected.active {
+  background-color:            @selected-active-background;
+  text-color:                  @selected-active-foreground;
+}
+
+element alternate.normal {
+  background-color:            transparent;
+  text-color:                  @alternate-normal-foreground;
+}
+
+element-icon {
+  background-color:            transparent;
+  text-color:                  inherit;
+  size:                        28px;
+  cursor:                      inherit;
+}
+
+element-text {
+  background-color:            transparent;
+  text-color:                  inherit;
+  highlight:                   inherit;
+  cursor:                      inherit;
+  vertical-align:              0.5;
+  horizontal-align:            0.0;
+  font:                        "JetBrainsMono Nerd Font 11";
+}
+
+/*****----- Mode Switcher -----*****/
+mode-switcher {
+  enabled:                     true;
+  spacing:                     8px;
+  margin:                      15px 0px 0px 0px;
+  padding:                     0px;
+  border:                      0px solid;
+  border-radius:               0px;
+  border-color:                @border-color;
+  background-color:            transparent;
+  text-color:                  @foreground-color;
+}
+
+button {
+  padding:                     12px 20px;
+  border:                      0px solid;
+  border-radius:               8px;
+  border-color:                @border-color;
+  background-color:            @background-alt;
+  text-color:                  @foreground;
+  cursor:                      pointer;
+  font:                        "JetBrainsMono Nerd Font 10";
+}
+
+button selected {
+  background-color:            @selected-normal-background;
+  text-color:                  @selected-normal-foreground;
+  border:                      1px solid;
+  border-color:                rgba(203, 166, 247, 0.3);
+}
+
+/*****----- Message -----*****/
+message {
+  enabled:                     true;
+  margin:                      0px;
+  padding:                     0px;
+  border:                      0px solid;
+  border-radius:               0px;
+  border-color:                @border-color;
+  background-color:            transparent;
+  text-color:                  @foreground-color;
+}
+
+textbox {
+  padding:                     15px;
+  border:                      0px solid;
+  border-radius:               8px;
+  border-color:                @border-color;
+  background-color:            @background-alt;
+  text-color:                  @foreground-color;
+  vertical-align:              0.5;
+  horizontal-align:            0.0;
+  highlight:                   none;
+  placeholder-color:           @subtext0;
+  blink:                       true;
+  markup:                      true;
+  font:                        "JetBrainsMono Nerd Font 11";
+}
+
+error-message {
+  padding:                     15px;
+  border:                      2px solid;
+  border-radius:               8px;
+  border-color:                @urgent;
+  background-color:            rgba(243, 139, 168, 0.1);
+  text-color:                  @urgent;
+}

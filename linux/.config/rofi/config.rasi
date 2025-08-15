@@ -1,0 +1,68 @@
+/* ---- 💫 KooL Rofi Configuration (Performance Optimized) 💫 ---- */
+/* Based on JaKooLit's configuration with VM optimizations */
+
+configuration {
+    modi:                        "drun,run,filebrowser,window";
+    show-icons:                  true;
+    display-drun:                "󱓞 Apps";
+    display-run:                 "󰆍 Run"; 
+    display-filebrowser:         "󰉋 Files";
+    display-window:              "󰖯 Windows";
+    
+    drun-display-format:         "{name}";
+    window-format:               "{w} · {c} · {t}";
+    
+    hover-select:                true;
+    me-select-entry:             "";
+    me-accept-entry:             "MousePrimary";
+    click-to-exit:               true;
+    
+    /* Performance optimizations */
+    threads:                     0;
+    scroll-method:               0;
+    disable-history:             false;
+    sorting-method:              "normal";
+    case-sensitive:              false;
+    
+    /* VM-friendly settings */
+    run-shell-command:           "{terminal} -e {cmd}";
+    terminal:                    "foot";
+    
+    /* Appearance settings */
+    font:                        "JetBrainsMono Nerd Font 11";
+    
+    /* Key bindings - simplified to avoid conflicts */
+    kb-primary-paste:            "Control+V,Shift+Insert";
+    kb-secondary-paste:          "Control+v,Insert";
+    kb-move-front:               "Control+a";
+    kb-move-end:                 "Control+e";
+    kb-move-word-back:           "Alt+b,Control+Left";
+    kb-move-word-forward:        "Alt+f,Control+Right";
+    kb-move-char-back:           "Left,Control+b";
+    kb-move-char-forward:        "Right,Control+f";
+    kb-remove-word-back:         "Control+BackSpace";
+    kb-remove-word-forward:      "Control+Delete";
+    kb-remove-char-forward:      "Delete,Control+d";
+    kb-remove-char-back:         "BackSpace,Control+h";
+    kb-remove-to-eol:            "Control+k";
+    kb-remove-to-sol:            "Control+u";
+    kb-accept-entry:             "Return,KP_Enter";
+    kb-accept-custom:            "Control+Return";
+    kb-accept-alt:               "Shift+Return";
+    kb-delete-entry:             "Shift+Delete";
+    kb-mode-next:                "Shift+Right,Control+Tab";
+    kb-mode-previous:            "Shift+Left";
+    kb-row-left:                 "Control+Page_Up";
+    kb-row-right:                "Control+Page_Down";
+    kb-row-up:                   "Up,Control+p";
+    kb-row-down:                 "Down,Control+n";
+    kb-page-prev:                "Page_Up";
+    kb-page-next:                "Page_Down";
+    kb-row-first:                "Home,KP_Home";
+    kb-row-last:                 "End,KP_End";
+    kb-row-select:               "Control+space";
+    kb-toggle-case-sensitivity:  "grave";
+    kb-cancel:                   "Escape,Control+g";
+}
+
+@theme "kool-style.rasi"

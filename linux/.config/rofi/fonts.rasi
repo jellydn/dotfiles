@@ -1,0 +1,12 @@
+/* ---- 💫 Simple KooL Rofi Fonts 💫 ---- */
+/* Global rofi fonts for simple config */
+
+/*****-- Font Sizes -----*****/
+configuration {
+  font: "JetBrainsMono Nerd Font SemiBold 13";
+}
+
+/*****-- Element Font Size -----*****/
+element-text {
+  font: "JetBrainsMono Nerd Font SemiBold 12";
+}

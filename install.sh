@@ -351,6 +351,7 @@ show_usage() {
     echo "  submodules   - Update git submodules"
     echo "  all          - Install dotfiles, tools, and update submodules"
     echo "  backup       - Backup existing dotfiles only"
+    echo "  migrate-mise - Migrate from mise config.toml to .tool-versions"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
@@ -473,6 +474,15 @@ main() {
             ;;
         backup)
             backup_existing_dotfiles
+            ;;
+        migrate-mise)
+            local script_dir="$(dirname "$0")"
+            if [[ -x "$script_dir/scripts/migrate-mise-config.sh" ]]; then
+                "$script_dir/scripts/migrate-mise-config.sh"
+            else
+                log_error "migrate-mise-config.sh script not found or not executable"
+                return 1
+            fi
             ;;
         tools)
             install_tools

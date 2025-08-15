@@ -1,0 +1,44 @@
+# Make sure to clone the themes first, refer https://github.com/alacritty/alacritty-theme
+import = [
+    "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
+]
+
+[env]
+TERM = "xterm-256color"
+
+[shell]
+program = "/bin/zsh"
+
+# Other good fonts: JetBrainsMono Nerd Font, GeistMono Nerd Font Mono, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
+[font]
+size = 18.5
+normal = { family = "JetBrainsMono Nerd Font Mono" }
+# normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+# bold = { family = "MonaspiceAr Nerd Font Mono", style = "Bold" }
+# italic = { family = "MonaspiceAr Nerd Font Mono", style = "Italic" }
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ''',│`|:"' ()[]{}<>	'''
+
+[window]
+decorations = "Buttonless"
+decorations_theme_variant = "Dark"
+opacity = 0.95
+startup_mode = "Maximized"
+blur = true
+
+# Make Option key behave as Alt.
+option_as_alt = "Both" # Mac only
+
+[window.padding]
+x = 6
+y = 6
+
+[mouse]
+hide_when_typing = true
+
+[[keyboard.bindings]]
+chars = "\u001F"
+key = "Minus"
+mods = "Control"

@@ -1,0 +1,94 @@
+#!/usr/bin/env sh
+
+# Refer to https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(from-HEAD)#configure-scripting-addition for how to do this
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+# Created this config based on https://www.josean.com/posts/yabai-setup and https://anuj-chandra.medium.com/using-i3-like-tiling-window-managers-in-macos-with-yabai-ebf0e002b992
+# Setup external display as stack, it's easier to manage as it's 16 inch
+# Default layout (can be bsp, stack or float)
+yabai -m config layout bsp
+
+# Global settings
+yabai -m config \
+  mouse_follows_focus off \
+  focus_follows_mouse off \
+  window_placement second_child \
+  window_shadow off \
+  window_animation_duration 0.25 \
+  window_opacity_duration 0.25 \
+  active_window_opacity 0.90 \
+  normal_window_opacity 0.50 \
+  window_border_width 4 \
+  window_border_radius 12 \
+  window_border_blur on \
+  window_border_hidpi on \
+  window_border on \
+  split_ratio 0.50 \
+  split_type auto \
+  auto_balance off
+
+# Windows padding
+yabai -m config top_padding 15
+yabai -m config bottom_padding 15
+yabai -m config left_padding 15
+yabai -m config right_padding 15
+yabai -m config window_gap 10
+
+# Add 25 padding to the top and 0 padding to the bottom of every spaces
+yabai -m config external_bar all:25:0
+
+# signals
+yabai -m signal --add event=window_destroyed active=yes action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null"
+yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\"is-floating\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
+
+# mission-control desktop labels
+yabai -m space 1 --label code
+yabai -m space 2 --label web
+yabai -m space 3 --label apps
+yabai -m space 4 --label work
+yabai -m space 5 --label social
+yabai -m space 6 --label media
+
+# specific space settings
+yabai -m config --space work layout stack
+yabai -m config --space media layout stack
+
+# Unmanaged apps
+app_titles="(Copy|Bin|About This Mac|Info|Finder Preferences|Preferences|QuickTime Player|Raycast Settings)"
+yabai -m rule --add title="${app_titles}" manage=off
+
+# Disable tiling for those apps
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^CleanMyMac X$" manage=off
+yabai -m rule --add app="^Karabiner-" manage=off
+yabai -m rule --add app="^Sourcetree$" manage=off
+yabai -m rule --add app="^Raycast" manage=off
+yabai -m rule --add app="^Iphone" manage=off
+
+# Not working yet
+# yabai -m rule --add app="^Arc" title="^Little Arc" manage=off
+
+# NOTE: Disable SIP for Mac OSX 15, refer https://github.com/koekeishiya/yabai/blob/master/CHANGELOG.md#712---2024-08-10
+# Assign apps to space and Raycast to open
+# Space 1 - Coding
+yabai -m rule --add app="^(WezTerm|Warp|alacritty|kitty)" space=1
+# Space 2 - Web browsers
+yabai -m rule --add app="^(Google Chrome|Arc|Brave)" space=2
+# Space 3 - Apps
+yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|OrbStack|OBS)" space=3
+# Space 4 - Work, external display
+yabai -m rule --add app="^(Slack|zoom.us)" space=4
+# Space 5 - Social app
+yabai -m rule --add app="^(WhatsApp|Messenger)" space=5
+# Space 6 - Music & Email
+yabai -m rule --add app="^(Spotify|Spark)" space=6
+
+# sketchybar specific events
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=space_changed action="sketchybar --trigger windows_on_spaces"
+
+# lightweight border, refer https://github.com/FelixKratz/JankyBorders
+borders active_color=0xff54546D inactive_color=0xff1f1f28 width=5.0 &
+
+echo "yabai configuration loaded.."

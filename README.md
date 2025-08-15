@@ -299,7 +299,7 @@ The backup process protects these configurations:
 - Shell configs (`.zshrc`, `.bashrc`, `.config/fish`)
 - Editor configs (`.config/nvim`, `.config/helix`, `.vimrc`)
 - Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`)
-- Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`)
+- Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`, `.config/rofi`)
 - Development configs (`.gitconfig`, `.tmux.conf`)
 
 ## 📋 Configuration Notes

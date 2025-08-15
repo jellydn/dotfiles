@@ -1,0 +1,26 @@
+# Stow ignore patterns
+README.md
+.git
+.gitignore
+.gitmodules
+.DS_Store
+install.sh
+LICENSE
+*.png
+*.jpg
+*.jpeg
+*.gif
+bg-images
+themes
+node_modules
+.config/cspell.json
+.config/cspell-tool.txt
+renovate.json
+biome.json
+bun.lockb
+package.json
+tsconfig.json
+cli.sh
+cli.ts
+example
+tests

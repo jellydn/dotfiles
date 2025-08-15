@@ -1,17 +1,18 @@
 # Development tools managed by mise
-node 22.11.0
+node 22.18.0
 python 3.12.7
-go 1.23.3
+go 1.25.0
 rust 1.82.0
-deno 2.0.6
-bun 1.1.38
+deno 2.4.3
+bun 1.2.20
 
 # CLI tools
-ripgrep 14.1.1
+ripgrep latest
 fd 10.2.0
-bat 0.24.0
-fzf 0.56.3
+bat latest
+fzf latest
 jq 1.7.1
 delta 0.18.2
-lazygit 0.44.1
-gh 2.62.0
+lazygit latest
+gh latest
+neovim nightly

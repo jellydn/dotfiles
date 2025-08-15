@@ -104,6 +104,8 @@ install_dev_tools() {
     
     # Install tools from .tool-versions globally
     log_info "Installing tools globally..."
+    log_info "This will update tools to the versions specified in .tool-versions"
+    
     while IFS= read -r line; do
         # Skip comments and empty lines
         if [[ "$line" =~ ^#.*$ ]] || [[ -z "$line" ]]; then
@@ -116,9 +118,17 @@ install_dev_tools() {
         
         if [[ -n "$tool" && -n "$version" ]]; then
             log_info "Installing $tool@$version globally..."
-            ~/.local/bin/mise use -g "$tool@$version"
+            if ~/.local/bin/mise use -g "$tool@$version"; then
+                log_info "✓ $tool@$version installed successfully"
+            else
+                log_warning "✗ Failed to install $tool@$version"
+            fi
         fi
     done < .tool-versions
+    
+    # Clean up unused versions (optional)
+    log_info "Cleaning up unused tool versions..."
+    ~/.local/bin/mise prune -y 2>/dev/null || log_info "Prune not available or no unused versions found"
     
     log_success "Development tools installed globally"
 }

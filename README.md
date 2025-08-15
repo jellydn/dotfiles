@@ -16,12 +16,14 @@ cd ~/.dotfiles
 ./install.sh install       # Install dotfiles only
 ./install.sh tools         # Install development tools with mise
 ./install.sh submodules    # Update git submodules
+./install.sh backup        # Backup existing dotfiles only
 ./install.sh uninstall     # Remove dotfiles
 ./install.sh restow        # Reinstall dotfiles
 
 # Install with options
 ./install.sh install --with-tools    # Install dotfiles + tools
 ./install.sh install --update-subs   # Install dotfiles + update submodules
+./install.sh install --no-backup     # Install without backing up existing files
 ```
 
 ## 📁 Repository Structure
@@ -256,6 +258,23 @@ cd ~/.oh-my-zsh/custom/plugins/
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/zsh-users/zsh-autosuggestions.git
 ```
+
+## 🛡️ Backup Protection
+
+The install script automatically backs up your existing dotfiles before installation:
+
+- **Automatic backup**: Creates timestamped backup directory (e.g., `~/dotfiles-backup-20241201-143022`)
+- **Smart detection**: Only backs up real files, not existing stow symlinks
+- **Easy restoration**: Instructions provided to restore from backup
+- **Optional**: Use `--no-backup` flag to skip backup process
+
+### Backup Coverage
+The backup process protects these configurations:
+- Shell configs (`.zshrc`, `.bashrc`, `.config/fish`)
+- Editor configs (`.config/nvim`, `.config/helix`, `.vimrc`)
+- Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`)
+- Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`)
+- Development configs (`.gitconfig`, `.tmux.conf`)
 
 ## 📋 Configuration Notes
 

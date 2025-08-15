@@ -86,14 +86,87 @@ install_stow() {
     log_success "GNU Stow installed successfully"
 }
 
+# Backup existing dotfiles
+backup_existing_dotfiles() {
+    local backup_dir="$HOME/dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
+    local files_to_backup=(
+        ".gitconfig"
+        ".zshrc"
+        ".bashrc"
+        ".vimrc"
+        ".tmux.conf"
+        ".config/nvim"
+        ".config/fish"
+        ".config/ghostty"
+        ".config/kitty"
+        ".config/helix"
+        ".config/lazygit"
+        ".config/zellij"
+        ".config/tmux"
+        ".config/i3"
+        ".config/waybar"
+        ".config/hypr"
+        ".config/foot"
+        ".config/polybar"
+        ".yabairc"
+        ".skhdrc"
+        ".aerospace.toml"
+        ".alacritty.toml"
+        ".wezterm.lua"
+    )
+    
+    local backup_created=false
+    
+    log_info "Checking for existing dotfiles to backup..."
+    
+    for file in "${files_to_backup[@]}"; do
+        local full_path="$HOME/$file"
+        
+        # Check if file/directory exists and is not a symlink managed by stow
+        if [[ -e "$full_path" ]] && [[ ! -L "$full_path" ]]; then
+            # Create backup directory on first file found
+            if [[ "$backup_created" == "false" ]]; then
+                mkdir -p "$backup_dir"
+                backup_created=true
+                log_info "Creating backup directory: $backup_dir"
+            fi
+            
+            # Backup the file/directory
+            local backup_path="$backup_dir/$file"
+            mkdir -p "$(dirname "$backup_path")"
+            
+            if [[ -d "$full_path" ]]; then
+                cp -r "$full_path" "$backup_path"
+                log_info "Backed up directory: $file"
+            else
+                cp "$full_path" "$backup_path"
+                log_info "Backed up file: $file"
+            fi
+        fi
+    done
+    
+    if [[ "$backup_created" == "true" ]]; then
+        log_success "Backup completed: $backup_dir"
+        log_info "You can restore files with: cp -r $backup_dir/* ~/"
+    else
+        log_info "No existing dotfiles found to backup"
+    fi
+}
+
 # Stow packages
 stow_packages() {
     local os="$1"
+    local skip_backup="${2:-false}"
     
     log_info "Stowing packages for $os..."
     
     # Change to dotfiles directory
     cd "$(dirname "$0")"
+    
+    # Backup existing dotfiles unless skipped
+    if [[ "$skip_backup" != "true" ]]; then
+        backup_existing_dotfiles
+    fi
     
     # Always stow common configs
     log_info "Stowing common configurations..."
@@ -122,7 +195,7 @@ unstow_packages() {
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|tools|submodules|all]"
+    echo "Usage: $0 [install|uninstall|restow|tools|submodules|all|backup]"
     echo ""
     echo "Commands:"
     echo "  install      - Install dotfiles only (default)"
@@ -131,12 +204,15 @@ show_usage() {
     echo "  tools        - Install development tools with mise"
     echo "  submodules   - Update git submodules"
     echo "  all          - Install dotfiles, tools, and update submodules"
+    echo "  backup       - Backup existing dotfiles only"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
     echo "  --update-subs    - Update submodules along with dotfiles"
+    echo "  --no-backup      - Skip backing up existing dotfiles"
     echo ""
     echo "This script will automatically detect your OS and install appropriate configs."
+    echo "By default, existing dotfiles are backed up before installation."
 }
 
 # Install development tools
@@ -169,6 +245,7 @@ update_submodules() {
 parse_args() {
     local with_tools=false
     local update_subs=false
+    local no_backup=false
     
     for arg in "$@"; do
         case "$arg" in
@@ -178,10 +255,13 @@ parse_args() {
             --update-subs)
                 update_subs=true
                 ;;
+            --no-backup)
+                no_backup=true
+                ;;
         esac
     done
     
-    echo "$with_tools $update_subs"
+    echo "$with_tools $update_subs $no_backup"
 }
 
 # Main function
@@ -194,13 +274,14 @@ main() {
     args=($(parse_args "$@"))
     local with_tools="${args[0]}"
     local update_subs="${args[1]}"
+    local no_backup="${args[2]}"
     
     case "$command" in
         install)
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_stow "$os"
-            stow_packages "$os"
+            stow_packages "$os" "$no_backup"
             
             # Handle additional options
             if [[ "$with_tools" == "true" ]]; then
@@ -219,7 +300,10 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             unstow_packages "$os"
-            stow_packages "$os"
+            stow_packages "$os" "true"  # Skip backup on restow
+            ;;
+        backup)
+            backup_existing_dotfiles
             ;;
         tools)
             install_tools
@@ -231,7 +315,7 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_stow "$os"
-            stow_packages "$os"
+            stow_packages "$os" "$no_backup"
             install_tools
             update_submodules
             ;;

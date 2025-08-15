@@ -25,9 +25,11 @@ cd ~/.dotfiles
 ./install.sh install --update-subs   # Install dotfiles + update submodules
 ./install.sh install --no-backup     # Install without backing up existing files
 ./install.sh install --interactive   # Interactive mode with guided prompts
+./install.sh install --simulate      # Dry run - see what would be done
 
-# Interactive installation (recommended for first-time users)
-./install.sh install --interactive
+# Safe installation workflow (recommended)
+./install.sh install --simulate      # Preview changes first
+./install.sh install --interactive   # Then install interactively
 ```
 
 ## 📁 Repository Structure

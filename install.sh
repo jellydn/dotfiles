@@ -288,19 +288,26 @@ stow_packages() {
     local os="$1"
     local skip_backup="${2:-false}"
     local interactive="${3:-false}"
+    local simulate="${4:-false}"
     
-    log_info "Stowing packages for $os..."
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION MODE: Stowing packages for $os (dry run)..."
+    else
+        log_info "Stowing packages for $os..."
+    fi
     
     # Change to dotfiles directory
     cd "$(dirname "$0")"
     
     # Interactive backup choice if not skipped and interactive mode
-    if [[ "$skip_backup" != "true" && "$interactive" == "true" ]]; then
+    if [[ "$skip_backup" != "true" && "$interactive" == "true" && "$simulate" != "true" ]]; then
         if interactive_backup_choice; then
             backup_existing_dotfiles
         fi
-    elif [[ "$skip_backup" != "true" ]]; then
+    elif [[ "$skip_backup" != "true" && "$simulate" != "true" ]]; then
         backup_existing_dotfiles
+    elif [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would backup existing dotfiles (skipped in dry run)"
     fi
     
     # Interactive package selection
@@ -310,16 +317,29 @@ stow_packages() {
         local packages=($packages_string)
         
         for package in "${packages[@]}"; do
-            log_info "Stowing $package configurations..."
-            stow -v "$package"
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION: Would stow $package configurations..."
+                stow -nv "$package"
+            else
+                log_info "Stowing $package configurations..."
+                stow -v "$package"
+            fi
         done
     else
         # Non-interactive: install both common and OS-specific
-        log_info "Stowing common configurations..."
-        stow -v common
-        
-        log_info "Stowing $os-specific configurations..."
-        stow -v "$os"
+        if [[ "$simulate" == "true" ]]; then
+            log_info "🔍 SIMULATION: Would stow common configurations..."
+            stow -nv common
+            
+            log_info "🔍 SIMULATION: Would stow $os-specific configurations..."
+            stow -nv "$os"
+        else
+            log_info "Stowing common configurations..."
+            stow -v common
+            
+            log_info "Stowing $os-specific configurations..."
+            stow -v "$os"
+        fi
     fi
     
     log_success "All selected packages stowed successfully!"
@@ -358,10 +378,12 @@ show_usage() {
     echo "  --update-subs    - Update submodules along with dotfiles"
     echo "  --no-backup      - Skip backing up existing dotfiles"
     echo "  --interactive    - Interactive mode with prompts for choices"
+    echo "  --simulate       - Dry run - show what would be done without doing it"
     echo ""
     echo "This script will automatically detect your OS and install appropriate configs."
     echo "By default, existing dotfiles are backed up before installation."
     echo "Use --interactive for guided installation with user prompts."
+    echo "Use --simulate to preview changes before applying them."
 }
 
 # Install development tools
@@ -396,6 +418,7 @@ parse_args() {
     local update_subs=false
     local no_backup=false
     local interactive=false
+    local simulate=false
     
     for arg in "$@"; do
         case "$arg" in
@@ -411,10 +434,13 @@ parse_args() {
             --interactive)
                 interactive=true
                 ;;
+            --simulate)
+                simulate=true
+                ;;
         esac
     done
     
-    echo "$with_tools $update_subs $no_backup $interactive"
+    echo "$with_tools $update_subs $no_backup $interactive $simulate"
 }
 
 # Main function
@@ -429,17 +455,27 @@ main() {
     local update_subs="${args[1]}"
     local no_backup="${args[2]}"
     local interactive="${args[3]}"
+    local simulate="${args[4]}"
     
     case "$command" in
         install)
             os=$(detect_os)
             log_info "Detected OS: $os"
-            install_stow "$os"
+            
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION MODE: No actual changes will be made"
+            else
+                install_stow "$os"
+            fi
             
             # Interactive mode prompts
             if [[ "$interactive" == "true" ]]; then
                 echo ""
-                log_info "=== Interactive Installation Mode ==="
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "=== Simulation + Interactive Installation Mode ==="
+                else
+                    log_info "=== Interactive Installation Mode ==="
+                fi
                 
                 # Ask about additional components in interactive mode
                 if [[ "$with_tools" != "true" ]] && ask_yes_no "Install development tools with mise?" "n"; then
@@ -451,14 +487,22 @@ main() {
                 fi
             fi
             
-            stow_packages "$os" "$no_backup" "$interactive"
+            stow_packages "$os" "$no_backup" "$interactive" "$simulate"
             
             # Handle additional options
             if [[ "$with_tools" == "true" ]]; then
-                install_tools
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "🔍 SIMULATION: Would install development tools with mise"
+                else
+                    install_tools
+                fi
             fi
             if [[ "$update_subs" == "true" ]]; then
-                update_submodules
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "🔍 SIMULATION: Would update git submodules"
+                else
+                    update_submodules
+                fi
             fi
             ;;
         uninstall)
@@ -493,10 +537,19 @@ main() {
         all)
             os=$(detect_os)
             log_info "Detected OS: $os"
-            install_stow "$os"
-            stow_packages "$os" "$no_backup" "$interactive"
-            install_tools
-            update_submodules
+            
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION MODE: Complete setup (dry run)"
+                log_info "🔍 SIMULATION: Would install GNU Stow"
+                stow_packages "$os" "$no_backup" "$interactive" "$simulate"
+                log_info "🔍 SIMULATION: Would install development tools"
+                log_info "🔍 SIMULATION: Would update git submodules"
+            else
+                install_stow "$os"
+                stow_packages "$os" "$no_backup" "$interactive" "$simulate"
+                install_tools
+                update_submodules
+            fi
             ;;
         -h|--help|help)
             show_usage

@@ -49,7 +49,18 @@ is_stow_symlink() {
     
     if [[ -L "$path" ]]; then
         local target=$(readlink "$path")
-        if [[ "$target" == *"$dotfiles_dir"* ]]; then
+        # Convert relative path to absolute path for comparison
+        local absolute_target
+        if [[ "$target" = /* ]]; then
+            # Already absolute
+            absolute_target="$target"
+        else
+            # Relative path - resolve it
+            absolute_target="$(cd "$(dirname "$path")" && cd "$(dirname "$target")" && pwd)/$(basename "$target")"
+        fi
+        
+        # Check if the absolute target is within the dotfiles directory
+        if [[ "$absolute_target" == "$dotfiles_dir"* ]]; then
             return 0  # Is a stow symlink
         fi
     fi

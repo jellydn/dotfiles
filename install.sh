@@ -397,19 +397,313 @@ unstow_packages() {
     log_success "Unstow process completed!"
 }
 
+# Get available apps for stowing
+get_available_apps() {
+    local os="$1"
+    local apps=()
+    
+    # Check common apps
+    if [[ -d "common/.config" ]]; then
+        for app_dir in common/.config/*/; do
+            if [[ -d "$app_dir" ]]; then
+                local app_name=$(basename "$app_dir")
+                apps+=("$app_name")
+            fi
+        done
+    fi
+    
+    # Check OS-specific apps
+    if [[ -d "$os/.config" ]]; then
+        for app_dir in "$os"/.config/*/; do
+            if [[ -d "$app_dir" ]]; then
+                local app_name=$(basename "$app_dir")
+                apps+=("$app_name")
+            fi
+        done
+    fi
+    
+    # Check for root-level configs in OS directories
+    if [[ "$os" == "macos" ]]; then
+        if [[ -f "macos/.yabairc" ]]; then apps+=("yabai"); fi
+        if [[ -f "macos/.skhdrc" ]]; then apps+=("skhd"); fi
+        if [[ -f "macos/.aerospace.toml" ]]; then apps+=("aerospace"); fi
+        if [[ -f "macos/.alacritty.toml" ]]; then apps+=("alacritty"); fi
+        if [[ -f "macos/.wezterm.lua" ]]; then apps+=("wezterm"); fi
+    fi
+    
+    # Remove duplicates and sort
+    printf '%s\n' "${apps[@]}" | sort -u
+}
+
+# Validate app name
+validate_app() {
+    local app_name="$1"
+    local os="$2"
+    local available_apps
+    
+    available_apps=($(get_available_apps "$os"))
+    
+    for available_app in "${available_apps[@]}"; do
+        if [[ "$available_app" == "$app_name" ]]; then
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
+# Stow a specific app
+stow_app() {
+    local app_name="$1"
+    local os="$2"
+    local simulate="${3:-false}"
+    
+    # Change to dotfiles directory
+    cd "$(dirname "$0")"
+    
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would stow $app_name configuration..."
+    else
+        log_info "Stowing $app_name configuration..."
+    fi
+    
+    # Check if app exists in common
+    local stowed=false
+    if [[ -d "common/.config/$app_name" ]]; then
+        if [[ "$simulate" == "true" ]]; then
+            log_info "🔍 SIMULATION: Would stow common/$app_name..."
+            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' common --adopt 2>/dev/null | grep "$app_name" || true
+        else
+            log_info "Stowing common/$app_name..."
+            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt common
+        fi
+        stowed=true
+    fi
+    
+    # Check if app exists in OS-specific
+    if [[ -d "$os/.config/$app_name" ]]; then
+        if [[ "$simulate" == "true" ]]; then
+            log_info "🔍 SIMULATION: Would stow $os/$app_name..."
+            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$os" --adopt 2>/dev/null | grep "$app_name" || true
+        else
+            log_info "Stowing $os/$app_name..."
+            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$os"
+        fi
+        stowed=true
+    fi
+    
+    # Handle special macOS apps with root-level configs
+    if [[ "$os" == "macos" ]]; then
+        case "$app_name" in
+            yabai)
+                if [[ -f "macos/.yabairc" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow macos/.yabairc..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' macos --adopt 2>/dev/null | grep "yabairc" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt macos
+                    fi
+                    stowed=true
+                fi
+                ;;
+            skhd)
+                if [[ -f "macos/.skhdrc" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow macos/.skhdrc..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' macos --adopt 2>/dev/null | grep "skhdrc" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt macos
+                    fi
+                    stowed=true
+                fi
+                ;;
+            aerospace)
+                if [[ -f "macos/.aerospace.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow macos/.aerospace.toml..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' macos --adopt 2>/dev/null | grep "aerospace" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt macos
+                    fi
+                    stowed=true
+                fi
+                ;;
+            alacritty)
+                if [[ -f "macos/.alacritty.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow macos/.alacritty.toml..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' macos --adopt 2>/dev/null | grep "alacritty" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt macos
+                    fi
+                    stowed=true
+                fi
+                ;;
+            wezterm)
+                if [[ -f "macos/.wezterm.lua" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow macos/.wezterm.lua..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' macos --adopt 2>/dev/null | grep "wezterm" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt macos
+                    fi
+                    stowed=true
+                fi
+                ;;
+        esac
+    fi
+    
+    if [[ "$stowed" == "true" ]]; then
+        log_success "$app_name configuration stowed successfully!"
+    else
+        log_error "$app_name configuration not found for $os"
+        return 1
+    fi
+}
+
+# Unstow a specific app
+unstow_app() {
+    local app_name="$1"
+    local os="$2"
+    local simulate="${3:-false}"
+    
+    # Change to dotfiles directory
+    cd "$(dirname "$0")"
+    
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would unstow $app_name configuration..."
+    else
+        log_info "Unstowing $app_name configuration..."
+    fi
+    
+    local unstowed=false
+    
+    # Remove specific app symlinks from common
+    if [[ -d "common/.config/$app_name" ]]; then
+        local target_path="$HOME/.config/$app_name"
+        if [[ -L "$target_path" ]]; then
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION: Would remove $target_path"
+            else
+                log_info "Removing symlink: $target_path"
+                rm "$target_path"
+            fi
+            unstowed=true
+        fi
+    fi
+    
+    # Remove specific app symlinks from OS-specific
+    if [[ -d "$os/.config/$app_name" ]]; then
+        local target_path="$HOME/.config/$app_name"
+        if [[ -L "$target_path" ]]; then
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION: Would remove $target_path"
+            else
+                log_info "Removing symlink: $target_path"
+                rm "$target_path"
+            fi
+            unstowed=true
+        fi
+    fi
+    
+    # Handle special macOS apps with root-level configs
+    if [[ "$os" == "macos" ]]; then
+        case "$app_name" in
+            yabai)
+                if [[ -f "macos/.yabairc" ]] && [[ -L "$HOME/.yabairc" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.yabairc"
+                    else
+                        log_info "Removing symlink: $HOME/.yabairc"
+                        rm "$HOME/.yabairc"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            skhd)
+                if [[ -f "macos/.skhdrc" ]] && [[ -L "$HOME/.skhdrc" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.skhdrc"
+                    else
+                        log_info "Removing symlink: $HOME/.skhdrc"
+                        rm "$HOME/.skhdrc"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            aerospace)
+                if [[ -f "macos/.aerospace.toml" ]] && [[ -L "$HOME/.aerospace.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.aerospace.toml"
+                    else
+                        log_info "Removing symlink: $HOME/.aerospace.toml"
+                        rm "$HOME/.aerospace.toml"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            alacritty)
+                if [[ -f "macos/.alacritty.toml" ]] && [[ -L "$HOME/.alacritty.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.alacritty.toml"
+                    else
+                        log_info "Removing symlink: $HOME/.alacritty.toml"
+                        rm "$HOME/.alacritty.toml"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            wezterm)
+                if [[ -f "macos/.wezterm.lua" ]] && [[ -L "$HOME/.wezterm.lua" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.wezterm.lua"
+                    else
+                        log_info "Removing symlink: $HOME/.wezterm.lua"
+                        rm "$HOME/.wezterm.lua"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            tmux)
+                # Special handling for tmux which has multiple symlinks
+                local tmux_files=("$HOME/.tmux.conf" "$HOME/.tmux.conf.local")
+                for tmux_file in "${tmux_files[@]}"; do
+                    if [[ -L "$tmux_file" ]]; then
+                        if [[ "$simulate" == "true" ]]; then
+                            log_info "🔍 SIMULATION: Would remove $tmux_file"
+                        else
+                            log_info "Removing symlink: $tmux_file"
+                            rm "$tmux_file"
+                        fi
+                        unstowed=true
+                    fi
+                done
+                ;;
+        esac
+    fi
+    
+    if [[ "$unstowed" == "true" ]]; then
+        log_success "$app_name configuration unstowed successfully!"
+    else
+        log_warning "$app_name configuration was not found or already unstowed for $os"
+    fi
+}
+
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|tools|submodules|all|backup|fish]"
+    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish]"
     echo ""
     echo "Commands:"
-    echo "  install      - Install dotfiles only (default)"
-    echo "  uninstall    - Remove dotfiles symlinks"
-    echo "  restow       - Remove and reinstall dotfiles"
-    echo "  tools        - Install development tools with mise"
-    echo "  fish         - Install Fish shell and Fisher plugin manager"
-    echo "  submodules   - Update git submodules"
-    echo "  all          - Install dotfiles, tools, and update submodules"
-    echo "  backup       - Backup existing dotfiles only"
+    echo "  install           - Install dotfiles only (default)"
+    echo "  uninstall         - Remove dotfiles symlinks"
+    echo "  restow            - Remove and reinstall dotfiles"
+    echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
+    echo "  unstow-app <app>  - Unstow a specific app configuration"
+    echo "  tools             - Install development tools with mise"
+    echo "  fish              - Install Fish shell and Fisher plugin manager"
+    echo "  submodules        - Update git submodules"
+    echo "  all               - Install dotfiles, tools, and update submodules"
+    echo "  backup            - Backup existing dotfiles only"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
@@ -417,6 +711,12 @@ show_usage() {
     echo "  --no-backup      - Skip backing up existing dotfiles"
     echo "  --interactive    - Interactive mode with prompts for choices"
     echo "  --simulate       - Dry run - show what would be done without doing it"
+    echo ""
+    echo "Examples:"
+    echo "  $0 stow-app tmux                # Stow only tmux configuration"
+    echo "  $0 unstow-app tmux              # Remove tmux configuration symlinks"
+    echo "  $0 stow-app nvim --simulate     # Preview nvim stowing without changes"
+    echo "  $0 unstow-app nvim --simulate   # Preview nvim unstowing without changes"
     echo ""
     echo "This script will automatically detect your OS and install appropriate configs."
     echo "By default, existing dotfiles are backed up before installation."
@@ -551,6 +851,30 @@ parse_args() {
     echo "$with_tools $update_subs $no_backup $interactive $simulate"
 }
 
+# Get the app name from arguments (skipping command and options)
+get_app_name() {
+    local found_command=false
+    
+    for arg in "$@"; do
+        case "$arg" in
+            stow-app|unstow-app)
+                found_command=true
+                ;;
+            --*)
+                # Skip options
+                ;;
+            *)
+                if [[ "$found_command" == "true" ]]; then
+                    echo "$arg"
+                    return 0
+                fi
+                ;;
+        esac
+    done
+    
+    echo ""
+}
+
 # Main function
 main() {
     local command="${1:-install}"
@@ -566,6 +890,66 @@ main() {
     local simulate="${args[4]}"
     
     case "$command" in
+        stow-app)
+            local app_name
+            app_name=$(get_app_name "$@")
+            
+            if [[ -z "$app_name" ]]; then
+                log_error "App name required for stow-app command"
+                echo ""
+                echo "Available apps:"
+                os=$(detect_os)
+                get_available_apps "$os" | sed 's/^/  - /'
+                echo ""
+                show_usage
+                exit 1
+            fi
+            
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            
+            if ! validate_app "$app_name" "$os"; then
+                log_error "App '$app_name' not found"
+                echo ""
+                echo "Available apps:"
+                get_available_apps "$os" | sed 's/^/  - /'
+                exit 1
+            fi
+            
+            if [[ "$simulate" != "true" ]]; then
+                install_stow "$os"
+            fi
+            
+            stow_app "$app_name" "$os" "$simulate"
+            ;;
+        unstow-app)
+            local app_name
+            app_name=$(get_app_name "$@")
+            
+            if [[ -z "$app_name" ]]; then
+                log_error "App name required for unstow-app command"
+                echo ""
+                echo "Available apps:"
+                os=$(detect_os)
+                get_available_apps "$os" | sed 's/^/  - /'
+                echo ""
+                show_usage
+                exit 1
+            fi
+            
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            
+            if ! validate_app "$app_name" "$os"; then
+                log_error "App '$app_name' not found"
+                echo ""
+                echo "Available apps:"
+                get_available_apps "$os" | sed 's/^/  - /'
+                exit 1
+            fi
+            
+            unstow_app "$app_name" "$os" "$simulate"
+            ;;
         install)
             os=$(detect_os)
             log_info "Detected OS: $os"

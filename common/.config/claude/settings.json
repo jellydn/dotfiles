@@ -15,7 +15,6 @@
       "WebSearch(**)",
       "TodoRead()",
       "TodoWrite(**)",
-      "Task(**)",
       "Bash(git status*)",
       "Bash(git log*)",
       "Bash(git diff*)",

@@ -9,7 +9,8 @@ source "$HOME/.cargo/env.fish"
 
 # Alias
 alias v="nvim"
-alias ccs="claude --dangerously-skip-permissions"
+alias claude="~/.claude/local/claude"
+alias ccs="~/.claude/local/claude --dangerously-skip-permissions"
 
 # Kanagawa Fish shell theme
 # A template was taken and modified from Tokyonight:

@@ -43,7 +43,7 @@ tmux ls
 ## Key Bindings
 
 ### Prefix Key
-- **Prefix**: `Ctrl+s` (changed from default `Ctrl+b`)
+- **Prefix**: `Ctrl+a` (GNU Screen style, minimal conflicts)
 
 ### Session Management
 
@@ -100,13 +100,17 @@ tmux ls
 
 | Keybinding | Action |
 |------------|--------|
-| `PageUp` | Scroll up (enters copy mode) |
-| `PageDown` | Scroll down |
+| `PageUp` | Smart scroll up (enters copy mode when not in vim) |
+| `PageDown` | Smart scroll down (pass-through when in vim) |
 | `Prefix + [` | Enter copy mode |
 | `Space` | Start selection (in copy mode) |
 | `Enter` | Copy selection (in copy mode) |
 | `Prefix + ]` | Paste |
 | `q` | Exit copy mode |
+| `j/k` | Scroll down/up (in copy mode) |
+| `Ctrl+u/Ctrl+d` | Page up/down (in copy mode) |
+
+*Note: PageUp/PageDown are smart - they work for tmux when not in vim, and pass through to vim when in vim*
 
 ### Miscellaneous
 
@@ -176,9 +180,9 @@ To customize the configuration, edit `~/.config/tmux/tmux.conf`:
 
 ### Change Prefix Key
 ```tmux
-# Change back to Ctrl+b if preferred
+# Change back to Ctrl+b if preferred (default tmux)
 set -g prefix C-b
-unbind C-s
+unbind C-a
 bind C-b send-prefix
 ```
 

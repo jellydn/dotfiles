@@ -68,11 +68,13 @@ tmux ls
 
 | Keybinding | Action |
 |------------|--------|
-| `Prefix + %` | Split pane vertically |
-| `Prefix + "` | Split pane horizontally |
+| `Prefix + -` | Split pane vertically |
+| `Prefix + _` | Split pane horizontally |
 | `Prefix + x` | Kill current pane |
 | `Prefix + z` | Toggle pane zoom |
 | `Prefix + q` | Show pane numbers |
+
+*Note: All split commands maintain the current directory*
 
 ### Vim-style Pane Navigation
 

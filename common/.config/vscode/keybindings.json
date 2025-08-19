@@ -1,0 +1,105 @@
+[
+	// Folding, refer https://github.com/vscode-neovim/vscode-neovim/issues/58#issuecomment-1316470317
+	{
+		"command": "editor.toggleFold",
+		"key": "z a",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.unfoldAll",
+		"key": "z shift+r",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.foldAll",
+		"key": "z shift+m",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.unfold",
+		"key": "z o",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.unfoldRecursively",
+		"key": "z shift+o",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.fold",
+		"key": "z c",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.foldRecursively",
+		"key": "z shift+c",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.foldAllExcept",
+		"key": "z shift+v",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.gotoNextFold",
+		"key": "z j",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	{
+		"command": "editor.gotoPreviousFold",
+		"key": "z k",
+		"when": "editorTextFocus && neovim.mode == normal"
+	},
+	// Use single tab
+	{
+		"key": "cmd+k shift+t",
+		"command": "workbench.action.showEditorTab"
+	},
+	// Use multiple tabs
+	{
+		"key": "cmd+k shift+m",
+		"command": "workbench.action.showMultipleEditorTabs"
+	},
+	// Toggle status bar
+	{
+		"key": "cmd+k shift+s",
+		"command": "workbench.action.toggleStatusbarVisibility"
+	},
+	// Toggle record screen cast
+	{
+		"key": "cmd+k shift+r",
+		"command": "workbench.action.toggleScreencastMode"
+	},
+	// Toggle error lens - warning
+	{
+		"key": "cmd+k shift+w",
+		"command": "errorLens.toggleWarning"
+	},
+	// TODO: Wait for this to resolve https://github.com/usernamehw/vscode-error-lens/issues/208
+	// Setup which-key
+	{
+		"key": "cmd+space", // Disable Spotlight and use Raycast with Alt+space, refer https://manual.raycast.com/hotkey
+		"command": "whichkey.show",
+		"when": "editorTextFocus"
+	},
+	// Toggle full screen
+	{
+		"key": "cmd+k f",
+		"command": "workbench.action.toggleMaximizedPanel"
+	},
+	// Open Github Pull Request
+	{
+		"key": "cmd+k g",
+		"command": "workbench.view.extension.github-pull-requests"
+	},
+	// Toggle version lens
+	{
+		"key": "cmd+k shift+v",
+		"command": "versionlens.icons.showVersionLenses"
+	},
+	// Zen mode
+	{
+		"key": "cmd+k c",
+		"command": "workbench.action.toggleCenteredLayout"
+	}
+]

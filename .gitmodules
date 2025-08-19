@@ -1,6 +1,3 @@
 [submodule "common/.config/nvim"]
 	path = common/.config/nvim
 	url = https://github.com/jellydn/tiny-nvim.git
-[submodule "common/.config/vscode"]
-	path = common/.config/vscode
-	url = https://github.com/jellydn/vscode-like-pro.git

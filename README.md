@@ -451,9 +451,25 @@ defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 
 [![Image from Gyazo](https://i.gyazo.com/f96c1d8d35126cc5f259629f61eea64e.png)](https://gyazo.com/f96c1d8d35126cc5f259629f61eea64e)
 
-### Oh My Tmux
+### Tmux
 
-- Refer to [./tmux/README.md](/tmux/README.md) for more details.
+After installing the dotfiles, you need to install tmux plugins:
+
+1. Install TPM (Tmux Plugin Manager):
+   ```bash
+   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+   ```
+
+2. Reload tmux configuration:
+   ```bash
+   tmux source-file ~/.config/tmux/tmux.conf
+   ```
+
+3. Install plugins by pressing `Ctrl+a` (prefix) + `I` inside tmux
+
+**URL Opening:**
+- **Cmd+click** (macOS) - Click URLs while holding Cmd to open in browser (no plugins needed)
+- Built-in terminal URL handling via terminal overrides
 
 ### Helix
 

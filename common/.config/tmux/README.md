@@ -45,6 +45,14 @@ tmux ls
 ### Prefix Key
 - **Prefix**: `Ctrl+a` (GNU Screen style, minimal conflicts)
 
+### Configuration Management
+
+| Keybinding | Action |
+|------------|--------|
+| `Prefix + r` | Reload configuration |
+| `Prefix + e` | Edit configuration (opens in nvim) |
+| `Prefix + Ctrl+a` | Send prefix to nested session |
+
 ### Session Management
 
 | Keybinding | Action |
@@ -62,6 +70,8 @@ tmux ls
 | `Prefix + &` | Kill current window |
 | `Prefix + n` | Next window |
 | `Prefix + p` | Previous window |
+| `Prefix + Tab` | Next window |
+| `Prefix + Shift + Tab` | Previous window |
 | `Prefix + 0-9` | Switch to window by number |
 
 ### Pane Management
@@ -86,17 +96,19 @@ tmux ls
 | `Prefix + l` | Select right pane |
 
 ### Smart Vim-Tmux Navigation
-*Works both in tmux and vim without prefix*
+*Works both in tmux and vim without prefix - intelligently detects vim processes*
 
 | Keybinding | Action |
 |------------|--------|
-| `Ctrl + h` | Navigate left (vim pane or tmux pane) |
-| `Ctrl + j` | Navigate down (vim pane or tmux pane) |
-| `Ctrl + k` | Navigate up (vim pane or tmux pane) |
-| `Ctrl + l` | Navigate right (vim pane or tmux pane) |
-| `Ctrl + \` | Navigate to last pane |
+| `Ctrl + h` | Navigate left (vim-aware: vim pane or tmux pane) |
+| `Ctrl + j` | Navigate down (vim-aware: vim pane or tmux pane) |
+| `Ctrl + k` | Navigate up (vim-aware: vim pane or tmux pane) |
+| `Ctrl + l` | Navigate right (vim-aware: vim pane or tmux pane) |
+| `Ctrl + \` | Navigate to last pane (vim-aware) |
 
-### Scrolling & Copy Mode
+**Smart Detection**: Automatically detects vim, nvim, fzf, and lazygit processes and routes navigation accordingly. Also works in copy-mode-vi.
+
+### Smart Scrolling & Copy Mode
 
 | Keybinding | Action |
 |------------|--------|
@@ -110,14 +122,15 @@ tmux ls
 | `j/k` | Scroll down/up (in copy mode) |
 | `Ctrl+u/Ctrl+d` | Page up/down (in copy mode) |
 
-*Note: PageUp/PageDown are smart - they work for tmux when not in vim, and pass through to vim when in vim*
+**Smart Behavior**: 
+- `PageUp/PageDown` automatically detect vim processes and pass through when vim is active
+- `Ctrl+h/j/k/l` navigation also works within copy-mode-vi
+- All smart keys use process detection to avoid conflicts
 
 ### Miscellaneous
 
 | Keybinding | Action |
 |------------|--------|
-| `Prefix + r` | Reload configuration |
-| `Prefix + e` | Edit configuration (opens in nvim) |
 | `Prefix + t` | Show clock |
 | `Prefix + ?` | List all key bindings |
 | `Prefix + :` | Command prompt |
@@ -154,6 +167,16 @@ Persist tmux sessions across system restarts.
 - Restores vim and nvim sessions
 - Saves and restores directory structure
 
+## Transparency
+
+The configuration applies transparent background by default:
+```tmux
+# Transparent status bar background
+set -g status-style bg=default
+```
+
+This allows terminal transparency to show through the status bar.
+
 ## Color Scheme
 
 The configuration uses the Kanagawa color palette:
@@ -170,7 +193,6 @@ The configuration uses the Kanagawa color palette:
 ```
 ~/.config/tmux/
 ├── tmux.conf          # Main configuration file
-├── tmux.conf.backup   # Backup of previous config
 └── README.md          # This file
 ```
 
@@ -195,9 +217,9 @@ set -g pane-active-border-style "fg=$kanagawa_custom_blue"
 
 ### Add Custom Key Bindings
 ```tmux
-# Example: Quick window splits
+# Example: Alternative split bindings
 bind | split-window -h -c '#{pane_current_path}'
-bind - split-window -v -c '#{pane_current_path}'
+bind \ split-window -v -c '#{pane_current_path}'
 ```
 
 ## Troubleshooting

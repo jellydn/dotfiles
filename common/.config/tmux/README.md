@@ -115,8 +115,8 @@ tmux ls
 | `PageUp` | Smart scroll up (enters copy mode when not in vim) |
 | `PageDown` | Smart scroll down (pass-through when in vim) |
 | `Prefix + [` | Enter copy mode |
-| `Space` | Start selection (in copy mode) |
-| `Enter` | Copy selection (in copy mode) |
+| `v` | Start selection (in copy mode) |
+| `y` | Copy selection and exit (in copy mode) |
 | `Prefix + ]` | Paste |
 | `q` | Exit copy mode |
 | `j/k` | Scroll down/up (in copy mode) |

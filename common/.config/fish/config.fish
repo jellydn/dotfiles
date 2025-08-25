@@ -6,11 +6,16 @@ if command -v zoxide >/dev/null
     zoxide init fish | source
 end
 source "$HOME/.cargo/env.fish"
+if test -f ~/.cmdk/cmdk.fish
+    source ~/.cmdk/cmdk.fish
+end
 
 # Alias
 alias v="nvim"
 alias claude="~/.claude/local/claude"
 alias ccs="~/.claude/local/claude --dangerously-skip-permissions"
+
+set -gx EDITOR nvim
 
 # Kanagawa Fish shell theme
 # A template was taken and modified from Tokyonight:

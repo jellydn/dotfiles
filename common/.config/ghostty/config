@@ -63,3 +63,6 @@ keybind = super+shift+f=write_selection_file:open
 # Quick term
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 
+# Fzf
+keybind = cmd+l=text:cmdk -s\r
+

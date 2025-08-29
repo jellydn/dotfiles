@@ -12,6 +12,7 @@ end
 
 # Alias
 alias v="nvim"
+alias lg="lazygit"
 alias claude="~/.claude/local/claude"
 alias ccs="~/.claude/local/claude --dangerously-skip-permissions"
 
@@ -54,4 +55,4 @@ set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
 # Need to install https://github.com/tobi/try
-val "$(~/.local/try.rb init ~/src/tries | string collect)"
+eval "$(~/.local/try.rb init ~/src/tries | string collect)"

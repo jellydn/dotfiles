@@ -966,89 +966,115 @@ show_usage() {
 install_fonts() {
     log_info "Installing required fonts..."
     
-    # Create fonts directory
-    mkdir -p ~/.local/share/fonts/MapleMono
-    
-    # Check if Maple Mono Nerd Font is already installed
-    if fc-list | grep -q -i "Maple Mono NF"; then
-        log_info "Maple Mono Nerd Font is already installed"
-        return 0
-    fi
-    
-    log_info "Downloading Maple Mono Nerd Font..."
-    
-    # Download Maple Mono Nerd Font zip file
-    local font_dir="$HOME/.local/share/fonts/MapleMono"
-    local temp_dir="/tmp/maple-font-$$"
-    local zip_file="$temp_dir/MapleMono-NF.zip"
-    
-    # Create temporary directory
-    mkdir -p "$temp_dir"
-    
-    # Download the latest Maple Mono NF zip from GitHub releases
-    if curl -fL --max-time 60 \
-        -o "$zip_file" \
-        "https://github.com/subframe7536/Maple-font/releases/download/v7.6/MapleMono-NF-unhinted.zip"; then
-        log_info "Downloaded MapleMono-NF-unhinted.zip"
-    else
-        log_error "Failed to download Maple Mono Nerd Font"
-        rm -rf "$temp_dir"
-        return 1
-    fi
-    
-    # Extract zip file
-    if command_exists unzip; then
-        log_info "Extracting Maple Mono font files..."
-        if unzip -q "$zip_file" -d "$temp_dir"; then
-            log_info "Successfully extracted font archive"
+    # Check if running on macOS
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # Check if Homebrew is available
+        if ! command_exists brew; then
+            log_error "Homebrew is required for font installation on macOS"
+            return 1
+        fi
+        
+        # Check if Maple Mono Nerd Font is already installed
+        if brew list --cask font-maple-mono-nf >/dev/null 2>&1; then
+            log_info "Maple Mono Nerd Font is already installed"
+            return 0
+        fi
+        
+        log_info "Installing Maple Mono Nerd Font via Homebrew..."
+        if brew install --cask font-maple-mono-nf; then
+            log_success "Maple Mono Nerd Font installed successfully"
         else
-            log_error "Failed to extract font archive"
-            rm -rf "$temp_dir"
+            log_error "Failed to install Maple Mono Nerd Font via Homebrew"
             return 1
         fi
     else
-        log_error "unzip command not found. Please install unzip and try again."
-        rm -rf "$temp_dir"
-        return 1
-    fi
-    
-    # Copy TTF files to font directory
-    local ttf_count=0
-    if find "$temp_dir" -name "*.ttf" -print0 | while IFS= read -r -d '' ttf_file; do
-        cp "$ttf_file" "$font_dir/"
-        log_info "Installed $(basename "$ttf_file")"
-        ((ttf_count++))
-    done; then
-        ttf_count=$(find "$font_dir" -name "*.ttf" | wc -l)
-    fi
-    
-    # Clean up temporary directory
-    rm -rf "$temp_dir"
-    
-    if [[ $ttf_count -eq 0 ]]; then
-        log_error "No TTF files found in the downloaded archive"
-        return 1
-    fi
-    
-    log_info "Installed $ttf_count Maple Mono font variants"
-    
-    # Refresh font cache
-    if command_exists fc-cache; then
-        log_info "Refreshing font cache..."
-        fc-cache -fv ~/.local/share/fonts/MapleMono >/dev/null 2>&1
-        log_success "Font cache refreshed"
+        # For non-macOS systems, keep the existing manual installation method
+        log_info "Manual font installation for non-macOS system"
         
-        # Brief pause to ensure fonts are available
-        sleep 1
-    else
-        log_warning "fc-cache not found, fonts may not be immediately available"
-    fi
-    
-    # Verify installation
-    if fc-list | grep -q -i "Maple Mono NF"; then
-        log_success "Maple Mono Nerd Font installed successfully"
-    else
-        log_warning "Font installation may not have completed successfully"
+        # Create fonts directory
+        mkdir -p ~/.local/share/fonts/MapleMono
+        
+        # Check if Maple Mono Nerd Font is already installed
+        if fc-list | grep -q -i "Maple Mono NF"; then
+            log_info "Maple Mono Nerd Font is already installed"
+            return 0
+        fi
+        
+        log_info "Downloading Maple Mono Nerd Font..."
+        
+        # Download Maple Mono Nerd Font zip file
+        local font_dir="$HOME/.local/share/fonts/MapleMono"
+        local temp_dir="/tmp/maple-font-$$"
+        local zip_file="$temp_dir/MapleMono-NF.zip"
+        
+        # Create temporary directory
+        mkdir -p "$temp_dir"
+        
+        # Download the latest Maple Mono NF zip from GitHub releases
+        if curl -fL --max-time 60 \
+            -o "$zip_file" \
+            "https://github.com/subframe7536/Maple-font/releases/download/v7.6/MapleMono-NF-unhinted.zip"; then
+            log_info "Downloaded MapleMono-NF-unhinted.zip"
+        else
+            log_error "Failed to download Maple Mono Nerd Font"
+            rm -rf "$temp_dir"
+            return 1
+        fi
+        
+        # Extract zip file
+        if command_exists unzip; then
+            log_info "Extracting Maple Mono font files..."
+            if unzip -q "$zip_file" -d "$temp_dir"; then
+                log_info "Successfully extracted font archive"
+            else
+                log_error "Failed to extract font archive"
+                rm -rf "$temp_dir"
+                return 1
+            fi
+        else
+            log_error "unzip command not found. Please install unzip and try again."
+            rm -rf "$temp_dir"
+            return 1
+        fi
+        
+        # Copy TTF files to font directory
+        local ttf_count=0
+        if find "$temp_dir" -name "*.ttf" -print0 | while IFS= read -r -d '' ttf_file; do
+            cp "$ttf_file" "$font_dir/"
+            log_info "Installed $(basename "$ttf_file")"
+            ((ttf_count++))
+        done; then
+            ttf_count=$(find "$font_dir" -name "*.ttf" | wc -l)
+        fi
+        
+        # Clean up temporary directory
+        rm -rf "$temp_dir"
+        
+        if [[ $ttf_count -eq 0 ]]; then
+            log_error "No TTF files found in the downloaded archive"
+            return 1
+        fi
+        
+        log_info "Installed $ttf_count Maple Mono font variants"
+        
+        # Refresh font cache
+        if command_exists fc-cache; then
+            log_info "Refreshing font cache..."
+            fc-cache -fv ~/.local/share/fonts/MapleMono >/dev/null 2>&1
+            log_success "Font cache refreshed"
+            
+            # Brief pause to ensure fonts are available
+            sleep 1
+        else
+            log_warning "fc-cache not found, fonts may not be immediately available"
+        fi
+        
+        # Verify installation
+        if fc-list | grep -q -i "Maple Mono NF"; then
+            log_success "Maple Mono Nerd Font installed successfully"
+        else
+            log_warning "Font installation may not have completed successfully"
+        fi
     fi
 }
 

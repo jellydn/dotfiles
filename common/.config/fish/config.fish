@@ -63,6 +63,6 @@ set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
 # Install https://github.com/tobi/try if available
-# if test -f ~/.local/try.rb
-#     ~/.local/try.rb init ~/src/tries | string collect | source
-# end
+if test -f ~/.local/try.rb
+    ~/.local/try.rb init ~/src/tries | string collect | source
+end

@@ -1,11 +1,19 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
-~/.local/bin/mise activate fish | source
+
+if test -f ~/.local/bin/mise
+    ~/.local/bin/mise activate fish | source
+end
+
 if command -v zoxide >/dev/null
     zoxide init fish | source
 end
-source "$HOME/.cargo/env.fish"
+
+if test -f "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
+end
+
 if test -f ~/.cmdk/cmdk.fish
     source ~/.cmdk/cmdk.fish
 end
@@ -54,5 +62,7 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-# Need to install https://github.com/tobi/try
-eval "$(~/.local/try.rb init ~/src/tries | string collect)"
+# Install https://github.com/tobi/try if available
+# if test -f ~/.local/try.rb
+#     ~/.local/try.rb init ~/src/tries | string collect | source
+# end

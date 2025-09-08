@@ -935,7 +935,7 @@ show_usage() {
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
     echo "  unstow-app <app>  - Unstow a specific app configuration"
     echo "  tools             - Install development tools with mise"
-    echo "  fish              - Install Fish shell and Fisher plugin manager"
+    echo "  fish              - Install Fish shell, Fisher plugin manager, and set as default shell"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
     echo "  backup            - Backup existing dotfiles only"
@@ -1041,6 +1041,34 @@ install_fish() {
         log_success "Fish plugins installed successfully"
     else
         log_info "No fish_plugins file found, skipping plugin installation"
+    fi
+    
+    # Change default shell to fish
+    local fish_path
+    fish_path=$(command -v fish)
+    
+    if [[ -n "$fish_path" ]]; then
+        # Check if fish is in /etc/shells
+        if ! grep -q "^$fish_path$" /etc/shells 2>/dev/null; then
+            log_info "Adding fish to /etc/shells..."
+            echo "$fish_path" | sudo tee -a /etc/shells >/dev/null
+        fi
+        
+        # Check if fish is already the default shell
+        if [[ "$SHELL" == "$fish_path" ]]; then
+            log_info "Fish is already the default shell"
+        else
+            log_info "Changing default shell to fish..."
+            if chsh -s "$fish_path"; then
+                log_success "Default shell changed to fish"
+                log_info "Please restart your terminal or log out and back in for the change to take effect"
+            else
+                log_warning "Failed to change default shell. You can manually run: chsh -s $fish_path"
+            fi
+        fi
+    else
+        log_error "Fish shell not found in PATH"
+        return 1
     fi
 }
 

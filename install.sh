@@ -26,20 +26,113 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Detect OS
-detect_os() {
+# Enhanced OS and architecture detection
+detect_platform() {
+    local os arch
+    
     case "$(uname -s)" in
         Darwin*)
-            echo "macos"
+            os="macos"
             ;;
         Linux*)
-            echo "linux"
+            os="linux"
+            ;;
+        CYGWIN*|MINGW*|MSYS*)
+            os="windows"
+            log_warning "Windows support is experimental"
             ;;
         *)
             log_error "Unsupported operating system: $(uname -s)"
+            log_info "Supported: macOS, Linux, Windows (experimental)"
             exit 1
             ;;
     esac
+    
+    case "$(uname -m)" in
+        x86_64|amd64)
+            arch="x64"
+            ;;
+        arm64|aarch64)
+            arch="arm64"
+            ;;
+        i386|i686)
+            arch="x86"
+            ;;
+        *)
+            arch="$(uname -m)"
+            log_warning "Unknown architecture: $arch"
+            ;;
+    esac
+    
+    echo "${os}-${arch}"
+}
+
+# Legacy compatibility function
+detect_os() {
+    detect_platform | cut -d'-' -f1
+}
+
+# Validate stow prerequisites
+validate_stow_environment() {
+    local os="$1"
+    local errors=0
+    
+    log_info "Validating stow environment..."
+    
+    # Check stow installation
+    if ! command_exists stow; then
+        log_error "GNU Stow is not installed"
+        ((errors++))
+    fi
+    
+    # Check dotfiles directory structure
+    cd "$(dirname "$0")" || {
+        log_error "Cannot access dotfiles directory"
+        return 1
+    }
+    
+    # Check required packages exist
+    for package in "common" "$os"; do
+        if [[ ! -d "$package" ]]; then
+            log_error "Package directory '$package' not found"
+            ((errors++))
+        fi
+    done
+    
+    # Check write permissions
+    if [[ ! -w "$HOME" ]]; then
+        log_error "No write permission to HOME directory: $HOME"
+        ((errors++))
+    fi
+    
+    # Check for conflicting management systems
+    if [[ -d "$HOME/.oh-my-zsh" ]] && [[ -d "common/.config/zsh" || -d "$os/.config/zsh" ]]; then
+        log_warning "Oh-My-Zsh detected - may conflict with zsh dotfiles"
+    fi
+    
+    if [[ -d "$HOME/.vim" ]] && [[ -L "$HOME/.vim" ]] && [[ -d "common/.config/nvim" ]]; then
+        log_warning "Existing vim setup detected - may conflict with nvim config"
+    fi
+    
+    return $errors
+}
+
+# Cross-platform realpath implementation
+portable_realpath() {
+    local path="$1"
+    
+    if command_exists realpath; then
+        realpath "$path" 2>/dev/null
+    elif command_exists greadlink; then
+        # macOS with GNU coreutils
+        greadlink -f "$path" 2>/dev/null
+    elif [[ "$(uname -s)" == "Darwin" ]]; then
+        # macOS native fallback
+        perl -MCwd -e 'print Cwd::abs_path shift' "$path" 2>/dev/null
+    else
+        # Fallback for other systems  
+        echo "$(cd "$(dirname "$path")" 2>/dev/null && pwd -P)/$(basename "$path")" 2>/dev/null
+    fi
 }
 
 # Check if command exists
@@ -89,10 +182,24 @@ install_stow() {
                 sudo pacman -S --noconfirm stow
             elif command_exists dnf; then
                 sudo dnf install -y stow
+            elif command_exists yum; then
+                sudo yum install -y stow
             elif command_exists zypper; then
                 sudo zypper install -y stow
+            elif command_exists apk; then
+                sudo apk add stow
+            elif command_exists xbps-install; then
+                sudo xbps-install -S stow
+            elif command_exists emerge; then
+                sudo emerge -av stow
             else
-                log_error "Package manager not found. Please install GNU Stow manually."
+                log_error "No supported package manager found for stow installation"
+                log_info "Please install GNU Stow manually:"
+                log_info "  - Debian/Ubuntu: sudo apt install stow"
+                log_info "  - RHEL/CentOS: sudo dnf install stow"
+                log_info "  - Arch Linux: sudo pacman -S stow"
+                log_info "  - Alpine Linux: sudo apk add stow"
+                log_info "  - From source: https://www.gnu.org/software/stow/"
                 exit 1
             fi
             ;;
@@ -318,6 +425,14 @@ stow_packages() {
     # Change to dotfiles directory
     cd "$(dirname "$0")"
     
+    # Validate environment before proceeding (skip in simulation mode)
+    if [[ "$simulate" != "true" ]]; then
+        if ! validate_stow_environment "$os"; then
+            log_error "Environment validation failed. Aborting installation."
+            return 1
+        fi
+    fi
+    
     # Interactive backup choice if not skipped and interactive mode
     if [[ "$skip_backup" != "true" && "$interactive" == "true" && "$simulate" != "true" ]]; then
         if interactive_backup_choice; then
@@ -382,20 +497,21 @@ cleanup_orphaned_symlinks() {
     # Function to check if a symlink points to our dotfiles directory
     is_dotfiles_symlink() {
         local symlink="$1"
-        local target
+        local target resolved_target
+        
         target=$(readlink "$symlink" 2>/dev/null) || return 1
         
         # Convert to absolute path if relative
         if [[ "$target" == /* ]]; then
             # Already absolute
-            true
+            resolved_target="$target"
         else
-            # Convert relative to absolute
-            target="$(cd "$(dirname "$symlink")" && realpath "$target" 2>/dev/null)" || return 1
+            # Convert relative to absolute using our portable function
+            resolved_target="$(cd "$(dirname "$symlink")" 2>/dev/null && portable_realpath "$target")" || return 1
         fi
         
         # Check if target is within our dotfiles directory
-        [[ "$target" == "$dotfiles_dir"* ]]
+        [[ "$resolved_target" == "$dotfiles_dir"* ]]
     }
     
     # Find and clean orphaned symlinks in common locations
@@ -557,15 +673,39 @@ stow_app() {
         echo "$temp_dir"
     }
     
+    # Pre-flight check for stow conflicts
+    check_stow_conflicts() {
+        local package_dir="$1"
+        local conflicts=0
+        
+        if [[ ! -d "$package_dir" ]]; then
+            return 1
+        fi
+        
+        # Use stow's dry-run mode to detect conflicts
+        if ! (cd "$(dirname "$package_dir")" && stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$(basename "$package_dir")" >/dev/null 2>&1); then
+            log_warning "Potential conflicts detected for package: $(basename "$package_dir")"
+            ((conflicts++))
+        fi
+        
+        return $conflicts
+    }
+    
     # Helper function to stow from temporary directory
     stow_from_temp() {
         local temp_dir="$1"
         local simulate_flag="$2"
         local result=0
         
+        # Pre-flight conflict check
+        if ! check_stow_conflicts "$temp_dir"; then
+            log_info "Conflict detected, using --adopt to resolve"
+        fi
+        
         if [[ "$simulate_flag" == "true" ]]; then
             (cd "$temp_dir/.." && stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$(basename "$temp_dir")") || result=$?
         else
+            # Use --adopt to handle existing files gracefully
             (cd "$temp_dir/.." && stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$(basename "$temp_dir")") || result=$?
         fi
         
@@ -806,7 +946,7 @@ unstow_app() {
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish|cleanup]"
+    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish|cleanup|status]"
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
@@ -820,6 +960,7 @@ show_usage() {
     echo "  all               - Install dotfiles, tools, and update submodules"
     echo "  backup            - Backup existing dotfiles only"
     echo "  cleanup           - Remove orphaned dotfiles symlinks"
+    echo "  status            - Show current dotfiles installation status"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
@@ -933,6 +1074,147 @@ update_submodules() {
     else
         log_error "update-submodules.sh script not found or not executable"
         return 1
+    fi
+}
+
+# Show comprehensive dotfiles status
+show_dotfiles_status() {
+    local os="$1"
+    local platform="$2"
+    
+    cd "$(dirname "$0")" || {
+        log_error "Cannot access dotfiles directory"
+        return 1
+    }
+    
+    echo "🔧 Dotfiles Status Report"
+    echo "========================"
+    echo "Platform: $platform"
+    echo "Dotfiles directory: $(pwd)"
+    echo "Timestamp: $(date)"
+    echo ""
+    
+    # System information
+    echo "📋 System Information:"
+    echo "  OS: $(uname -s) $(uname -r)"
+    echo "  Architecture: $(uname -m)"
+    echo "  Shell: $SHELL"
+    echo "  User: $USER"
+    echo "  Home: $HOME"
+    echo ""
+    
+    # Stow availability
+    echo "🔨 Tools Status:"
+    if command_exists stow; then
+        echo "  ✅ GNU Stow: $(stow --version | head -1)"
+    else
+        echo "  ❌ GNU Stow: Not installed"
+    fi
+    
+    if command_exists git; then
+        echo "  ✅ Git: $(git --version)"
+    else
+        echo "  ❌ Git: Not installed"  
+    fi
+    echo ""
+    
+    # Package directories status
+    echo "📁 Package Directories:"
+    for pkg in "common" "$os"; do
+        if [[ -d "$pkg" ]]; then
+            local app_count=$(find "$pkg/.config" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l)
+            echo "  ✅ $pkg: $app_count applications"
+        else
+            echo "  ❌ $pkg: Directory not found"
+        fi
+    done
+    echo ""
+    
+    # Symlinks status
+    echo "🔗 Symlinks Status:"
+    local total_links=0 valid_links=0 broken_links=0 missing_links=0
+    
+    # Check common config locations
+    for config_dir in "$HOME/.config"/*; do
+        if [[ -L "$config_dir" ]]; then
+            ((total_links++))
+            if [[ -e "$config_dir" ]]; then
+                local target=$(portable_realpath "$config_dir")
+                if [[ "$target" == "$(pwd)"* ]]; then
+                    ((valid_links++))
+                    echo "  ✅ $(basename "$config_dir"): $(readlink "$config_dir")"
+                else
+                    echo "  ⚠️  $(basename "$config_dir"): Points outside dotfiles"
+                fi
+            else
+                ((broken_links++))
+                echo "  ❌ $(basename "$config_dir"): Broken symlink"
+            fi
+        fi
+    done
+    
+    # Check root-level configs
+    for config in .gitconfig .zshrc .bashrc .vimrc .yabairc .skhdrc .aerospace.toml .alacritty.toml .wezterm.lua; do
+        if [[ -L "$HOME/$config" ]]; then
+            ((total_links++))
+            if [[ -e "$HOME/$config" ]]; then
+                local target=$(portable_realpath "$HOME/$config")
+                if [[ "$target" == "$(pwd)"* ]]; then
+                    ((valid_links++))
+                    echo "  ✅ $config: $(readlink "$HOME/$config")"
+                else
+                    echo "  ⚠️  $config: Points outside dotfiles"
+                fi
+            else
+                ((broken_links++))
+                echo "  ❌ $config: Broken symlink"
+            fi
+        elif [[ -f "$HOME/$config" ]]; then
+            echo "  ⚠️  $config: Regular file (not managed by dotfiles)"
+        fi
+    done
+    
+    echo ""
+    echo "📊 Summary:"
+    echo "  Total symlinks: $total_links"
+    echo "  Valid dotfiles links: $valid_links"
+    echo "  Broken links: $broken_links"
+    
+    if [[ $broken_links -gt 0 ]]; then
+        echo ""
+        echo "💡 Recommendations:"
+        echo "  - Run './install.sh cleanup' to remove broken symlinks"
+        echo "  - Run './install.sh restow' to reinstall dotfiles"
+    fi
+    
+    # Git status if in repo
+    if [[ -d ".git" ]]; then
+        echo ""
+        echo "📝 Git Repository Status:"
+        if git status --porcelain | grep -q .; then
+            echo "  ⚠️  Uncommitted changes detected"
+            git status --short
+        else
+            echo "  ✅ Repository clean"
+        fi
+        
+        local branch=$(git branch --show-current 2>/dev/null || echo "unknown")
+        local commit=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+        echo "  Branch: $branch"
+        echo "  Commit: $commit"
+        
+        # Check for submodules
+        if [[ -f ".gitmodules" ]]; then
+            echo "  Submodules:"
+            git submodule status | while read status path; do
+                case "${status:0:1}" in
+                    "-") echo "    ❌ $path: Not initialized" ;;
+                    "+") echo "    ⚠️  $path: Different commit checked out" ;;
+                    " ") echo "    ✅ $path: Up to date" ;;
+                    *) echo "    ❓ $path: $status" ;;
+                esac
+            done
+        fi
     fi
 }
 
@@ -1130,6 +1412,11 @@ main() {
         cleanup)
             cd "$(dirname "$0")"
             cleanup_orphaned_symlinks
+            ;;
+        status)
+            os=$(detect_os)
+            platform=$(detect_platform)
+            show_dotfiles_status "$os" "$platform"
             ;;
         tools)
             install_tools

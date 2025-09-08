@@ -6,7 +6,7 @@ A cross-platform dotfiles repository organized with GNU Stow for easy management
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/dotfiles.git ~/.dotfiles
+git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
 # Complete setup (dotfiles + tools + submodules)

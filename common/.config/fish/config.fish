@@ -21,8 +21,11 @@ end
 # Alias
 alias v="nvim"
 alias lg="lazygit"
-alias claude="~/.claude/local/claude"
-alias ccs="~/.claude/local/claude --dangerously-skip-permissions"
+
+if test -x ~/.claude/local/claude
+    alias claude="~/.claude/local/claude"
+end
+alias ccs="claude --dangerously-skip-permissions"
 
 # Git aliases (based on jhillyerd/plugin-git)
 abbr -a g git

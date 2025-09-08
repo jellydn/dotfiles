@@ -17,6 +17,14 @@ node_modules
 .config/cspell.json
 .config/cspell-tool.txt
 renovate.json
+# Claude runtime files
+.claude/projects
+.claude/shell-snapshots
+.claude/statsig
+.claude/todos
+.claude/logs
+.claude/bash-command-log.txt
+.claude/.superclaude-metadata.json
 biome.json
 bun.lockb
 package.json

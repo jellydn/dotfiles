@@ -372,26 +372,104 @@ stow_packages() {
     fi
 }
 
-# Unstow packages (cleanup)
+# Helper function to detect and clean orphaned dotfiles symlinks
+cleanup_orphaned_symlinks() {
+    log_info "Cleaning up orphaned dotfiles symlinks..."
+    
+    local orphans_found=false
+    local dotfiles_dir="$(pwd)"
+    
+    # Function to check if a symlink points to our dotfiles directory
+    is_dotfiles_symlink() {
+        local symlink="$1"
+        local target
+        target=$(readlink "$symlink" 2>/dev/null) || return 1
+        
+        # Convert to absolute path if relative
+        if [[ "$target" == /* ]]; then
+            # Already absolute
+            true
+        else
+            # Convert relative to absolute
+            target="$(cd "$(dirname "$symlink")" && realpath "$target" 2>/dev/null)" || return 1
+        fi
+        
+        # Check if target is within our dotfiles directory
+        [[ "$target" == "$dotfiles_dir"* ]]
+    }
+    
+    # Find and clean orphaned symlinks in common locations
+    local search_paths=(
+        "$HOME/.config"
+        "$HOME"
+    )
+    
+    for search_path in "${search_paths[@]}"; do
+        if [[ -d "$search_path" ]]; then
+            while IFS= read -r -d '' symlink; do
+                if is_dotfiles_symlink "$symlink" && [[ ! -e "$symlink" ]]; then
+                    log_info "Removing orphaned symlink: $symlink"
+                    rm "$symlink" 2>/dev/null || true
+                    orphans_found=true
+                fi
+            done < <(find "$search_path" -maxdepth 3 -type l -print0 2>/dev/null)
+        fi
+    done
+    
+    # Clean up empty directories
+    find "$HOME/.config" -type d -empty 2>/dev/null | while read -r empty_dir; do
+        if [[ "$empty_dir" != "$HOME/.config" ]]; then
+            log_info "Removing empty directory: $empty_dir"
+            rmdir "$empty_dir" 2>/dev/null || true
+        fi
+    done
+    
+    if [[ "$orphans_found" == "false" ]]; then
+        log_info "No orphaned dotfiles symlinks found"
+    fi
+}
+
+# Enhanced unstow packages with fallback cleanup
 unstow_packages() {
     local os="$1"
     
     log_info "Unstowing packages for $os..."
     cd "$(dirname "$0")"
     
+    # First, try regular stow unstow for packages that exist
+    local unstow_success=true
+    
     # Unstow in reverse order with verbose output and explicit target
     log_info "Unstowing $os-specific configurations..."
-    if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' "$os"; then
-        log_success "$os configurations unstowed successfully"
+    if [[ -d "$os" ]]; then
+        if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' "$os" 2>/dev/null; then
+            log_success "$os configurations unstowed successfully"
+        else
+            log_warning "Some $os configurations may not have been fully unstowed"
+            unstow_success=false
+        fi
     else
-        log_warning "Some $os configurations may not have been fully unstowed"
+        log_warning "Package directory '$os' not found, skipping stow unstow"
+        unstow_success=false
     fi
     
     log_info "Unstowing common configurations..."
-    if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' common; then
-        log_success "Common configurations unstowed successfully"
+    if [[ -d "common" ]]; then
+        if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' common 2>/dev/null; then
+            log_success "Common configurations unstowed successfully"
+        else
+            log_warning "Some common configurations may not have been fully unstowed"
+            unstow_success=false
+        fi
     else
-        log_warning "Some common configurations may not have been fully unstowed"
+        log_warning "Package directory 'common' not found, skipping stow unstow"
+        unstow_success=false
+    fi
+    
+    # Fallback: Clean up any orphaned symlinks that stow couldn't handle
+    if [[ "$unstow_success" == "false" ]]; then
+        log_info "Running fallback cleanup for orphaned symlinks..."
+        cleanup_orphaned_symlinks
     fi
     
     log_success "Unstow process completed!"
@@ -728,7 +806,7 @@ unstow_app() {
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish]"
+    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish|cleanup]"
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
@@ -741,6 +819,7 @@ show_usage() {
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
     echo "  backup            - Backup existing dotfiles only"
+    echo "  cleanup           - Remove orphaned dotfiles symlinks"
     echo ""
     echo "Options:"
     echo "  --with-tools     - Install tools along with dotfiles"
@@ -1047,6 +1126,10 @@ main() {
             ;;
         backup)
             backup_existing_dotfiles
+            ;;
+        cleanup)
+            cd "$(dirname "$0")"
+            cleanup_orphaned_symlinks
             ;;
         tools)
             install_tools

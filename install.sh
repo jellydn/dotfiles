@@ -926,7 +926,7 @@ unstow_app() {
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|submodules|all|backup|fish|cleanup|status]"
+    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|fonts|fish|submodules|all|backup|cleanup|status]"
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
@@ -935,6 +935,7 @@ show_usage() {
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
     echo "  unstow-app <app>  - Unstow a specific app configuration"
     echo "  tools             - Install development tools with mise"
+    echo "  fonts             - Install JetBrainsMono Nerd Font for terminal applications"
     echo "  fish              - Install Fish shell, Fisher plugin manager, and set as default shell"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
@@ -959,6 +960,59 @@ show_usage() {
     echo "By default, existing dotfiles are backed up before installation."
     echo "Use --interactive for guided installation with user prompts."
     echo "Use --simulate to preview changes before applying them."
+}
+
+# Install fonts required for terminal applications
+install_fonts() {
+    log_info "Installing required fonts..."
+    
+    # Create fonts directory
+    mkdir -p ~/.local/share/fonts/JetBrainsMono
+    
+    # Check if JetBrainsMono Nerd Font is already installed
+    if fc-list | grep -q "JetBrainsMono Nerd Font Mono"; then
+        log_info "JetBrainsMono Nerd Font is already installed"
+        return 0
+    fi
+    
+    log_info "Downloading JetBrainsMono Nerd Font..."
+    
+    # Download JetBrainsMono Nerd Font files
+    local font_dir="$HOME/.local/share/fonts/JetBrainsMono"
+    
+    # Download regular mono version
+    if curl -fL --max-time 30 \
+        -o "$font_dir/JetBrainsMonoNerdFontMono-Regular.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFontMono-Regular.ttf; then
+        log_info "Downloaded JetBrainsMonoNerdFontMono-Regular.ttf"
+    else
+        log_warning "Failed to download JetBrainsMonoNerdFontMono-Regular.ttf"
+    fi
+    
+    # Download regular proportional version
+    if curl -fL --max-time 30 \
+        -o "$font_dir/JetBrainsMonoNerdFont-Regular.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf; then
+        log_info "Downloaded JetBrainsMonoNerdFont-Regular.ttf"
+    else
+        log_warning "Failed to download JetBrainsMonoNerdFont-Regular.ttf"
+    fi
+    
+    # Refresh font cache
+    if command_exists fc-cache; then
+        log_info "Refreshing font cache..."
+        fc-cache -fv ~/.local/share/fonts/JetBrainsMono >/dev/null 2>&1
+        log_success "Font cache refreshed"
+    else
+        log_warning "fc-cache not found, fonts may not be immediately available"
+    fi
+    
+    # Verify installation
+    if fc-list | grep -q "JetBrainsMono Nerd Font Mono"; then
+        log_success "JetBrainsMono Nerd Font installed successfully"
+    else
+        log_warning "Font installation may not have completed successfully"
+    fi
 }
 
 # Install development tools
@@ -1428,6 +1482,9 @@ main() {
             ;;
         tools)
             install_tools
+            ;;
+        fonts)
+            install_fonts
             ;;
         fish)
             os=$(detect_os)

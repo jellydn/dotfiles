@@ -663,70 +663,54 @@ stow_app() {
     
     local stowed=false
     
-    # Helper function to create temporary stow directory for single app
-    create_temp_stow_dir() {
-        local source_path="$1"
-        local temp_dir="/tmp/dotfiles-stow-$$"
+    # Helper function to create symlink directly for individual app
+    stow_app_config() {
+        local package="$1"
+        local simulate_flag="$2"
+        local app_config_path="$package/.config/$app_name"
+        local target_path="$HOME/.config/$app_name"
+        local dotfiles_dir="$(pwd)"
         
-        mkdir -p "$temp_dir/.config"
-        cp -r "$source_path" "$temp_dir/.config/"
-        echo "$temp_dir"
-    }
-    
-    # Pre-flight check for stow conflicts
-    check_stow_conflicts() {
-        local package_dir="$1"
-        local conflicts=0
-        
-        if [[ ! -d "$package_dir" ]]; then
+        if [[ ! -d "$app_config_path" ]]; then
             return 1
         fi
         
-        # Use stow's dry-run mode to detect conflicts
-        if ! (cd "$(dirname "$package_dir")" && stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$(basename "$package_dir")" >/dev/null 2>&1); then
-            log_warning "Potential conflicts detected for package: $(basename "$package_dir")"
-            ((conflicts++))
-        fi
-        
-        return $conflicts
-    }
-    
-    # Helper function to stow from temporary directory
-    stow_from_temp() {
-        local temp_dir="$1"
-        local simulate_flag="$2"
-        local result=0
-        
-        # Pre-flight conflict check
-        if ! check_stow_conflicts "$temp_dir"; then
-            log_info "Conflict detected, using --adopt to resolve"
-        fi
+        # Calculate relative path from target to source
+        local relative_path="../.dotfiles/$app_config_path"
         
         if [[ "$simulate_flag" == "true" ]]; then
-            (cd "$temp_dir/.." && stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$(basename "$temp_dir")") || result=$?
+            log_info "🔍 SIMULATION: Would create symlink $target_path -> $relative_path"
         else
-            # Use --adopt to handle existing files gracefully
-            (cd "$temp_dir/.." && stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$(basename "$temp_dir")") || result=$?
+            # Create .config directory if it doesn't exist
+            mkdir -p "$(dirname "$target_path")"
+            
+            # Remove existing file/directory if it exists
+            if [[ -e "$target_path" ]] || [[ -L "$target_path" ]]; then
+                if [[ -d "$target_path" ]] && [[ ! -L "$target_path" ]]; then
+                    log_info "Backing up existing directory: $target_path -> ${target_path}_backup_$(date +%Y%m%d_%H%M%S)"
+                    mv "$target_path" "${target_path}_backup_$(date +%Y%m%d_%H%M%S)"
+                else
+                    log_info "Removing existing file/symlink: $target_path"
+                    rm -rf "$target_path"
+                fi
+            fi
+            
+            # Create the symlink
+            ln -s "$relative_path" "$target_path"
+            log_info "LINK: .config/$app_name -> $relative_path"
         fi
         
-        # Always cleanup, regardless of success/failure
-        rm -rf "$temp_dir"
-        
-        return $result
+        return 0
     }
     
     # Check if app exists in common
     if [[ -d "common/.config/$app_name" ]]; then
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow common/$app_name..."
-            local temp_dir
-            temp_dir=$(create_temp_stow_dir "common/.config/$app_name")
-            stow_from_temp "$temp_dir" "true"
+            stow_app_config "common" "true"
         else
             log_info "Stowing common/$app_name..."
-            local temp_dir
-            temp_dir=$(create_temp_stow_dir "common/.config/$app_name")
-            stow_from_temp "$temp_dir" "false"
+            stow_app_config "common" "false"
         fi
         stowed=true
     fi
@@ -735,14 +719,10 @@ stow_app() {
     if [[ -d "$os/.config/$app_name" ]]; then
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow $os/$app_name..."
-            local temp_dir
-            temp_dir=$(create_temp_stow_dir "$os/.config/$app_name")
-            stow_from_temp "$temp_dir" "true"
+            stow_app_config "$os" "true"
         else
             log_info "Stowing $os/$app_name..."
-            local temp_dir
-            temp_dir=$(create_temp_stow_dir "$os/.config/$app_name")
-            stow_from_temp "$temp_dir" "false"
+            stow_app_config "$os" "false"
         fi
         stowed=true
     fi

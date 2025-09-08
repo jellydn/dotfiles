@@ -467,27 +467,64 @@ stow_app() {
         log_info "Stowing $app_name configuration..."
     fi
     
-    # Check if app exists in common
     local stowed=false
+    
+    # Helper function to create temporary stow directory for single app
+    create_temp_stow_dir() {
+        local source_path="$1"
+        local temp_dir="/tmp/dotfiles-stow-$$"
+        
+        mkdir -p "$temp_dir/.config"
+        cp -r "$source_path" "$temp_dir/.config/"
+        echo "$temp_dir"
+    }
+    
+    # Helper function to stow from temporary directory
+    stow_from_temp() {
+        local temp_dir="$1"
+        local simulate_flag="$2"
+        local result=0
+        
+        if [[ "$simulate_flag" == "true" ]]; then
+            (cd "$temp_dir/.." && stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$(basename "$temp_dir")") || result=$?
+        else
+            (cd "$temp_dir/.." && stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$(basename "$temp_dir")") || result=$?
+        fi
+        
+        # Always cleanup, regardless of success/failure
+        rm -rf "$temp_dir"
+        
+        return $result
+    }
+    
+    # Check if app exists in common
     if [[ -d "common/.config/$app_name" ]]; then
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow common/$app_name..."
-            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' common --adopt 2>/dev/null | grep "$app_name" || true
+            local temp_dir
+            temp_dir=$(create_temp_stow_dir "common/.config/$app_name")
+            stow_from_temp "$temp_dir" "true"
         else
             log_info "Stowing common/$app_name..."
-            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt common
+            local temp_dir
+            temp_dir=$(create_temp_stow_dir "common/.config/$app_name")
+            stow_from_temp "$temp_dir" "false"
         fi
         stowed=true
     fi
     
-    # Check if app exists in OS-specific
+    # Check if app exists in OS-specific (will override common if exists)
     if [[ -d "$os/.config/$app_name" ]]; then
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow $os/$app_name..."
-            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$os" --adopt 2>/dev/null | grep "$app_name" || true
+            local temp_dir
+            temp_dir=$(create_temp_stow_dir "$os/.config/$app_name")
+            stow_from_temp "$temp_dir" "true"
         else
             log_info "Stowing $os/$app_name..."
-            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$os"
+            local temp_dir
+            temp_dir=$(create_temp_stow_dir "$os/.config/$app_name")
+            stow_from_temp "$temp_dir" "false"
         fi
         stowed=true
     fi

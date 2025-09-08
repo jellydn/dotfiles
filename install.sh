@@ -625,6 +625,9 @@ get_available_apps() {
         if [[ -f "macos/.wezterm.lua" ]]; then apps+=("wezterm"); fi
     fi
     
+    # Check for Claude configuration (cross-platform)
+    if [[ -d "claude/.claude" ]]; then apps+=("claude"); fi
+    
     # Remove duplicates and sort
     printf '%s\n' "${apps[@]}" | sort -u
 }
@@ -788,6 +791,20 @@ stow_app() {
         esac
     fi
     
+    # Handle Claude configuration (cross-platform)
+    if [[ "$app_name" == "claude" ]]; then
+        if [[ -d "claude/.claude" ]]; then
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION: Would stow claude/.claude..."
+                stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' claude --adopt 2>/dev/null | grep "claude" || true
+            else
+                log_info "Stowing Claude configuration..."
+                stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt claude
+            fi
+            stowed=true
+        fi
+    fi
+    
     if [[ "$stowed" == "true" ]]; then
         log_success "$app_name configuration stowed successfully!"
     else
@@ -915,6 +932,24 @@ unstow_app() {
                 done
                 ;;
         esac
+    fi
+    
+    # Handle Claude configuration (cross-platform)
+    if [[ "$app_name" == "claude" ]]; then
+        if [[ -d "claude/.claude" ]]; then
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION: Would unstow Claude configuration..."
+                stow -t "$HOME" -nDv --ignore='.*\.DS_Store.*' claude 2>/dev/null || true
+            else
+                log_info "Unstowing Claude configuration..."
+                if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' claude 2>/dev/null; then
+                    log_info "Claude configuration unstowed using stow"
+                else
+                    log_warning "Failed to unstow Claude configuration with stow"
+                fi
+            fi
+            unstowed=true
+        fi
     fi
     
     if [[ "$unstowed" == "true" ]]; then
@@ -1253,6 +1288,17 @@ show_dotfiles_status() {
             echo "  ❌ $pkg: Directory not found"
         fi
     done
+    
+    # Check Claude package
+    if [[ -d "claude" ]]; then
+        if [[ -d "claude/.claude" ]]; then
+            echo "  ✅ claude: Claude configuration available"
+        else
+            echo "  ⚠️  claude: Directory exists but no .claude config found"
+        fi
+    else
+        echo "  ❌ claude: Directory not found"
+    fi
     echo ""
     
     # Symlinks status
@@ -1279,7 +1325,7 @@ show_dotfiles_status() {
     done
     
     # Check root-level configs
-    for config in .gitconfig .zshrc .bashrc .vimrc .yabairc .skhdrc .aerospace.toml .alacritty.toml .wezterm.lua; do
+    for config in .gitconfig .zshrc .bashrc .vimrc .yabairc .skhdrc .aerospace.toml .alacritty.toml .wezterm.lua .claude; do
         if [[ -L "$HOME/$config" ]]; then
             ((total_links++))
             if [[ -e "$HOME/$config" ]]; then

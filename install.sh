@@ -338,26 +338,26 @@ stow_packages() {
         for package in "${packages[@]}"; do
             if [[ "$simulate" == "true" ]]; then
                 log_info "🔍 SIMULATION: Would stow $package configurations..."
-                stow -t "$HOME" -nv "$package"
+                stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$package"
             else
                 log_info "Stowing $package configurations..."
-                stow -t "$HOME" -v --adopt "$package"
+                stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$package"
             fi
         done
     else
         # Non-interactive: install both common and OS-specific
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would stow common configurations..."
-            stow -t "$HOME" -nv common
+            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' common
             
             log_info "🔍 SIMULATION: Would stow $os-specific configurations..."
-            stow -t "$HOME" -nv "$os"
+            stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' "$os"
         else
             log_info "Stowing common configurations..."
-            stow -t "$HOME" -v --adopt common
+            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt common
             
             log_info "Stowing $os-specific configurations..."
-            stow -t "$HOME" -v --adopt "$os"
+            stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt "$os"
         fi
     fi
     
@@ -381,14 +381,14 @@ unstow_packages() {
     
     # Unstow in reverse order with verbose output and explicit target
     log_info "Unstowing $os-specific configurations..."
-    if stow -t "$HOME" -Dv "$os"; then
+    if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' "$os"; then
         log_success "$os configurations unstowed successfully"
     else
         log_warning "Some $os configurations may not have been fully unstowed"
     fi
     
     log_info "Unstowing common configurations..."
-    if stow -t "$HOME" -Dv common; then
+    if stow -t "$HOME" -Dv --ignore='.*\.DS_Store.*' common; then
         log_success "Common configurations unstowed successfully"
     else
         log_warning "Some common configurations may not have been fully unstowed"
@@ -1042,6 +1042,55 @@ main() {
         -h|--help|help)
             show_usage
             exit 0
+            ;;
+        --simulate|--interactive|--no-backup|--with-tools|--update-subs)
+            # Handle options passed as main command - default to install
+            log_info "Detected option as command, defaulting to 'install'"
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            
+            if [[ "$simulate" == "true" ]]; then
+                log_info "🔍 SIMULATION MODE: No actual changes will be made"
+            else
+                install_stow "$os"
+            fi
+            
+            # Interactive mode prompts
+            if [[ "$interactive" == "true" ]]; then
+                echo ""
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "=== Simulation + Interactive Installation Mode ==="
+                else
+                    log_info "=== Interactive Installation Mode ==="
+                fi
+                
+                # Ask about additional components in interactive mode
+                if [[ "$with_tools" != "true" ]] && ask_yes_no "Install development tools with mise?" "n"; then
+                    with_tools=true
+                fi
+                
+                if [[ "$update_subs" != "true" ]] && ask_yes_no "Update git submodules (editor configs)?" "n"; then
+                    update_subs=true
+                fi
+            fi
+            
+            stow_packages "$os" "$no_backup" "$interactive" "$simulate"
+            
+            # Handle additional options
+            if [[ "$with_tools" == "true" ]]; then
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "🔍 SIMULATION: Would install development tools with mise"
+                else
+                    install_tools
+                fi
+            fi
+            if [[ "$update_subs" == "true" ]]; then
+                if [[ "$simulate" == "true" ]]; then
+                    log_info "🔍 SIMULATION: Would update git submodules"
+                else
+                    update_submodules
+                fi
+            fi
             ;;
         *)
             log_error "Unknown command: $command"

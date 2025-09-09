@@ -952,7 +952,7 @@ unstow_app() {
 
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|fonts|fish|submodules|all|backup|cleanup|status]"
+    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|fonts|fish|mcp|submodules|all|backup|cleanup|status]"
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
@@ -963,6 +963,7 @@ show_usage() {
     echo "  tools             - Install development tools with mise"
     echo "  fonts             - Install Maple Mono Nerd Font for terminal applications"
     echo "  fish              - Install Fish shell, Fisher plugin manager, and set as default shell"
+    echo "  mcp               - Setup MCP servers for Claude"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
     echo "  backup            - Backup existing dotfiles only"
@@ -1211,6 +1212,19 @@ install_fish() {
         fi
     else
         log_error "Fish shell not found in PATH"
+        return 1
+    fi
+}
+
+# Setup MCP servers for Claude
+setup_mcp_servers() {
+    log_info "Setting up MCP servers for Claude..."
+    local script_dir="$(dirname "$0")"
+    
+    if [[ -x "$script_dir/scripts/setup-mcp-servers.sh" ]]; then
+        "$script_dir/scripts/setup-mcp-servers.sh"
+    else
+        log_error "setup-mcp-servers.sh script not found or not executable"
         return 1
     fi
 }
@@ -1580,6 +1594,9 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_fish "$os"
+            ;;
+        mcp)
+            setup_mcp_servers
             ;;
         submodules)
             update_submodules

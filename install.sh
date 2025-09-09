@@ -114,6 +114,25 @@ validate_stow_environment() {
         log_warning "Existing vim setup detected - may conflict with nvim config"
     fi
     
+    # Ensure Claude directories exist with proper structure
+    if [[ -d "common/.config/claude" ]] && [[ ! -d "common/.claude" ]]; then
+        log_info "Setting up Claude configuration structure..."
+        mkdir -p "common/.claude"
+        # Copy Claude configs to .claude if they don't exist
+        for file in common/.config/claude/*; do
+            if [[ -e "$file" ]]; then
+                basename_file=$(basename "$file")
+                if [[ ! -e "common/.claude/$basename_file" ]]; then
+                    cp -r "$file" "common/.claude/$basename_file"
+                fi
+            fi
+        done
+        # Create any missing subdirectories
+        for dir in config ide local output-modes; do
+            mkdir -p "common/.claude/$dir"
+        done
+    fi
+    
     return $errors
 }
 
@@ -260,6 +279,8 @@ interactive_backup_choice() {
         ".config/polybar"
         ".config/rofi"
         ".config/mise"
+        ".config/claude"
+        ".claude"
         ".yabairc"
         ".skhdrc"
         ".aerospace.toml"
@@ -327,6 +348,8 @@ backup_existing_dotfiles() {
         ".config/polybar"
         ".config/rofi"
         ".config/mise"
+        ".config/claude"
+        ".claude"
         ".yabairc"
         ".skhdrc"
         ".aerospace.toml"

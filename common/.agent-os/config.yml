@@ -1,0 +1,27 @@
+# Agent OS Configuration
+
+# Refer to the official Agent OS documentation at:
+# https://buildermethods.com/agent-os
+
+agent_os_version: 1.4.1
+
+agents:
+  claude_code:
+    enabled: true
+  cursor:
+    enabled: true
+
+project_types:
+  default:
+    instructions: ~/.agent-os/instructions
+    standards: ~/.agent-os/standards
+
+  # type_a:
+  #   instructions: ~/.agent-os/project_types/type_a/instructions
+  #   standards: ~/.agent-os/project_types/type_a/standards
+
+  # type_b:
+  #   instructions: ~/.agent-os/project_types/type_b/instructions
+  #   standards: ~/.agent-os/project_types/type_b/standards
+
+default_project_type: default

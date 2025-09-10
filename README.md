@@ -467,8 +467,23 @@ After installing the dotfiles, you need to install tmux plugins:
 
 3. Install plugins by pressing `Ctrl+a` (prefix) + `I` inside tmux
 
+**Key Bindings:**
+- **Prefix key**: `Ctrl+a` (GNU Screen style)
+- **Window navigation**: 
+  - `Prefix + Tab` - Next window
+  - `Prefix + Shift+Tab` - Previous window
+- **Pane navigation**: `Prefix + h/j/k/l` (Vim-style)
+- **Smart pane switching**: `Ctrl+h/j/k/l` (works with Vim splits)
+- **Split panes**:
+  - `Prefix + -` - Horizontal split
+  - `Prefix + _` - Vertical split
+- **Reload config**: `Prefix + r`
+- **Edit config**: `Prefix + e`
+
 **URL Opening:**
 - **Cmd+click** (macOS) - Click URLs while holding Cmd to open in browser (no plugins needed)
+- `Prefix + u` - Extract URLs with fzf and open selected URL
+- `Prefix + Ctrl+u` - Copy first URL to clipboard
 - Built-in terminal URL handling via terminal overrides
 
 ### Helix

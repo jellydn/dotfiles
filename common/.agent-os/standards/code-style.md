@@ -201,3 +201,21 @@ IF current task involves writing or updating Bun code:
 ELSE:
   SKIP: Bun style guide not relevant to current task
 </conditional-block>
+
+<conditional-block task-condition="moleculer" context-check="moleculer-style">
+IF current task involves writing or updating Moleculer microservices:
+  IF moleculer-style.md already in context:
+    SKIP: Re-reading this file
+    NOTE: "Using Moleculer style guide already in context"
+  ELSE:
+    <context_fetcher_strategy>
+      IF current agent is Claude Code AND context-fetcher agent exists:
+        USE: @agent:context-fetcher
+        REQUEST: "Get Moleculer microservices style rules from code-style/moleculer-style.md"
+        PROCESS: Returned style rules
+      ELSE:
+        read: @.agent-os/standards/code-style/moleculer-style.md
+    </context_fetcher_strategy>
+ELSE:
+  SKIP: Moleculer style guide not relevant to current task
+</conditional-block>

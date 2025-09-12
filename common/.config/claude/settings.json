@@ -33,11 +33,15 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [[ \"$( jq -r .tool_input.file_path )\" =~ \\.(ts|tsx|js|jsx)$ ]]; then biome check --write \"$( jq -r .tool_input.file_path )\"; fi"
+            "command": "if [[ \"$( jq -r .tool_input.file_path )\" =~ \\.(ts|tsx|js|jsx)$ ]]; then biome check --write \"$file_path )\"; fi"
           },
           {
             "type": "command",
             "command": "if [[ \"$( jq -r .tool_input.file_path )\" =~ \\.go$ ]]; then gofmt -w \"$( jq -r .tool_input.file_path )\"; fi"
+          },
+          {
+            "type": "command",
+            "command": "if [[ \"$( jq -r .tool_input.file_path )\" =~ \\.md$ ]]; then npx prettier --write \"$file_path\"; fi"
           }
         ]
       }

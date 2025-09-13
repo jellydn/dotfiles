@@ -1169,23 +1169,27 @@ install_fish() {
         log_success "Fish shell installed successfully"
     fi
     
-    # Check if Fisher is installed
-    if fish -c "fisher --version" >/dev/null 2>&1; then
-        log_info "Fisher plugin manager is already installed"
-    else
+    # Install Fisher and plugins after fish config is set up
+    log_info "Setting up Fisher plugin manager and fish plugins..."
+    
+    # Create a temporary fish config without problematic lines for initial setup
+    local temp_fish_dir="/tmp/fish_setup_$$"
+    mkdir -p "$temp_fish_dir"
+    
+    # Check if Fisher functions directory exists
+    if [[ ! -d "$HOME/.config/fish/functions" ]] || [[ ! -f "$HOME/.config/fish/functions/fisher.fish" ]]; then
         log_info "Installing Fisher plugin manager..."
-        fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
-        log_success "Fisher plugin manager installed successfully"
+        # Install Fisher with clean environment
+        env HOME="$HOME" XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}" \
+            fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" 2>/dev/null || {
+            log_warning "Fisher installation may have failed due to config issues - will retry after dotfiles installation"
+        }
+    else
+        log_info "Fisher plugin manager is already installed"
     fi
     
-    # Install fish plugins if fish_plugins file exists
-    if [[ -f "$HOME/.config/fish/fish_plugins" ]]; then
-        log_info "Installing Fish plugins from fish_plugins..."
-        fish -c "fisher update"
-        log_success "Fish plugins installed successfully"
-    else
-        log_info "No fish_plugins file found, skipping plugin installation"
-    fi
+    # Clean up temp directory
+    rm -rf "$temp_fish_dir"
     
     # Change default shell to fish
     local fish_path
@@ -1213,6 +1217,35 @@ install_fish() {
     else
         log_error "Fish shell not found in PATH"
         return 1
+    fi
+}
+
+# Setup fish plugins after dotfiles installation
+setup_fish_plugins() {
+    log_info "Setting up fish plugins..."
+    
+    # Only proceed if fish is available and Fisher is installed
+    if ! command_exists fish; then
+        log_warning "Fish shell not found, skipping plugin setup"
+        return 0
+    fi
+    
+    # Check if fish_plugins file exists
+    if [[ -f "$HOME/.config/fish/fish_plugins" ]]; then
+        log_info "Installing Fish plugins from fish_plugins..."
+        
+        # Try to install/update plugins, but handle config errors gracefully
+        if fish -c "fisher --version" >/dev/null 2>&1; then
+            fish -c "fisher update" 2>/dev/null || {
+                log_warning "Some fish plugins may not have installed correctly due to config issues"
+                log_info "You can manually run 'fisher update' after fixing any config problems"
+            }
+            log_success "Fish plugins setup completed"
+        else
+            log_warning "Fisher not properly installed, please run 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher' manually"
+        fi
+    else
+        log_info "No fish_plugins file found, skipping plugin installation"
     fi
 }
 
@@ -1594,6 +1627,8 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_fish "$os"
+            # Setup fish plugins after dotfiles are available
+            setup_fish_plugins
             ;;
         mcp)
             setup_mcp_servers

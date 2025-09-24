@@ -17,19 +17,27 @@ configuration {
     me-accept-entry:             "MousePrimary";
     click-to-exit:               true;
     
-    /* Performance optimizations */
+    /* Performance optimizations - Enhanced for speed */
     threads:                     0;
     scroll-method:               0;
-    disable-history:             false;
+    disable-history:             true;
     sorting-method:              "normal";
     case-sensitive:              false;
+    lazy-grab:                   false;
+    parse-hosts:                 false;
+    parse-known-hosts:           false;
+    combi-hide-mode-prefix:      true;
+    matching:                    "normal";
+    tokenize:                    true;
     
     /* VM-friendly settings */
     run-shell-command:           "{terminal} -e {cmd}";
     terminal:                    "foot";
     
-    /* Appearance settings */
-    font:                        "JetBrainsMono Nerd Font 11";
+    /* Appearance settings - Optimized for speed */
+    font:                        "Inter 10";
+    icon-theme:                  "Papirus";
+    application-fallback-icon:   "application-x-executable";
     
     /* Key bindings - simplified to avoid conflicts */
     kb-primary-paste:            "Control+V,Shift+Insert";

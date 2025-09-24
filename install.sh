@@ -114,6 +114,14 @@ check_app_dependencies() {
                 # Systemd services dependencies for background management
                 command_exists swaybg || missing_packages+=("swaybg")
                 command_exists swayidle || missing_packages+=("swayidle")
+                # Graphics drivers for Wayland/EGL support (check if mesa DRI drivers are available)
+                if ! ldconfig -p 2>/dev/null | grep -q "libEGL_mesa\|libGL_mesa" && ! find /usr/lib* -name "*mesa*" -type f 2>/dev/null | head -1 | grep -q mesa; then
+                    missing_packages+=("mesa-dri-drivers (for graphics acceleration)")
+                fi
+                # VM-specific recommendations
+                if systemd-detect-virt -q >/dev/null 2>&1; then
+                    missing_packages+=("VM detected: run ./scripts/fix-niri-vm-graphics.sh if niri fails")
+                fi
                 # Clipboard support for screenshots (niri native actions handle clipboard)
                 # grim and slurp are optional but nice to have
                 if ! command_exists grim; then

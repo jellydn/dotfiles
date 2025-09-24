@@ -3,6 +3,13 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
+// VM compatibility: Manually set render device for systems with detection issues
+// Uncomment the debug block below if you get EGL/Wayland display errors or black screen
+/-debug {
+    // Override DRM render device (useful for VMs, ARM systems, or kmsro devices)
+    render-drm-device "/dev/dri/renderD128"
+}
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input

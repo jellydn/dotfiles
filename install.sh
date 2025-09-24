@@ -190,6 +190,14 @@ check_app_dependencies() {
         waybar)
             if [[ "$os" == "linux" ]]; then
                 command_exists waybar || missing_packages+=("waybar")
+                # Audio control widgets
+                command_exists wpctl || missing_packages+=("wireplumber (for volume control)")
+                command_exists pavucontrol || missing_packages+=("pavucontrol (for volume settings)")
+                # Power management widget
+                command_exists wlogout || missing_packages+=("wlogout (for power menu)")
+                command_exists swaylock || missing_packages+=("swaylock (for lock screen)")
+                # Network widget
+                command_exists nm-connection-editor || missing_packages+=("nm-connection-editor (for network settings)")
                 # Optional but commonly used waybar modules
                 command_exists playerctl || missing_packages+=("playerctl (optional for media control)")
                 command_exists bluetoothctl || missing_packages+=("bluez (optional for bluetooth)")

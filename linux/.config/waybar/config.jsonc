@@ -131,6 +131,6 @@
     "format": "󰐥",
     "tooltip": false,
     "on-click": "wlogout",
-    "on-click-right": "hyprctl dispatch exit"
+    "on-click-right": "niri msg action quit"
   }
 }

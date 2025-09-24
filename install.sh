@@ -111,6 +111,9 @@ check_app_dependencies() {
                 command_exists brightnessctl || missing_packages+=("brightnessctl")
                 command_exists swaylock || missing_packages+=("swaylock")
                 command_exists waybar || missing_packages+=("waybar")
+                # Systemd services dependencies for background management
+                command_exists swaybg || missing_packages+=("swaybg")
+                command_exists swayidle || missing_packages+=("swayidle")
                 # Clipboard support for screenshots (niri native actions handle clipboard)
                 # grim and slurp are optional but nice to have
                 if ! command_exists grim; then
@@ -130,7 +133,7 @@ check_app_dependencies() {
                 fi
                 # Font for proper display
                 if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
-                    missing_packages+=("maple-mono-nf-fonts or nerd-fonts")
+                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
                 fi
             fi
             ;;
@@ -152,7 +155,7 @@ check_app_dependencies() {
             command_exists alacritty || missing_packages+=("alacritty")
             # Check for font
             if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
-                missing_packages+=("maple-mono-nf-fonts or nerd-fonts")
+                missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
             fi
             ;;
         kitty)
@@ -188,8 +191,8 @@ check_app_dependencies() {
                 fi
                 # Font for icons
                 if ! fc-list 2>/dev/null | grep -qi "font.*awesome\|nerd.*font"; then
-                    missing_packages+=("fontawesome-fonts-all (for icons)")
-                    missing_packages+=("nerd-fonts (for terminal icons, optional)")
+                    missing_packages+=("fontawesome-fonts-all (for waybar icons)")
+                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
                 fi
             fi
             ;;
@@ -213,10 +216,15 @@ check_app_dependencies() {
     # Report missing packages
     if [[ ${#missing_packages[@]} -gt 0 ]]; then
         log_warning "$app_name has missing dependencies:"
+        local has_custom_commands=false
         for package in "${missing_packages[@]}"; do
             echo "  - $package"
+            if [[ "$package" == *"run:"* ]]; then
+                has_custom_commands=true
+            fi
         done
-        if [[ -n "$install_cmd" ]]; then
+        # Only show install command if no custom commands are present
+        if [[ -n "$install_cmd" && "$has_custom_commands" == "false" ]]; then
             echo "  Install with: $install_cmd ${missing_packages[*]}"
         fi
         echo
@@ -649,13 +657,24 @@ stow_packages() {
     fi
     
     log_success "All selected packages stowed successfully!"
-    
+
     # Run stow verification check
     local script_dir="$(dirname "$0")"
     if [[ -x "$script_dir/scripts/check-stow.sh" && "$simulate" != "true" ]]; then
         echo ""
         log_info "Running stow verification check..."
         "$script_dir/scripts/check-stow.sh" || true  # Don't fail install on check failure
+    fi
+
+    # Setup niri systemd services if niri config was stowed on Linux
+    if [[ "$os" == "linux" && "$simulate" != "true" ]]; then
+        if [[ -f "$HOME/.config/niri/config.kdl" ]] && [[ -x "$script_dir/linux/setup-niri-systemd.sh" ]]; then
+            echo ""
+            log_info "Setting up niri systemd services..."
+            "$script_dir/linux/setup-niri-systemd.sh" || {
+                log_warning "Niri systemd setup failed. You can run it manually later: $script_dir/linux/setup-niri-systemd.sh"
+            }
+        fi
     fi
 }
 

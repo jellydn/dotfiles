@@ -117,16 +117,17 @@
         {
           "apps" : [
             {
-              "bundleIdentifier" : "com.readdle.SparkDesktop.appstore",
+              "bundleIdentifier" : "com.readdle.SparkDesktop",
               "iconPath" : "/Applications/Spark Desktop.app/Contents/Resources/icon.icns",
               "name" : "Spark Desktop"
             }
           ],
-          "assignAppShortcut" : "cmd+ctrl+opt+m",
+          "assignAppShortcut" : "cmd+ctrl+opt+e",
           "display" : "S24R35xFZ",
           "id" : "F797E159-2025-4DC0-8028-57A7D366CA1E",
           "name" : "Email",
-          "shortcut" : "opt+m",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+e",
           "symbolIconName" : "mail.fill"
         },
         {

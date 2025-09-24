@@ -212,6 +212,44 @@ check_app_dependencies() {
                 fi
             fi
             ;;
+        hypr|hyprland)
+            if [[ "$os" == "linux" ]]; then
+                command_exists hyprctl || missing_packages+=("hyprland")
+                command_exists waybar || missing_packages+=("waybar (for status bar)")
+                command_exists wlogout || missing_packages+=("wlogout (for power menu)")
+                command_exists swaylock || missing_packages+=("swaylock (for lock screen)")
+                command_exists rofi || missing_packages+=("rofi (for application launcher)")
+                command_exists wpctl || missing_packages+=("wireplumber (for audio control)")
+                command_exists brightnessctl || missing_packages+=("brightnessctl (for brightness control)")
+                # Wallpaper support
+                command_exists swww || missing_packages+=("swww (for wallpaper management)")
+                # Screenshot support
+                if ! command_exists grim; then
+                    missing_packages+=("grim (for screenshots)")
+                fi
+                if ! command_exists slurp; then
+                    missing_packages+=("slurp (for screen selection)")
+                fi
+                # Notification daemon
+                command_exists dunst || missing_packages+=("dunst (for notifications)")
+                # Terminal emulator
+                if ! command_exists kitty && ! command_exists alacritty && ! command_exists wezterm && ! command_exists foot; then
+                    missing_packages+=("kitty or alacritty or wezterm or foot")
+                fi
+                # File manager
+                if ! command_exists thunar && ! command_exists nautilus && ! command_exists dolphin && ! command_exists nemo; then
+                    missing_packages+=("thunar or nautilus or dolphin or nemo")
+                fi
+                # Browser
+                if ! command_exists firefox && ! command_exists google-chrome && ! command_exists chromium && ! command_exists brave; then
+                    missing_packages+=("firefox or google-chrome or chromium or brave")
+                fi
+                # Font for proper display
+                if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
+                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
+                fi
+            fi
+            ;;
         rofi)
             command_exists rofi || missing_packages+=("rofi")
             ;;

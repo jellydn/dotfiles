@@ -19,17 +19,44 @@
   ],
   
   "modules-center": [
-    "clock"
+    "hyprland/workspaces"
   ],
   
   "modules-right": [
     "pulseaudio",
-    "network", 
+    "network",
     "battery",
+    "clock",
     "custom/power"
   ],
 
   // Left modules
+  "hyprland/workspaces": {
+    "active-only": false,
+    "all-outputs": true,
+    "disable-scroll": false,
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e+1",
+    "format": "{icon}",
+    "format-icons": {
+      "1": "󰲠",
+      "2": "󰲢",
+      "3": "󰲤",
+      "4": "󰲦",
+      "5": "󰲨",
+      "6": "󰲪",
+      "7": "󰲬",
+      "8": "󰲮",
+      "9": "󰲰",
+      "10": "󰿬",
+      "urgent": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
   "custom/rofi": {
     "format": "󱓞",
     "tooltip": false,
@@ -48,8 +75,8 @@
   "custom/browser": {
     "format": "󰈹",
     "tooltip": false,
-    "on-click": "firefox",
-    "on-click-right": "firefox --private-window"
+    "on-click": "hyprctl dispatch workspace 2 && firefox",
+    "on-click-right": "hyprctl dispatch workspace 2 && firefox --private-window"
   },
   
   // Center modules

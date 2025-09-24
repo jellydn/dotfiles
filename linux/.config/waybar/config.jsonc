@@ -7,17 +7,15 @@
   "exclusive": true,
   "passthrough": false,
   "gtk-layer-shell": true,
-  "margin-left": 6,
-  "margin-right": 6,
-  "margin-top": 2,
+  "margin-left": 8,
+  "margin-right": 8,
+  "margin-top": 4,
   "reload_style_on_change": true,
   
   "modules-left": [
     "custom/rofi",
-    "custom/terminal", 
-    "custom/browser",
-    "hyprland/workspaces",
-    "hyprland/window"
+    "custom/terminal",
+    "custom/browser"
   ],
   
   "modules-center": [
@@ -35,51 +33,16 @@
   "custom/rofi": {
     "format": "󱓞",
     "tooltip": false,
-    "on-click": "rofi -show drun -theme ~/.config/rofi/simple-kool.rasi",
-    "on-click-right": "rofi -show run -theme ~/.config/rofi/simple-kool.rasi"
+    "on-click": "~/.config/rofi/launchers/type-2/launcher.sh || rofi -show drun",
+    "on-click-right": "rofi -show run"
   },
   
-  "hyprland/workspaces": {
-    "format": "{icon}",
-    "format-icons": {
-      "1": "󰲠",
-      "2": "󰲢", 
-      "3": "󰲤",
-      "4": "󰲦",
-      "5": "󰲨",
-      "6": "󰲪",
-      "7": "󰲬",
-      "8": "󰲮",
-      "9": "󰲰",
-      "10": "󰿬"
-    },
-    "on-click": "activate",
-    "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
-    "all-outputs": false,
-    "active-only": false,
-    "show-special": false,
-    "tooltip": false
-  },
-  
-  "hyprland/window": {
-    "format": "{title}",
-    "max-length": 60,
-    "separate-outputs": true,
-    "tooltip": false,
-    "rewrite": {
-      "(.*)Mozilla Firefox": "󰈹 Firefox",
-      "(.*)Visual Studio Code": "󰨞 VS Code", 
-      "(.*)Thunar": "󰉋 Files",
-      "(.*)foot": "󰆍 Terminal"
-    }
-  },
   
   "custom/terminal": {
     "format": "󰆍",
     "tooltip": false,
-    "on-click": "foot",
-    "on-click-right": "~/.config/hypr/scripts/terminal-chooser.sh"
+    "on-click": "kitty || alacritty || wezterm || foot || gnome-terminal || xterm",
+    "on-click-right": "alacritty"
   },
 
   "custom/browser": {

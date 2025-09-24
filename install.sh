@@ -72,6 +72,160 @@ detect_os() {
     detect_platform | cut -d'-' -f1
 }
 
+# Check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Check package dependencies for specific applications
+check_app_dependencies() {
+    local app_name="$1"
+    local os="$2"
+    local missing_packages=()
+    local install_cmd=""
+
+    # Determine package manager and install command
+    if [[ "$os" == "linux" ]]; then
+        if command_exists dnf; then
+            install_cmd="dnf install"
+        elif command_exists apt; then
+            install_cmd="apt install"
+        elif command_exists pacman; then
+            install_cmd="pacman -S"
+        elif command_exists zypper; then
+            install_cmd="zypper install"
+        fi
+    elif [[ "$os" == "macos" ]]; then
+        if command_exists brew; then
+            install_cmd="brew install"
+        fi
+    fi
+
+    # Check dependencies based on app
+    case "$app_name" in
+        niri)
+            if [[ "$os" == "linux" ]]; then
+                # Core niri runtime dependencies
+                command_exists niri || missing_packages+=("niri")
+                command_exists wpctl || missing_packages+=("wireplumber")
+                command_exists brightnessctl || missing_packages+=("brightnessctl")
+                command_exists swaylock || missing_packages+=("swaylock")
+                command_exists waybar || missing_packages+=("waybar")
+                # Clipboard support for screenshots (niri native actions handle clipboard)
+                # grim and slurp are optional but nice to have
+                if ! command_exists grim; then
+                    missing_packages+=("grim (optional for external screenshots)")
+                fi
+                # Terminal emulator (prefer kitty or alacritty)
+                if ! command_exists kitty && ! command_exists alacritty && ! command_exists wezterm && ! command_exists foot; then
+                    missing_packages+=("kitty or alacritty or wezterm or foot")
+                fi
+                # File manager
+                if ! command_exists thunar && ! command_exists nautilus && ! command_exists dolphin && ! command_exists nemo; then
+                    missing_packages+=("thunar or nautilus or dolphin or nemo")
+                fi
+                # Browser
+                if ! command_exists firefox && ! command_exists google-chrome && ! command_exists chromium && ! command_exists brave; then
+                    missing_packages+=("firefox or google-chrome or chromium or brave")
+                fi
+                # Font for proper display
+                if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
+                    missing_packages+=("maple-mono-nf-fonts or nerd-fonts")
+                fi
+            fi
+            ;;
+        i3)
+            if [[ "$os" == "linux" ]]; then
+                command_exists i3 || missing_packages+=("i3")
+                command_exists i3lock || missing_packages+=("i3lock")
+                command_exists polybar || missing_packages+=("polybar")
+                command_exists rofi || missing_packages+=("rofi")
+                command_exists feh || missing_packages+=("feh")
+                command_exists brightnessctl || missing_packages+=("brightnessctl")
+                # Check for audio system
+                if ! command_exists pactl && ! command_exists wpctl; then
+                    missing_packages+=("pulseaudio-utils or wireplumber")
+                fi
+            fi
+            ;;
+        alacritty)
+            command_exists alacritty || missing_packages+=("alacritty")
+            # Check for font
+            if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
+                missing_packages+=("maple-mono-nf-fonts or nerd-fonts")
+            fi
+            ;;
+        kitty)
+            command_exists kitty || missing_packages+=("kitty")
+            ;;
+        wezterm)
+            command_exists wezterm || missing_packages+=("wezterm")
+            ;;
+        ghostty)
+            command_exists ghostty || missing_packages+=("ghostty")
+            ;;
+        fish)
+            command_exists fish || missing_packages+=("fish")
+            ;;
+        tmux)
+            command_exists tmux || missing_packages+=("tmux")
+            ;;
+        nvim)
+            command_exists nvim || missing_packages+=("neovim")
+            ;;
+        zsh)
+            command_exists zsh || missing_packages+=("zsh")
+            ;;
+        waybar)
+            if [[ "$os" == "linux" ]]; then
+                command_exists waybar || missing_packages+=("waybar")
+                # Optional but commonly used waybar modules
+                command_exists playerctl || missing_packages+=("playerctl (optional for media control)")
+                command_exists bluetoothctl || missing_packages+=("bluez (optional for bluetooth)")
+                # Check for network manager for network module
+                if ! command_exists nmcli && ! command_exists iwctl; then
+                    missing_packages+=("networkmanager or iwd (optional for network)")
+                fi
+                # Font for icons
+                if ! fc-list 2>/dev/null | grep -qi "font.*awesome\|nerd.*font"; then
+                    missing_packages+=("fontawesome-fonts-all (for icons)")
+                    missing_packages+=("nerd-fonts (for terminal icons, optional)")
+                fi
+            fi
+            ;;
+        rofi)
+            command_exists rofi || missing_packages+=("rofi")
+            ;;
+        files)
+            # File manager options
+            if ! command_exists thunar && ! command_exists nautilus && ! command_exists dolphin && ! command_exists nemo; then
+                missing_packages+=("thunar or nautilus or dolphin or nemo")
+            fi
+            ;;
+        browser)
+            # Browser options
+            if ! command_exists firefox && ! command_exists google-chrome && ! command_exists chromium && ! command_exists brave; then
+                missing_packages+=("firefox or google-chrome or chromium or brave")
+            fi
+            ;;
+    esac
+
+    # Report missing packages
+    if [[ ${#missing_packages[@]} -gt 0 ]]; then
+        log_warning "$app_name has missing dependencies:"
+        for package in "${missing_packages[@]}"; do
+            echo "  - $package"
+        done
+        if [[ -n "$install_cmd" ]]; then
+            echo "  Install with: $install_cmd ${missing_packages[*]}"
+        fi
+        echo
+        return 1
+    fi
+
+    return 0
+}
+
 # Validate stow prerequisites
 validate_stow_environment() {
     local os="$1"
@@ -152,11 +306,6 @@ portable_realpath() {
         # Fallback for other systems  
         echo "$(cd "$(dirname "$path")" 2>/dev/null && pwd -P)/$(basename "$path")" 2>/dev/null
     fi
-}
-
-# Check if command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
 }
 
 # Install stow based on OS
@@ -648,6 +797,7 @@ get_available_apps() {
         if [[ -f "macos/.wezterm.lua" ]]; then apps+=("wezterm"); fi
     elif [[ "$os" == "linux" ]]; then
         if [[ -f "linux/.alacritty.toml" ]]; then apps+=("alacritty"); fi
+        if [[ -d "linux/.config/niri" ]]; then apps+=("niri"); fi
     fi
     
     
@@ -677,10 +827,17 @@ stow_app() {
     local app_name="$1"
     local os="$2"
     local simulate="${3:-false}"
-    
+
     # Change to dotfiles directory
     cd "$(dirname "$0")"
-    
+
+    # Check package dependencies before stowing
+    if [[ "$simulate" != "true" ]]; then
+        if ! check_app_dependencies "$app_name" "$os"; then
+            log_warning "Consider installing missing dependencies before using $app_name"
+        fi
+    fi
+
     if [[ "$simulate" == "true" ]]; then
         log_info "🔍 SIMULATION: Would stow $app_name configuration..."
     else
@@ -822,6 +979,17 @@ stow_app() {
                     if [[ "$simulate" == "true" ]]; then
                         log_info "🔍 SIMULATION: Would stow linux/.alacritty.toml..."
                         stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "alacritty" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
+                    fi
+                    stowed=true
+                fi
+                ;;
+            niri)
+                if [[ -d "linux/.config/niri" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow linux/.config/niri..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "niri" || true
                     else
                         stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
                     fi
@@ -971,6 +1139,17 @@ unstow_app() {
                     else
                         log_info "Removing symlink: $HOME/.alacritty.toml"
                         rm "$HOME/.alacritty.toml"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+            niri)
+                if [[ -d "linux/.config/niri" ]] && [[ -L "$HOME/.config/niri" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.config/niri"
+                    else
+                        log_info "Removing symlink: $HOME/.config/niri"
+                        rm "$HOME/.config/niri"
                     fi
                     unstowed=true
                 fi
@@ -1348,7 +1527,29 @@ show_dotfiles_status() {
     if command_exists git; then
         echo "  ✅ Git: $(git --version)"
     else
-        echo "  ❌ Git: Not installed"  
+        echo "  ❌ Git: Not installed"
+    fi
+    echo ""
+
+    # Check package dependencies for available apps
+    echo "📦 Application Dependencies:"
+    local apps=($(get_available_apps "$os"))
+    local has_missing_deps=false
+
+    for app in "${apps[@]}"; do
+        if check_app_dependencies "$app" "$os" >/dev/null 2>&1; then
+            echo "  ✅ $app: All dependencies installed"
+        else
+            echo "  ⚠️  $app: Missing dependencies"
+            # Capture dependency output without color codes and reformat for status display
+            local missing_output=$(check_app_dependencies "$app" "$os" 2>&1 | grep -A 100 "has missing dependencies:" | tail -n +2 | grep -E "^  -|Install with:")
+            echo "$missing_output" | sed 's/^/    /'
+            has_missing_deps=true
+        fi
+    done
+
+    if [[ "$has_missing_deps" == "false" ]]; then
+        echo "  🎉 All applications have their dependencies satisfied!"
     fi
     echo ""
     

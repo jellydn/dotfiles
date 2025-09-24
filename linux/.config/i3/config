@@ -302,3 +302,54 @@ mode "$mode_gaps_left" {
         bindsym Escape mode "default"
 }
 
+
+# Power management mode
+set $mode_power Power: (l)ock, (e)xit, (s)uspend, (h)ibernate, (r)eboot, (p)oweroff
+bindsym $mod+Escape mode "$mode_power"
+
+mode "$mode_power" {
+    # Lock screen
+    bindsym l exec --no-startup-id i3lock --color=1f1f28, mode "default"
+
+    # Exit i3
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+
+    # Suspend
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+
+    # Hibernate
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+
+    # Reboot
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+
+    # Poweroff
+    bindsym p exec --no-startup-id systemctl poweroff, mode "default"
+
+    # Back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Media keys and function key bindings
+# Volume controls (PulseAudio/PipeWire)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+# Brightness controls
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# Alternative brightness controls with Mod key
+bindsym $mod+F11 exec --no-startup-id brightnessctl set 10%-
+bindsym $mod+F12 exec --no-startup-id brightnessctl set +10%
+
+# Alternative volume controls with Mod key
+bindsym $mod+F9 exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+F10 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+F11 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+
+# Screen lock shortcut
+bindsym $mod+l exec --no-startup-id i3lock --color=1f1f28

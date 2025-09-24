@@ -23,7 +23,14 @@ input {
 
         // Enable numlock on startup, omitting this setting disables it.
         numlock
+
+        // Key repeat settings to match i3 config (xset r rate 200 30)
+        repeat-delay 200
+        repeat-rate 30
     }
+
+    // Keep Super key as the main modifier for niri (different from i3's Alt)
+    mod-key "Super"
 
     // Next sections include libinput settings.
     // Omitting settings disables them, or leaves them at their default values.
@@ -110,8 +117,8 @@ input {
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Layout
 layout {
-    // Set gaps around windows in logical pixels.
-    gaps 16
+    // Set gaps around windows in logical pixels (balanced spacing)
+    gaps 6
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
@@ -159,21 +166,21 @@ layout {
         // off
 
         // How many logical pixels the ring extends out from the windows.
-        width 4
+        width 2
 
         // Colors can be set in a variety of ways:
         // - CSS named colors: "red"
         // - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
-        // Color of the ring on the active monitor.
-        active-color "#7fc8ff"
+        // Color of the ring on the active monitor (Kanagawa theme - subtle)
+        active-color "#7e9cd855"
 
-        // Color of the ring on inactive monitors.
+        // Color of the ring on inactive monitors (Kanagawa theme)
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        inactive-color "#505050"
+        inactive-color "#54546d"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -255,10 +262,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // left 64
-        // right 64
-        // top 64
-        // bottom 64
+        left 8
+        right 8
+        top 4
+        bottom 8
     }
 }
 
@@ -267,8 +274,8 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+// Start waybar with our custom configuration
+spawn-sh-at-startup "waybar -c ~/.config/waybar/config.jsonc -s ~/.config/waybar/style.css"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -361,10 +368,11 @@ binds {
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    // Terminal launcher - prefers kitty, falls back to alacritty, then any available terminal
+    Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "kitty || alacritty || wezterm || foot || gnome-terminal || xterm"; }
+    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "~/.config/rofi/launchers/type-2/launcher.sh || rofi -show drun"; }
+    Mod+e hotkey-overlay-title="Open File Manager" { spawn-sh "thunar || nautilus || dolphin || nemo || pcmanfm || ranger"; }
+    Mod+b hotkey-overlay-title="Open Browser" { spawn-sh "firefox || google-chrome || chromium || brave || vivaldi || opera"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -390,7 +398,7 @@ binds {
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false { toggle-overview; }
 
-    Mod+Q repeat=false { close-window; }
+    Mod+Shift+q repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
@@ -515,15 +523,15 @@ binds {
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
-    Mod+Ctrl+1 { move-column-to-workspace 1; }
-    Mod+Ctrl+2 { move-column-to-workspace 2; }
-    Mod+Ctrl+3 { move-column-to-workspace 3; }
-    Mod+Ctrl+4 { move-column-to-workspace 4; }
-    Mod+Ctrl+5 { move-column-to-workspace 5; }
-    Mod+Ctrl+6 { move-column-to-workspace 6; }
-    Mod+Ctrl+7 { move-column-to-workspace 7; }
-    Mod+Ctrl+8 { move-column-to-workspace 8; }
-    Mod+Ctrl+9 { move-column-to-workspace 9; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
 
     // Alternatively, there are commands to move just a single window:
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
@@ -547,8 +555,8 @@ binds {
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+F { maximize-column; }
+    Mod+f { fullscreen-window; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
@@ -575,8 +583,9 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
+    Mod+Shift+space { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+space { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -591,9 +600,15 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    // Screenshots (42-key keyboard friendly)
+    Mod+Shift+s hotkey-overlay-title="Screenshot Selection (Save)" { screenshot; }
+    Mod+Ctrl+Shift+s hotkey-overlay-title="Screenshot Screen (Save)" { screenshot-screen; }
+    Mod+Alt+w hotkey-overlay-title="Screenshot Window (Save)" { screenshot-window; }
+
+    // Screenshots to clipboard (using niri native actions)
+    Mod+Ctrl+s hotkey-overlay-title="Screenshot Selection (Clipboard)" { spawn "niri" "msg" "action" "screenshot" "--show-pointer=false"; }
+    Mod+Ctrl+Shift+w hotkey-overlay-title="Screenshot Screen (Clipboard)" { spawn "niri" "msg" "action" "screenshot-screen" "--write-to-disk=false" "--show-pointer=false"; }
+    Mod+Ctrl+w hotkey-overlay-title="Screenshot Window (Clipboard)" { spawn "niri" "msg" "action" "screenshot-window" "--write-to-disk=false"; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
@@ -605,6 +620,18 @@ binds {
     // which ensures niri always processes them, even when an inhibitor is active.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
+    // Essential power management (waybar handles UI controls)
+    Mod+Shift+Delete allow-when-locked=false hotkey-overlay-title="Lock Screen" { spawn "swaylock" "--color" "1f1f28"; }
+    Mod+Shift+End hotkey-overlay-title="Exit Niri" { quit; }
+    Mod+Alt+r allow-when-locked=false hotkey-overlay-title="Reboot System" { spawn "systemctl" "reboot"; }
+    Mod+Alt+p allow-when-locked=false hotkey-overlay-title="Shutdown System" { spawn "systemctl" "poweroff"; }
+
+    // Essential audio control (waybar handles volume UI)
+    Mod+F9 allow-when-locked=true hotkey-overlay-title="Toggle Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+
+    // Restart waybar
+    Mod+Shift+b allow-when-locked=false hotkey-overlay-title="Restart Waybar" { spawn-sh "pkill waybar; waybar -c ~/.config/waybar/config.jsonc -s ~/.config/waybar/style.css &"; }
+
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
@@ -612,4 +639,7 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+
+    // Note: niri uses column-based resizing via existing Mod+Plus/Minus bindings above
+    // This matches i3's resize functionality but with a different approach
 }

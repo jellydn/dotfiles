@@ -9,38 +9,16 @@ button {
 	background-color: #1e1e2e;
 	border-style: solid;
 	border-width: 2px;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 25%;
 	border-radius: 15px;
 	margin: 10px;
+	font-family: sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	min-width: 120px;
+	min-height: 80px;
 }
 
 button:focus, button:active, button:hover {
 	background-color: #313244;
 	outline-style: none;
-}
-
-#lock {
-    background-image: image(url("icons/lock.png"));
-}
-
-#logout {
-    background-image: image(url("icons/logout.png"));
-}
-
-#suspend {
-    background-image: image(url("icons/suspend.png"));
-}
-
-#hibernate {
-    background-image: image(url("icons/hibernate.png"));
-}
-
-#shutdown {
-    background-image: image(url("icons/shutdown.png"));
-}
-
-#reboot {
-    background-image: image(url("icons/reboot.png"));
 }

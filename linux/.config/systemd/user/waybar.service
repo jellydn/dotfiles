@@ -7,9 +7,12 @@ Requisite=graphical-session.target
 
 [Service]
 Type=simple
+# Use absolute paths that systemd can resolve
 ExecStart=/usr/bin/waybar -c %h/.config/waybar/config.jsonc -s %h/.config/waybar/style.css
 Restart=on-failure
 RestartSec=3
+# Ensure environment variables are available
+Environment=XDG_CONFIG_HOME=%h/.config
 
 [Install]
 WantedBy=default.target

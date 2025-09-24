@@ -676,6 +676,17 @@ stow_packages() {
             }
         fi
     fi
+
+    # Setup fish plugins if fish config was stowed
+    if [[ "$simulate" != "true" ]]; then
+        if [[ -f "$HOME/.config/fish/fish_plugins" ]] && command_exists fish; then
+            echo ""
+            log_info "Setting up fish plugins..."
+            setup_fish_plugins || {
+                log_warning "Fish plugins setup failed. You can run it manually later: $script_dir/scripts/setup-fish-plugins.sh"
+            }
+        fi
+    fi
 }
 
 # Helper function to detect and clean orphaned dotfiles symlinks
@@ -1196,7 +1207,8 @@ show_usage() {
     echo "  unstow-app <app>  - Unstow a specific app configuration"
     echo "  tools             - Install development tools with mise"
     echo "  fonts             - Install Maple Mono Nerd Font for terminal applications"
-    echo "  fish              - Install Fish shell, Fisher plugin manager, and set as default shell"
+    echo "  fish              - Install Fish shell and set as default shell (plugins setup after stow)"
+    echo "  fish-plugins      - Setup Fish shell plugins (Fisher and Pure theme)"
     echo "  mcp               - Setup MCP servers for Claude"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
@@ -1352,10 +1364,10 @@ install_tools() {
     fi
 }
 
-# Install Fish shell and Fisher plugin manager
+# Install Fish shell (plugins are setup separately after stow)
 install_fish() {
     local os="$1"
-    
+
     # Check if fish is already installed
     if command_exists fish; then
         log_info "Fish shell is already installed"
@@ -1368,14 +1380,14 @@ install_fish() {
                 else
                     log_info "Homebrew not found. Installing Homebrew..."
                     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                    
+
                     # Add Homebrew to PATH for current session
                     if [[ -f "/opt/homebrew/bin/brew" ]]; then
                         eval "$(/opt/homebrew/bin/brew shellenv)"
                     elif [[ -f "/usr/local/bin/brew" ]]; then
                         eval "$(/usr/local/bin/brew shellenv)"
                     fi
-                    
+
                     if command_exists brew; then
                         log_success "Homebrew installed successfully"
                         brew install fish
@@ -1402,40 +1414,18 @@ install_fish() {
         esac
         log_success "Fish shell installed successfully"
     fi
-    
-    # Install Fisher and plugins after fish config is set up
-    log_info "Setting up Fisher plugin manager and fish plugins..."
-    
-    # Create a temporary fish config without problematic lines for initial setup
-    local temp_fish_dir="/tmp/fish_setup_$$"
-    mkdir -p "$temp_fish_dir"
-    
-    # Check if Fisher functions directory exists
-    if [[ ! -d "$HOME/.config/fish/functions" ]] || [[ ! -f "$HOME/.config/fish/functions/fisher.fish" ]]; then
-        log_info "Installing Fisher plugin manager..."
-        # Install Fisher with clean environment
-        env HOME="$HOME" XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}" \
-            fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher" 2>/dev/null || {
-            log_warning "Fisher installation may have failed due to config issues - will retry after dotfiles installation"
-        }
-    else
-        log_info "Fisher plugin manager is already installed"
-    fi
-    
-    # Clean up temp directory
-    rm -rf "$temp_fish_dir"
-    
+
     # Change default shell to fish
     local fish_path
     fish_path=$(command -v fish)
-    
+
     if [[ -n "$fish_path" ]]; then
         # Check if fish is in /etc/shells
         if ! grep -q "^$fish_path$" /etc/shells 2>/dev/null; then
             log_info "Adding fish to /etc/shells..."
             echo "$fish_path" | sudo tee -a /etc/shells >/dev/null
         fi
-        
+
         # Check if fish is already the default shell
         if [[ "$SHELL" == "$fish_path" ]]; then
             log_info "Fish is already the default shell"
@@ -1452,34 +1442,21 @@ install_fish() {
         log_error "Fish shell not found in PATH"
         return 1
     fi
+
+    log_info "Fish plugins will be setup after dotfiles are stowed"
 }
 
 # Setup fish plugins after dotfiles installation
 setup_fish_plugins() {
     log_info "Setting up fish plugins..."
-    
-    # Only proceed if fish is available and Fisher is installed
-    if ! command_exists fish; then
-        log_warning "Fish shell not found, skipping plugin setup"
-        return 0
-    fi
-    
-    # Check if fish_plugins file exists
-    if [[ -f "$HOME/.config/fish/fish_plugins" ]]; then
-        log_info "Installing Fish plugins from fish_plugins..."
-        
-        # Try to install/update plugins, but handle config errors gracefully
-        if fish -c "fisher --version" >/dev/null 2>&1; then
-            fish -c "fisher update" 2>/dev/null || {
-                log_warning "Some fish plugins may not have installed correctly due to config issues"
-                log_info "You can manually run 'fisher update' after fixing any config problems"
-            }
-            log_success "Fish plugins setup completed"
-        else
-            log_warning "Fisher not properly installed, please run 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher' manually"
-        fi
+    local script_dir="$(dirname "$0")"
+
+    if [[ -x "$script_dir/scripts/setup-fish-plugins.sh" ]]; then
+        "$script_dir/scripts/setup-fish-plugins.sh"
     else
-        log_info "No fish_plugins file found, skipping plugin installation"
+        log_error "setup-fish-plugins.sh script not found or not executable"
+        log_info "You can manually setup fish plugins after stowing fish config"
+        return 1
     fi
 }
 
@@ -1883,7 +1860,10 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_fish "$os"
-            # Setup fish plugins after dotfiles are available
+            # Note: Fish plugins are automatically setup when stowing dotfiles
+            log_info "Fish plugins will be setup automatically when you run './install.sh install'"
+            ;;
+        fish-plugins)
             setup_fish_plugins
             ;;
         mcp)

@@ -1,0 +1,119 @@
+# Alacritty configuration for Linux
+# Kanagawa theme matching Ghostty and Kitty setups
+
+[font]
+size = 15.0
+
+[font.normal]
+family = "Maple Mono NF"
+style = "Regular"
+
+[font.bold]
+family = "Maple Mono NF"
+style = "Medium"
+
+[font.italic]
+family = "Maple Mono NF"
+style = "Book Italic"
+
+[font.bold_italic]
+family = "Maple Mono NF"
+style = "Medium Italic"
+
+# Kanagawa Wave theme colors (matching Kitty and Ghostty)
+[colors.primary]
+background = "#1f1f28"
+foreground = "#dcd7ba"
+
+[colors.cursor]
+text = "#c8c093"
+cursor = "#c8c093"
+
+[colors.selection]
+text = "#c8c093"
+background = "#2d4f67"
+
+[colors.normal]
+black = "#16161d"
+red = "#c34043"
+green = "#76946a"
+yellow = "#c0a36e"
+blue = "#7e9cd8"
+magenta = "#957fb8"
+cyan = "#6a9589"
+white = "#c8c093"
+
+[colors.bright]
+black = "#727169"
+red = "#e82424"
+green = "#98bb6c"
+yellow = "#e6c384"
+blue = "#7fb4ca"
+magenta = "#938aa9"
+cyan = "#7aa89f"
+white = "#dcd7ba"
+
+# Additional Kanagawa colors
+[[colors.indexed_colors]]
+index = 16
+color = "#ffa066"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#ff5d62"
+
+[window]
+opacity = 0.98
+decorations = "none"
+
+[window.padding]
+x = 5
+y = 5
+
+[scrolling]
+history = 10000
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
+
+[terminal.shell]
+program = "fish"
+
+# Key bindings matching Ghostty and Kitty
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+chars = "\u001f"
+
+[[keyboard.bindings]]
+key = "Comma"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt"
+chars = "\u001b[1;3D"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt"
+chars = "\u001b[1;3C"

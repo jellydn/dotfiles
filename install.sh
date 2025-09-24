@@ -646,6 +646,8 @@ get_available_apps() {
         if [[ -f "macos/.aerospace.toml" ]]; then apps+=("aerospace"); fi
         if [[ -f "macos/.alacritty.toml" ]]; then apps+=("alacritty"); fi
         if [[ -f "macos/.wezterm.lua" ]]; then apps+=("wezterm"); fi
+    elif [[ "$os" == "linux" ]]; then
+        if [[ -f "linux/.alacritty.toml" ]]; then apps+=("alacritty"); fi
     fi
     
     
@@ -811,8 +813,25 @@ stow_app() {
                 ;;
         esac
     fi
-    
-    
+
+    # Handle Linux apps with root-level configs
+    if [[ "$os" == "linux" ]]; then
+        case "$app_name" in
+            alacritty)
+                if [[ -f "linux/.alacritty.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow linux/.alacritty.toml..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "alacritty" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
+                    fi
+                    stowed=true
+                fi
+                ;;
+        esac
+    fi
+
+
     if [[ "$stowed" == "true" ]]; then
         log_success "$app_name configuration stowed successfully!"
     else
@@ -941,8 +960,25 @@ unstow_app() {
                 ;;
         esac
     fi
-    
-    
+
+    # Handle Linux apps with root-level configs
+    if [[ "$os" == "linux" ]]; then
+        case "$app_name" in
+            alacritty)
+                if [[ -f "linux/.alacritty.toml" ]] && [[ -L "$HOME/.alacritty.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.alacritty.toml"
+                    else
+                        log_info "Removing symlink: $HOME/.alacritty.toml"
+                        rm "$HOME/.alacritty.toml"
+                    fi
+                    unstowed=true
+                fi
+                ;;
+        esac
+    fi
+
+
     if [[ "$unstowed" == "true" ]]; then
         log_success "$app_name configuration unstowed successfully!"
     else

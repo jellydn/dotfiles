@@ -1,0 +1,11 @@
+[Unit]
+Description=Hyprland Health Monitor
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c 'while sleep 300; do ~/.dotfiles/scripts/hyprland-health-check.sh percentage | logger -t hyprland-monitor; done'
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Hyprland Health Monitor every 5 minutes
+Requires=hyprland-monitor.service
+
+[Timer]
+OnCalendar=*:0/5
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,25 @@
+{
+    "custom/hyprland-status": {
+        "exec": "~/.dotfiles/scripts/hyprland-health-check.sh json",
+        "return-type": "json",
+        "interval": 10,
+        "on-click": "~/.dotfiles/scripts/hyprland-status.sh",
+        "format": "󰖲 {}",
+        "tooltip": true,
+        "signal": 8
+    },
+    "custom/hyprland-workspaces": {
+        "exec": "hyprctl workspaces -j | jq 'length'",
+        "interval": 2,
+        "format": "󱂬 {}",
+        "tooltip-format": "{} active workspaces",
+        "on-click": "~/.dotfiles/scripts/hyprland-status.sh workspaces"
+    },
+    "custom/hyprland-windows": {
+        "exec": "hyprctl clients -j | jq 'length'",
+        "interval": 2,
+        "format": "󰖯 {}",
+        "tooltip-format": "{} open windows",
+        "on-click": "~/.dotfiles/scripts/hyprland-status.sh windows"
+    }
+}

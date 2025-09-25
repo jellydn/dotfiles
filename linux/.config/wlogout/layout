@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "niri msg action quit",
+    "action" : "~/.dotfiles/scripts/wm-logout.sh logout",
     "text" : "Logout",
     "keybind" : "e"
 }

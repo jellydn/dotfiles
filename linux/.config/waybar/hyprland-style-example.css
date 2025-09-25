@@ -1,0 +1,36 @@
+/* Hyprland status module styling */
+#custom-hyprland-status {
+    padding: 0 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#custom-hyprland-status.good {
+    background-color: #a6da95;
+    color: #1e2030;
+}
+
+#custom-hyprland-status.warning {
+    background-color: #eed49f;
+    color: #1e2030;
+}
+
+#custom-hyprland-status.critical {
+    background-color: #ed8796;
+    color: #1e2030;
+    animation: blink 1s linear infinite;
+}
+
+#custom-hyprland-workspaces,
+#custom-hyprland-windows {
+    padding: 0 8px;
+    margin: 0 3px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.5; }
+}

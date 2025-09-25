@@ -371,8 +371,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Terminal launcher - prefers kitty, falls back to alacritty, then any available terminal
-    Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "kitty || alacritty || wezterm || foot || gnome-terminal || xterm"; }
-    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "rofi -show drun"; }
+    Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "foot || kitty || alacritty || wezterm || gnome-terminal || xterm"; }
+    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "fuzzel"; }
     Mod+e hotkey-overlay-title="Open File Manager" { spawn-sh "thunar || nautilus || dolphin || nemo || pcmanfm || ranger"; }
     Mod+b hotkey-overlay-title="Open Browser" { spawn-sh "firefox || google-chrome || chromium || brave || vivaldi || opera"; }
 

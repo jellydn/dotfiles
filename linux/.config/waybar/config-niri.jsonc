@@ -32,7 +32,7 @@
   "custom/rofi": {
     "format": "󱓞",
     "tooltip": false,
-    "on-click": "rofi -show drun",
+    "on-click": "fuzzel",
     "on-click-right": "rofi -show run"
   },
 
@@ -40,7 +40,7 @@
   "custom/terminal": {
     "format": "󰆍",
     "tooltip": false,
-    "on-click": "kitty || alacritty || wezterm || foot || gnome-terminal || xterm",
+    "on-click": "foot || kitty || alacritty || wezterm || gnome-terminal || xterm",
     "on-click-right": "alacritty"
   },
 

@@ -1,0 +1,135 @@
+{
+  // KooL-inspired Waybar Configuration for Niri (Performance Optimized)
+  // Based on JaKooLit's Simple configuration
+
+  "layer": "top",
+  "position": "top",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "margin-left": 8,
+  "margin-right": 8,
+  "margin-top": 4,
+  "reload_style_on_change": true,
+
+  "modules-left": [
+    "custom/rofi",
+    "custom/terminal",
+    "custom/browser"
+  ],
+
+  "modules-center": [
+    "clock"
+  ],
+
+  "modules-right": [
+    "pulseaudio",
+    "network",
+    "battery",
+    "custom/power"
+  ],
+
+  "custom/rofi": {
+    "format": "󱓞",
+    "tooltip": false,
+    "on-click": "~/.config/rofi/launchers/type-2/launcher.sh || rofi -show drun",
+    "on-click-right": "rofi -show run"
+  },
+
+
+  "custom/terminal": {
+    "format": "󰆍",
+    "tooltip": false,
+    "on-click": "kitty || alacritty || wezterm || foot || gnome-terminal || xterm",
+    "on-click-right": "alacritty"
+  },
+
+  "custom/browser": {
+    "format": "󰈹",
+    "tooltip": false,
+    "on-click": "niri msg action focus-workspace --reference current --workspace 2 && firefox",
+    "on-click-right": "niri msg action focus-workspace --reference current --workspace 2 && firefox --private-window"
+  },
+
+  // Center modules
+  "clock": {
+    "interval": 1,
+    "format": "{:%H:%M}",
+    "format-alt": "{:%A, %B %d, %Y (%R)}",
+    "tooltip": false,
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'><b>{}</b></span>",
+        "weeks": "<span color='#f38ba8'><b>W{}</b></span>",
+        "weekdays": "<span color='#fab387'><b>{}</b></span>",
+        "today": "<span color='#a6e3a1'><b><u>{}</u></b></span>"
+      }
+    },
+    "on-click": "$TERMINAL -e cal 2>/dev/null || echo 'No calendar available'"
+  },
+
+  // Right modules
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰖁",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "󰂑",
+      "headset": "󰂑",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "tooltip": false,
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-scroll-up": "wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+    "smooth-scrolling-threshold": 1
+  },
+
+  "network": {
+    "format-wifi": "󰤨 {signalStrength}%",
+    "format-ethernet": "󰈀 Wired",
+    "format-linked": "󰈀 {ifname}",
+    "format-disconnected": "󰤭 Disconnected",
+    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "tooltip": false,
+    "on-click": "nm-connection-editor",
+  },
+
+  "battery": {
+    "interval": 60,
+    "align": 0,
+    "rotate": 0,
+    "full-at": 100,
+    "design-capacity": false,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󱘖 {capacity}%",
+    "format-full": "{icon} Full",
+    "format-alt": "{icon} {time}",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "format-time": "{H}h {M}min",
+    "tooltip": false
+  },
+
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "wlogout",
+    "on-click-right": "niri msg action quit"
+  }
+}

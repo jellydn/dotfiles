@@ -8,7 +8,7 @@ Requisite=graphical-session.target
 [Service]
 Type=simple
 # Use absolute paths that systemd can resolve
-ExecStart=/usr/bin/waybar -c %h/.config/waybar/config.jsonc -s %h/.config/waybar/style.css
+ExecStart=%h/.config/waybar/launch-waybar.sh
 Restart=on-failure
 RestartSec=3
 # Ensure environment variables are available

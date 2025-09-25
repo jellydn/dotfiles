@@ -32,7 +32,7 @@
   "custom/rofi": {
     "format": "󱓞",
     "tooltip": false,
-    "on-click": "~/.config/rofi/launchers/type-2/launcher.sh || rofi -show drun",
+    "on-click": "rofi -show drun",
     "on-click-right": "rofi -show run"
   },
 
@@ -47,8 +47,8 @@
   "custom/browser": {
     "format": "󰈹",
     "tooltip": false,
-    "on-click": "niri msg action focus-workspace --reference current --workspace 2 && firefox",
-    "on-click-right": "niri msg action focus-workspace --reference current --workspace 2 && firefox --private-window"
+    "on-click": "niri msg action focus-workspace 2 && firefox",
+    "on-click-right": "niri msg action focus-workspace 2 && firefox --private-window"
   },
 
   // Center modules

@@ -372,7 +372,7 @@ binds {
 
     // Terminal launcher - prefers kitty, falls back to alacritty, then any available terminal
     Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "kitty || alacritty || wezterm || foot || gnome-terminal || xterm"; }
-    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "~/.config/rofi/launchers/type-2/launcher.sh || rofi -show drun"; }
+    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "rofi -show drun"; }
     Mod+e hotkey-overlay-title="Open File Manager" { spawn-sh "thunar || nautilus || dolphin || nemo || pcmanfm || ranger"; }
     Mod+b hotkey-overlay-title="Open Browser" { spawn-sh "firefox || google-chrome || chromium || brave || vivaldi || opera"; }
 
@@ -632,7 +632,7 @@ binds {
     Mod+F9 allow-when-locked=true hotkey-overlay-title="Toggle Mute" { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
 
     // Restart waybar
-    Mod+Shift+b allow-when-locked=false hotkey-overlay-title="Restart Waybar" { spawn-sh "pkill waybar; waybar -c ~/.config/waybar/config.jsonc -s ~/.config/waybar/style.css &"; }
+    Mod+Shift+b allow-when-locked=false hotkey-overlay-title="Restart Waybar" { spawn-sh "pkill waybar; ~/.config/waybar/launch-waybar.sh &"; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Shift+E { quit; }

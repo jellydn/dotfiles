@@ -111,6 +111,8 @@ check_app_dependencies() {
                 command_exists brightnessctl || missing_packages+=("brightnessctl")
                 command_exists swaylock || missing_packages+=("swaylock")
                 command_exists waybar || missing_packages+=("waybar")
+                # Application launcher
+                command_exists fuzzel || missing_packages+=("fuzzel")
                 # Systemd services dependencies for background management
                 command_exists swaybg || missing_packages+=("swaybg")
                 command_exists swayidle || missing_packages+=("swayidle")

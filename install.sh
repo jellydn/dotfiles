@@ -147,10 +147,6 @@ check_app_dependencies() {
                 if ! command_exists firefox && ! command_exists google-chrome && ! command_exists chromium && ! command_exists brave; then
                     missing_packages+=("firefox or google-chrome or chromium or brave")
                 fi
-                # Font for proper display
-                if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
-                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
-                fi
             fi
             ;;
         i3)
@@ -169,10 +165,6 @@ check_app_dependencies() {
             ;;
         alacritty)
             command_exists alacritty || missing_packages+=("alacritty")
-            # Check for font
-            if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
-                missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
-            fi
             ;;
         kitty)
             command_exists kitty || missing_packages+=("kitty")
@@ -213,11 +205,6 @@ check_app_dependencies() {
                 if ! command_exists nmcli && ! command_exists iwctl; then
                     missing_packages+=("networkmanager or iwd (optional for network)")
                 fi
-                # Font for icons
-                if ! fc-list 2>/dev/null | grep -qi "font.*awesome\|nerd.*font"; then
-                    missing_packages+=("fontawesome-fonts-all (for waybar icons)")
-                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
-                fi
             fi
             ;;
         hypr|hyprland)
@@ -251,10 +238,6 @@ check_app_dependencies() {
                 # Browser
                 if ! command_exists firefox && ! command_exists google-chrome && ! command_exists chromium && ! command_exists brave; then
                     missing_packages+=("firefox or google-chrome or chromium or brave")
-                fi
-                # Font for proper display
-                if ! fc-list 2>/dev/null | grep -qi "maple.*mono.*nf\|maple.*mono.*nerd"; then
-                    missing_packages+=("Maple Mono Nerd Font (run: ./install.sh fonts)")
                 fi
             fi
             ;;
@@ -1451,7 +1434,7 @@ show_usage() {
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
     echo "  unstow-app <app>  - Unstow a specific app configuration"
     echo "  tools             - Install development tools with mise"
-    echo "  fonts             - Install Maple Mono Nerd Font for terminal applications"
+    echo "  fonts             - Install Maple Mono Nerd Font and Font Awesome"
     echo "  fish              - Install Fish shell and set as default shell (plugins setup after stow)"
     echo "  fish-plugins      - Setup Fish shell plugins (Fisher and Pure theme)"
     echo "  mcp               - Setup MCP servers for Claude"
@@ -1484,7 +1467,8 @@ show_usage() {
 # Install fonts required for terminal applications
 install_fonts() {
     log_info "Installing required fonts..."
-    
+    local os=$(detect_os)
+
     # Check if running on macOS
     if [[ "$OSTYPE" == "darwin"* ]]; then
         # Check if Homebrew is available
@@ -1492,107 +1476,161 @@ install_fonts() {
             log_error "Homebrew is required for font installation on macOS"
             return 1
         fi
-        
-        # Check if Maple Mono Nerd Font is already installed
+
+        # Install Maple Mono Nerd Font
         if brew list --cask font-maple-mono-nf >/dev/null 2>&1; then
             log_info "Maple Mono Nerd Font is already installed"
-            return 0
-        fi
-        
-        log_info "Installing Maple Mono Nerd Font via Homebrew..."
-        if brew install --cask font-maple-mono-nf; then
-            log_success "Maple Mono Nerd Font installed successfully"
         else
-            log_error "Failed to install Maple Mono Nerd Font via Homebrew"
-            return 1
+            log_info "Installing Maple Mono Nerd Font via Homebrew..."
+            if brew install --cask font-maple-mono-nf; then
+                log_success "Maple Mono Nerd Font installed successfully"
+            else
+                log_error "Failed to install Maple Mono Nerd Font via Homebrew"
+                return 1
+            fi
+        fi
+
+        # Install Font Awesome
+        if brew list --cask font-fontawesome >/dev/null 2>&1; then
+            log_info "Font Awesome is already installed"
+        else
+            log_info "Installing Font Awesome via Homebrew..."
+            if brew install --cask font-fontawesome; then
+                log_success "Font Awesome installed successfully"
+            else
+                log_warning "Failed to install Font Awesome"
+            fi
         fi
     else
-        # For non-macOS systems, keep the existing manual installation method
-        log_info "Manual font installation for non-macOS system"
-        
-        # Create fonts directory
-        mkdir -p ~/.local/share/fonts/MapleMono
-        
-        # Check if Maple Mono Nerd Font is already installed
+        # For non-macOS systems (Linux)
+        log_info "Installing fonts for $os..."
+
+        # Install Maple Mono Nerd Font
         if fc-list | grep -q -i "Maple Mono NF"; then
             log_info "Maple Mono Nerd Font is already installed"
-            return 0
-        fi
-        
-        log_info "Downloading Maple Mono Nerd Font..."
-        
-        # Download Maple Mono Nerd Font zip file
-        local font_dir="$HOME/.local/share/fonts/MapleMono"
-        local temp_dir="/tmp/maple-font-$$"
-        local zip_file="$temp_dir/MapleMono-NF.zip"
-        
-        # Create temporary directory
-        mkdir -p "$temp_dir"
-        
-        # Download the latest Maple Mono NF zip from GitHub releases
-        if curl -fL --max-time 60 \
-            -o "$zip_file" \
-            "https://github.com/subframe7536/Maple-font/releases/download/v7.6/MapleMono-NF-unhinted.zip"; then
-            log_info "Downloaded MapleMono-NF-unhinted.zip"
         else
-            log_error "Failed to download Maple Mono Nerd Font"
-            rm -rf "$temp_dir"
-            return 1
-        fi
-        
-        # Extract zip file
-        if command_exists unzip; then
-            log_info "Extracting Maple Mono font files..."
-            if unzip -q "$zip_file" -d "$temp_dir"; then
-                log_info "Successfully extracted font archive"
+            log_info "Downloading Maple Mono Nerd Font..."
+
+            # Create fonts directory
+            mkdir -p ~/.local/share/fonts/MapleMono
+
+            # Download Maple Mono Nerd Font zip file
+            local font_dir="$HOME/.local/share/fonts/MapleMono"
+            local temp_dir="/tmp/maple-font-$$"
+            local zip_file="$temp_dir/MapleMono-NF.zip"
+
+            # Create temporary directory
+            mkdir -p "$temp_dir"
+
+            # Download the latest Maple Mono NF zip from GitHub releases
+            if curl -fL --max-time 60 \
+                -o "$zip_file" \
+                "https://github.com/subframe7536/Maple-font/releases/download/v7.6/MapleMono-NF-unhinted.zip"; then
+                log_info "Downloaded MapleMono-NF-unhinted.zip"
             else
-                log_error "Failed to extract font archive"
+                log_error "Failed to download Maple Mono Nerd Font"
                 rm -rf "$temp_dir"
                 return 1
             fi
-        else
-            log_error "unzip command not found. Please install unzip and try again."
+
+            # Extract zip file
+            if command_exists unzip; then
+                log_info "Extracting Maple Mono font files..."
+                if unzip -q "$zip_file" -d "$temp_dir"; then
+                    log_info "Successfully extracted font archive"
+                else
+                    log_error "Failed to extract font archive"
+                    rm -rf "$temp_dir"
+                    return 1
+                fi
+            else
+                log_error "unzip command not found. Please install unzip and try again."
+                rm -rf "$temp_dir"
+                return 1
+            fi
+
+            # Copy TTF files to font directory
+            local ttf_count=0
+            if find "$temp_dir" -name "*.ttf" -print0 | while IFS= read -r -d '' ttf_file; do
+                cp "$ttf_file" "$font_dir/"
+                log_info "Installed $(basename "$ttf_file")"
+                ((ttf_count++))
+            done; then
+                ttf_count=$(find "$font_dir" -name "*.ttf" | wc -l)
+            fi
+
+            # Clean up temporary directory
             rm -rf "$temp_dir"
-            return 1
+
+            if [[ $ttf_count -eq 0 ]]; then
+                log_error "No TTF files found in the downloaded archive"
+                return 1
+            fi
+
+            log_info "Installed $ttf_count Maple Mono font variants"
+
+            # Refresh font cache
+            if command_exists fc-cache; then
+                log_info "Refreshing font cache..."
+                fc-cache -fv ~/.local/share/fonts/MapleMono >/dev/null 2>&1
+                log_success "Font cache refreshed"
+
+                # Brief pause to ensure fonts are available
+                sleep 1
+            else
+                log_warning "fc-cache not found, fonts may not be immediately available"
+            fi
+
+            # Verify installation
+            if fc-list | grep -q -i "Maple Mono NF"; then
+                log_success "Maple Mono Nerd Font installed successfully"
+            else
+                log_warning "Font installation may not have completed successfully"
+            fi
         fi
-        
-        # Copy TTF files to font directory
-        local ttf_count=0
-        if find "$temp_dir" -name "*.ttf" -print0 | while IFS= read -r -d '' ttf_file; do
-            cp "$ttf_file" "$font_dir/"
-            log_info "Installed $(basename "$ttf_file")"
-            ((ttf_count++))
-        done; then
-            ttf_count=$(find "$font_dir" -name "*.ttf" | wc -l)
-        fi
-        
-        # Clean up temporary directory
-        rm -rf "$temp_dir"
-        
-        if [[ $ttf_count -eq 0 ]]; then
-            log_error "No TTF files found in the downloaded archive"
-            return 1
-        fi
-        
-        log_info "Installed $ttf_count Maple Mono font variants"
-        
-        # Refresh font cache
-        if command_exists fc-cache; then
-            log_info "Refreshing font cache..."
-            fc-cache -fv ~/.local/share/fonts/MapleMono >/dev/null 2>&1
-            log_success "Font cache refreshed"
-            
-            # Brief pause to ensure fonts are available
-            sleep 1
-        else
-            log_warning "fc-cache not found, fonts may not be immediately available"
-        fi
-        
-        # Verify installation
-        if fc-list | grep -q -i "Maple Mono NF"; then
-            log_success "Maple Mono Nerd Font installed successfully"
-        else
-            log_warning "Font installation may not have completed successfully"
+
+        # Install Font Awesome on Linux
+        if [[ "$os" == "linux" ]]; then
+            if fc-list | grep -q -i "font.*awesome"; then
+                log_info "Font Awesome is already installed"
+            else
+                log_info "Installing Font Awesome..."
+
+                # Detect package manager and install
+                if command_exists pacman; then
+                    log_info "Installing Font Awesome via pacman..."
+                    if sudo pacman -S --noconfirm otf-font-awesome 2>/dev/null; then
+                        log_success "Font Awesome installed successfully"
+                    else
+                        log_warning "Failed to install Font Awesome via pacman"
+                        log_info "You can install manually: sudo pacman -S otf-font-awesome"
+                    fi
+                elif command_exists apt; then
+                    log_info "Installing Font Awesome via apt..."
+                    if sudo apt install -y fonts-font-awesome 2>/dev/null; then
+                        log_success "Font Awesome installed successfully"
+                    else
+                        log_warning "Failed to install Font Awesome via apt"
+                        log_info "You can install manually: sudo apt install fonts-font-awesome"
+                    fi
+                elif command_exists dnf; then
+                    log_info "Installing Font Awesome via dnf..."
+                    if sudo dnf install -y fontawesome-fonts-all 2>/dev/null; then
+                        log_success "Font Awesome installed successfully"
+                    else
+                        log_warning "Failed to install Font Awesome via dnf"
+                        log_info "You can install manually: sudo dnf install fontawesome-fonts-all"
+                    fi
+                else
+                    log_warning "No supported package manager found for Font Awesome"
+                    log_info "Please install Font Awesome manually for your distribution"
+                fi
+
+                # Refresh font cache after Font Awesome installation
+                if command_exists fc-cache; then
+                    fc-cache -f >/dev/null 2>&1
+                fi
+            fi
         fi
     fi
 }
@@ -1770,6 +1808,72 @@ show_dotfiles_status() {
         echo "  ✅ Git: $(git --version)"
     else
         echo "  ❌ Git: Not installed"
+    fi
+    echo ""
+
+    # Font status
+    echo "🔤 Font Status:"
+    local has_nerd_font=false
+    local has_font_awesome=false
+    local nerd_font_names=()
+    local font_awesome_versions=()
+
+    # Check for Nerd Fonts
+    if command_exists fc-list; then
+        # Check for Maple Mono NF - use alternative approach to avoid pipe issues
+        local maple_check=$(fc-list 2>/dev/null | grep -i "maple" | grep -i "mono" | grep -i "nf" | wc -l)
+        if [[ $maple_check -gt 0 ]]; then
+            echo "  ✅ Maple Mono Nerd Font: Installed"
+            has_nerd_font=true
+            nerd_font_names+=("Maple Mono NF")
+        else
+            echo "  ❌ Maple Mono Nerd Font: Not installed"
+            echo "     Run: ./install.sh fonts"
+        fi
+
+        # Check for other Nerd Fonts
+        local jetbrains_check=$(fc-list 2>/dev/null | grep -i "jetbrains" | grep -i "nerd" | wc -l)
+        if [[ $jetbrains_check -gt 0 ]]; then
+            echo "  ✅ JetBrains Mono Nerd Font: Installed"
+            has_nerd_font=true
+            nerd_font_names+=("JetBrains Mono NF")
+        fi
+
+        # Check for Font Awesome
+        local fa_count=$(fc-list | grep -ci "font.*awesome")
+        if [[ $fa_count -gt 0 ]]; then
+            has_font_awesome=true
+            # Detect versions
+            if fc-list | grep -qi "font awesome 7"; then
+                font_awesome_versions+=("7")
+            fi
+            if fc-list | grep -qi "font awesome 6"; then
+                font_awesome_versions+=("6")
+            fi
+            if fc-list | grep -qi "font awesome 5"; then
+                font_awesome_versions+=("5")
+            fi
+
+            if [[ ${#font_awesome_versions[@]} -gt 0 ]]; then
+                echo "  ✅ Font Awesome: Installed (v${font_awesome_versions[*]})"
+            else
+                echo "  ✅ Font Awesome: Installed ($fa_count fonts)"
+            fi
+        else
+            echo "  ❌ Font Awesome: Not installed"
+            if [[ "$os" == "linux" ]]; then
+                echo "     Install: sudo pacman -S otf-font-awesome (Arch)"
+                echo "     Or: sudo apt install fonts-font-awesome (Debian/Ubuntu)"
+            elif [[ "$os" == "macos" ]]; then
+                echo "     Install: brew install --cask font-fontawesome"
+            fi
+        fi
+    else
+        echo "  ⚠️  fc-list not available (install fontconfig)"
+    fi
+
+    if [[ "$has_nerd_font" == "true" ]]; then
+        echo "  💡 Terminal apps: Use ${nerd_font_names[0]} for best icon support"
     fi
     echo ""
 

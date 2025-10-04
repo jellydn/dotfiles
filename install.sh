@@ -884,6 +884,7 @@ get_available_apps() {
     elif [[ "$os" == "linux" ]]; then
         if [[ -f "linux/.alacritty.toml" ]]; then apps+=("alacritty"); fi
         if [[ -d "linux/.config/niri" ]]; then apps+=("niri"); fi
+        if [[ -d "linux/.config/hypr" ]]; then apps+=("hypr"); fi
     fi
     
     
@@ -1082,6 +1083,17 @@ stow_app() {
                     stowed=true
                 fi
                 ;;
+            hypr|hyprland)
+                if [[ -d "linux/.config/hypr" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would stow linux/.config/hypr..."
+                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "hypr" || true
+                    else
+                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
+                    fi
+                    stowed=true
+                fi
+                ;;
         esac
     fi
 
@@ -1240,6 +1252,17 @@ unstow_app() {
                     unstowed=true
                 fi
                 ;;
+            hypr|hyprland)
+                if [[ -d "linux/.config/hypr" ]] && [[ -L "$HOME/.config/hypr" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would remove $HOME/.config/hypr"
+                    else
+                        log_info "Removing symlink: $HOME/.config/hypr"
+                        rm "$HOME/.config/hypr"
+                    fi
+                    unstowed=true
+                fi
+                ;;
         esac
     fi
 
@@ -1248,6 +1271,109 @@ unstow_app() {
         log_success "$app_name configuration unstowed successfully!"
     else
         log_warning "$app_name configuration was not found or already unstowed for $os"
+
+        # Check if config exists in filesystem and suggest manual removal
+        local config_exists=false
+        local manual_remove_paths=()
+
+        # Check common config location
+        if [[ -d "$HOME/.config/$app_name" ]] && [[ ! -L "$HOME/.config/$app_name" ]]; then
+            config_exists=true
+            manual_remove_paths+=("$HOME/.config/$app_name")
+        fi
+
+        # Check OS-specific locations based on app
+        case "$app_name" in
+            hypr|hyprland)
+                if [[ -d "$HOME/.config/hypr" ]] && [[ ! -L "$HOME/.config/hypr" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("$HOME/.config/hypr")
+                fi
+                ;;
+            niri)
+                if [[ -d "$HOME/.config/niri" ]] && [[ ! -L "$HOME/.config/niri" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("$HOME/.config/niri")
+                fi
+                ;;
+            yabai)
+                if [[ -f "$HOME/.yabairc" ]] && [[ ! -L "$HOME/.yabairc" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("$HOME/.yabairc")
+                fi
+                ;;
+            skhd)
+                if [[ -f "$HOME/.skhdrc" ]] && [[ ! -L "$HOME/.skhdrc" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("$HOME/.skhdrc")
+                fi
+                ;;
+            alacritty)
+                if [[ -f "$HOME/.alacritty.toml" ]] && [[ ! -L "$HOME/.alacritty.toml" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("$HOME/.alacritty.toml")
+                fi
+                ;;
+        esac
+
+        if [[ "$config_exists" == "true" ]]; then
+            log_info "Found non-symlink $app_name configuration in your home directory."
+            log_info "To manually remove config files, run:"
+            for path in "${manual_remove_paths[@]}"; do
+                if [[ -d "$path" ]]; then
+                    echo "  rm -rf \"$path\""
+                else
+                    echo "  rm \"$path\""
+                fi
+            done
+        fi
+
+        # Suggest package removal based on app and package manager
+        local pkg_name=""
+        local pkg_cmd=""
+
+        # Map app names to package names
+        case "$app_name" in
+            hypr|hyprland) pkg_name="hyprland" ;;
+            niri) pkg_name="niri" ;;
+            waybar) pkg_name="waybar" ;;
+            nvim) pkg_name="neovim" ;;
+            fish) pkg_name="fish" ;;
+            tmux) pkg_name="tmux" ;;
+            alacritty) pkg_name="alacritty" ;;
+            kitty) pkg_name="kitty" ;;
+            wezterm) pkg_name="wezterm" ;;
+            ghostty) pkg_name="ghostty" ;;
+            rofi) pkg_name="rofi" ;;
+            yabai) pkg_name="yabai" ;;
+            skhd) pkg_name="skhd" ;;
+            i3) pkg_name="i3" ;;
+        esac
+
+        if [[ -n "$pkg_name" ]]; then
+            # Detect package manager and suggest removal
+            if command_exists yay; then
+                pkg_cmd="yay -R $pkg_name"
+            elif command_exists pacman; then
+                pkg_cmd="sudo pacman -R $pkg_name"
+            elif command_exists apt; then
+                pkg_cmd="sudo apt remove $pkg_name"
+            elif command_exists dnf; then
+                pkg_cmd="sudo dnf remove $pkg_name"
+            elif command_exists brew; then
+                if [[ "$pkg_name" == "hyprland" || "$pkg_name" == "yabai" || "$pkg_name" == "skhd" ]]; then
+                    pkg_cmd="brew uninstall --cask $pkg_name"
+                else
+                    pkg_cmd="brew uninstall $pkg_name"
+                fi
+            fi
+
+            if [[ -n "$pkg_cmd" ]]; then
+                echo ""
+                log_info "To remove the $app_name package, run:"
+                echo "  $pkg_cmd"
+            fi
+        fi
     fi
 }
 
@@ -1257,7 +1383,7 @@ show_usage() {
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
-    echo "  uninstall         - Remove dotfiles symlinks"
+    echo "  uninstall [app]   - Remove all dotfiles symlinks or specific app (e.g., hypr, nvim)"
     echo "  restow            - Remove and reinstall dotfiles"
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
     echo "  unstow-app <app>  - Unstow a specific app configuration"
@@ -1281,9 +1407,10 @@ show_usage() {
     echo ""
     echo "Examples:"
     echo "  $0 stow-app tmux                # Stow only tmux configuration"
+    echo "  $0 uninstall hypr               # Remove hypr configuration symlinks"
     echo "  $0 unstow-app tmux              # Remove tmux configuration symlinks"
     echo "  $0 stow-app nvim --simulate     # Preview nvim stowing without changes"
-    echo "  $0 unstow-app nvim --simulate   # Preview nvim unstowing without changes"
+    echo "  $0 uninstall nvim --simulate    # Preview nvim unstowing without changes"
     echo ""
     echo "This script will automatically detect your OS and install appropriate configs."
     echo "By default, existing dotfiles are backed up before installation."
@@ -1743,7 +1870,7 @@ get_app_name() {
     
     for arg in "$@"; do
         case "$arg" in
-            stow-app|unstow-app)
+            stow-app|unstow-app|uninstall)
                 found_command=true
                 ;;
             --*)
@@ -1884,9 +2011,27 @@ main() {
             fi
             ;;
         uninstall)
+            # Check if an app name is provided for per-app uninstall
+            local app_name
+            app_name=$(get_app_name "$@")
+
             os=$(detect_os)
             log_info "Detected OS: $os"
-            unstow_packages "$os"
+
+            if [[ -n "$app_name" ]]; then
+                # Per-app uninstall
+                if ! validate_app "$app_name" "$os"; then
+                    log_error "App '$app_name' not found"
+                    echo ""
+                    echo "Available apps:"
+                    get_available_apps "$os" | sed 's/^/  - /'
+                    exit 1
+                fi
+                unstow_app "$app_name" "$os" "$simulate"
+            else
+                # Full uninstall
+                unstow_packages "$os"
+            fi
             ;;
         restow)
             os=$(detect_os)

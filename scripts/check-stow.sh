@@ -127,17 +127,105 @@ is_partially_stow_managed_dir() {
     return 1
 }
 
+# Get available apps from dotfiles structure
+get_available_apps() {
+    local os="$1"
+    local dotfiles_dir="$2"
+    local apps=()
+
+    # Check common apps
+    if [[ -d "$dotfiles_dir/common/.config" ]]; then
+        for app_dir in "$dotfiles_dir/common/.config"/*/; do
+            if [[ -d "$app_dir" ]]; then
+                local app_name=$(basename "$app_dir")
+                apps+=("$app_name")
+            fi
+        done
+    fi
+
+    # Check OS-specific apps
+    if [[ -d "$dotfiles_dir/$os/.config" ]]; then
+        for app_dir in "$dotfiles_dir/$os/.config"/*/; do
+            if [[ -d "$app_dir" ]]; then
+                local app_name=$(basename "$app_dir")
+                apps+=("$app_name")
+            fi
+        done
+    fi
+
+    # Check for root-level configs in OS directories
+    if [[ "$os" == "macos" ]]; then
+        [[ -f "$dotfiles_dir/macos/.yabairc" ]] && apps+=("yabai")
+        [[ -f "$dotfiles_dir/macos/.skhdrc" ]] && apps+=("skhd")
+        [[ -f "$dotfiles_dir/macos/.aerospace.toml" ]] && apps+=("aerospace")
+        [[ -f "$dotfiles_dir/macos/.alacritty.toml" ]] && apps+=("alacritty")
+        [[ -f "$dotfiles_dir/macos/.wezterm.lua" ]] && apps+=("wezterm")
+    elif [[ "$os" == "linux" ]]; then
+        [[ -f "$dotfiles_dir/linux/.alacritty.toml" ]] && apps+=("alacritty")
+        [[ -d "$dotfiles_dir/linux/.config/niri" ]] && apps+=("niri")
+        [[ -d "$dotfiles_dir/linux/.config/hypr" ]] && apps+=("hypr")
+        [[ -f "$dotfiles_dir/linux/etc/greetd/config.toml" ]] && apps+=("greetd")
+    fi
+
+    # Remove duplicates and sort
+    printf '%s\n' "${apps[@]}" | sort -u
+}
+
+# Get display name for app
+get_app_display_name() {
+    local app="$1"
+    case "$app" in
+        nvim) echo "Neovim" ;;
+        hypr) echo "Hyprland" ;;
+        i3status) echo "i3status" ;;
+        lazygit) echo "LazyGit" ;;
+        vscode) echo "VSCode" ;;
+        input-remapper-2) echo "Input Remapper" ;;
+        swww) echo "SWWW" ;;
+        evremap.toml) echo "Evremap" ;;
+        yabairc) echo "Yabai" ;;
+        skhdrc) echo "SKHD" ;;
+        aerospace.toml) echo "AeroSpace" ;;
+        alacritty.toml) echo "Alacritty" ;;
+        wezterm.lua) echo "WezTerm" ;;
+        *) echo "${app^}" ;;  # Capitalize first letter
+    esac
+}
+
+# Get config path for app
+get_config_path() {
+    local app="$1"
+    local os="$2"
+
+    # Special cases for root-level configs
+    case "$app" in
+        yabai) echo "$HOME/.yabairc" ;;
+        skhd) echo "$HOME/.skhdrc" ;;
+        aerospace) echo "$HOME/.aerospace.toml" ;;
+        greetd) echo "/etc/greetd/config.toml" ;;
+        *)
+            # Check if it's a special file
+            if [[ "$app" == *.* ]]; then
+                echo "$HOME/.$app"
+            else
+                # Standard .config location
+                echo "$HOME/.config/$app"
+            fi
+            ;;
+    esac
+}
+
 # Check stow status for a specific configuration
 check_config_status() {
     local config_name="$1"
     local config_path="$2"
     local dotfiles_dir="$3"
-    
+
     if [[ ! -e "$config_path" ]]; then
         echo -e "  ${YELLOW}✗${NC} $config_name: Not found"
         return
     fi
-    
+
     if is_stow_symlink "$config_path" "$dotfiles_dir"; then
         local target=$(readlink "$config_path")
         echo -e "  ${GREEN}✓${NC} $config_name: Symlinked → $target"
@@ -167,57 +255,26 @@ check_stow_status() {
     log_info "Detected OS: $os"
     echo ""
     
-    # Common configurations
-    echo -e "${BLUE}Common Configurations:${NC}"
-    check_config_status "Git config" "$HOME/.gitconfig" "$dotfiles_dir"
-    check_config_status "Neovim" "$HOME/.config/nvim" "$dotfiles_dir"
-    check_config_status "Fish shell" "$HOME/.config/fish" "$dotfiles_dir"
-    check_config_status "Kitty terminal" "$HOME/.config/kitty" "$dotfiles_dir"
-    check_config_status "Ghostty terminal" "$HOME/.config/ghostty" "$dotfiles_dir"
-    check_config_status "Helix editor" "$HOME/.config/helix" "$dotfiles_dir"
-    check_config_status "LazyGit" "$HOME/.config/lazygit" "$dotfiles_dir"
-    check_config_status "Zellij" "$HOME/.config/zellij" "$dotfiles_dir"
-    check_config_status "Tmux" "$HOME/.config/tmux" "$dotfiles_dir"
-    check_config_status "VSCode" "$HOME/.config/vscode" "$dotfiles_dir"
-    check_config_status "Zed editor" "$HOME/.config/zed" "$dotfiles_dir"
-    check_config_status "Cursor editor" "$HOME/.config/cursor" "$dotfiles_dir"
-    check_config_status "Claude" "$HOME/.config/claude" "$dotfiles_dir"
-    echo ""
-    
-    # OS-specific configurations
-    case "$os" in
-        linux)
-            echo -e "${BLUE}Linux-specific Configurations:${NC}"
-            check_config_status "Foot terminal" "$HOME/.config/foot" "$dotfiles_dir"
-            check_config_status "Hyprland" "$HOME/.config/hypr" "$dotfiles_dir"
-            check_config_status "i3 window manager" "$HOME/.config/i3" "$dotfiles_dir"
-            check_config_status "i3status" "$HOME/.config/i3status" "$dotfiles_dir"
-            check_config_status "Waybar" "$HOME/.config/waybar" "$dotfiles_dir"
-            check_config_status "Polybar" "$HOME/.config/polybar" "$dotfiles_dir"
-            check_config_status "Rofi launcher" "$HOME/.config/rofi" "$dotfiles_dir"
-            check_config_status "Borders" "$HOME/.config/borders" "$dotfiles_dir"
-            check_config_status "Kanata" "$HOME/.config/kanata" "$dotfiles_dir"
-            check_config_status "KMonad" "$HOME/.config/kmonad" "$dotfiles_dir"
-            check_config_status "Input Remapper" "$HOME/.config/input-remapper-2" "$dotfiles_dir"
-            check_config_status "SWWW" "$HOME/.config/swww" "$dotfiles_dir"
-            check_config_status "Systemd user" "$HOME/.config/systemd" "$dotfiles_dir"
-            check_config_status "Evremap" "$HOME/.config/evremap.toml" "$dotfiles_dir"
-            ;;
-        macos)
-            echo -e "${BLUE}macOS-specific Configurations:${NC}"
-            check_config_status "Yabai" "$HOME/.yabairc" "$dotfiles_dir"
-            check_config_status "SKHD" "$HOME/.skhdrc" "$dotfiles_dir"
-            check_config_status "AeroSpace" "$HOME/.aerospace.toml" "$dotfiles_dir"
-            check_config_status "Alacritty" "$HOME/.alacritty.toml" "$dotfiles_dir"
-            check_config_status "WezTerm" "$HOME/.wezterm.lua" "$dotfiles_dir"
-            ;;
-    esac
+    # Dynamically check all available apps
+    local apps=($(get_available_apps "$os" "$dotfiles_dir"))
+
+    if [[ ${#apps[@]} -eq 0 ]]; then
+        log_warning "No apps found in dotfiles directory"
+        return
+    fi
+
+    echo -e "${BLUE}Detected Configurations:${NC}"
+    for app in "${apps[@]}"; do
+        local display_name=$(get_app_display_name "$app")
+        local config_path=$(get_config_path "$app" "$os")
+        check_config_status "$display_name" "$config_path" "$dotfiles_dir"
+    done
     echo ""
     
     log_info "Check complete! Look for red ✗ marks above to identify issues."
     echo ""
     log_info "Recommendations:"
-    log_info "  - Red ✗ (Real): Backup manually and run './install.sh restow'"
+    log_info "  - Red ✗ (Real): Run './install.sh backup' then './install.sh unstow-app <app>' and './install.sh stow-app <app>'"
     log_info "  - Yellow ! (Wrong symlink): Check if pointing to correct location"
     log_info "  - Yellow ✗ (Not found): Config may not be installed or needed"
 }

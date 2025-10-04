@@ -103,6 +103,11 @@ check_app_dependencies() {
 
     # Check dependencies based on app
     case "$app_name" in
+        fuzzel)
+            if [[ "$os" == "linux" ]]; then
+                command_exists fuzzel || missing_packages+=("fuzzel")
+            fi
+            ;;
         greetd)
             if [[ "$os" == "linux" ]]; then
                 command_exists greetd || missing_packages+=("greetd")

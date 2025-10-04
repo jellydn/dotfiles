@@ -97,7 +97,8 @@ input {
     // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
     // If the refresh rate is omitted, niri will pick the highest refresh rate
     // for the resolution.
-    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
+    //
+    //If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
     mode "1920x1080@120.030"
 
@@ -118,6 +119,10 @@ input {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=1280 y=0
+}
+
+output "Virtual-1" {
+  mode "1920x1080"
 }
 
 // Settings that influence how windows are positioned and sized.

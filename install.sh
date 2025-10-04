@@ -103,6 +103,12 @@ check_app_dependencies() {
 
     # Check dependencies based on app
     case "$app_name" in
+        greetd)
+            if [[ "$os" == "linux" ]]; then
+                command_exists greetd || missing_packages+=("greetd")
+                command_exists agreety || missing_packages+=("greetd-agreety")
+            fi
+            ;;
         niri)
             if [[ "$os" == "linux" ]]; then
                 # Core niri runtime dependencies
@@ -731,6 +737,15 @@ stow_packages() {
                 log_warning "Niri systemd setup failed. You can run it manually later: $script_dir/linux/setup-niri-systemd.sh"
             }
         fi
+
+        # Setup greetd if config exists
+        if [[ -f "$script_dir/linux/etc/greetd/config.toml" ]] && [[ -x "$script_dir/scripts/setup-greetd.sh" ]]; then
+            echo ""
+            log_info "Setting up greetd display manager..."
+            "$script_dir/scripts/setup-greetd.sh" || {
+                log_warning "Greetd setup failed. You can run it manually later: $script_dir/scripts/setup-greetd.sh"
+            }
+        fi
     fi
 
     # Setup fish plugins if fish config was stowed
@@ -885,6 +900,7 @@ get_available_apps() {
         if [[ -f "linux/.alacritty.toml" ]]; then apps+=("alacritty"); fi
         if [[ -d "linux/.config/niri" ]]; then apps+=("niri"); fi
         if [[ -d "linux/.config/hypr" ]]; then apps+=("hypr"); fi
+        if [[ -f "linux/etc/greetd/config.toml" ]]; then apps+=("greetd"); fi
     fi
     
     
@@ -1094,6 +1110,23 @@ stow_app() {
                     stowed=true
                 fi
                 ;;
+            greetd)
+                if [[ -f "linux/etc/greetd/config.toml" ]]; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would setup greetd..."
+                        log_info "  - Copy config to /etc/greetd/config.toml"
+                        log_info "  - Enable greetd.service"
+                    else
+                        if [[ -x "scripts/setup-greetd.sh" ]]; then
+                            scripts/setup-greetd.sh
+                        else
+                            log_error "scripts/setup-greetd.sh not found or not executable"
+                            return 1
+                        fi
+                    fi
+                    stowed=true
+                fi
+                ;;
         esac
     fi
 
@@ -1263,6 +1296,29 @@ unstow_app() {
                     unstowed=true
                 fi
                 ;;
+            greetd)
+                if [[ -f "/etc/greetd/config.toml" ]] || systemctl is-enabled greetd.service >/dev/null 2>&1; then
+                    if [[ "$simulate" == "true" ]]; then
+                        log_info "🔍 SIMULATION: Would unstow greetd..."
+                        log_info "  - Disable greetd.service"
+                        log_info "  - Remove /etc/greetd/config.toml (if from dotfiles)"
+                    else
+                        log_info "Disabling greetd service..."
+                        sudo systemctl disable greetd.service 2>/dev/null || true
+                        sudo systemctl stop greetd.service 2>/dev/null || true
+
+                        if [[ -f "/etc/greetd/config.toml" ]] && [[ -f "linux/etc/greetd/config.toml" ]]; then
+                            if diff -q "/etc/greetd/config.toml" "linux/etc/greetd/config.toml" >/dev/null 2>&1; then
+                                log_info "Removing greetd config: /etc/greetd/config.toml"
+                                sudo rm "/etc/greetd/config.toml"
+                            else
+                                log_warning "Greetd config differs from dotfiles, keeping it"
+                            fi
+                        fi
+                    fi
+                    unstowed=true
+                fi
+                ;;
         esac
     fi
 
@@ -1314,6 +1370,12 @@ unstow_app() {
                     manual_remove_paths+=("$HOME/.alacritty.toml")
                 fi
                 ;;
+            greetd)
+                if [[ -f "/etc/greetd/config.toml" ]]; then
+                    config_exists=true
+                    manual_remove_paths+=("/etc/greetd/config.toml")
+                fi
+                ;;
         esac
 
         if [[ "$config_exists" == "true" ]]; then
@@ -1348,6 +1410,7 @@ unstow_app() {
             yabai) pkg_name="yabai" ;;
             skhd) pkg_name="skhd" ;;
             i3) pkg_name="i3" ;;
+            greetd) pkg_name="greetd" ;;
         esac
 
         if [[ -n "$pkg_name" ]]; then
@@ -1829,6 +1892,45 @@ show_dotfiles_status() {
                     *) echo "    ❓ $path: $status" ;;
                 esac
             done
+        fi
+    fi
+
+    # Linux-specific services status
+    if [[ "$os" == "linux" ]]; then
+        echo ""
+        echo "🖥️  Linux Services Status:"
+
+        # Check greetd
+        if command_exists systemctl; then
+            if systemctl is-enabled greetd.service >/dev/null 2>&1; then
+                if systemctl is-active greetd.service >/dev/null 2>&1; then
+                    echo "  ✅ greetd: Enabled and running"
+                else
+                    echo "  ⚠️  greetd: Enabled but not running"
+                fi
+
+                # Check greetd config
+                if [[ -f "/etc/greetd/config.toml" ]]; then
+                    echo "     Config: /etc/greetd/config.toml"
+                    if [[ -f "linux/etc/greetd/config.toml" ]]; then
+                        if diff -q "/etc/greetd/config.toml" "linux/etc/greetd/config.toml" >/dev/null 2>&1; then
+                            echo "     ✅ In sync with dotfiles"
+                        else
+                            echo "     ⚠️  Out of sync with dotfiles"
+                        fi
+                    fi
+                fi
+            else
+                if [[ -f "linux/etc/greetd/config.toml" ]]; then
+                    echo "  ⚠️  greetd: Config exists but service not enabled"
+                    echo "     Run: ./scripts/setup-greetd.sh"
+                fi
+            fi
+        fi
+
+        # Check niri
+        if [[ -f "$HOME/.config/niri/config.kdl" ]]; then
+            echo "  ✅ niri: Config installed"
         fi
     fi
 }

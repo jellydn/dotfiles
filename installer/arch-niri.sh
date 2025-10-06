@@ -132,9 +132,11 @@ install_packages() {
         mako
         dunst
 
-        # Screen sharing support
-        xdg-desktop-portal-gtk
+        # Screen sharing support and desktop integration
         xdg-desktop-portal
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-gnome
+        xdg-utils
 
         # XFCE4 components
         thunar

@@ -10,6 +10,35 @@
     render-drm-device "/dev/dri/renderD128"
 }
 
+// Environment variables for Wayland compatibility
+// These ensure applications use native Wayland backends when available
+environment {
+    // Wayland backend preferences
+    QT_QPA_PLATFORM "wayland"
+    GDK_BACKEND "wayland"
+    SDL_VIDEODRIVER "wayland"
+    CLUTTER_BACKEND "wayland"
+
+    // Firefox Wayland support
+    MOZ_ENABLE_WAYLAND "1"
+
+    // XDG Desktop Portal integration
+    XDG_CURRENT_DESKTOP "niri"
+    XDG_SESSION_TYPE "wayland"
+
+    // Qt5/Qt6 theming
+    QT_QPA_PLATFORMTHEME "qt5ct"
+
+    // Fix Java application rendering
+    _JAVA_AWT_WM_NONREPARENTING "1"
+
+    // Electron apps (VSCode, Cursor) - force Wayland
+    ELECTRON_OZONE_PLATFORM_HINT "wayland"
+
+    // Set default browser for xdg-open
+    BROWSER "firefox"
+}
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://yalter.github.io/niri/Configuration:-Input

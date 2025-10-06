@@ -1,0 +1,22 @@
+# Ignore everything in Cursor directory
+*
+
+# Keep this gitignore file
+!.gitignore
+
+# Except User/ subdirectory
+!User/
+
+# But ignore everything in User/
+User/*
+
+# Except settings and keybindings
+!User/settings.json
+!User/keybindings.json
+
+# Ignore sensitive files
+auth.json
+
+# Keep prompts if custom
+!prompts/
+!prompts/**

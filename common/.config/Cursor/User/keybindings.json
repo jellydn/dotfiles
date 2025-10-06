@@ -112,5 +112,9 @@
     "key": "cmd+k",
     "command": "-cursorai.action.generateInTerminal",
     "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "composerMode.agent"
   }
 ]

@@ -1,7 +1,5 @@
 {
-  "workbench.settings.editor": "json", // Show setting in json as default
-  // Color scheme and icon
-  "workbench.colorTheme": "Kanagawa Wave",
+  "workbench.settings.editor": "json",
   "workbench.iconTheme": "catppuccin-macchiato",
   // Set sidebar to the right
   "workbench.sideBar.location": "right",
@@ -13,7 +11,6 @@
   // Activity bar
   "workbench.activityBar.orientation": "vertical",
   "workbench.activityBar.location": "bottom",
-  "window.customTitleBarVisibility": "never",
   // Need to install VSCode Custom UI Style extension https://github.com/subframe7536/vscode-custom-ui-style
   "custom-ui-style.electron": {
     // "titleBarStyle": "hidden",

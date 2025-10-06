@@ -103,8 +103,9 @@ install_packages() {
 
         # Terminal emulators
         foot
+        alacritty
 
-        # Application launcher
+        # Application launcher (Niri default)
         fuzzel
 
         # Status bar
@@ -130,6 +131,10 @@ install_packages() {
         # Notifications
         mako
         dunst
+
+        # Screen sharing support
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal
 
         # XFCE4 components
         thunar
@@ -163,6 +168,9 @@ install_packages() {
 
         # Wallpaper daemon
         swww
+
+        # X11 app support for Wayland
+        xwayland-satellite
     )
 
     # Optional AUR packages
@@ -175,9 +183,6 @@ install_packages() {
     local OPTIONAL_PACKAGES=(
         # Browser
         firefox
-
-        # Additional terminals
-        alacritty
 
         # System monitor
         htop
@@ -355,7 +360,7 @@ post_install_info() {
     echo "  2. At login screen, select niri-session"
     echo ""
     echo "  3. Essential keybindings (Super = Windows key):"
-    echo "     Super+Return       → Open terminal (foot/kitty/alacritty/xfce4-terminal)"
+    echo "     Super+Return       → Open terminal (alacritty/foot)"
     echo "     Super+d            → Application launcher (fuzzel)"
     echo "     Super+e            → File manager (thunar)"
     echo "     Super+b            → Browser (firefox)"
@@ -375,13 +380,17 @@ post_install_info() {
     echo "🔧 Configuration:"
     echo "     ~/.config/niri/config.kdl    → Niri configuration"
     echo "     ~/.config/waybar/            → Status bar config"
-    echo "     ~/.config/foot/              → Terminal config"
-    echo "     ~/.config/xfce4/             → XFCE4 settings"
+    echo "     ~/.config/alacritty/         → Terminal config"
+    echo "     ~/.config/foot/              → Alternative terminal"
     echo ""
     echo "📚 Resources:"
     echo "     Niri docs: https://yalter.github.io/niri/"
+    echo "     Niri wiki: https://wiki.archlinux.org/title/Niri"
     echo "     Run 'niri msg --help' for IPC commands"
-    echo "     Run 'xfce4-settings-manager' for XFCE settings"
+    echo ""
+    echo "ℹ️  X11 App Support:"
+    echo "     xwayland-satellite installed for X11 app compatibility"
+    echo "     Most apps should work natively on Wayland"
     echo ""
     echo "🐛 Troubleshooting:"
     echo "     scripts/niri-status.sh       → Check Niri status"

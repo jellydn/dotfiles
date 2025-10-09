@@ -186,6 +186,9 @@ check_app_dependencies() {
         tmux)
             command_exists tmux || missing_packages+=("tmux")
             ;;
+        zellij)
+            command_exists zellij || missing_packages+=("zellij")
+            ;;
         nvim)
             command_exists nvim || missing_packages+=("neovim")
             ;;
@@ -1390,6 +1393,7 @@ unstow_app() {
             nvim) pkg_name="neovim" ;;
             fish) pkg_name="fish" ;;
             tmux) pkg_name="tmux" ;;
+            zellij) pkg_name="zellij" ;;
             alacritty) pkg_name="alacritty" ;;
             kitty) pkg_name="kitty" ;;
             wezterm) pkg_name="wezterm" ;;
@@ -1442,6 +1446,7 @@ show_usage() {
     echo "  fonts             - Install Maple Mono Nerd Font and Font Awesome"
     echo "  fish              - Install Fish shell and set as default shell (plugins setup after stow)"
     echo "  fish-plugins      - Setup Fish shell plugins (Fisher and Pure theme)"
+    echo "  zellij            - Install Zellij terminal multiplexer"
     echo "  mcp               - Setup MCP servers for Claude"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
@@ -1745,6 +1750,79 @@ setup_fish_plugins() {
     else
         log_error "setup-fish-plugins.sh script not found or not executable"
         log_info "You can manually setup fish plugins after stowing fish config"
+        return 1
+    fi
+}
+
+# Install Zellij terminal multiplexer
+install_zellij() {
+    local os="$1"
+
+    # Check if zellij is already installed
+    if command_exists zellij; then
+        log_info "Zellij is already installed"
+        log_info "Version: $(zellij --version)"
+        return 0
+    fi
+
+    log_info "Installing Zellij..."
+    case "$os" in
+        macos)
+            if command_exists brew; then
+                brew install zellij
+            else
+                log_info "Homebrew not found. Installing Homebrew..."
+                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+                # Add Homebrew to PATH for current session
+                if [[ -f "/opt/homebrew/bin/brew" ]]; then
+                    eval "$(/opt/homebrew/bin/brew shellenv)"
+                elif [[ -f "/usr/local/bin/brew" ]]; then
+                    eval "$(/usr/local/bin/brew shellenv)"
+                fi
+
+                if command_exists brew; then
+                    log_success "Homebrew installed successfully"
+                    brew install zellij
+                else
+                    log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
+                    return 1
+                fi
+            fi
+            ;;
+        linux)
+            if command_exists cargo; then
+                log_info "Installing Zellij via cargo..."
+                cargo install --locked zellij
+            elif command_exists pacman; then
+                sudo pacman -S --noconfirm zellij
+            elif command_exists apt; then
+                log_warning "Zellij may not be available in default apt repositories"
+                log_info "Attempting to install via apt..."
+                sudo apt update && sudo apt install -y zellij || {
+                    log_warning "Failed via apt, trying cargo installation..."
+                    if command_exists cargo; then
+                        cargo install --locked zellij
+                    else
+                        log_error "Please install Rust/cargo or download Zellij from: https://github.com/zellij-org/zellij/releases"
+                        return 1
+                    fi
+                }
+            elif command_exists dnf; then
+                sudo dnf install -y zellij
+            else
+                log_error "Package manager not found. Please install Zellij manually."
+                log_info "Visit: https://zellij.dev/documentation/installation"
+                return 1
+            fi
+            ;;
+    esac
+
+    if command_exists zellij; then
+        log_success "Zellij installed successfully"
+        log_info "Version: $(zellij --version)"
+    else
+        log_error "Zellij installation failed"
         return 1
     fi
 }
@@ -2277,6 +2355,11 @@ main() {
             ;;
         fish-plugins)
             setup_fish_plugins
+            ;;
+        zellij)
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            install_zellij "$os"
             ;;
         mcp)
             setup_mcp_servers

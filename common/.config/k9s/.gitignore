@@ -1,0 +1,9 @@
+# Ignore cluster-specific configs (machine-specific)
+clusters/
+
+# Ignore screen dumps
+screen-dumps/
+
+# Ignore logs
+*.log
+k9s.log

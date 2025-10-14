@@ -189,6 +189,9 @@ check_app_dependencies() {
         zellij)
             command_exists zellij || missing_packages+=("zellij")
             ;;
+        k9s)
+            command_exists k9s || missing_packages+=("k9s")
+            ;;
         nvim)
             command_exists nvim || missing_packages+=("neovim")
             ;;
@@ -1394,6 +1397,7 @@ unstow_app() {
             fish) pkg_name="fish" ;;
             tmux) pkg_name="tmux" ;;
             zellij) pkg_name="zellij" ;;
+            k9s) pkg_name="k9s" ;;
             alacritty) pkg_name="alacritty" ;;
             kitty) pkg_name="kitty" ;;
             wezterm) pkg_name="wezterm" ;;
@@ -1447,6 +1451,7 @@ show_usage() {
     echo "  fish              - Install Fish shell and set as default shell (plugins setup after stow)"
     echo "  fish-plugins      - Setup Fish shell plugins (Fisher and Pure theme)"
     echo "  zellij            - Install Zellij terminal multiplexer"
+    echo "  k9s               - Install K9s Kubernetes CLI"
     echo "  mcp               - Setup MCP servers for Claude"
     echo "  submodules        - Update git submodules"
     echo "  all               - Install dotfiles, tools, and update submodules"
@@ -1823,6 +1828,71 @@ install_zellij() {
         log_info "Version: $(zellij --version)"
     else
         log_error "Zellij installation failed"
+        return 1
+    fi
+}
+
+# Install K9s - Kubernetes CLI
+install_k9s() {
+    local os="$1"
+
+    # Check if k9s is already installed
+    if command_exists k9s; then
+        log_info "K9s is already installed"
+        log_info "Version: $(k9s version | grep Version | awk '{print $2}')"
+        return 0
+    fi
+
+    log_info "Installing K9s..."
+
+    case "$os" in
+        macos)
+            if command_exists brew; then
+                brew install derailed/k9s/k9s
+            else
+                log_error "Homebrew is not installed. Please install Homebrew first:"
+                log_error "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+                log_error "Then run: brew install derailed/k9s/k9s"
+                return 1
+            fi
+            ;;
+        linux)
+            if command_exists brew; then
+                # Use Homebrew on Linux if available
+                brew install derailed/k9s/k9s
+            elif command_exists snap; then
+                sudo snap install k9s
+            elif command_exists apt; then
+                log_warning "K9s not available in default apt repositories"
+                log_info "Installing via direct download..."
+                # Download latest release from GitHub
+                local version="v0.32.5"
+                wget "https://github.com/derailed/k9s/releases/download/${version}/k9s_Linux_amd64.tar.gz" -O /tmp/k9s.tar.gz
+                tar -xzf /tmp/k9s.tar.gz -C /tmp
+                sudo mv /tmp/k9s /usr/local/bin/
+                rm /tmp/k9s.tar.gz
+            else
+                log_error "No supported package manager found for K9s installation"
+                log_error "Please install manually from: https://github.com/derailed/k9s"
+                return 1
+            fi
+            ;;
+        *)
+            log_error "Unsupported OS: $os"
+            return 1
+            ;;
+    esac
+
+    # Verify installation
+    if command_exists k9s; then
+        log_success "K9s installed successfully!"
+        log_info "Version: $(k9s version | grep Version | awk '{print $2}')"
+        log_info ""
+        log_info "To use K9s, run: k9s"
+        log_info "For help, run: k9s --help"
+        return 0
+    else
+        log_error "K9s installation failed"
         return 1
     fi
 }
@@ -2360,6 +2430,11 @@ main() {
             os=$(detect_os)
             log_info "Detected OS: $os"
             install_zellij "$os"
+            ;;
+        k9s)
+            os=$(detect_os)
+            log_info "Detected OS: $os"
+            install_k9s "$os"
             ;;
         mcp)
             setup_mcp_servers

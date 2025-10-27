@@ -128,6 +128,9 @@ install_packages() {
         # Idle management
         swayidle
 
+        # Logout menu
+        wlogout
+
         # Notifications
         mako
         dunst

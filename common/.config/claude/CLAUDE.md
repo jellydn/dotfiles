@@ -1,6 +1,7 @@
 - Think carefully and only action the specific task I have given you with the most concise  and elegant solution that changes as little as possible.
-- Use context7 for reseach and check document, use backlog agent to manage task
-- Prefer self explaination code by variable over verbose comment
+- Use context7 for research and check document, use backlog agent to manage task
+- Prefer self explanation code by variable over verbose comment
+
 
 # ═══════════════════════════════════════════════════
 # SuperClaude Framework Components

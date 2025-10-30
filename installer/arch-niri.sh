@@ -151,10 +151,12 @@ install_packages() {
         ttf-jetbrains-mono-nerd
         otf-font-awesome
 
-        # Screenshot tools
+        # Screenshot and clipboard tools
         grim
         slurp
         wl-clipboard
+        wtype        # Wayland input emulation for universal copy/paste
+        jq           # JSON parsing for niri window info
         swaybg
 
         # System information

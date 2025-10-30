@@ -357,19 +357,20 @@ validate_stow_environment() {
 # Cross-platform realpath implementation
 portable_realpath() {
     local path="$1"
-    
+
     if command_exists realpath; then
-        realpath "$path" 2>/dev/null
+        realpath "$path" 2>/dev/null || return 0
     elif command_exists greadlink; then
         # macOS with GNU coreutils
-        greadlink -f "$path" 2>/dev/null
+        greadlink -f "$path" 2>/dev/null || return 0
     elif [[ "$(uname -s)" == "Darwin" ]]; then
         # macOS native fallback
-        perl -MCwd -e 'print Cwd::abs_path shift' "$path" 2>/dev/null
+        perl -MCwd -e 'print Cwd::abs_path shift' "$path" 2>/dev/null || return 0
     else
-        # Fallback for other systems  
-        echo "$(cd "$(dirname "$path")" 2>/dev/null && pwd -P)/$(basename "$path")" 2>/dev/null
+        # Fallback for other systems
+        echo "$(cd "$(dirname "$path")" 2>/dev/null && pwd -P)/$(basename "$path")" 2>/dev/null || return 0
     fi
+    return 0
 }
 
 # Install stow based on OS
@@ -2068,46 +2069,71 @@ show_dotfiles_status() {
     # Symlinks status
     echo "🔗 Symlinks Status:"
     local total_links=0 valid_links=0 broken_links=0 missing_links=0
-    
+
     # Check common config locations
     for config_dir in "$HOME/.config"/*; do
         if [[ -L "$config_dir" ]]; then
-            ((total_links++))
+            total_links=$((total_links + 1))
             if [[ -e "$config_dir" ]]; then
-                local target=$(portable_realpath "$config_dir")
-                if [[ "$target" == "$(pwd)"* ]]; then
-                    ((valid_links++))
+                local target
+                target=$(portable_realpath "$config_dir") || target=""
+                if [[ -n "$target" && "$target" == "$(pwd)"* ]]; then
+                    valid_links=$((valid_links + 1))
                     echo "  ✅ $(basename "$config_dir"): $(readlink "$config_dir")"
                 else
                     echo "  ⚠️  $(basename "$config_dir"): Points outside dotfiles"
                 fi
             else
-                ((broken_links++))
+                broken_links=$((broken_links + 1))
                 echo "  ❌ $(basename "$config_dir"): Broken symlink"
             fi
         fi
     done
-    
+
     # Check root-level configs
     for config in .gitconfig .zshrc .bashrc .vimrc .yabairc .skhdrc .aerospace.toml .alacritty.toml .wezterm.lua .claude; do
         if [[ -L "$HOME/$config" ]]; then
-            ((total_links++))
+            total_links=$((total_links + 1))
             if [[ -e "$HOME/$config" ]]; then
-                local target=$(portable_realpath "$HOME/$config")
-                if [[ "$target" == "$(pwd)"* ]]; then
-                    ((valid_links++))
+                local target
+                target=$(portable_realpath "$HOME/$config") || target=""
+                if [[ -n "$target" && "$target" == "$(pwd)"* ]]; then
+                    valid_links=$((valid_links + 1))
                     echo "  ✅ $config: $(readlink "$HOME/$config")"
                 else
                     echo "  ⚠️  $config: Points outside dotfiles"
                 fi
             else
-                ((broken_links++))
+                broken_links=$((broken_links + 1))
                 echo "  ❌ $config: Broken symlink"
             fi
         elif [[ -f "$HOME/$config" ]]; then
             echo "  ⚠️  $config: Regular file (not managed by dotfiles)"
         fi
     done
+
+    # Check .local/bin scripts
+    if [[ -d "$HOME/.local/bin" ]]; then
+        for script in "$HOME/.local/bin"/*; do
+            if [[ -L "$script" ]]; then
+                total_links=$((total_links + 1))
+                if [[ -e "$script" ]]; then
+                    local target
+                    target=$(portable_realpath "$script") || target=""
+                    if [[ -n "$target" && "$target" == "$(pwd)"* ]]; then
+                        valid_links=$((valid_links + 1))
+                        echo "  ✅ .local/bin/$(basename "$script"): $(readlink "$script")"
+                    else
+                        # Skip non-dotfiles symlinks (like uv tools)
+                        :
+                    fi
+                else
+                    broken_links=$((broken_links + 1))
+                    echo "  ❌ .local/bin/$(basename "$script"): Broken symlink"
+                fi
+            fi
+        done
+    fi
     
     echo ""
     echo "📊 Summary:"

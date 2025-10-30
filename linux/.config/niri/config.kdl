@@ -604,7 +604,10 @@ binds {
     // Makes the column "fill the rest of the space".
     Mod+Ctrl+F { expand-column-to-available-width; }
 
-    Mod+C { center-column; }
+    Mod+Shift+C { center-column; }
+
+    // Universal copy (detects terminal vs regular apps)
+    Mod+C hotkey-overlay-title="Copy" { spawn-sh "~/.local/bin/niri-copy.sh"; }
 
     // Center all fully visible columns on screen.
     Mod+Ctrl+C { center-visible-columns; }
@@ -628,6 +631,9 @@ binds {
     Mod+Shift+space { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+space { switch-focus-between-floating-and-tiling; }
+
+    // Universal paste (detects terminal vs regular apps)
+    Mod+V hotkey-overlay-title="Paste" { spawn-sh "~/.local/bin/niri-paste.sh"; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,

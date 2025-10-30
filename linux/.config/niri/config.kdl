@@ -32,8 +32,8 @@ environment {
     // Fix Java application rendering
     _JAVA_AWT_WM_NONREPARENTING "1"
 
-    // Electron apps (VSCode, Cursor) - force Wayland
-    ELECTRON_OZONE_PLATFORM_HINT "wayland"
+    // Electron apps (VSCode, Cursor) - auto-detect best backend
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
 
     // Set default browser for xdg-open
     BROWSER "firefox"
@@ -370,6 +370,12 @@ window-rule {
     open-floating true
 }
 
+// Position Steam notifications in bottom-right corner
+window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
 /-window-rule {
@@ -434,7 +440,7 @@ binds {
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false { toggle-overview; }
 
-    Mod+Shift+q repeat=false { close-window; }
+    Mod+w repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
     Mod+Down  { focus-window-down; }
@@ -626,7 +632,7 @@ binds {
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
-    Mod+W { toggle-column-tabbed-display; }
+    Mod+T { toggle-column-tabbed-display; }
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have

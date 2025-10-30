@@ -100,6 +100,8 @@ install_packages() {
         # Session and authentication
         greetd
         greetd-agreety
+        polkit-gnome
+        gnome-keyring
 
         # Terminal emulators
         foot
@@ -141,8 +143,9 @@ install_packages() {
         xdg-desktop-portal-gnome
         xdg-utils
 
-        # XFCE4 components
+        # File managers
         thunar
+        nautilus
 
         # Fonts
         ttf-jetbrains-mono-nerd

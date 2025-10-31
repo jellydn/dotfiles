@@ -131,7 +131,7 @@ install_packages() {
         swayidle
 
         # Logout menu
-        wlogout
+        # wlogout
 
         # Notifications
         mako

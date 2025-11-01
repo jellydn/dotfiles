@@ -1,78 +1,43 @@
-# Created this config based on https://www.josean.com/posts/yabai-setup and https://anuj-chandra.medium.com/using-i5-like-tiling-window-managers-in-macos-with-yabai-ebf0e002b992
+# skhd configuration
 # Install:
 #  brew install koekeishiya/formulae/skhd
 #  skhd --start-service
 #  Reload:
 #  skhd --reload
+# Note: Requires Accessibility permissions in System Settings > Privacy & Security
 
-# Change window focus within space
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - h : yabai -m window --focus west
-alt - l : yabai -m window --focus east
+# ============================================================================
+# Application Launcher (Based on leader-key config)
+# Using ctrl + alt as modifier instead of leader key for skhd compatibility
+# ============================================================================
 
-# Change window focus on stack mode (up/down)
-alt - up : yabai -m window --focus stack.prev
-alt - down : yabai -m window --focus stack.next
+# Quick Launch - Top Level
+ctrl + alt - t : open -a "Ghostty"
+ctrl + alt - b : open -a "Brave Browser"
+ctrl + alt - c : open -a "Cursor"
+ctrl + alt - d : open -a "Navicat Premium Lite"
+ctrl + alt - z : open -a "Zed Preview"
+# Raycast Extensions
+ctrl + alt - p : open "raycast://confetti"
 
-# Change focus between external displays (left/previous and right/next)
-alt - left : yabai -m display --focus west
-alt - right : yabai -m display --focus east
+# Communication
+ctrl + alt + shift - z : open -a "zoom.us"
+ctrl + alt + shift - s : open -a "Slack"
+ctrl + alt + shift - m : open -a "Spark Desktop"
+ctrl + alt + shift - f : open -a "Messenger"
+ctrl + alt + shift - t : open -a "Microsoft Teams"
 
-# Rotate layout clockwise
-alt - r : yabai -m space --rotate 270
+# Media & Tools
+ctrl + alt + shift - r : open -a "Spotify"
+ctrl + alt + shift - o : open -a "OBS"
+ctrl + alt + shift - n : open -a "Notes"
+ctrl + alt + shift - k : open -a "KeyCastr"
+ctrl + alt + shift - y : open -a "spotube"
 
-# Toggle window float
-alt + cmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
+# Development
+ctrl + alt + shift - c : open -a "Visual Studio Code - Insiders"
+ctrl + alt + shift - w : open -a "Warp"
+ctrl + alt + shift - e : open -a "Finder"
+ctrl + alt + shift - d : open -a "OrbStack"
+ctrl + alt + shift - v : open -a "Vial"
 
-# Maximize a window
-alt + cmd - f : yabai -m window --toggle zoom-fullscreen
-
-# Balance out tree of windows (resize to occupy same area)
-alt + cmd - e : yabai -m space --balance
-
-# Switch between bsp and stack layout
-alt + cmd - s : yabai -m space --layout stack
-alt + cmd - b : yabai -m space --layout bsp
-
-# Swap windows
-shift + alt - j : yabai -m window --swap south
-shift + alt - k : yabai -m window --swap north
-shift + alt - h : yabai -m window --swap west
-shift + alt - l : yabai -m window --swap east
-
-# Move window to display left and right (external display)
-ctrl + alt + cmd - right : yabai -m window --display east; yabai -m display --focus east;
-ctrl + alt + cmd - left : yabai -m window --display west; yabai -m display --focus west;
-
-# Move window to prev and next space
-ctrl + alt - right : yabai -m window --space next
-ctrl + alt - left : yabai -m window --space prev
-
-# Move window to space
-shift + alt - 1 : yabai -m window --space 1
-shift + alt - 2 : yabai -m window --space 2
-shift + alt - 3 : yabai -m window --space 3
-shift + alt - 4 : yabai -m window --space 4
-shift + alt - 5 : yabai -m window --space 5
-shift + alt - 6 : yabai -m window --space 6
-
-# Setup Ctrl + number from on Mission Control: `open /System/Library/PreferencePanes/Keyboard.prefPane`
-
-# Stop/Start/Restart yabai
-ctrl + alt - q : yabai --stop-service
-ctrl + alt - s : yabai --start-service
-ctrl + alt - r : yabai --restart-service
-
-# Open Zed
-ctrl + alt - z: zed
-
-# Start terminal
-ctrl + alt - t : alacritty
-ctrl + alt - k : open /Applications/kitty.app
-
-# Start VSCode
-ctrl + alt - c : code
-
-# Start Yeti
-ctrl + alt - m: open /Applications/lghub.app

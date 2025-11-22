@@ -28,7 +28,7 @@
   "vim_mode": true,
   "vim": {},
   // use relative line numbers
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "tab_bar": {
     "show": true
   },
@@ -53,7 +53,7 @@
   "agent": {
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4.1"
+      "model": "gpt-5"
     }
   },
   // Uncomment below to use local AI with Ollama, refer https://zed.dev/docs/language-model-integration?highlight=ollama#using-ollama-on-macos
@@ -94,7 +94,7 @@
       }
     },
     "Python": {
-      "format_on_save": { "language_server": { "name": "ruff" } },
+      "format_on_save": "on",
       "formatter": { "language_server": { "name": "ruff" } },
       "language_servers": ["pyright", "ruff"]
     }
@@ -154,9 +154,6 @@
   },
   // Move some unnecessary panels to the left
   "notification_panel": {
-    "dock": "left"
-  },
-  "chat_panel": {
     "dock": "left"
   }
 }

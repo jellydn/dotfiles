@@ -25,7 +25,7 @@ alias lg="lazygit"
 if test -x ~/.claude/local/claude
     alias claude="~/.claude/local/claude"
 end
-alias ccs="claude --dangerously-skip-permissions"
+alias ccyl="claude --dangerously-skip-permissions"
 
 # Git aliases (based on jhillyerd/plugin-git)
 abbr -a g git

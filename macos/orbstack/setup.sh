@@ -31,6 +31,13 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Configure TMPDIR to avoid EXDEV cross-device link errors on OrbStack
+configure_tmpdir() {
+    export TMPDIR="$HOME/.tmp"
+    mkdir -p "$TMPDIR"
+    log_info "TMPDIR set to $TMPDIR (avoids cross-device link errors)"
+}
+
 # Install base system dependencies
 install_base_deps() {
     log_info "Installing base dependencies..."
@@ -135,6 +142,16 @@ install_fish() {
         fi
     fi
 
+    # Add TMPDIR to fish config if not already present (avoids EXDEV errors)
+    if [[ -f "$HOME/.config/fish/config.fish" ]]; then
+        if ! grep -q "TMPDIR" "$HOME/.config/fish/config.fish" 2>/dev/null; then
+            echo '' >> "$HOME/.config/fish/config.fish"
+            echo '# TMPDIR for cross-device link fix (OrbStack)' >> "$HOME/.config/fish/config.fish"
+            echo 'set -gx TMPDIR "$HOME/.tmp"' >> "$HOME/.config/fish/config.fish"
+            log_info "Added TMPDIR to fish config"
+        fi
+    fi
+
     log_success "Shell configuration updated"
 
     # Set fish as default shell
@@ -210,6 +227,7 @@ main() {
     log_info "Setting up OrbStack Ubuntu machine..."
     log_info "========================================"
 
+    configure_tmpdir
     install_base_deps
     install_homebrew
     install_mise

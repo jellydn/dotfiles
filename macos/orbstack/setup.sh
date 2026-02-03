@@ -169,58 +169,6 @@ install_fish() {
     fi
 }
 
-# Install tiny-nvim
-install_nvim() {
-    local nvim_config_dir="$HOME/.config/nvim"
-
-    if [[ -d "$nvim_config_dir" ]]; then
-        log_info "tiny-nvim config already exists at $nvim_config_dir"
-    else
-        log_info "Cloning tiny-nvim..."
-        git clone https://github.com/jellydn/tiny-nvim.git "$nvim_config_dir"
-    fi
-
-    # Install neovim via mise if not found
-    if ! command_exists nvim; then
-        log_info "Installing node.js first (required for mise package resolution)..."
-
-        # Use isolated mise data directory to avoid macOS config conflicts
-        export MISE_DATA_DIR="/tmp/mise-local"
-        export MISE_CONFIG_DIR="/tmp/mise-config"
-        mkdir -p "$MISE_DATA_DIR" "$MISE_CONFIG_DIR"
-
-        # Create minimal config
-        cat > "$MISE_CONFIG_DIR/config.toml" << 'EOF'
-[settings]
-auto_install = true
-EOF
-
-        # Install node and neovim to isolated location using env vars
-        MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CONFIG_DIR="$MISE_CONFIG_DIR" ~/.local/bin/mise install node@latest
-        MISE_DATA_DIR="$MISE_DATA_DIR" MISE_CONFIG_DIR="$MISE_CONFIG_DIR" ~/.local/bin/mise install neovim@nightly
-
-        # Find and add neovim to PATH
-        NVIM_BIN=$(find "$MISE_DATA_DIR/tools/neovim" -name nvim -type f 2>/dev/null | head -1)
-        if [[ -n "$NVIM_BIN" ]]; then
-            export PATH="$(dirname "$NVIM_BIN"):$HOME/.local/bin"
-            log_info "nvim installed at: $NVIM_BIN"
-        else
-            log_warning "Could not find neovim binary after installation"
-        fi
-    else
-        log_info "nvim is already installed ($(nvim --version | head -n1))"
-    fi
-
-    # Install plugins using lazy.nvim
-    if command_exists nvim; then
-        log_info "Installing Neovim plugins..."
-        NVIM_APPNAME=nvim nvim --headless -c "Lazy install" -c "qa" 2>/dev/null || true
-    else
-        log_warning "nvim not found, skipping plugin installation"
-    fi
-
-    log_success "tiny-nvim installed successfully"
-}
 
 # Main function
 main() {
@@ -230,9 +178,9 @@ main() {
     configure_tmpdir
     install_base_deps
     install_homebrew
-    install_mise
     install_fish
-    install_nvim
+    install_mise
+    echo "~/.local/bin/mise activate fish | source" >> ~/.config/fish/config.fish
 
     log_info "========================================"
     log_success "Setup complete!"

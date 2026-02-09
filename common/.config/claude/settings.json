@@ -3,30 +3,28 @@
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
   },
+  "permissions": {
+    "allow": [
+      "mcp__sequential-thinking__sequentialthinking",
+      "WebSearch",
+      "Bash(bash:*)",
+      "WebFetch(domain:github.com)",
+      "mcp__qmd__query",
+      "mcp__qmd__get",
+      "mcp__qmd__search",
+      "mcp__qmd__vsearch",
+      "mcp__qmd__multi_get",
+      "mcp__qmd__status",
+      "Bash($HOME/.config/opencode/skill/qmd-knowledge/scripts/record.sh:*)",
+      "Bash($HOME/.claude/skills/qmd-knowledge/scripts/record.sh:*)",
+      "Bash(qmd:*)"
+    ],
+    "defaultMode": "plan"
+  },
   "model": "opusplan",
   "hooks": {
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "osascript -e \"display notification \\\"$(jq -r .message)\\\" with title \\\"$(jq -r .title)\\\" sound name \\\"Glass\\\"\""
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'CC Done!' | terminal-notifier -sound default"
-          }
-        ]
-      }
-    ],
+    "Notification": [],
+    "Stop": [],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
@@ -45,12 +43,45 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$HOME/.ccs/hooks/websearch-transformer.cjs\"",
+            "timeout": 120
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bun run $HOME/.claude/hooks/context-threshold.ts",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
     "type": "command",
-    "command": "bun x ccusage statusline",
-    "padding": 0
+    "command": "bash -c 'node \"$(ls -td ~/.claude/plugins/cache/claude-hud/claude-hud/*/ 2>/dev/null | head -1)dist/index.js\"'"
   },
-  "feedbackSurveyState": {}
+  "enabledPlugins": {
+    "claude-mem@thedotmack": false,
+    "typescript-lsp@claude-plugins-official": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "learning-output-style@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true,
+    "plannotator@plannotator": true,
+    "claude-hud@claude-hud": true
+  }
 }

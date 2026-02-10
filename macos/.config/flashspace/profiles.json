@@ -38,13 +38,8 @@
             },
             {
               "bundleIdentifier" : "com.mitchellh.ghostty",
-              "iconPath" : "/Applications/Ghostty.app/Contents/Resources/AppIcon.icns",
+              "iconPath" : "/Applications/Ghostty.app/Contents/Resources/Ghostty.icns",
               "name" : "Ghostty"
-            },
-            {
-              "bundleIdentifier" : "com.apple.finder",
-              "iconPath" : "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
-              "name" : "Finder"
             }
           ],
           "assignAppShortcut" : "cmd+ctrl+opt+t",
@@ -62,14 +57,14 @@
               "name" : "Google Chrome Canary"
             },
             {
-              "bundleIdentifier" : "app.zen-browser.zen",
-              "iconPath" : "/Applications/Zen Browser.app/Contents/Resources/firefox.icns",
-              "name" : "Zen"
-            },
-            {
               "bundleIdentifier" : "com.brave.Browser.nightly",
               "iconPath" : "/Applications/Brave Browser Nightly.app/Contents/Resources/app.icns",
               "name" : "Brave Browser Nightly"
+            },
+            {
+              "bundleIdentifier" : "app.zen-browser.zen",
+              "iconPath" : "/Applications/Zen.app/Contents/Resources/firefox.icns",
+              "name" : "Zen"
             },
             {
               "bundleIdentifier" : "com.brave.Browser",
@@ -166,6 +161,16 @@
               "bundleIdentifier" : "today.vial",
               "iconPath" : "/Applications/Vial.app/Contents/Resources/Icon.icns",
               "name" : "Vial"
+            },
+            {
+              "bundleIdentifier" : "com.apple.finder",
+              "iconPath" : "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+              "name" : "Finder"
+            },
+            {
+              "bundleIdentifier" : "org.pqrs.Karabiner-Elements.Settings",
+              "iconPath" : "/Applications/Karabiner-Elements.app/Contents/Resources/app.icns",
+              "name" : "Karabiner-Elements"
             }
           ],
           "assignAppShortcut" : "cmd+ctrl+opt+g",

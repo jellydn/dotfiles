@@ -77,6 +77,14 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Configure TMPDIR to avoid EXDEV cross-device link errors (macOS/OrbStack)
+configure_tmpdir() {
+    if [[ -z "${TMPDIR:-}" ]]; then
+        export TMPDIR="$HOME/.tmp"
+    fi
+    mkdir -p "$TMPDIR"
+}
+
 # Check package dependencies for specific applications
 check_app_dependencies() {
     local app_name="$1"
@@ -477,6 +485,7 @@ interactive_backup_choice() {
         ".zshrc"
         ".bashrc"
         ".vimrc"
+        ".ideavimrc"
         ".tmux.conf"
         ".config/nvim"
         ".config/fish"
@@ -546,6 +555,7 @@ backup_existing_dotfiles() {
         ".zshrc"
         ".bashrc"
         ".vimrc"
+        ".ideavimrc"
         ".tmux.conf"
         ".config/nvim"
         ".config/fish"

@@ -1,0 +1,247 @@
+" IdeaVim configuration based on VSCode Neovim keybindings
+" https://github.com/JetBrains/ideavim
+
+" Map leader to space
+let mapleader=" "
+
+" === File ===
+" Find file
+nnoremap <leader><space> :action GotoFile<CR>
+
+" Find recent open files
+nnoremap <leader>fr :action RecentFiles<CR>
+
+" Find word
+nnoremap <leader>fw :action FindInPath<CR>
+vnoremap <leader>fw :action FindInPath<CR>
+
+" Find file from git status (not directly available in IdeaVim)
+" nnoremap <leader>fg :action fzf-picker.pickFileFromGitStatus<CR>
+
+" Open other files
+nnoremap <leader>, :action ShowNavBar<CR>
+
+" Find in files
+nnoremap <leader>/ :action FindInPath<CR>
+
+" Open file explorer in left sidebar
+nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+
+" === Search ===
+" Open symbol
+nnoremap <leader>ss :action GotoSymbol<CR>
+
+" Search word under cursor
+nnoremap <leader>sw :action FindUsages<CR>
+
+" Keep undo/redo lists in sync with JetBrains
+" These are handled natively by IdeaVim
+
+" Navigate JetBrains tabs like buffers
+nnoremap <S-h> :action PreviousTab<CR>
+nnoremap <S-l> :action NextTab<CR>
+
+" Search word in current buffer
+nnoremap <leader>sb :action Find<CR>
+
+" === Code ===
+" Code Action
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+
+" Source Action (optimize imports)
+nnoremap <leader>cA :action OptimizeImports<CR>
+
+" Code Rename
+nnoremap <leader>cr :action RenameElement<CR>
+
+" Quickfix shortcut
+nnoremap <leader>. :action ShowIntentionActions<CR>
+
+" Code format
+nnoremap <leader>cf :action ReformatCode<CR>
+
+" Refactor
+nnoremap <leader>cR :action RefactorMenu<CR>
+
+" === Terminal ===
+" Open terminal
+nnoremap <leader>ft :action ActivateTerminalToolWindow<CR>
+
+" === LSP ===
+" View problems
+nnoremap <leader>xx :action ViewProblems<CR>
+
+" Go to next/prev error
+nnoremap ]e :action GotoNextError<CR>
+nnoremap [e :action GotoPreviousError<CR>
+
+" Find references
+nnoremap gr :action FindUsages<CR>
+
+" Annotate (show Git blame)
+nnoremap <leader>a :action Annotate<CR>
+
+" === Git ===
+" Git status
+nnoremap <leader>gs :action ActivateCommitToolWindow<CR>
+
+" Go to next/prev change
+nnoremap ]h :action VcsShowNextChangeMarker<CR>
+nnoremap [h :action VcsShowPrevChangeMarker<CR>
+
+" Revert change
+vnoremap <leader>ghr :action Vcs.RevertSelectedChanges<CR>
+
+" Show file history
+nnoremap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
+
+" === Buffer ===
+" Switch buffer
+nnoremap <leader>` :action Switcher<CR>
+
+" Close buffer
+nnoremap <leader>bd :action CloseActiveTab<CR>
+
+" Close other buffers
+nnoremap <leader>bo :action CloseAllEditorsButActive<CR>
+
+" === Project ===
+" Open recent projects
+nnoremap <leader>fp :action WelcomeScreen<CR>
+
+" Markdown preview (if markdown plugin is installed)
+nnoremap <leader>mp :action MarkdownPreviewAction<CR>
+
+" === Task ===
+" Run task
+nnoremap <leader>rt :action RunAnything<CR>
+
+" === Debug ===
+" Toggle debug
+nnoremap <leader>d :action Debug<CR>
+
+" Toggle breakpoint
+nnoremap <leader>b :action ToggleLineBreakpoint<CR>
+
+" === General ===
+" Multiple cursors
+" In IdeaVim, multiple cursors use Alt+Click or Ctrl+G (Visual Block mode)
+" No direct equivalent to <C-m> mapping
+
+" Save file
+nnoremap <C-s> :action SaveAll<CR>
+inoremap <C-s> <Esc>:action SaveAll<CR>a
+vnoremap <C-s> <Esc>:action SaveAll<CR>
+
+" Close file/buffer
+nnoremap <S-q> :action CloseActiveTab<CR>
+
+" Additional useful mappings
+" Go to definition
+nnoremap gd :action GotoDeclaration<CR>
+
+" Go to type definition
+nnoremap gD :action GotoTypeDeclaration<CR>
+
+" Go to implementation
+nnoremap gi :action GotoImplementation<CR>
+
+" Show documentation
+nnoremap K :action QuickJavaDoc<CR>
+
+" Go to line
+nnoremap <leader>l :action GotoLine<CR>
+
+" Select in project view
+nnoremap <leader>s :action SelectInProjectView<CR>
+
+" File structure popup
+nnoremap <leader>o :action FileStructurePopup<CR>
+
+" Split window
+nnoremap <leader>- :action SplitVertically<CR>
+nnoremap <leader>_ :action SplitHorizontally<CR>
+
+" Move between splits
+nnoremap <C-w>h :action GoLeft<CR>
+nnoremap <C-w>j :action GoDown<CR>
+nnoremap <C-w>k :action GoUp<CR>
+nnoremap <C-w>l :action GoRight<CR>
+
+" Close split
+nnoremap <C-w>q :action Unsplit<CR>
+
+" Maximize/restore split
+nnoremap <C-w>z :action ToggleDistractionFreeMode<CR>
+
+" Quick navigate
+nnoremap <leader>p :action GotoClass<CR>
+nnoremap <leader>P :action GotoFile<CR>
+
+" Copy to clipboard
+vnoremap <leader>y "+y
+
+" Paste from clipboard
+nnoremap <leader>p "+p
+
+" Delete without yank
+nnoremap x "_x
+nnoremap X "_X
+vnoremap x "_x
+vnoremap X "_X
+
+" Clear search highlight
+nnoremap <leader>/ :noh<CR>
+
+" Clear highlighting
+nnoremap <leader>h :noh<CR>
+
+" Set options
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set scrolloff=5
+set sidescrolloff=5
+set showmode
+set visualbell
+set number
+set relativenumber
+set so=7
+set expandtab
+set autoindent
+set smartindent
+set shiftwidth=2
+set tabstop=2
+set backspace=indent,eol,start
+set whichwrap+=<,>,h,l
+set virtualedit=onemore
+set mouse=a
+
+" IdeaVim specific settings
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+" IdeaVim extensions
+set surround
+set commentary
+set multiple-cursors
+set ReplaceWithRegister
+set argtextobj
+set textobj-entire
+" set textobj-indent
+" set vim-highlightedyank
+
+" Plugin settings
+let g:argtextobj_pairs="[:],(:),<:>"
+
+" Key timeout
+set timeoutlen=500
+" set notimeout
+" set ttimeout
+" set ttimeoutlen=50
+
+" Use system clipboard
+set clipboard+=unnamed
+set clipboard+=unnamedplus

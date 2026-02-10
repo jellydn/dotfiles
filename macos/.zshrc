@@ -248,3 +248,9 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH="$PATH:$(go env GOROOT)/bin"
 export GOPATH="$(go env GOPATH)"
 export GOROOT="$(go env GOROOT)"
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+alias claude-mem='bun "/Users/huynhdung/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

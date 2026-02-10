@@ -6,8 +6,15 @@ if test -f ~/.local/bin/mise
     ~/.local/bin/mise activate fish | source
 end
 
+# Lazy-load zoxide
 if command -v zoxide >/dev/null
-    zoxide init fish | source
+    function z --description "Lazy-load zoxide"
+        if test -z "$_zoxide_initialized"
+            zoxide init fish | source
+            set -gx _zoxide_initialized 1
+        end
+        z $argv
+    end
 end
 
 if test -f "$HOME/.cargo/env.fish"
@@ -25,7 +32,6 @@ alias lg="lazygit"
 if test -x ~/.claude/local/claude
     alias claude="~/.claude/local/claude"
 end
-alias ccyl="claude --dangerously-skip-permissions"
 
 # Git aliases (based on jhillyerd/plugin-git)
 abbr -a g git
@@ -110,3 +116,7 @@ if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
+
+# opencode
+fish_add_path /Users/huynhdung/.opencode/bin
+fish_add_path ~/go/bin

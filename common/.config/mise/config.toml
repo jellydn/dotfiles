@@ -3,16 +3,18 @@
 
 [tools]
 # Development languages
-node = "22.19.0"
+node = "lts"
 python = "latest"
 go = "latest"
 rust = "latest"
 deno = "latest"
 bun = "latest"
 uv = "latest"
+lua-language-server = "latest"
+ruby = "latest"
+stylua = "latest"
 
 # CLI tools
-ripgrep = "latest"
 fd = "latest"
 bat = "latest"
 fzf = "latest"
@@ -23,9 +25,26 @@ gh = "latest"
 neovim = "nightly"
 zoxide = "latest"
 shellcheck = "latest"
-yarn = "1"
+yarn = "1.22.22"
+ruff = "latest"
+black = "latest"
+usage = "latest"
+rg = "latest"
+ffmpeg = "latest"
+rye = "latest"
+difftastic = "latest"
+jj = "latest"
+dprint = "latest"
+biome = "latest"
+hurl = "latest"
+just = "latest"
+prettier = "latest"
+yamllint = "latest"
+shfmt = "latest"
 
 [settings]
 # Auto-install missing tools
 auto_install = true
 idiomatic_version_file_enable_tools = ["node"]
+
+[env]

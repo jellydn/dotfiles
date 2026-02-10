@@ -42,6 +42,12 @@ shell-integration = fish
 # Copy on select
 copy-on-select = true
 
+# URL Detection and Clicking
+# Enable automatic URL detection
+link-url = true
+# Open URLs with Cmd+Click (bypasses Zellij mouse mode)
+# Ghostty will detect URLs and make them clickable
+
 # Keymap
 # Make Alt/Option key work nicely with Zeliij on macOS, refer https://github.com/ghostty-org/ghostty/discussions/3207
 keybind = alt+left=unbind
@@ -65,4 +71,3 @@ keybind = global:cmd+grave_accent=toggle_quick_terminal
 
 # Fzf
 keybind = cmd+l=text:cmdk -s\r
-

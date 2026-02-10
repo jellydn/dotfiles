@@ -5,3 +5,6 @@ common/.config/fish/completions
 common/.config/cursor
 common/.config/fish/completions
 common/.config/fish/conf.d
+common/.config/zed/prompts
+common/.config/zed/development_credentials
+common/.config/zed/prompts/prompts-library-db.0.mdb

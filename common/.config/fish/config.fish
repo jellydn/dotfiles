@@ -2,8 +2,8 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-if test -f ~/.local/bin/mise
-    ~/.local/bin/mise activate fish | source
+if command -v mise >/dev/null
+    mise activate fish | source
 end
 
 # Lazy-load zoxide

@@ -23,6 +23,8 @@ background-opacity = 0.98
 window-padding-x = 5
 window-padding-y = 5
 
+unfocused-split-opacity = 0.85
+
 # Hide title
 title = " "
 # The style of the macOS titlebar.
@@ -56,15 +58,6 @@ macos-option-as-alt = true
 # Open terminal on neovim
 keybind = ctrl+minus=text:\x1f
 
-# Credit to https://github.com/ghostty-org/ghostty/issues/189#issuecomment-2588366699
-# Search entire scrollback history in default text editor
-# Set default text editor
-# brew install duti
-# duti -s com.neovide.neovide public.plain-text all
-keybind = super+f=write_screen_file:open
-
-# Search Selection
-keybind = super+shift+f=write_selection_file:open
 
 # Quick term
 keybind = global:cmd+grave_accent=toggle_quick_terminal

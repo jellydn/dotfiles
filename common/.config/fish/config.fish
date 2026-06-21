@@ -2,10 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-if command -v mise >/dev/null
-    mise activate fish | source
-end
-
 # Lazy-load zoxide
 if command -v zoxide >/dev/null
     function z --description "Lazy-load zoxide"
@@ -107,16 +103,37 @@ set -g fish_pager_color_description $comment
 
 # Install https://github.com/tobi/try if available
 if test -f ~/.local/try.rb
-    ~/.local/try.rb init ~/src/tries | string collect | source
+    function try --description "Interactive project selector (tobi/try)"
+        set -l cmd (/usr/bin/env ruby ~/.local/try.rb cd --path ~/src/tries $argv 2>/dev/tty)
+        set -l rc $status
+        if test $rc -eq 0
+            if string match -qr ' && ' -- "$cmd"
+                eval $cmd
+            else
+                cd $cmd
+            end
+        else
+            echo $cmd >&2
+        end
+    end
 end
 
-# pnpm
-set -gx PNPM_HOME "/home/dunghuynhduc/.local/share/pnpm"
+# pnpm (override PNPM_HOME in conf.d if your path differs)
+if not set -q PNPM_HOME
+    set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+end
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end
 
-# opencode
-fish_add_path /Users/huynhdung/.opencode/bin
-fish_add_path ~/go/bin
+# Optional tool paths (create ~/.config/fish/conf.d/99-local.fish for machine-specific paths)
+if test -d "$HOME/.opencode/bin"
+    fish_add_path "$HOME/.opencode/bin"
+end
+fish_add_path "$HOME/go/bin"
+if test -d "$HOME/.grok/bin"
+    fish_add_path "$HOME/.grok/bin"
+end
+
+# mise must run after all other PATH changes so shims take precedence
+~/.local/bin/mise activate fish | source

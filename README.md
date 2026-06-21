@@ -96,6 +96,21 @@ stow -D common macos  # or linux
 
 > 📖 **New to GNU Stow?** Read our comprehensive [Stow Documentation](docs/STOW.md) to understand how it works, why we use it, and how to test and verify your setup.
 
+## Machine-local overrides (secrets & paths)
+
+Some configs stay in the repo as **examples**; copy to gitignored paths on your machine:
+
+| Tool | Example in repo | On your machine |
+|------|-----------------|-----------------|
+| mise | `common/.config/mise/config.local.example.toml` | `~/.config/mise/config.local.toml` |
+| Zed (private AI/terminal) | `common/.config/zed/settings.local.json.example` (+ optional `macos/...`) | `~/.config/zed/settings.local.json` then run `./scripts/merge-zed-settings.sh --install` |
+| tmux (palette, etc.) | `macos/.config/tmux/local.conf.example` | `~/.config/tmux/local.conf` |
+| fish (extra PATH) | `macos/.config/fish/conf.d/99-local.example.fish` | `~/.config/fish/conf.d/99-local.fish` |
+
+**Security:** never commit API keys. If an OpenRouter (or other) key was ever committed, rotate it and use `config.local.toml` only.
+
+**Neovim:** `common/.config/nvim` is a submodule — commit changes inside that repo, then update the submodule pointer here.
+
 ## 📦 Adding New Configurations
 
 When adding new dotfiles, organize them by platform:

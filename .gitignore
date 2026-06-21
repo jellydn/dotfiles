@@ -8,3 +8,8 @@ common/.config/fish/conf.d
 common/.config/zed/prompts
 common/.config/zed/development_credentials
 common/.config/zed/prompts/prompts-library-db.0.mdb
+/.antigravitycli
+common/.config/mise/config.local.toml
+common/.config/mise/env.local.toml
+common/.config/tmux/local.conf
+common/.config/zed/settings.local.json

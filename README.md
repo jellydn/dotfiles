@@ -37,41 +37,78 @@ cd ~/.dotfiles
 
 ```
 dotfiles/
-├── common/           # Cross-platform configurations
+├── common/              # Cross-platform configurations
 │   ├── .config/
-│   │   ├── nvim/    # Neovim config
-│   │   ├── fish/    # Fish shell
-│   │   ├── helix/   # Helix editor
-│   │   ├── ghostty/ # Ghostty terminal
-│   │   ├── kitty/   # Kitty terminal
-│   │   ├── lazygit/ # Lazygit TUI
-│   │   ├── zellij/  # Zellij terminal multiplexer
-│   │   └── ...
-│   └── .gitconfig   # Git configuration
-├── macos/           # macOS-specific configurations
-│   ├── .config/
-│   │   ├── karabiner/   # Keyboard customization
-│   │   ├── sketchybar/  # Status bar
-│   │   ├── rectangle/   # Window management
-│   │   └── ...
-│   ├── .zshrc          # Zsh configuration
+│   │   ├── claude/     # Claude IDE
+│   │   ├── fish/       # Fish shell
+│   │   ├── ghostty/    # Ghostty terminal
+│   │   ├── helix/      # Helix editor
+│   │   ├── k9s/        # Kubernetes CLI
+│   │   ├── kitty/      # Kitty terminal
+│   │   ├── lazygit/    # Lazygit TUI
+│   │   ├── mise/       # Dev tools (replaces .tool-versions)
+│   │   ├── nvim/       # Neovim config (submodule)
+│   │   ├── tmux/       # Tmux multiplexer
+│   │   ├── vscode/     # VS Code settings
+│   │   ├── zed/        # Zed editor
+│   │   ├── zellij/     # Zellij multiplexer
+│   │   └── Cursor/     # Cursor editor
+│   ├── .gitconfig      # Git configuration
+│   └── .ideavimrc      # IntelliJ IDEA Vim config
+├── macos/              # macOS-specific configurations
+│   ├── .aerospace.toml # AeroSpace window manager
+│   ├── .alacritty.toml # Alacritty terminal
+│   ├── .skhdrc         # SKHD hotkey daemon
+│   ├── .wezterm.lua    # WezTerm terminal
 │   ├── .yabairc        # Yabai window manager
-│   └── ...
-├── linux/           # Linux-specific configurations
+│   ├── .zshrc          # Zsh configuration
 │   ├── .config/
-│   │   ├── hypr/       # Hyprland compositor
-│   │   ├── waybar/     # Wayland status bar
-│   │   ├── i3/         # i3 window manager
+│   │   ├── fish/       # Fish local overrides
+│   │   ├── flashspace/ # FlashSpace workspace manager
+│   │   ├── karabiner/  # Keyboard customization
+│   │   ├── leader-key/ # Leader Key app
+│   │   ├── qmk/        # QMK keyboard firmware
+│   │   ├── rectangle/  # Window management
+│   │   ├── sketchybar/ # Status bar
+│   │   ├── tmux/       # Tmux local overrides
+│   │   └── zed/        # Zed local overrides
+│   └── yabai.sh        # Yabai helper script
+├── linux/              # Linux-specific configurations
+│   ├── .alacritty.toml # Alacritty terminal
+│   ├── .config/
+│   │   ├── borders/    # Border decorations
 │   │   ├── foot/       # Foot terminal
-│   │   └── ...
-│   └── ...
-├── scripts/         # Helper scripts
-│   ├── install-tools.sh     # Install development tools with mise
-│   └── update-submodules.sh # Update git submodules
-├── install.sh       # Main installation script
-├── .tool-versions   # Development tools managed by mise
-├── .stow-local-ignore  # Files to ignore during stowing
-└── .gitignore       # Git ignore patterns
+│   │   ├── fuzzel/     # App launcher
+│   │   ├── hypr/       # Hyprland compositor
+│   │   ├── i3/         # i3 window manager
+│   │   ├── i3status/   # i3 status bar
+│   │   ├── input-remapper-2/ # Key remapping
+│   │   ├── kanata/     # Keyboard firmware
+│   │   ├── kmonad/     # Keyboard remapping
+│   │   ├── niri/       # Niri compositor
+│   │   ├── polybar/    # Polybar status bar
+│   │   ├── rofi/       # App launcher
+│   │   ├── swww/       # Wallpaper daemon
+│   │   ├── systemd/    # Systemd services
+│   │   ├── waybar/     # Wayland status bar
+│   │   └── wlogout/    # Wlogout session manager
+│   └── evremap.toml    # EVKey remapping
+├── scripts/            # Helper scripts
+│   ├── install-tools.sh          # Install dev tools with mise
+│   ├── install-uv-tools.sh       # Install Python uv tools
+│   ├── install-global-npm.sh     # Install global npm packages
+│   ├── update-submodules.sh      # Update git submodules
+│   ├── merge-zed-settings.sh     # Merge Zed local settings
+│   ├── setup-fish-plugins.sh     # Install fish plugins
+│   ├── setup-mcp-servers.sh      # Setup MCP servers
+│   ├── cleanup-mise.sh           # Clean mise tool cache
+│   ├── cursor.sh                 # Cursor helper
+│   ├── check-stow.sh             # Validate stow setup
+│   └── (platform-specific: hyprland, niri, waybar helpers)
+├── install.sh           # Main installation script
+├── common/.config/mise/config.toml  # Dev tools managed by mise
+├── .stow-local-ignore   # Files to ignore during stowing
+└── .gitignore           # Git ignore patterns
 ```
 
 ## 🛠️ Manual Installation
@@ -145,68 +182,74 @@ stow -D common
 
 ## Tools
 - [mise-en-place](https://github.com/jdx/mise) - The front-end to your dev env.
-- [FlashSpace](https://github.com/wojciech-kulik/FlashSpace) - FlashSpace is a blazingly fast virtual workspace manager for macOS.
-- [Rectangle](https://github.com/rxhanson/Rectangle) - Move and resize windows on macOS with keyboard shortcuts and snap areas.
-- [ghostty](https://github.com/ghostty-org/ghostty) - 👻 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.
-- [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
-  launcher.
+- [Zed](https://zed.dev/) - High-performance, multiplayer code editor with AI features
+- [Cursor](https://cursor.com/) - AI-first code editor
+- [Neovim](https://neovim.io/) - Hyperextensible Vim-based text editor (configured as submodule)
+- [Helix](https://helix-editor.com/) - Post-modern modal text editor
+- [Ghostty](https://github.com/ghostty-org/ghostty) - 👻 Fast, feature-rich, cross-platform terminal emulator
+- [tmux](https://github.com/tmux/tmux) - Terminal multiplexer
+- [zellij](https://zellij.dev/) - Terminal multiplexer workspace
+- [lazygit](https://github.com/jesseduffield/lazygit) - Simple terminal UI for git
+- [hunk](https://github.com/jaredallard/hunk) - Blazing-fast git pager in Go
+- [FlashSpace](https://github.com/wojciech-kulik/FlashSpace) - Blazingly fast virtual workspace manager for macOS
+- [Rectangle](https://github.com/rxhanson/Rectangle) - Window management for macOS
+- [SketchyBar](https://felixkratz.github.io/SketchyBar/) - Highly customizable macOS status bar
+- [karabiner-elements](https://karabiner-elements.pqrs.org) - Powerful keyboard customizer for macOS
 - [leader-key](https://github.com/mikker/LeaderKey.app) - Faster than your launcher
-- [hunk](https://github.com/jaredallard/hunk) - a blazing-fast git pager written in Go
-- [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
-- [Marta](https://marta.sh/) - file manager
-- [f.lux](https://justgetflux.com/) - makes the color of your computer's display
-  adapt to the time of day, warm at night and like sunlight during the day.
-- [caffeine](https://intelliscapesolutions.com/apps/caffeine) - don't let your Mac fall asleep.
+- [qmk](https://qmk.fm/) - Quantum Mechanical Keyboard firmware
+- [k9s](https://k9scli.io/) - Kubernetes CLI dashboard
+- [direnv](https://github.com/direnv/direnv) - Directory-specific environment variables
+- [Hurl](https://hurl.dev/) - Run and Test HTTP Requests
+- [jq](https://jqlang.github.io/jq/) - Command-line JSON processor
+- [difftastic](https://github.com/Wilfred/difftastic) - Structural diff tool
+- [just](https://github.com/casey/just) - Command runner
+- [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
+- [bat](https://github.com/sharkdp/bat) - Cat with syntax highlighting
+- [fd](https://github.com/sharkdp/fd) - Fast find alternative
+- [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
+- [raycast](https://www.raycast.com/) - Blazingly fast, totally extendable launcher
+- [Marta](https://marta.sh/) - File manager
+- [BetterDisplay](https://github.com/waydabber/BetterDisplay) - Unlock your displays on Mac
+- [OBS](https://obsproject.com/) - Open Broadcaster Software
+- [Yeti X](https://support.logi.com/hc/en-us/articles/13171603624471-Download-Yeti-X) - Blue Yeti X microphone config
+- [keycastr](https://github.com/keycastr/keycastr) - Open-source keystroke visualizer
+- [caffeine](https://intelliscapesolutions.com/apps/caffeine) - Prevent Mac sleep
+- [f.lux](https://justgetflux.com/) - Blue light adjustment
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
-- [karabiner-elements](https://karabiner-elements.pqrs.org) - a powerful and stable keyboard customizer for macOS.
-- [poetry](https://github.com/python-poetry/poetry) - Python packaging and dependency management made easy
-- [astral-sh/rye](https://github.com/astral-sh/rye) - a Hassle-Free Python Experience
-- [direnv](https://github.com/direnv/direnv) - unclutter your .profile.
-- [gyazo](https://gyazo.com/) - share and search what you see. Instantly.
-- [colima](https://github.com/abiosoft/colima) - Container runtimes on macOS (and Linux) with minimal setup
-- [medis](https://github.com/luin/medis) - Medis is a beautiful, easy-to-use Mac database management application for Redis
-- [keycastr](https://github.com/keycastr/keycastr) - KeyCastr, an open-source keystroke visualizer
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
-- [BetterDisplay](https://github.com/waydabber/BetterDisplay?tab=readme-ov-file) - Unlock your displays on your Mac! Smooth scaling, HiDPI unlock, XDR/HDR extra brightness upscale, DDC, brightness and dimming, virtual screens, PIP and lots more!
-- [SketchyBar](https://felixkratz.github.io/SketchyBar/) - A highly customizable macOS status bar replacement
-- [OBS](https://obsproject.com/) - Open Broadcaster Software
-- [Yeti X](https://support.logi.com/hc/en-us/articles/13171603624471-Download-Yeti-X)
-- [Hurl](https://hurl.dev/) - Run and Test HTTP Requests
-- [restish](https://github.com/danielgtaylor/restish) - Restish is a CLI for interacting with REST-ish HTTP APIs with some nice features built-in
 
 ## Deprecated tools
-- [fnm](https://github.com/Schniz/fnm) - 🚀 fast and simple Node.js version manager, built in Rust
-- [sourcetreeapp](https://www.sourcetreeapp.com/) - simplicity and power in a beautiful Git GUI
-- [starship](https://starship.rs/) - the minimal, blazing-fast, and infinitely customizable prompt for any shell!
-- [ohmyz](https://ohmyz.sh/) - a delightful, open source, community-driven
-  framework for managing your Zsh configuration
-- [powerlevel10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh) A
-  Zsh theme
-- [.tmux](https://github.com/gpakosz/.tmux) - oh my tmux! My self-contained, pretty & versatile tmux configuration made with ❤️
-- [AeroSpace](https://github.com/nikitabobko/AeroSpace) - AeroSpace is an i3-like tiling window manager for macOS.
-- [Fig](https://fig.sh/) - adds IDE-style autocomplete to your existing terminal
-- [iterm2](https://iterm2.com/) - a replacement for Terminal
-- [WezTerm](https://wezfurlong.org/wezterm/) - Wez's Terminal Emulator
-- [kitty](https://github.com/kovidgoyal/kitty) - Cross-platform, fast, feature-rich, GPU based terminal
-- [warp](https://app.warp.dev/referral/2ENQM7) - the terminal for the 21st century
-  emulator
-- [OrbStack](https://orbstack.dev/) - Fast, light, simple Docker & Linux on macOS
-- [pock](https://pock.app/) - widgets manager for MacBook Touch Bar
-- [httpie](https://github.com/httpie/httpie) - HTTPie for Terminal — modern, user-friendly command-line HTTP client for the API era. JSON support, colors, sessions, downloads, plugins & more
-- [spectacleapp](https://www.spectacleapp.com/) - move and resize windows with ease
+Tools no longer the primary choice (configs preserved in repo for occasional use):
+- [fnm](https://github.com/Schniz/fnm) - Node.js version manager (replaced by mise)
+- [sourcetreeapp](https://www.sourcetreeapp.com/) - Git GUI
+- [starship](https://starship.rs/) - Prompt (replaced by Pure)
+- [ohmyz](https://ohmyz.sh/) - Zsh framework (replaced by Pure)
+- [powerlevel10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh) - Zsh theme
+- [.tmux](https://github.com/gpakosz/.tmux) - Tmux config
+- [poetry](https://github.com/python-poetry/poetry) - Python packaging
+- [astral-sh/rye](https://github.com/astral-sh/rye) - Python experience
+- [Fig](https://fig.sh/) - Terminal autocomplete
+- [iterm2](https://iterm2.com/) - Terminal emulator
+- [warp](https://app.warp.dev/referral/2ENQM7) - Terminal emulator
+- [OrbStack](https://orbstack.dev/) - Docker & Linux on macOS
+- [pock](https://pock.app/) - Touch Bar widgets
+- [httpie](https://github.com/httpie/httpie) - HTTP client
+- [spectacleapp](https://www.spectacleapp.com/) - Window management
 - [AltTab](https://alt-tab-macos.netlify.app/) - Windows alt-tab on macOS
-- [alacritty](https://alacritty.org/) - A cross-platform, OpenGL terminal
-- [koekeishiya/yabai](https://github.com/koekeishiya/yabai): A tiling window manager for macOS based on binary space partitioning
-- [koekeishiya/skhd](https://github.com/koekeishiya/skhd): Simple hotkey daemon for macOS
-- [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation App
-- [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Automatic tiling window manager for macOS à la xmonad.
+- [krisp AI](https://ref.krisp.ai/u/u458fbd216) - Noise cancellation
+- [ianyh/Amethyst](https://github.com/ianyh/Amethyst) - Tiling window manager
+- [colima](https://github.com/abiosoft/colima) - Container runtimes
+- [medis](https://github.com/luin/medis) - Redis GUI
 
-### Neovim Configuration
+**Configs preserved (may still be used occasionally):**
+- [AeroSpace](https://github.com/nikitabobko/AeroSpace) - macOS window manager (config at `macos/.aerospace.toml`)
+- [Yabai](https://github.com/koekeishiya/yabai) + [SKHD](https://github.com/koekeishiya/skhd) - macOS tiling WM (configs at `macos/.yabairc`, `macos/.skhdrc`)
+- [Kitty](https://github.com/kovidgoyal/kitty) - GPU terminal (config at `common/.config/kitty/`)
+- [WezTerm](https://wezfurlong.org/wezterm/) - GPU terminal (config at `macos/.wezterm.lua`)
+- [Alacritty](https://alacritty.org/) - OpenGL terminal (configs at `macos/.alacritty.toml`, `linux/.alacritty.toml`)
 
-```sh
-git clone https://github.com/jellydn/tiny-nvim ~/.config/nvim
-```
+
 
 ## 🔧 Development Tools Management
 
@@ -215,18 +258,21 @@ git clone https://github.com/jellydn/tiny-nvim ~/.config/nvim
 The repository includes automated tool installation using [mise](https://mise.jdx.dev/):
 
 ```bash
-# Install all development tools defined in .tool-versions
+# Install all development tools defined in mise/config.toml
 ./install.sh tools
 
 # Or use the helper script directly
 ./scripts/install-tools.sh
 ```
 
-### Managed Tools (.tool-versions)
+### Managed Tools (mise config.toml)
 
-Development tools automatically installed by mise:
-- **Languages**: Node.js, Python, Go, Rust, Deno, Bun
-- **CLI Tools**: ripgrep, fd, bat, fzf, jq, hunk, lazygit, gh
+Development tools automatically installed by [mise](https://mise.jdx.dev/):
+- **Languages**: Node.js, Python, Go, Rust, Deno, Bun, Ruby, Lua
+- **CLI Tools**: ripgrep (rg), fd, bat, fzf, jq, delta, lazygit, gh, zoxide, neovim, just, hurl
+- **Tooling**: ruff, black, shellcheck, shfmt, yamllint, dprint, biome, prettier
+- **Formatting**: stylua, difftastic, dprint
+- **Utility**: ffmpeg, usage, yq/jq, uv, ctop, aube, prek, dotnet
 
 ### Git Submodules Management
 
@@ -380,8 +426,8 @@ The backup process protects these configurations:
 ## 📋 Configuration Notes
 
 ### Window Management
-- **macOS**: Uses Yabai + SKHD for tiling window management
-- **Linux**: Supports Hyprland, i3, and other window managers
+- **macOS**: Uses FlashSpace for workspace management; Yabai + SKHD still available for tiling
+- **Linux**: Supports Hyprland, i3, Niri, and other window managers
 
 ### Terminal Setup
 - **Cross-platform**: Ghostty terminal with Kanagawa theme

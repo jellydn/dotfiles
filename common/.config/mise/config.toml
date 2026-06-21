@@ -41,10 +41,14 @@ just = "latest"
 prettier = "latest"
 yamllint = "latest"
 shfmt = "latest"
+prek = "latest"
+dotnet = "latest"
+ctop = "latest"
+aube = "latest"
 
 [settings]
 # Auto-install missing tools
 auto_install = true
 idiomatic_version_file_enable_tools = ["node"]
 
-[env]
+# Secrets: copy config.local.example.toml → config.local.toml (gitignored).

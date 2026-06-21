@@ -119,6 +119,24 @@ fi
 export WALK_EDITOR=nvim
 function lk { cd "$(walk --icons "$@")"; }
 
+# try — interactive project selector (https://github.com/tobi/try)
+if [ -f "$HOME/.local/try.rb" ]; then
+  function try {
+    local cmd
+    cmd=$(/usr/bin/env ruby "$HOME/.local/try.rb" cd --path "$HOME/src/tries" "$@" 2>/dev/tty)
+    local rc=$?
+    if [ $rc -eq 0 ]; then
+      if echo "$cmd" | grep -q ' && '; then
+        eval "$cmd"
+      else
+        cd "$cmd"
+      fi
+    else
+      echo "$cmd" >&2
+    fi
+  }
+fi
+
 # ── Misc integrations ──
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

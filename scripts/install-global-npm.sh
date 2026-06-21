@@ -1,131 +1,140 @@
 #!/usr/bin/env bash
-
+# Install pinned global npm packages. Update versions here; run from dotfiles repo.
 set -euo pipefail
 
-# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Logging functions
-log_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
-}
+log_info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+log_success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+log_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
+log_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
-log_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-log_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-log_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-# Check if npm is available
 check_npm() {
-    if ! command -v npm >/dev/null 2>&1; then
-        log_error "npm is not installed. Please install Node.js first."
-        exit 1
-    fi
-    log_info "Using npm $(npm --version)"
+	if ! command -v npm >/dev/null 2>&1; then
+		log_error "npm is not installed. Install Node.js first."
+		exit 1
+	fi
+	log_info "Using npm $(npm --version)"
 }
 
-# Install a single package with specific version
+# packages: "name:version" (scoped names use first colon as separator)
 install_package() {
-    local package="$1"
-    local version="$2"
-    
-    log_info "Installing ${package}@${version}..."
-    
-    if npm install -g "${package}@${version}" 2>/dev/null; then
-        log_success "✓ ${package}@${version} installed"
-        return 0
-    else
-        log_warning "✗ Failed to install ${package}@${version}"
-        return 1
-    fi
+	local spec="$1"
+	local name="${spec%%:*}"
+	local version="${spec#*:}"
+
+	log_info "Installing ${name}@${version}..."
+	local logfile
+	logfile="$(mktemp)"
+	if npm install -g "${name}@${version}" >"$logfile" 2>&1; then
+		log_success "✓ ${name}@${version}"
+		rm -f "$logfile"
+		return 0
+	fi
+	log_warning "✗ Failed ${name}@${version}"
+	tail -n 15 "$logfile" >&2
+	rm -f "$logfile"
+	return 1
 }
 
-# Main installation function
 main() {
-    log_info "Installing global npm packages..."
-    check_npm
+	log_info "Installing global npm packages..."
+	check_npm
 
-    # Define packages as "name:version" pairs to avoid @ symbol issues
-    local packages=(
-        "@antfu/ni:30.0.0"
-        "@fsouza/prettierd:0.27.0"
-        "@github/copilot:1.0.32"
-        "@google/gemini-cli:0.38.2"
-        "@kaitranntt/ccs:7.72.1"
-        "@kilocode/cli:7.2.14"
-        "@mariozechner/pi-coding-agent:0.67.68"
-        "@mermaid-js/mermaid-cli:11.12.0"
-        "@openai/codex:0.121.0"
-        "@plannotator/pi-extension:0.17.10"
-        "@tailwindcss/language-server:0.14.29"
-        "@vtsls/language-server:0.3.0"
-        "agent-browser:0.26.0"
-        "basedpyright:1.39.2"
-        "corepack:0.34.7"
-        "cspell:10.0.0"
-        "eas-cli:18.7.0"
-        "eslint_d:15.0.2"
-        "generate-license:1.0.0"
-        "generate:0.14.0"
-        "npm-check-updates:21.0.2"
-        "npm:11.12.1"
-        "openclaw:2026.4.15"
-        "oxfmt:0.45.0"
-        "oxlint:1.60.0"
-        "pi-annotate:0.4.1"
-        "pi-hooks:1.0.4"
-        "pi-subagents:0.17.0"
-        "pnpm:10.33.0"
-        "prettier:3.8.3"
-        "rustywind:0.24.3"
-        "typescript-language-server:5.1.3"
-        "typescript:6.0.3"
-        "vscode-langservers-extracted:4.10.0"
-    )
+	local -a pi_tools=(
+		"@earendil-works/pi-coding-agent:0.79.3"
+		"@ff-labs/pi-fff:0.9.4"
+		"@plannotator/pi-extension:0.20.1"
+		"pi-annotate:0.4.3"
+		"pi-btw:0.4.1"
+		"pi-code-previews:0.1.32"
+		"pi-codex-goal:0.1.26"
+		"pi-manage-todo-list:0.4.0"
+		"pi-mcp-adapter:2.10.0"
+		"pi-simplify:0.2.2"
+		"pi-subagents:0.28.0"
+	)
 
-    local total=${#packages[@]}
-    local installed=0
-    local failed=0
+	local -a agents=(
+		"@agentmemory/agentmemory:0.9.27"
+		"@github/copilot:1.0.62"
+		"@google/gemini-cli:0.46.0"
+		"@kaitranntt/ccs:8.2.0"
+		"@kilocode/cli:7.3.45"
+		"@mimo-ai/cli:0.1.0"
+		"@openai/codex:0.139.0"
+		"agent-browser:0.27.3"
+		"cline:3.0.24"
+		"command-code:0.37.2"
+	)
 
-    log_info "Found $total packages to install"
-    echo
+	local -a lang_servers=(
+		"@tailwindcss/language-server:0.14.29"
+		"@vtsls/language-server:0.3.0"
+		"basedpyright:1.39.7"
+		"typescript-language-server:5.3.0"
+		"typescript:6.0.3"
+		"vscode-langservers-extracted:4.10.0"
+	)
 
-    for pkg in "${packages[@]}"; do
-        # Split package:name into parts
-        local name="${pkg%%:*}"
-        local version="${pkg##*:}"
-        
-        if install_package "$name" "$version"; then
-            ((installed++))
-        else
-            ((failed++))
-        fi
-    done
+	local -a format_lint=(
+		"@fsouza/prettierd:0.28.0"
+		"cspell:10.0.1"
+		"eslint_d:15.0.2"
+		"oxfmt:0.54.0"
+		"oxlint:1.69.0"
+		"prettier:3.8.4"
+		"rustywind:0.24.3"
+	)
 
-    echo
-    log_success "Installation complete!"
-    log_info "Installed: $installed / $total"
-    
-    if [[ $failed -gt 0 ]]; then
-        log_warning "Failed: $failed packages"
-    fi
+	local -a tooling=(
+		"@antfu/ni:30.1.0"
+		"@mermaid-js/mermaid-cli:11.15.0"
+		"bumpp:11.1.0"
+		"clawpatch:0.6.0"
+		"corepack:0.35.0"
+		"eas-cli:20.1.0"
+		"freebuff:0.0.107"
+		"generate-license:1.0.0"
+		"generate:0.14.0"
+		"kanban:0.1.68"
+		"npm-check-updates:22.2.3"
+		"npm:11.17.0"
+		"portless:0.14.0"
+		"vercel:54.13.0"
+	)
 
-    # Show npm list of global packages
-    echo
-    log_info "Current global packages:"
-    npm list -g --depth=0 2>/dev/null || true
+	local -a all=()
+	all+=("${pi_tools[@]}" "${agents[@]}" "${lang_servers[@]}" "${format_lint[@]}" "${tooling[@]}")
+
+	local total=${#all[@]}
+	local installed=0
+	local failed=0
+
+	log_info "Found $total packages"
+	echo
+
+	for spec in "${all[@]}"; do
+		if install_package "$spec"; then
+			((installed++)) || true
+		else
+			((failed++)) || true
+		fi
+	done
+
+	echo
+	log_success "Installation complete: $installed / $total installed"
+	if [[ $failed -gt 0 ]]; then
+		log_warning "Failed: $failed (see stderr above)"
+	fi
+
+	echo
+	log_info "Global packages:"
+	npm list -g --depth=0 2>/dev/null || true
 }
 
-# Run main
 main "$@"

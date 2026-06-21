@@ -7,7 +7,7 @@ import = [
 TERM = "xterm-256color"
 
 [shell]
-program = "/bin/zsh"
+program = "/opt/homebrew/bin/fish"
 
 # Other good fonts: JetBrainsMono Nerd Font, GeistMono Nerd Font Mono, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
 [font]

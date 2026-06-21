@@ -1,7 +1,7 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore_global
-	pager = delta
+	pager = hunk pager
 
 [user]
 	name = Huynh Duc Dung
@@ -33,3 +33,7 @@
 [gitbutler]
 	aiOpenAIKeyOption = butlerAPI
 	gitbutlerCommitter = 1
+[coderabbit]
+	machineId = cli/e5d2749abda34d6992a76d820f871e06
+[credential "https://codeberg.org"]
+	provider = generic

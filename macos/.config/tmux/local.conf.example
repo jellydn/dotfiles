@@ -1,0 +1,5 @@
+# Copy to ~/.config/tmux/local.conf (gitignored) after stow.
+# tmux.conf sources this file when it exists.
+
+# tmux-palette command palette
+bind Space run-shell "$HOME/Sites/tmux-palette/bin/tmux-palette.sh"

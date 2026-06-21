@@ -151,7 +151,7 @@ stow -D common
 - [raycast](https://www.raycast.com/) - is a blazingly fast, totally extendable
   launcher.
 - [leader-key](https://github.com/mikker/LeaderKey.app) - Faster than your launcher
-- [delta](https://github.com/dandavison/delta) - a syntax-highlighting pager for git, diff, and grep output
+- [hunk](https://github.com/jaredallard/hunk) - a blazing-fast git pager written in Go
 - [lazygit](https://github.com/jesseduffield/lazygit): simple terminal UI for git commands
 - [Marta](https://marta.sh/) - file manager
 - [f.lux](https://justgetflux.com/) - makes the color of your computer's display
@@ -226,7 +226,7 @@ The repository includes automated tool installation using [mise](https://mise.jd
 
 Development tools automatically installed by mise:
 - **Languages**: Node.js, Python, Go, Rust, Deno, Bun
-- **CLI Tools**: ripgrep, fd, bat, fzf, jq, delta, lazygit, gh
+- **CLI Tools**: ripgrep, fd, bat, fzf, jq, hunk, lazygit, gh
 
 ### Git Submodules Management
 
@@ -271,15 +271,15 @@ sudo apt install fish # Linux
 chsh -s $(which fish)
 ```
 
-If using Zsh with Oh My Zsh:
+If using Zsh:
 ```bash
-# Install Oh My Zsh
-sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# Install Pure prompt
+brew install pure
 
-# Install plugins
-cd ~/.oh-my-zsh/custom/plugins/
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
-git clone https://github.com/zsh-users/zsh-autosuggestions.git
+# Getting started — initialize the prompt system and choose pure:
+# .zshrc
+# autoload -U promptinit; promptinit
+# prompt pure
 ```
 
 ## 📝 Install Script Usage

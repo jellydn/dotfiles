@@ -1,0 +1,8 @@
+// Merge into ~/.config/zed/settings.local.json (with common example), then merge-zed-settings.sh --install
+{
+	"terminal": {
+		"shell": {
+			"program": "/Users/huynhdung/.cargo/bin/codemux"
+		}
+	}
+}

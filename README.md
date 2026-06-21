@@ -259,25 +259,29 @@ Some tools need manual installation:
 curl https://mise.run | sh
 ```
 
-### Shell Setup (Optional)
+### Shell Setup
 
-If using Fish shell:
+Fish is the primary shell. Zsh is available as an alternative.
+
 ```bash
-# Install Fish
+# Install Fish (if not already installed)
 brew install fish # macOS
 sudo apt install fish # Linux
 
-# Set as default shell
-chsh -s $(which fish)
+# Set Fish as the default shell
+echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
+chsh -s /opt/homebrew/bin/fish
+
+# Install Fisher (plugin manager)
+fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 ```
 
-If using Zsh:
+If using Zsh instead:
 ```bash
 # Install Pure prompt
 brew install pure
 
-# Getting started — initialize the prompt system and choose pure:
-# .zshrc
+# Initialize the prompt system and choose pure:
 # autoload -U promptinit; promptinit
 # prompt pure
 ```
@@ -381,8 +385,8 @@ The backup process protects these configurations:
 
 ### Terminal Setup
 - **Cross-platform**: Ghostty terminal with Kanagawa theme
-- **Alternatives**: Kitty terminal also configured
-- **Shell**: Fish shell with custom theme and functions
+- **Alternatives**: Kitty, WezTerm, Alacritty terminals also configured
+- **Shell**: Fish shell (default) with Pure prompt; Zsh available as alternative
 
 ### Editor Configuration
 - **Neovim**: Minimal, fast configuration with essential features

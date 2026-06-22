@@ -48,6 +48,7 @@ dotfiles/
 │   │   ├── lazygit/    # Lazygit TUI
 │   │   ├── mise/       # Dev tools (replaces .tool-versions)
 │   │   ├── nvim/       # Neovim config (submodule)
+│   │   ├── herdr/      # Herdr agent multiplexer
 │   │   ├── tmux/       # Tmux multiplexer
 │   │   ├── vscode/     # VS Code settings
 │   │   ├── zed/        # Zed editor
@@ -189,6 +190,7 @@ stow -D common
 - [Ghostty](https://github.com/ghostty-org/ghostty) - 👻 Fast, feature-rich, cross-platform terminal emulator
 - [tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [zellij](https://zellij.dev/) - Terminal multiplexer workspace
+- [herdr](https://herdr.dev/) - Terminal workspace manager for AI coding agents
 - [lazygit](https://github.com/jesseduffield/lazygit) - Simple terminal UI for git
 - [hunk](https://github.com/jaredallard/hunk) - Blazing-fast git pager in Go
 - [FlashSpace](https://github.com/wojciech-kulik/FlashSpace) - Blazingly fast virtual workspace manager for macOS
@@ -421,7 +423,7 @@ The backup process protects these configurations:
 - Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`, `.config/foot`)
 - Window manager configs (`.yabairc`, `.config/i3`, `.config/hypr`, `.config/waybar`, `.config/rofi`)
 - Development configs (`.gitconfig`, `.tmux.conf`, `.config/mise`)
-- Multiplexer configs (`.config/zellij`, `.config/tmux`)
+- Multiplexer configs (`.config/herdr`, `.config/zellij`, `.config/tmux`)
 
 ## 📋 Configuration Notes
 

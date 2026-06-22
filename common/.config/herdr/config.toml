@@ -1,0 +1,17 @@
+# Herdr configuration
+# ~/.config/herdr/config.toml
+
+[theme]
+# Kanagawa — matching your tmux setup
+name = "kanagawa"
+
+[keys]
+# Match your tmux prefix for consistency
+prefix = "ctrl+a"
+
+[terminal]
+# CWD follows the source pane/workspace
+new_cwd = "follow"
+
+[update]
+channel = "stable"

@@ -9,6 +9,9 @@ name = "kanagawa"
 # Match your tmux prefix for consistency
 prefix = "ctrl+a"
 
+# Toggle sidebar (agents, workspaces, tabs)
+toggle_sidebar = "prefix+b"
+
 [terminal]
 # CWD follows the source pane/workspace
 new_cwd = "follow"

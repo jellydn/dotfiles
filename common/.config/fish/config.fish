@@ -102,7 +102,28 @@ set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
 # Install https://github.com/tobi/try if available
-eval (try init ~/src/tries | string collect)
+if test -x ~/.local/share/mise/installs/ruby/latest/bin/try
+    function try
+        set -l out (~/.local/share/mise/installs/ruby/latest/bin/try exec --path ~/src/tries $argv 2>/dev/tty | string collect)
+        if test $pipestatus[1] -eq 0
+            eval $out
+        else
+            echo $out
+        end
+    end
+end
+
+# try-dev is a separate binary at ~/.local/bin/try-dev; same wrapper pattern
+if test -x ~/.local/bin/try-dev
+    function try-dev
+        set -l out (/usr/bin/env ruby ~/.local/bin/try-dev exec --path ~/src/tries $argv 2>/dev/tty | string collect)
+        if test $pipestatus[1] -eq 0
+            eval $out
+        else
+            echo $out
+        end
+    end
+end
 
 # pnpm (override PNPM_HOME in conf.d if your path differs)
 if not set -q PNPM_HOME

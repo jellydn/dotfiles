@@ -102,21 +102,7 @@ set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
 # Install https://github.com/tobi/try if available
-if test -f ~/.local/try.rb
-    function try --description "Interactive project selector (tobi/try)"
-        set -l cmd (/usr/bin/env ruby ~/.local/try.rb cd --path ~/src/tries $argv 2>/dev/tty)
-        set -l rc $status
-        if test $rc -eq 0
-            if string match -qr ' && ' -- "$cmd"
-                eval $cmd
-            else
-                cd $cmd
-            end
-        else
-            echo $cmd >&2
-        end
-    end
-end
+eval (try init ~/src/tries | string collect)
 
 # pnpm (override PNPM_HOME in conf.d if your path differs)
 if not set -q PNPM_HOME

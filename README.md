@@ -138,12 +138,12 @@ stow -D common macos  # or linux
 
 Some configs stay in the repo as **examples**; copy to gitignored paths on your machine:
 
-| Tool | Example in repo | On your machine |
-|------|-----------------|-----------------|
-| mise | `common/.config/mise/config.local.example.toml` | `~/.config/mise/config.local.toml` |
+| Tool                      | Example in repo                                                           | On your machine                                                                          |
+| ------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| mise                      | `common/.config/mise/config.local.example.toml`                           | `~/.config/mise/config.local.toml`                                                       |
 | Zed (private AI/terminal) | `common/.config/zed/settings.local.json.example` (+ optional `macos/...`) | `~/.config/zed/settings.local.json` then run `./scripts/merge-zed-settings.sh --install` |
-| tmux (palette, etc.) | `macos/.config/tmux/local.conf.example` | `~/.config/tmux/local.conf` |
-| fish (extra PATH) | `macos/.config/fish/conf.d/99-local.example.fish` | `~/.config/fish/conf.d/99-local.fish` |
+| tmux (palette, etc.)      | `macos/.config/tmux/local.conf.example`                                   | `~/.config/tmux/local.conf`                                                              |
+| fish (extra PATH)         | `macos/.config/fish/conf.d/99-local.example.fish`                         | `~/.config/fish/conf.d/99-local.fish`                                                    |
 
 **Security:** never commit API keys. If an OpenRouter (or other) key was ever committed, rotate it and use `config.local.toml` only.
 
@@ -154,6 +154,7 @@ Some configs stay in the repo as **examples**; copy to gitignored paths on your 
 When adding new dotfiles, organize them by platform:
 
 ### Cross-platform tools (common/)
+
 ```bash
 # Add to common/.config/ for tools that work on both macOS and Linux
 mkdir -p common/.config/new-tool
@@ -161,6 +162,7 @@ cp ~/.config/new-tool/* common/.config/new-tool/
 ```
 
 ### Platform-specific tools
+
 ```bash
 # macOS-specific (macos/)
 mkdir -p macos/.config/macos-app
@@ -172,6 +174,7 @@ cp ~/.config/linux-tool/* linux/.config/linux-tool/
 ```
 
 ### Testing configurations
+
 ```bash
 # Test stowing new config
 stow --simulate common  # Dry run to see what would be linked
@@ -182,6 +185,7 @@ stow -D common
 ```
 
 ## Tools
+
 - [mise-en-place](https://github.com/jdx/mise) - The front-end to your dev env.
 - [Zed](https://zed.dev/) - High-performance, multiplayer code editor with AI features
 - [Cursor](https://cursor.com/) - AI-first code editor
@@ -191,6 +195,7 @@ stow -D common
 - [tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [zellij](https://zellij.dev/) - Terminal multiplexer workspace
 - [herdr](https://herdr.dev/) - Terminal workspace manager for AI coding agents
+- [herdr-file-viewer](https://github.com/smarzban/herdr-file-viewer) - Git-aware read-only file viewer in a herdr split/tab
 - [lazygit](https://github.com/jesseduffield/lazygit) - Simple terminal UI for git
 - [hunk](https://github.com/jaredallard/hunk) - Blazing-fast git pager in Go
 - [FlashSpace](https://github.com/wojciech-kulik/FlashSpace) - Blazingly fast virtual workspace manager for macOS
@@ -222,13 +227,14 @@ stow -D common
 - [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
 
 ## Deprecated tools
+
 Tools no longer the primary choice (configs preserved in repo for occasional use):
+
 - [fnm](https://github.com/Schniz/fnm) - Node.js version manager (replaced by mise)
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - Git GUI
 - [starship](https://starship.rs/) - Prompt (replaced by Pure)
 - [ohmyz](https://ohmyz.sh/) - Zsh framework (replaced by Pure)
 - [powerlevel10k](https://github.com/romkatv/powerlevel10k#oh-my-zsh) - Zsh theme
-- [.tmux](https://github.com/gpakosz/.tmux) - Tmux config
 - [poetry](https://github.com/python-poetry/poetry) - Python packaging
 - [astral-sh/rye](https://github.com/astral-sh/rye) - Python experience
 - [Fig](https://fig.sh/) - Terminal autocomplete
@@ -245,13 +251,12 @@ Tools no longer the primary choice (configs preserved in repo for occasional use
 - [medis](https://github.com/luin/medis) - Redis GUI
 
 **Configs preserved (may still be used occasionally):**
+
 - [AeroSpace](https://github.com/nikitabobko/AeroSpace) - macOS window manager (config at `macos/.aerospace.toml`)
 - [Yabai](https://github.com/koekeishiya/yabai) + [SKHD](https://github.com/koekeishiya/skhd) - macOS tiling WM (configs at `macos/.yabairc`, `macos/.skhdrc`)
 - [Kitty](https://github.com/kovidgoyal/kitty) - GPU terminal (config at `common/.config/kitty/`)
 - [WezTerm](https://wezfurlong.org/wezterm/) - GPU terminal (config at `macos/.wezterm.lua`)
 - [Alacritty](https://alacritty.org/) - OpenGL terminal (configs at `macos/.alacritty.toml`, `linux/.alacritty.toml`)
-
-
 
 ## 🔧 Development Tools Management
 
@@ -270,6 +275,7 @@ The repository includes automated tool installation using [mise](https://mise.jd
 ### Managed Tools (mise config.toml)
 
 Development tools automatically installed by [mise](https://mise.jdx.dev/):
+
 - **Languages**: Node.js, Python, Go, Rust, Deno, Bun, Ruby, Lua
 - **CLI Tools**: ripgrep (rg), fd, bat, fzf, jq, delta, lazygit, gh, zoxide, neovim, just, hurl
 - **Tooling**: ruff, black, shellcheck, shfmt, yamllint, dprint, biome, prettier
@@ -325,6 +331,7 @@ fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/fun
 ```
 
 If using Zsh instead:
+
 ```bash
 # Install Pure prompt
 brew install pure
@@ -337,6 +344,7 @@ brew install pure
 ## 📝 Install Script Usage
 
 ### Commands
+
 ```bash
 Usage: ./install.sh [install|uninstall|restow|tools|submodules|all|backup|fish]
 
@@ -359,6 +367,7 @@ Options:
 ```
 
 ### Examples
+
 ```bash
 # Basic installation
 ./install.sh                            # Install dotfiles only
@@ -373,7 +382,7 @@ Options:
 # Interactive installation
 ./install.sh install --interactive       # Guided installation with prompts
 
-# Component-specific installation  
+# Component-specific installation
 ./install.sh tools                       # Only install development tools
 ./install.sh fish                        # Only install Fish shell
 ./install.sh submodules                  # Only update git submodules
@@ -393,13 +402,15 @@ For first-time users or those who want guided installation:
 ```
 
 **Interactive features:**
+
 - **Conflict detection**: Shows existing dotfiles that would be overwritten
-- **Backup choices**: Ask whether to backup existing files before installation  
+- **Backup choices**: Ask whether to backup existing files before installation
 - **Package selection**: Choose which configuration groups to install
 - **Component options**: Prompt for development tools and git submodules
 - **Safety confirmations**: Multiple confirmation prompts for destructive actions
 
 **Interactive prompts include:**
+
 - `Do you want to backup these files before installation? [Y/n]`
 - `Install common (cross-platform) configurations? [Y/n]`
 - `Install macos-specific configurations? [Y/n]` (or linux-specific)
@@ -417,7 +428,9 @@ The install script automatically backs up your existing dotfiles before installa
 - **Optional**: Use `--no-backup` flag to skip backup process
 
 ### Backup Coverage
+
 The backup process protects these configurations:
+
 - Shell configs (`.zshrc`, `.bashrc`, `.config/fish`)
 - Editor configs (`.config/nvim`, `.config/helix`, `.vimrc`)
 - Terminal configs (`.config/ghostty`, `.config/kitty`, `.alacritty.toml`, `.config/foot`)
@@ -428,15 +441,25 @@ The backup process protects these configurations:
 ## 📋 Configuration Notes
 
 ### Window Management
+
 - **macOS**: Uses FlashSpace for workspace management; Yabai + SKHD still available for tiling
 - **Linux**: Supports Hyprland, i3, Niri, and other window managers
 
 ### Terminal Setup
+
 - **Cross-platform**: Ghostty terminal with Kanagawa theme
 - **Alternatives**: Kitty, WezTerm, Alacritty terminals also configured
 - **Shell**: Fish shell (default) with Pure prompt; Zsh available as alternative
 
+### Herdr
+
+- Config: `common/.config/herdr/config.toml` (prefix `ctrl+a`, Kanagawa theme)
+- **File viewer plugin**: `herdr plugin install smarzban/herdr-file-viewer`, then `herdr server reload-config`
+- Keys: `prefix+f` — viewer in a split; `prefix+shift+f` — viewer in its own tab (toggle/focus)
+- Optional renderers for styled markdown/diffs/code: `glow`, `git-delta`, `bat` (see plugin `scripts/install-renderers.sh`)
+
 ### Editor Configuration
+
 - **Neovim**: Minimal, fast configuration with essential features
 - **Helix**: Alternative editor setup
 
@@ -523,11 +546,13 @@ defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 After installing the dotfiles, you need to install tmux plugins:
 
 1. Install TPM (Tmux Plugin Manager):
+
    ```bash
    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
    ```
 
 2. Reload tmux configuration:
+
    ```bash
    tmux source-file ~/.config/tmux/tmux.conf
    ```
@@ -535,8 +560,9 @@ After installing the dotfiles, you need to install tmux plugins:
 3. Install plugins by pressing `Ctrl+a` (prefix) + `I` inside tmux
 
 **Key Bindings:**
+
 - **Prefix key**: `Ctrl+a` (GNU Screen style)
-- **Window navigation**: 
+- **Window navigation**:
   - `Prefix + Tab` - Next window
   - `Prefix + Shift+Tab` - Previous window
 - **Pane navigation**: `Prefix + h/j/k/l` (Vim-style)
@@ -548,6 +574,7 @@ After installing the dotfiles, you need to install tmux plugins:
 - **Edit config**: `Prefix + e`
 
 **URL Opening:**
+
 - **Cmd+click** (macOS) - Click URLs while holding Cmd to open in browser (no plugins needed)
 - `Prefix + u` - Extract URLs with fzf and open selected URL
 - `Prefix + Ctrl+u` - Copy first URL to clipboard

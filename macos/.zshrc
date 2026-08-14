@@ -144,3 +144,7 @@ if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)
 # ── mise (last so shims take precedence) ──
 eval "$(~/.local/bin/mise activate zsh)"
 eval "$(mise hook-env -s zsh)"
+
+export PATH=$HOME/bin:~/.config/phpmon/bin:$PATH
+export PATH=$HOME/bin:~/.composer/vendor/bin:$PATH
+export PATH=$HOME/bin:/opt/homebrew/bin:$PATH

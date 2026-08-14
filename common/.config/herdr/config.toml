@@ -12,6 +12,18 @@ prefix = "ctrl+a"
 # Toggle sidebar (agents, workspaces, tabs)
 toggle_sidebar = "prefix+b"
 
+# Git-aware file viewer (herdr plugin: smarzban/herdr-file-viewer)
+# Install: herdr plugin install smarzban/herdr-file-viewer
+[[keys.command]]
+key = "prefix+f"
+type = "shell"
+command = "herdr plugin action invoke open-file-viewer --plugin herdr-file-viewer"
+
+[[keys.command]]
+key = "prefix+shift+f"
+type = "shell"
+command = "herdr plugin action invoke open-file-viewer-tab --plugin herdr-file-viewer"
+
 [terminal]
 # CWD follows the source pane/workspace
 new_cwd = "follow"

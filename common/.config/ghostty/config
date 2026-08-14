@@ -1,3 +1,4 @@
+
 # How to reload:
 #   Linux: ctrl+shift+,
 #   macOS: cmd+shift+,
@@ -55,6 +56,11 @@ link-url = true
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 macos-option-as-alt = true
+# Pass through to jcode (hardcoded macOS prompt-jump fallbacks); clear with ctrl+l instead of cmd+k
+keybind = cmd+k=unbind
+keybind = cmd+j=unbind
+keybind = cmd+[=unbind
+keybind = cmd+]=unbind
 # Open terminal on neovim
 keybind = ctrl+minus=text:\x1f
 

@@ -138,9 +138,21 @@ if test -d "$HOME/.opencode/bin"
     fish_add_path "$HOME/.opencode/bin"
 end
 fish_add_path "$HOME/go/bin"
+fish_add_path "$HOME/.dotnet/tools"
 if test -d "$HOME/.grok/bin"
     fish_add_path "$HOME/.grok/bin"
 end
 
 # mise must run after all other PATH changes so shims take precedence
 ~/.local/bin/mise activate fish | source
+
+# kimi-code
+fish_add_path -g "/Users/huynhdung/.kimi-code/bin"
+
+# Added by codebase-memory-mcp install
+fish_add_path /Users/huynhdung/.local/bin
+
+
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<

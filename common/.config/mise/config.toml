@@ -45,6 +45,8 @@ prek = "latest"
 dotnet = "latest"
 ctop = "latest"
 aube = "latest"
+task = "latest"
+tree-sitter = "latest"
 
 [settings]
 # Auto-install missing tools

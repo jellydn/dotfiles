@@ -40,4 +40,3 @@ ctrl + alt + shift - w : open -a "Warp"
 ctrl + alt + shift - e : open -a "Finder"
 ctrl + alt + shift - d : open -a "OrbStack"
 ctrl + alt + shift - v : open -a "Vial"
-

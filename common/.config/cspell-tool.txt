@@ -13,7 +13,7 @@ Neovim
 ohmyz
 powerlevel
 alacritty
-raycast
+tuna
 lazygit
 sourcetreeapp
 koekeishiya

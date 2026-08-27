@@ -115,17 +115,17 @@
           "key" : "p",
           "label" : "",
           "type" : "url",
-          "value" : "raycast://confetti"
+          "value" : "tuna://combo"
         },
         {
           "key" : "c",
           "label" : "",
           "type" : "url",
-          "value" : "raycast://extensions/raycast/system/open-camera"
+          "value" : "tuna://talk"
         }
       ],
       "key" : "r",
-      "label" : "Raycast",
+      "label" : "Tuna",
       "type" : "group"
     },
     {

@@ -17,8 +17,6 @@ ctrl + alt - b : open -a "Brave Browser"
 ctrl + alt - c : open -a "Cursor"
 ctrl + alt - d : open -a "Navicat Premium Lite"
 ctrl + alt - z : open -a "Zed Preview"
-# Raycast Extensions
-ctrl + alt - p : open "raycast://confetti"
 
 # Communication
 ctrl + alt + shift - z : open -a "zoom.us"

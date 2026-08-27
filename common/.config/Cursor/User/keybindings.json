@@ -78,7 +78,7 @@
   // TODO: Wait for this to resolve https://github.com/usernamehw/vscode-error-lens/issues/208
   // Setup which-key
   {
-    "key": "cmd+space", // Disable Spotlight and use Raycast with Alt+space, refer https://manual.raycast.com/hotkey
+    "key": "cmd+space", // Disable Spotlight and use Tuna with Alt+space, refer https://tunaformac.com/docs/replacing-spotlight-with-tuna
     "command": "whichkey.show",
     "when": "editorTextFocus"
   },

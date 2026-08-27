@@ -214,7 +214,7 @@ stow -D common
 - [bat](https://github.com/sharkdp/bat) - Cat with syntax highlighting
 - [fd](https://github.com/sharkdp/fd) - Fast find alternative
 - [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
-- [raycast](https://www.raycast.com/) - Blazingly fast, totally extendable launcher
+- [Tuna](https://tunaformac.com/) - New, modern launcher for macOS
 - [Marta](https://marta.sh/) - File manager
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay) - Unlock your displays on Mac
 - [OBS](https://obsproject.com/) - Open Broadcaster Software
@@ -521,11 +521,11 @@ defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 
 ### Leader Key
 
-- Map Right-CMD to Hyper key on Raycast
+- Map Right-CMD to Hyper key on Tuna
 - Map Right-shift to Right Cmd-Space
 - Map leader key with Hyper + Space
 
-[![Raycast + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
+[![Tuna + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
 
 ### OBS setting for Blue Yeti Microphone
 

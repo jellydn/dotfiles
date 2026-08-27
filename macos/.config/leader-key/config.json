@@ -113,19 +113,31 @@
       "actions" : [
         {
           "key" : "p",
-          "label" : "",
+          "label" : "Raycast Confetti",
+          "type" : "url",
+          "value" : "raycast://confetti"
+        },
+        {
+          "key" : "c",
+          "label" : "Raycast Camera",
+          "type" : "url",
+          "value" : "raycast://extensions/raycast/system/open-camera"
+        },
+        {
+          "key" : "t",
+          "label" : "Tuna Combo",
           "type" : "url",
           "value" : "tuna://combo"
         },
         {
-          "key" : "c",
-          "label" : "",
+          "key" : "d",
+          "label" : "Tuna Talk",
           "type" : "url",
           "value" : "tuna://talk"
         }
       ],
       "key" : "r",
-      "label" : "Tuna",
+      "label" : "Launchers",
       "type" : "group"
     },
     {

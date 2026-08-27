@@ -230,6 +230,7 @@ stow -D common
 
 Tools no longer the primary choice (configs preserved in repo for occasional use):
 
+- [Raycast](https://www.raycast.com/) - Launcher (replaced by Tuna)
 - [fnm](https://github.com/Schniz/fnm) - Node.js version manager (replaced by mise)
 - [sourcetreeapp](https://www.sourcetreeapp.com/) - Git GUI
 - [starship](https://starship.rs/) - Prompt (replaced by Pure)
@@ -521,11 +522,11 @@ defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 
 ### Leader Key
 
-- Map Right-CMD to Hyper key on Tuna
+- Map Right-CMD to Hyper key on Tuna or Raycast
 - Map Right-shift to Right Cmd-Space
 - Map leader key with Hyper + Space
 
-[![Tuna + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
+[![Hyper key + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
 
 ### OBS setting for Blue Yeti Microphone
 

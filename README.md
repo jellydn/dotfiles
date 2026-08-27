@@ -225,6 +225,7 @@ stow -D common
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
+- [Try Omarchy](https://github.com/themartiano/try-omarchy) - Run Omarchy desktop on Apple Silicon (hardware-accelerated VM)
 
 ## Deprecated tools
 

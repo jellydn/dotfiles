@@ -1,0 +1,53 @@
+# Shared Alacritty bindings. Keep in sync with docs/terminal-keys.md
+# Imported by macos/.alacritty.toml and linux/.alacritty.toml
+
+[[keyboard.bindings]]
+# Neovim <c-_> / tiny-term. Do not bind ctrl+minus to font size.
+key = "Minus"
+mods = "Control"
+chars = "\u001F"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Control|Shift"
+action = "SearchForward"
+
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Control|Shift"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control|Shift"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "L"
+mods = "Control|Shift"
+chars = "cmdk -s\r"
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt"
+chars = "\u001b[1;3D"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt"
+chars = "\u001b[1;3C"

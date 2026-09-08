@@ -65,8 +65,9 @@ pkl = "latest"
 auto_install = true
 idiomatic_version_file_enable_tools = ["node"]
 # Secrets: copy config.local.example.toml → config.local.toml (gitignored).
+# [dotfiles] source paths are relative to this file (common/.config/mise),
+# not ~/.dotfiles. Do not set settings.dotfiles.root here.
 
-# Sources are relative to this file: common/.config/mise/
 [dotfiles]
 "~/.gitconfig" = { source = "../../.gitconfig", mode = "symlink" }
 "~/.ideavimrc" = { source = "../../.ideavimrc", mode = "symlink" }
@@ -83,17 +84,17 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/.config/vscode" = { source = "../vscode", mode = "symlink" }
 "~/.config/zed" = { source = "../zed", mode = "symlink" }
 "~/.config/zellij" = { source = "../zellij", mode = "symlink" }
-"~/.alacritty.toml" = { source = "../../../macos/.alacritty.toml", mode = "symlink" }
-"~/.aerospace.toml" = { source = "../../../macos/.aerospace.toml", mode = "symlink" }
-"~/.wezterm.lua" = { source = "../../../macos/.wezterm.lua", mode = "symlink" }
-"~/.yabairc" = { source = "../../../macos/.yabairc", mode = "symlink" }
-"~/.zshrc" = { source = "../../../macos/.zshrc", mode = "symlink" }
-"~/yabai.sh" = { source = "../../../macos/yabai.sh", mode = "symlink" }
-"~/.config/sketchybar" = { source = "../../../macos/.config/sketchybar", mode = "symlink" }
-"~/.config/qmk" = { source = "../../../macos/.config/qmk", mode = "symlink" }
-"~/.config/rectangle" = { source = "../../../macos/.config/rectangle", mode = "symlink" }
-"~/.config/leader-key" = { source = "../../../macos/.config/leader-key", mode = "symlink" }
+"~/.alacritty.toml" = { source = "../../../macos/.alacritty.toml", mode = "symlink", os = "macos" }
+"~/.aerospace.toml" = { source = "../../../macos/.aerospace.toml", mode = "symlink", os = "macos" }
+"~/.wezterm.lua" = { source = "../../../macos/.wezterm.lua", mode = "symlink", os = "macos" }
+"~/.yabairc" = { source = "../../../macos/.yabairc", mode = "symlink", os = "macos" }
+"~/.zshrc" = { source = "../../../macos/.zshrc", mode = "symlink", os = "macos" }
+"~/yabai.sh" = { source = "../../../macos/yabai.sh", mode = "symlink", os = "macos" }
+"~/.config/sketchybar" = { source = "../../../macos/.config/sketchybar", mode = "symlink", os = "macos" }
+"~/.config/rectangle" = { source = "../../../macos/.config/rectangle", mode = "symlink", os = "macos" }
+"~/.config/leader-key" = { source = "../../../macos/.config/leader-key", mode = "symlink", os = "macos" }
 
+# zshrc (not zsh) is the startup-file key; `zsh = true` would also write zprofile shims.
 [bootstrap.mise_shell_activate]
 fish = "activate"
 zshrc = "activate"

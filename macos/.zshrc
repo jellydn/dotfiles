@@ -141,11 +141,12 @@ fi
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
 
-# ── mise (last so shims take precedence) ──
+# ── Paths before mise so shims stay first ──
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:$PATH"
+export PATH=$HOME/bin:~/.config/phpmon/bin:$PATH
+export PATH=$HOME/bin:~/.composer/vendor/bin:$PATH
+
+# ── mise (last so shims take precedence) ──
 # >>> mise:activate >>> managed by mise - do not edit between markers
 eval "$(mise activate zsh)"
 # <<< mise:activate <<<
-
-export PATH=$HOME/bin:~/.config/phpmon/bin:$PATH
-export PATH=$HOME/bin:~/.composer/vendor/bin:$PATH

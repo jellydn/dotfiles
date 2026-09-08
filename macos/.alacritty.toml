@@ -24,7 +24,8 @@ save_to_clipboard = true
 semantic_escape_chars = ''',│`|:"' ()[]{}<>	'''
 
 [window]
-decorations = "Buttonless"
+# Full chrome so the native macOS tab bar does not overlap the grid.
+decorations = "Full"
 decorations_theme_variant = "Dark"
 opacity = 0.95
 startup_mode = "Maximized"

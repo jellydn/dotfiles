@@ -166,4 +166,6 @@ end
 # Export BASH_ENV so non-interactive bash (agent/script shells) sources
 # ~/.bashrc, which re-evaluates mise env and prevents stale GOROOT/PATH
 # from long-lived sessions breaking `go`/`gofmt`.
-set -gx BASH_ENV "$HOME/.bashrc"
+if test -f "$HOME/.bashrc"
+    set -gx BASH_ENV "$HOME/.bashrc"
+end

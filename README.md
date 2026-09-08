@@ -79,6 +79,7 @@ dotfiles/
 │   │   ├── rectangle/  # Window management
 │   │   ├── sketchybar/ # Status bar
 │   │   ├── tmux/       # Tmux local overrides
+│   │   ├── tuna/       # Tuna launcher (config.toml, prompts)
 │   │   └── zed/        # Zed local overrides
 │   └── yabai.sh        # Yabai helper script
 ├── linux/              # Linux-specific configurations
@@ -451,8 +452,40 @@ The backup process protects these configurations:
 
 ### Window Management
 
-- **macOS**: Uses FlashSpace for workspace management; Yabai + SKHD still available for tiling
+- **macOS**: [FlashSpace](macos/.config/flashspace/KEYS.md) for workspaces; Yabai + SKHD still available for tiling
 - **Linux**: Supports Hyprland, i3, Niri, and other window managers
+
+### FlashSpace (workspaces)
+
+Option + first letter. Full cheat sheet: [`macos/.config/flashspace/KEYS.md`](macos/.config/flashspace/KEYS.md)
+
+| `opt+` | Workspace | Display |
+| --- | --- | --- |
+| `c` | **C**ode | External |
+| `b` | **B**rowser | External |
+| `t` | **T**erminal | External |
+| `e` | **E**mail | External |
+| `g` | Tools (**g**ear) | External |
+| `w` | **W**ork | Laptop |
+| `m` | Chat (**m**essages) | Laptop |
+| `r` | **R**elax | Laptop |
+
+`opt+tab` workspace switcher · `ctrl+opt+shift+tab` Space Control · `ctrl+opt+cmd+hjkl` focus
+
+### Tuna (launcher)
+
+Hyper = `ctrl+opt+cmd+shift` (Right-Cmd). Full cheat sheet: [`macos/.config/tuna/KEYS.md`](macos/.config/tuna/KEYS.md)
+
+| Key | Mode |
+| --- | --- |
+| `cmd+space` | Fuzzy search |
+| `opt+space` | Text |
+| `hyper+space` | Talk (dictate) |
+| hold Right-Cmd / double-tap Left-Cmd | Combo |
+
+Combo first letters: `e` Zen · `t` terminal · `f` Finder · `m` Mail · `n` Notes · `d` Downloads · `h` Home
+
+Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` OrbStack · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
 
 ### Terminal Setup
 
@@ -528,11 +561,13 @@ defaults delete com.apple.dock autohide-delay && killall Dock
 defaults write com.apple.dock no-bouncing -bool FALSE && killall Dock
 ```
 
-### Leader Key
+### Leader Key / Tuna
 
-- Map Right-CMD to Hyper key on Tuna or Raycast
-- Map Right-shift to Right Cmd-Space
-- Map leader key with Hyper + Space
+Tuna Combo Mode replaced Leader Key. Right-Cmd is Hyper (`ctrl+opt+cmd+shift`).
+
+- Combo: hold Right-Cmd, or double-tap Left-Cmd, then a first-letter key
+- Jump to an app: `hyper+letter` (see [Tuna keys](macos/.config/tuna/KEYS.md))
+- Workspaces stay on FlashSpace `opt+letter` (see [FlashSpace keys](macos/.config/flashspace/KEYS.md))
 
 [![Hyper key + Leaderkey](https://i.gyazo.com/27f7df849ca4625e7864efb08f896e72.gif)](https://gyazo.com/27f7df849ca4625e7864efb08f896e72)
 

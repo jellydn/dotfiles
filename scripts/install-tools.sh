@@ -47,10 +47,28 @@ detect_os() {
     esac
 }
 
+MIN_MISE_VERSION="2026.7.4"
+
+ensure_mise_version() {
+    local ver
+    ver=$(mise --version | awk '{print $1}')
+    if [[ "$(printf '%s\n%s\n' "$MIN_MISE_VERSION" "$ver" | sort -V | head -1)" != "$MIN_MISE_VERSION" ]]; then
+        log_warning "mise $ver is older than $MIN_MISE_VERSION; updating..."
+        if command_exists mise && mise self-update -y; then
+            log_success "Updated mise to $(mise --version)"
+        else
+            log_info "Installing mise $MIN_MISE_VERSION or newer..."
+            curl https://mise.run | sh
+            export PATH="$HOME/.local/bin:$PATH"
+        fi
+    fi
+}
+
 # Install mise
 install_mise() {
     if command_exists mise; then
         log_info "mise is already installed ($(mise --version))"
+        ensure_mise_version
         return 0
     fi
     
@@ -86,7 +104,8 @@ install_mise() {
             fi
             ;;
     esac
-    
+
+    ensure_mise_version
     log_success "mise installed successfully"
 }
 

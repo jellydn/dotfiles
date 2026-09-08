@@ -4,6 +4,9 @@
 # This file is stowed to ~/.config/mise/config.toml.
 # ~/Projects/.config also points here, so every repo under ~/Projects
 # loads these tools without a per-project mise.toml.
+# macOS-only bootstrap lives in config.macos.toml (auto_env in miserc.toml).
+
+min_version = "2026.7.4"
 
 # Prefer HTTP backends. GitHub git protocol times out here.
 [tool_alias]
@@ -84,25 +87,8 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/.config/vscode" = { source = "../vscode", mode = "symlink" }
 "~/.config/zed" = { source = "../zed", mode = "symlink" }
 "~/.config/zellij" = { source = "../zellij", mode = "symlink" }
-"~/.alacritty.toml" = { source = "../../../macos/.alacritty.toml", mode = "symlink", os = "macos" }
-"~/.aerospace.toml" = { source = "../../../macos/.aerospace.toml", mode = "symlink", os = "macos" }
-"~/.wezterm.lua" = { source = "../../../macos/.wezterm.lua", mode = "symlink", os = "macos" }
-"~/.yabairc" = { source = "../../../macos/.yabairc", mode = "symlink", os = "macos" }
-"~/.zshrc" = { source = "../../../macos/.zshrc", mode = "symlink", os = "macos" }
-"~/yabai.sh" = { source = "../../../macos/yabai.sh", mode = "symlink", os = "macos" }
-"~/.config/sketchybar" = { source = "../../../macos/.config/sketchybar", mode = "symlink", os = "macos" }
-"~/.config/rectangle" = { source = "../../../macos/.config/rectangle", mode = "symlink", os = "macos" }
-"~/.config/leader-key" = { source = "../../../macos/.config/leader-key", mode = "symlink", os = "macos" }
 
 # zshrc (not zsh) is the startup-file key; `zsh = true` would also write zprofile shims.
 [bootstrap.mise_shell_activate]
 fish = "activate"
 zshrc = "activate"
-
-[bootstrap.user]
-login_shell = "/opt/homebrew/bin/fish"
-
-[bootstrap.packages]
-"brew:fish" = { os = "macos" }
-"brew:fastfetch" = { os = "macos" }
-"brew:stow" = { os = "macos" }

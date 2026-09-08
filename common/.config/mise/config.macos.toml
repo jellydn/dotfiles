@@ -1,0 +1,21 @@
+# Loaded on macOS when auto_env is enabled (see miserc.toml).
+# Sources are relative to this file: common/.config/mise/
+
+[dotfiles]
+"~/.alacritty.toml" = { source = "../../../macos/.alacritty.toml", mode = "symlink" }
+"~/.aerospace.toml" = { source = "../../../macos/.aerospace.toml", mode = "symlink" }
+"~/.wezterm.lua" = { source = "../../../macos/.wezterm.lua", mode = "symlink" }
+"~/.yabairc" = { source = "../../../macos/.yabairc", mode = "symlink" }
+"~/.zshrc" = { source = "../../../macos/.zshrc", mode = "symlink" }
+"~/yabai.sh" = { source = "../../../macos/yabai.sh", mode = "symlink" }
+"~/.config/sketchybar" = { source = "../../../macos/.config/sketchybar", mode = "symlink" }
+"~/.config/rectangle" = { source = "../../../macos/.config/rectangle", mode = "symlink" }
+"~/.config/leader-key" = { source = "../../../macos/.config/leader-key", mode = "symlink" }
+
+[bootstrap.user]
+login_shell = "/opt/homebrew/bin/fish"
+
+[bootstrap.packages]
+"brew:fish" = "latest"
+"brew:fastfetch" = "latest"
+"brew:stow" = "latest"

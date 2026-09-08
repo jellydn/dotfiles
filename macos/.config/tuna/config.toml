@@ -1,0 +1,366 @@
+[catalogs]
+searchPriorities = []
+sortOrders = []
+
+    [[catalogs.globalScopes]]
+    catalogIdentifier = 'reminders'
+
+        [catalogs.globalScopes.scope]
+        kind = 'none'
+
+    [[catalogs.globalScopes]]
+    catalogIdentifier = 'tuna.effects'
+
+        [catalogs.globalScopes.scope]
+        kind = 'none'
+
+    [[catalogs.globalScopes]]
+    catalogIdentifier = 'tuna.emoji'
+
+        [catalogs.globalScopes.scope]
+        kind = 'none'
+
+    [[catalogs.globalScopes]]
+    catalogIdentifier = 'tuna.smart-folders'
+
+        [catalogs.globalScopes.scope]
+        kind = 'none'
+
+[[comboMode.bindings]]
+iconPath = '/Applications/Zen.app'
+key = 'e'
+label = 'Zen'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'tuna.applications//Applications/Zen.app' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+iconPath = '/Applications/Ghostty.app'
+key = 't'
+label = 'Ghostty'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'tuna.applications//Applications/Ghostty.app' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+key = 'f'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'path:/System/Library/CoreServices/Finder.app' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+iconPath = '/Applications/Canary Mail.app'
+key = 'm'
+label = 'Mail'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'tuna.applications//Applications/Canary Mail.app' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+key = 'n'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'path:/System/Applications/Notes.app' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+key = 'd'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'path:/Users/huynhdung/Downloads' ]
+        type = 'savedCommand'
+
+[[comboMode.bindings]]
+key = 'h'
+
+    [comboMode.bindings.destination]
+    type = 'command'
+
+        [comboMode.bindings.destination.command]
+        actionIdentifier = 'tuna.common-actions/open'
+        behavior = 'run'
+        presentation = 'automatic'
+        subjectIdentifiers = [ 'path:/Users/huynhdung' ]
+        type = 'savedCommand'
+
+[hotkeys.app.activate]
+carbonKeyCode = 49
+carbonModifiers = 256
+
+[hotkeys.app.comboMode]
+carbonKeyCode = 4
+carbonModifiers = 6656
+
+[hotkeys.app.dictation]
+carbonKeyCode = 49
+carbonModifiers = 6912
+
+[hotkeys.app.textMode]
+carbonKeyCode = 49
+carbonModifiers = 2048
+
+[[hotkeys.custom]]
+id = '0EBC3701-8AE3-4270-92FC-4000A3D5BF98'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Spotify.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 15
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '1A38271A-577B-4194-BEBE-D2C75F9AB754'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Grok Bot.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 11
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '37270752-62F9-477B-B062-4ADE05912529'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Zen.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 14
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '46DCD1EA-F7B8-45F9-AE69-32A96379A900'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/ChatGPT Classic.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 5
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '4E9D42E8-EEB7-46C9-981B-6015A8E871CB'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/OrbStack.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 2
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '5DDF9320-7FA0-445D-9069-85E6B23F65C0'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Visual Studio Code - Insiders.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 8
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '6674F75D-0DC8-40DA-B6E6-6134655DA9A9'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Zed Preview.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 6
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '7B34AE36-1B94-4B09-9DE8-E037FC4B4055'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//System/Applications/Utilities/Activity Monitor.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 40
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '8D3A36C2-7C4B-498E-82C8-ABF006901E37'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Slack.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 1
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = '8E92611A-D382-4DB5-8FD7-F4699EA3E987'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Alacritty.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 36
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'A2A2ECA5-54DD-4D1E-8584-276E83732107'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Microsoft Teams.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 17
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'C049EA6E-AD3A-4D67-A495-45C035DFDA10'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Canary Mail.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 46
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'C64AFE07-0DDC-4A22-99E8-C193AE9AF4BF'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/ChatGPT.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 13
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'E8181378-2302-4F33-8AF0-31A9A06D806E'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Brave Browser.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 16
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'F1A752AD-3344-401E-90F5-9DDA3A2E25A3'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Delta.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 0
+    carbonModifiers = 6912
+
+[settings]
+appPresentationMode = 'never'
+comboModeDoublePressTrigger = 'leftCommand'
+comboModeModifierTrigger = 'rightCommand'
+comboModeThemeStyle = 'breadcrumb'
+comboModeTriggerType = 'disabled'
+dictationActivationMode = 'toggle'
+mainWindowAnimationsEnabled = false
+textModeTriggerType = 'disabled'
+
+[[catalogSettings]]
+catalogIdentifier = 'tuna.prompts'
+
+    [catalogSettings.values]
+    Provider = 'apple'

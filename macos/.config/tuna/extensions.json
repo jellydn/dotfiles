@@ -1,0 +1,23 @@
+[
+  {
+    "id" : "com.brnbw.tuna.plugins.github",
+    "installedAt" : "2026-08-27T06:39:32Z",
+    "source" : "store",
+    "type" : "extension",
+    "version" : "0.11"
+  },
+  {
+    "id" : "com.brnbw.tuna.plugins.notes",
+    "installedAt" : "2026-08-27T06:39:38Z",
+    "source" : "store",
+    "type" : "extension",
+    "version" : "0.10"
+  },
+  {
+    "id" : "com.brnbw.tuna.plugins.reminders",
+    "installedAt" : "2026-08-27T06:39:42Z",
+    "source" : "store",
+    "type" : "extension",
+    "version" : "0.10"
+  }
+]

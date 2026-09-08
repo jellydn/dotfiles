@@ -1,0 +1,2 @@
+# Early-init settings. auto_env loads config.macos.toml / config.linux.toml.
+auto_env = true

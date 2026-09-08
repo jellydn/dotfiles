@@ -1,5 +1,6 @@
 # Copy to config.local.toml in this directory (gitignored).
 # mise merges config.local.toml automatically when present.
+# Keep API keys here, not in ~/.mise.toml or the tracked config.toml.
 #
 # [env]
 # OPENROUTER_API_KEY = "your-key-here"

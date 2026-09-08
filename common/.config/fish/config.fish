@@ -2,15 +2,15 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-# Lazy-load zoxide
-if command -v zoxide >/dev/null
-    function z --description "Lazy-load zoxide"
-        if test -z "$_zoxide_initialized"
-            zoxide init fish | source
-            set -gx _zoxide_initialized 1
-        end
-        z $argv
-    end
+# macOS GUI apps (Alacritty) start with a short PATH. Load Homebrew first.
+if test -x /opt/homebrew/bin/brew
+    /opt/homebrew/bin/brew shellenv fish | source
+end
+
+# macOS launchd defaults to 256 fds; Neovim file-watchers need more.
+set -l nfiles (ulimit -n)
+if test "$nfiles" != unlimited -a "$nfiles" -lt 8192
+    ulimit -n 8192
 end
 
 if test -f "$HOME/.cargo/env.fish"
@@ -139,20 +139,33 @@ if test -d "$HOME/.opencode/bin"
 end
 fish_add_path "$HOME/go/bin"
 fish_add_path "$HOME/.dotnet/tools"
+fish_add_path "$HOME/.local/bin"
 if test -d "$HOME/.grok/bin"
     fish_add_path "$HOME/.grok/bin"
 end
+if test -d "$HOME/.kimi-code/bin"
+    fish_add_path "$HOME/.kimi-code/bin"
+end
 
 # mise must run after all other PATH changes so shims take precedence
-~/.local/bin/mise activate fish | source
+# >>> mise:activate >>> managed by mise - do not edit between markers
+mise activate fish | source
+# <<< mise:activate <<<
 
-# kimi-code
-fish_add_path -g "/Users/huynhdung/.kimi-code/bin"
+# Lazy-load zoxide after PATH is complete (GUI terminals lack brew/mise at startup)
+if command -v zoxide >/dev/null
+    function z --description "Lazy-load zoxide"
+        if test -z "$_zoxide_initialized"
+            zoxide init fish | source
+            set -gx _zoxide_initialized 1
+        end
+        z $argv
+    end
+end
 
-# Added by codebase-memory-mcp install
-fish_add_path /Users/huynhdung/.local/bin
-
-
-# >>> grok installer >>>
-fish_add_path $HOME/.grok/bin
-# <<< grok installer <<<
+# Export BASH_ENV so non-interactive bash (agent/script shells) sources
+# ~/.bashrc, which re-evaluates mise env and prevents stale GOROOT/PATH
+# from long-lived sessions breaking `go`/`gofmt`.
+if test -f "$HOME/.bashrc"
+    set -gx BASH_ENV "$HOME/.bashrc"
+end

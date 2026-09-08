@@ -24,8 +24,8 @@ save_to_clipboard = true
 semantic_escape_chars = ''',│`|:"' ()[]{}<>	'''
 
 [window]
-# Full chrome so the native macOS tab bar does not overlap the grid.
-decorations = "Full"
+# Transparent title bar with traffic lights; native tabs stay usable.
+decorations = "Transparent"
 decorations_theme_variant = "Dark"
 opacity = 0.95
 startup_mode = "Maximized"

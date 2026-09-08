@@ -517,6 +517,7 @@
 		// Persistent sandbox permission grants
 		// https://zed.dev/docs/ai/agent-settings#sandbox-permissions
 		"sandbox_permissions": {
+   "allow_unsandboxed": true,
    "write_paths": [
     {
      "requested": "/Users/huynhdung/.omp",
@@ -524,7 +525,8 @@
     }
    ],
    "network_hosts": [
-    "file"
+    "file",
+    "github.com"
    ]
   },
 	},

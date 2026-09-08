@@ -13,7 +13,7 @@
   "reload_style_on_change": true,
 
   "modules-left": [
-    "custom/rofi",
+    "custom/vicinae",
     "custom/terminal",
     "custom/browser"
   ],
@@ -29,11 +29,11 @@
     "custom/power"
   ],
 
-  "custom/rofi": {
+  "custom/vicinae": {
     "format": "󱓞",
     "tooltip": false,
-    "on-click": "fuzzel",
-    "on-click-right": "rofi -show run"
+    "on-click": "vicinae toggle",
+    "on-click-right": "vicinae toggle"
   },
 
 

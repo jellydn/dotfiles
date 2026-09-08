@@ -88,6 +88,7 @@ dotfiles/
 │   │   ├── borders/    # Border decorations
 │   │   ├── foot/       # Foot terminal
 │   │   ├── fuzzel/     # App launcher
+│   │   ├── vicinae/    # Keyboard-driven app launcher
 │   │   ├── hypr/       # Hyprland compositor
 │   │   ├── i3/         # i3 window manager
 │   │   ├── i3status/   # i3 status bar
@@ -223,6 +224,7 @@ stow -D common
 - [fd](https://github.com/sharkdp/fd) - Fast find alternative
 - [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
 - [Tuna](https://tunaformac.com/) - New, modern launcher for macOS
+- [Vicinae](https://github.com/vicinae/vicinae) - Keyboard-driven launcher for Linux
 - [Marta](https://marta.sh/) - File manager
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay) - Unlock your displays on Mac
 - [OBS](https://obsproject.com/) - Open Broadcaster Software

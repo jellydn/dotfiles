@@ -176,6 +176,9 @@ install_packages() {
         # Niri window manager
         niri
 
+        # Keyboard-driven application launcher (Linux equivalent of Tuna)
+        vicinae-bin
+
         # Wallpaper daemon
         swww
 

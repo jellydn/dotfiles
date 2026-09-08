@@ -1,4 +1,5 @@
 # Make sure to clone the themes first, refer https://github.com/alacritty/alacritty-theme
+[general]
 import = [
     "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
 ]
@@ -6,8 +7,9 @@ import = [
 [env]
 TERM = "xterm-256color"
 
-[shell]
+[terminal.shell]
 program = "/opt/homebrew/bin/fish"
+args = ["-l"]
 
 # Other good fonts: JetBrainsMono Nerd Font, GeistMono Nerd Font Mono, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
 [font]

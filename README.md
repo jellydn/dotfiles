@@ -2,6 +2,8 @@
 
 A cross-platform dotfiles repository organized with GNU Stow for easy management across macOS and Linux systems.
 
+Machine setup is declared in `common/.config/mise/config.toml` ([mise bootstrap](https://mise.jdx.dev/bootstrap.html) + [dotfiles](https://mise.jdx.dev/dotfiles.html)): tools, fish/zsh activation, login shell, Homebrew packages, and home symlinks.
+
 ## 🚀 Quick Start
 
 ```bash
@@ -11,6 +13,11 @@ cd ~/.dotfiles
 
 # Complete setup (dotfiles + tools + submodules)
 ./install.sh all
+
+# After stow, converge tools, shell, packages, and declared links
+mise bootstrap --dry-run
+mise bootstrap
+mise bootstrap status
 
 # Or install components separately
 ./install.sh install       # Install dotfiles only

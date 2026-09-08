@@ -1,8 +1,20 @@
-# Mise configuration file
-# Managed by stow - see https://mise.jdx.dev/configuration.html
+# Machine + workspace setup. See https://mise.jdx.dev/dotfiles.html
+# Apply with: mise bootstrap --dry-run && mise bootstrap
+#
+# This file is stowed to ~/.config/mise/config.toml.
+# ~/Projects/.config also points here, so every repo under ~/Projects
+# loads these tools without a per-project mise.toml.
+
+# Prefer HTTP backends. GitHub git protocol times out here.
+[tool_alias]
+neovim = "github:neovim/neovim"
+bat = "aqua:sharkdp/bat"
+fzf = "aqua:junegunn/fzf"
+rg = "aqua:BurntSushi/ripgrep"
+yarn = "npm:yarn"
+ffmpeg = "conda:ffmpeg"
 
 [tools]
-# Development languages
 node = "lts"
 python = "latest"
 go = "latest"
@@ -13,8 +25,6 @@ uv = "latest"
 lua-language-server = "latest"
 ruby = "latest"
 stylua = "latest"
-
-# CLI tools
 fd = "latest"
 bat = "latest"
 fzf = "latest"
@@ -47,10 +57,51 @@ ctop = "latest"
 aube = "latest"
 task = "latest"
 tree-sitter = "latest"
+taplo = "latest"
+hk = "latest"
+pkl = "latest"
 
 [settings]
-# Auto-install missing tools
 auto_install = true
 idiomatic_version_file_enable_tools = ["node"]
-
 # Secrets: copy config.local.example.toml → config.local.toml (gitignored).
+
+# Sources are relative to this file: common/.config/mise/
+[dotfiles]
+"~/.gitconfig" = { source = "../../.gitconfig", mode = "symlink" }
+"~/.ideavimrc" = { source = "../../.ideavimrc", mode = "symlink" }
+"~/.agent-os" = { source = "../../.agent-os", mode = "symlink" }
+"~/bg-images" = { source = "../../bg-images", mode = "symlink" }
+"~/.config/fish" = { source = "../fish", mode = "symlink" }
+"~/.config/ghostty" = { source = "../ghostty", mode = "symlink" }
+"~/.config/helix" = { source = "../helix", mode = "symlink" }
+"~/.config/k9s" = { source = "../k9s", mode = "symlink" }
+"~/.config/kitty" = { source = "../kitty", mode = "symlink" }
+"~/.config/lazygit" = { source = "../lazygit", mode = "symlink" }
+"~/.config/nvim" = { source = "../nvim", mode = "symlink" }
+"~/.config/tmux" = { source = "../tmux", mode = "symlink" }
+"~/.config/vscode" = { source = "../vscode", mode = "symlink" }
+"~/.config/zed" = { source = "../zed", mode = "symlink" }
+"~/.config/zellij" = { source = "../zellij", mode = "symlink" }
+"~/.alacritty.toml" = { source = "../../../macos/.alacritty.toml", mode = "symlink" }
+"~/.aerospace.toml" = { source = "../../../macos/.aerospace.toml", mode = "symlink" }
+"~/.wezterm.lua" = { source = "../../../macos/.wezterm.lua", mode = "symlink" }
+"~/.yabairc" = { source = "../../../macos/.yabairc", mode = "symlink" }
+"~/.zshrc" = { source = "../../../macos/.zshrc", mode = "symlink" }
+"~/yabai.sh" = { source = "../../../macos/yabai.sh", mode = "symlink" }
+"~/.config/sketchybar" = { source = "../../../macos/.config/sketchybar", mode = "symlink" }
+"~/.config/qmk" = { source = "../../../macos/.config/qmk", mode = "symlink" }
+"~/.config/rectangle" = { source = "../../../macos/.config/rectangle", mode = "symlink" }
+"~/.config/leader-key" = { source = "../../../macos/.config/leader-key", mode = "symlink" }
+
+[bootstrap.mise_shell_activate]
+fish = "activate"
+zshrc = "activate"
+
+[bootstrap.user]
+login_shell = "/opt/homebrew/bin/fish"
+
+[bootstrap.packages]
+"brew:fish" = { os = "macos" }
+"brew:fastfetch" = { os = "macos" }
+"brew:stow" = { os = "macos" }

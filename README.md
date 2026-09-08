@@ -48,6 +48,7 @@ dotfiles/
 │   ├── .config/
 │   │   ├── claude/     # Claude IDE
 │   │   ├── fish/       # Fish shell
+│   │   ├── alacritty/  # Shared Alacritty keybindings
 │   │   ├── ghostty/    # Ghostty terminal
 │   │   ├── helix/      # Helix editor
 │   │   ├── k9s/        # Kubernetes CLI
@@ -103,6 +104,10 @@ dotfiles/
 │   │   ├── waybar/     # Wayland status bar
 │   │   └── wlogout/    # Wlogout session manager
 │   └── evremap.toml    # EVKey remapping
+├── docs/
+│   ├── terminal-keys.md            # Ghostty / Kitty / Foot / Alacritty chords
+│   ├── STOW.md                     # GNU Stow notes
+│   └── (wayland / compositor helpers)
 ├── scripts/            # Helper scripts
 │   ├── install-tools.sh          # Install dev tools with mise
 │   ├── install-uv-tools.sh       # Install Python uv tools
@@ -200,7 +205,7 @@ stow -D common
 - [Cursor](https://cursor.com/) - AI-first code editor
 - [Neovim](https://neovim.io/) - Hyperextensible Vim-based text editor (configured as submodule)
 - [Helix](https://helix-editor.com/) - Post-modern modal text editor
-- [Ghostty](https://github.com/ghostty-org/ghostty) - 👻 Fast, feature-rich, cross-platform terminal emulator
+- [Ghostty](https://github.com/ghostty-org/ghostty) - 👻 Fast, feature-rich, cross-platform terminal emulator (shared keys: [`docs/terminal-keys.md`](docs/terminal-keys.md))
 - [tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [zellij](https://zellij.dev/) - Terminal multiplexer workspace
 - [herdr](https://herdr.dev/) - Terminal workspace manager for AI coding agents
@@ -266,9 +271,10 @@ Tools no longer the primary choice (configs preserved in repo for occasional use
 
 - [AeroSpace](https://github.com/nikitabobko/AeroSpace) - macOS window manager (config at `macos/.aerospace.toml`)
 - [Yabai](https://github.com/koekeishiya/yabai) + [SKHD](https://github.com/koekeishiya/skhd) - macOS tiling WM (configs at `macos/.yabairc`, `macos/.skhdrc`)
-- [Kitty](https://github.com/kovidgoyal/kitty) - GPU terminal (config at `common/.config/kitty/`)
+- [Kitty](https://github.com/kovidgoyal/kitty) - GPU terminal (`common/.config/kitty/`, same keys as Ghostty)
 - [WezTerm](https://wezfurlong.org/wezterm/) - GPU terminal (config at `macos/.wezterm.lua`)
-- [Alacritty](https://alacritty.org/) - OpenGL terminal (configs at `macos/.alacritty.toml`, `linux/.alacritty.toml`)
+- [Alacritty](https://alacritty.org/) - OpenGL terminal (`macos/.alacritty.toml`, `linux/.alacritty.toml`, shared `common/.config/alacritty/keys.toml`)
+- [Foot](https://codeberg.org/dnkl/foot) - Wayland terminal (`linux/.config/foot/foot.ini`, same keys as Ghostty)
 
 ## 🔧 Development Tools Management
 
@@ -489,11 +495,23 @@ Combo first letters: `e` Zen · `t` terminal · `f` Finder · `m` Mail · `n` No
 
 Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` OrbStack · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
 
-### Terminal Setup
+### Terminal keys
 
-- **Cross-platform**: Ghostty terminal with Kanagawa theme
-- **Alternatives**: Kitty, WezTerm, Alacritty terminals also configured
-- **Shell**: Fish shell (default) with Pure prompt; Zsh available as alternative
+Ghostty, Kitty, Foot, and Alacritty share one keymap. Full cheat sheet: [`docs/terminal-keys.md`](docs/terminal-keys.md)
+
+Linux uses `Ctrl+Shift+letter`. macOS uses `Cmd+letter`. `Ctrl+-` is always Neovim.
+
+| Letter | Remember | Action |
+| --- | --- | --- |
+| `-` | toggle | Neovim terminal (`Ctrl+-` only — never font size) |
+| `c` `v` | **c**opy / paste | Clipboard |
+| `n` | **n**ew | New window |
+| `f` | **f**ind | Search |
+| `l` | **l**ist files | `cmdk -s` (recursive file picker) |
+| `,` | config | Reload (not Alacritty) |
+| `=` `-` | size | Font: `Cmd+=/-` or `Ctrl+Shift+=/-` |
+
+Kanagawa Wave theme. Fish with Pure prompt (Zsh available).
 
 ### Herdr
 

@@ -12,14 +12,36 @@
   ],
   "displayMode" : "static",
   "enableFocusManagement" : true,
-  "enableIntegrations" : false,
-  "enablePictureInPictureSupport" : false,
+  "enableIntegrations" : true,
+  "enablePictureInPictureSupport" : true,
   "enableSpaceControl" : true,
   "enableSpaceControlAnimations" : true,
   "enableSpaceControlTilesAnimations" : true,
   "enableSwipeGestures" : false,
-  "enableWorkspaceSwitcher" : false,
+  "enableWorkspaceSwitcher" : true,
   "enableWorkspaceTransitions" : false,
+  "floatingApps" : [
+    {
+      "bundleIdentifier" : "com.apple.finder",
+      "iconPath" : "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+      "name" : "Finder"
+    },
+    {
+      "bundleIdentifier" : "com.apple.systempreferences",
+      "iconPath" : "/System/Applications/System Settings.app/Contents/Resources/Settings.icns",
+      "name" : "System Settings"
+    },
+    {
+      "bundleIdentifier" : "pl.wojciechkulik.FlashSpace",
+      "iconPath" : "/Applications/FlashSpace.app/Contents/Resources/FlashSpaceIcon.icns",
+      "name" : "FlashSpace"
+    },
+    {
+      "bundleIdentifier" : "com.brnbw.Tuna",
+      "iconPath" : "/Applications/Tuna.app/Contents/Resources/Tuna.icns",
+      "name" : "Tuna"
+    }
+  ],
   "focusDown" : "cmd+ctrl+opt+j",
   "focusFrontmostWindow" : false,
   "focusLeft" : "cmd+ctrl+opt+h",
@@ -32,8 +54,10 @@
   "keepUnassignedAppsOnSwitch" : false,
   "loopWorkspaces" : true,
   "loopWorkspacesOnAllDisplays" : false,
-  "menuBarDisplayAliases" : "",
+  "menuBarDisplayAliases" : "S24R35xFZ=External",
+  "menuBarTitleScriptPath" : "",
   "menuBarTitleTemplate" : "$WORKSPACE",
+  "menuBarTitleUseScript" : false,
   "pipApps" : [
 
   ],

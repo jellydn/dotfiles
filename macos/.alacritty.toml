@@ -1,8 +1,6 @@
 # Make sure to clone the themes first, refer https://github.com/alacritty/alacritty-theme
 [general]
-import = [
-    "~/.config/alacritty/themes/themes/kanagawa_wave.toml"
-]
+import = ["~/.config/alacritty/themes/themes/kanagawa_wave.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -11,24 +9,20 @@ TERM = "xterm-256color"
 program = "/opt/homebrew/bin/fish"
 args = ["-l"]
 
-# Other good fonts: JetBrainsMono Nerd Font, GeistMono Nerd Font Mono, MonaspiceAr Nerd Font, MonaspiceRg Nerd Font
+# Other good fonts: JetBrainsMono Nerd Font Mono, GeistMono Nerd Font Mono, MonaspiceAr Nerd Font
 [font]
 size = 18.5
-normal = { family = "JetBrainsMono Nerd Font Mono" }
-# normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-# bold = { family = "MonaspiceAr Nerd Font Mono", style = "Bold" }
-# italic = { family = "MonaspiceAr Nerd Font Mono", style = "Italic" }
+normal = { family = "Maple Mono NF" }
 
 [selection]
 save_to_clipboard = true
 semantic_escape_chars = ''',│`|:"' ()[]{}<>	'''
 
 [window]
-# Transparent title bar with traffic lights; native tabs stay usable.
-decorations = "Transparent"
+decorations = "Buttonless"
 decorations_theme_variant = "Dark"
 opacity = 0.95
-startup_mode = "Maximized"
+startup_mode = "Fullscreen"
 blur = true
 
 # Make Option key behave as Alt.

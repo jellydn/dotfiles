@@ -395,6 +395,9 @@ window-rule {
     clip-to-geometry true
 }
 
+// Start Vicinae's background server with the compositor.
+spawn-at-startup "vicinae" "server"
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -412,7 +415,8 @@ binds {
 
     // Terminal launcher - prefers kitty, falls back to alacritty, then any available terminal
     Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "foot || kitty || alacritty || wezterm || gnome-terminal || xterm"; }
-    Mod+d hotkey-overlay-title="Run Application" { spawn-sh "fuzzel"; }
+    // Vicinae: keyboard-driven launcher (Linux equivalent of Tuna on macOS)
+    Mod+d repeat=false hotkey-overlay-title="Open Vicinae" { spawn "vicinae" "toggle"; }
     Mod+e hotkey-overlay-title="Open File Manager" { spawn-sh "thunar || nautilus || dolphin || nemo || pcmanfm || ranger"; }
     Mod+b hotkey-overlay-title="Open Browser" { spawn-sh "firefox || google-chrome || chromium || brave || vivaldi || opera"; }
 

@@ -120,7 +120,8 @@ window#waybar.hidden {
 }
 
 /* Custom modules */
-#custom-rofi {
+#custom-rofi,
+#custom-vicinae {
   color: @mauve;
   background: transparent;
   border-radius: 8px;
@@ -129,7 +130,8 @@ window#waybar.hidden {
   font-size: 110%;
 }
 
-#custom-rofi:hover {
+#custom-rofi:hover,
+#custom-vicinae:hover {
   color: @pink;
   background: rgba(203, 166, 247, 0.1);
 }

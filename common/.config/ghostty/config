@@ -51,8 +51,8 @@ link-url = true
 # Open URLs with Cmd+Click (bypasses Zellij mouse mode)
 # Ghostty will detect URLs and make them clickable
 
-# Keymap
-# Make Alt/Option key work nicely with Zeliij on macOS, refer https://github.com/ghostty-org/ghostty/discussions/3207
+# Keymap — keep in sync with docs/terminal-keys.md
+# Make Alt/Option key work nicely with Zellij on macOS, refer https://github.com/ghostty-org/ghostty/discussions/3207
 keybind = alt+left=unbind
 keybind = alt+right=unbind
 macos-option-as-alt = true
@@ -61,12 +61,21 @@ keybind = cmd+k=unbind
 keybind = cmd+j=unbind
 keybind = cmd+[=unbind
 keybind = cmd+]=unbind
-# Open terminal on neovim
+# Neovim <c-_> / tiny-term. Do not bind ctrl+minus to font size.
 keybind = ctrl+minus=text:\x1f
-
+# Linux copy/paste + new window + search + reload (macOS uses Cmd defaults)
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+f=start_search
+keybind = ctrl+shift+comma=reload_config
+# Font size on Linux (Ctrl+- is Neovim). macOS keeps Cmd+= / Cmd+-
+keybind = ctrl+shift+equal=increase_font_size:1
+keybind = ctrl+shift+minus=decrease_font_size:1
 
 # Quick term
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 
-# Fzf
+# cmdk
 keybind = cmd+l=text:cmdk -s\r
+keybind = ctrl+shift+l=text:cmdk -s\r

@@ -1,5 +1,9 @@
 # Alacritty configuration for Linux
 # Kanagawa theme matching Ghostty and Kitty setups
+# Shared chords: ~/.config/alacritty/keys.toml (docs/terminal-keys.md)
+
+[general]
+import = ["~/.config/alacritty/keys.toml"]
 
 [font]
 size = 15.0
@@ -81,39 +85,3 @@ save_to_clipboard = true
 
 [terminal.shell]
 program = "fish"
-
-# Key bindings matching Ghostty and Kitty
-[[keyboard.bindings]]
-key = "Minus"
-mods = "Control"
-chars = "\u001f"
-
-[[keyboard.bindings]]
-key = "Comma"
-mods = "Control|Shift"
-action = "SpawnNewInstance"
-
-[[keyboard.bindings]]
-key = "C"
-mods = "Control|Shift"
-action = "Copy"
-
-[[keyboard.bindings]]
-key = "V"
-mods = "Control|Shift"
-action = "Paste"
-
-[[keyboard.bindings]]
-key = "F"
-mods = "Control|Shift"
-action = "SearchForward"
-
-[[keyboard.bindings]]
-key = "Left"
-mods = "Alt"
-chars = "\u001b[1;3D"
-
-[[keyboard.bindings]]
-key = "Right"
-mods = "Alt"
-chars = "\u001b[1;3C"

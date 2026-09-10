@@ -1,6 +1,9 @@
 # Make sure to clone the themes first, refer https://github.com/alacritty/alacritty-theme
 [general]
-import = ["~/.config/alacritty/themes/themes/kanagawa_wave.toml"]
+import = [
+  "~/.config/alacritty/themes/themes/kanagawa_wave.toml",
+  "~/.config/alacritty/keys.toml",
+]
 
 [env]
 TERM = "xterm-256color"
@@ -35,7 +38,8 @@ y = 6
 [mouse]
 hide_when_typing = true
 
+# Shared chords live in keys.toml (docs/terminal-keys.md).
 [[keyboard.bindings]]
-chars = "\u001F"
-key = "Minus"
-mods = "Control"
+key = "L"
+mods = "Command"
+chars = "cmdk -s\r"

@@ -20,12 +20,6 @@ sortOrders = []
         [catalogs.globalScopes.scope]
         kind = 'none'
 
-    [[catalogs.globalScopes]]
-    catalogIdentifier = 'tuna.smart-folders'
-
-        [catalogs.globalScopes.scope]
-        kind = 'none'
-
 [[comboMode.bindings]]
 iconPath = '/Applications/Zen.app'
 key = 'e'
@@ -347,6 +341,20 @@ id = 'F1A752AD-3344-401E-90F5-9DDA3A2E25A3'
 
     [hotkeys.custom.shortcut]
     carbonKeyCode = 0
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
+id = 'F4C8320A-5439-4255-8573-58714E9C9DF2'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Ghostty.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 48
     carbonModifiers = 6912
 
 [settings]

@@ -9,12 +9,11 @@
 min_version = "2026.7.4"
 
 # Prefer HTTP backends. GitHub git protocol times out here.
+# neovim/yarn use registry defaults (vfox). Do not pin them or mise warns.
 [tool_alias]
-neovim = "github:neovim/neovim"
 bat = "aqua:sharkdp/bat"
 fzf = "aqua:junegunn/fzf"
 rg = "aqua:BurntSushi/ripgrep"
-yarn = "npm:yarn"
 ffmpeg = "conda:ffmpeg"
 
 [tools]
@@ -63,6 +62,7 @@ tree-sitter = "latest"
 taplo = "latest"
 hk = "latest"
 pkl = "latest"
+ty = "latest"
 
 [settings]
 auto_install = true

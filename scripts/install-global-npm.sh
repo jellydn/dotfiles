@@ -21,6 +21,19 @@ check_npm() {
 	log_info "Using npm $(npm --version)"
 }
 
+# npm is often the vite-plus shim (~/.vite-plus/bin/npm → vp). After a
+# successful `npm install -g`, vp checks whether the new bin is on PATH.
+# If stdin is a TTY it prints:
+#   '<bin>' is not available on your PATH.
+#   Create a link in ~/.vite-plus/bin/ to make it available? [Y/n]
+# Capturing stdout/stderr hides that prompt, so the script looks hung
+# (telepi was the first new bin in the list). Closing stdin makes vp
+# treat the install as non-interactive and auto-create the link.
+npm_install_global() {
+	# stdin must not be a TTY (see comment above). Caller captures output.
+	npm install -g "$@" </dev/null
+}
+
 # packages: "name:version" (scoped names use first colon as separator)
 install_package() {
 	local spec="$1"
@@ -30,10 +43,20 @@ install_package() {
 	log_info "Installing ${name}@${version}..."
 	local logfile
 	logfile="$(mktemp)"
-	if npm install -g "${name}@${version}" >"$logfile" 2>&1; then
+	if npm_install_global "${name}@${version}" >"$logfile" 2>&1; then
 		log_success "✓ ${name}@${version}"
 		rm -f "$logfile"
 		return 0
+	fi
+	# npm 12 defaults allow-remote=none. Some packages pin URL tarballs
+	# (e.g. pi-mcp-adapter → pkg.pr.new) and need an explicit opt-in.
+	if grep -q EALLOWREMOTE "$logfile"; then
+		log_warning "Retrying ${name}@${version} with --allow-remote=all"
+		if npm_install_global --allow-remote=all "${name}@${version}" >"$logfile" 2>&1; then
+			log_success "✓ ${name}@${version} (allow-remote)"
+			rm -f "$logfile"
+			return 0
+		fi
 	fi
 	log_warning "✗ Failed ${name}@${version}"
 	tail -n 15 "$logfile" >&2

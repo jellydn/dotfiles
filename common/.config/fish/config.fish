@@ -2,9 +2,15 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-# macOS GUI apps (Alacritty) start with a short PATH. Load Homebrew first.
+# macOS GUI apps (Alacritty) start with a short PATH. Prefer brew shellenv
+# when the Homebrew CLI exists; otherwise point at the prefix mise pours into.
 if test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv fish | source
+else if test -d /opt/homebrew/bin
+    set -gx HOMEBREW_PREFIX /opt/homebrew
+    set -gx HOMEBREW_CELLAR /opt/homebrew/Cellar
+    set -gx HOMEBREW_REPOSITORY /opt/homebrew
+    fish_add_path -p /opt/homebrew/bin /opt/homebrew/sbin
 end
 
 # macOS launchd defaults to 256 fds; Neovim file-watchers need more.

@@ -77,6 +77,32 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+run_mac_bootstrap() {
+    local script
+    script="$(dirname "$0")/scripts/bootstrap-mac.sh"
+    if [[ ! -x "$script" ]]; then
+        chmod +x "$script" 2>/dev/null || true
+    fi
+    if [[ ! -x "$script" ]]; then
+        log_error "Missing $script"
+        return 1
+    fi
+    if [[ "${1:-}" == "true" ]]; then
+        "$script" --dry-run
+    else
+        "$script" --yes
+    fi
+}
+
+mac_apply_packages() {
+    export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
+    if ! command_exists mise; then
+        log_error "mise is required on Mac. Run: ./scripts/bootstrap-mac.sh"
+        return 1
+    fi
+    mise bootstrap packages apply --yes "$@"
+}
+
 # Configure TMPDIR to avoid EXDEV cross-device link errors (macOS/OrbStack)
 configure_tmpdir() {
     if [[ -z "${TMPDIR:-}" ]]; then
@@ -395,27 +421,18 @@ install_stow() {
     
     case "$os" in
         macos)
-            if command_exists brew; then
-                brew install stow
-            else
-                log_info "Homebrew not found. Installing Homebrew..."
-                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-                
-                # Add Homebrew to PATH for current session
-                if [[ -f "/opt/homebrew/bin/brew" ]]; then
-                    eval "$(/opt/homebrew/bin/brew shellenv)"
-                elif [[ -f "/usr/local/bin/brew" ]]; then
-                    eval "$(/usr/local/bin/brew shellenv)"
-                fi
-                
-                if command_exists brew; then
-                    log_success "Homebrew installed successfully"
-                    brew install stow
-                else
-                    log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
-                    exit 1
-                fi
+            export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
+            if command_exists stow; then
+                log_info "GNU Stow is already installed"
+                return 0
             fi
+            log_info "Installing GNU Stow via mise (no Homebrew CLI)..."
+            if mac_apply_packages "brew:stow" && command_exists stow; then
+                log_success "GNU Stow installed"
+                return 0
+            fi
+            log_error "GNU Stow is missing. On Mac run: ./scripts/bootstrap-mac.sh"
+            exit 1
             ;;
         linux)
             if command_exists apt; then
@@ -1466,7 +1483,7 @@ show_usage() {
     echo "  k9s               - Install K9s Kubernetes CLI"
     echo "  mcp               - Setup MCP servers for Claude"
     echo "  submodules        - Update git submodules"
-    echo "  all               - Install dotfiles, tools, and update submodules"
+    echo "  all               - Mac: scripts/bootstrap-mac.sh; Linux: stow + tools + submodules"
     echo "  backup            - Backup existing dotfiles only"
     echo "  cleanup           - Remove orphaned dotfiles symlinks"
     echo "  status            - Show current dotfiles installation status"
@@ -1498,36 +1515,14 @@ install_fonts() {
 
     # Check if running on macOS
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        # Check if Homebrew is available
-        if ! command_exists brew; then
-            log_error "Homebrew is required for font installation on macOS"
-            return 1
-        fi
-
-        # Install Maple Mono Nerd Font
-        if brew list --cask font-maple-mono-nf >/dev/null 2>&1; then
-            log_info "Maple Mono Nerd Font is already installed"
-        else
-            log_info "Installing Maple Mono Nerd Font via Homebrew..."
-            if brew install --cask font-maple-mono-nf; then
-                log_success "Maple Mono Nerd Font installed successfully"
-            else
-                log_error "Failed to install Maple Mono Nerd Font via Homebrew"
-                return 1
-            fi
-        fi
-
-        # Install Font Awesome
-        if brew list --cask font-fontawesome >/dev/null 2>&1; then
-            log_info "Font Awesome is already installed"
-        else
-            log_info "Installing Font Awesome via Homebrew..."
-            if brew install --cask font-fontawesome; then
-                log_success "Font Awesome installed successfully"
-            else
-                log_warning "Failed to install Font Awesome"
-            fi
-        fi
+        log_info "Installing Mac fonts via mise bootstrap (no Homebrew CLI)..."
+        mac_apply_packages \
+            "brew-cask:font-maple-mono-nf" \
+            "brew-cask:font-fontawesome" \
+            "brew-cask:font-jetbrains-mono-nerd-font" \
+            "brew-cask:sf-symbols" \
+            "brew-cask:font-sf-mono" \
+            "brew-cask:font-sf-pro"
     else
         # For non-macOS systems (Linux)
         log_info "Installing fonts for $os..."
@@ -1686,26 +1681,10 @@ install_fish() {
         log_info "Installing Fish shell..."
         case "$os" in
             macos)
-                if command_exists brew; then
-                    brew install fish
-                else
-                    log_info "Homebrew not found. Installing Homebrew..."
-                    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-                    # Add Homebrew to PATH for current session
-                    if [[ -f "/opt/homebrew/bin/brew" ]]; then
-                        eval "$(/opt/homebrew/bin/brew shellenv)"
-                    elif [[ -f "/usr/local/bin/brew" ]]; then
-                        eval "$(/usr/local/bin/brew shellenv)"
-                    fi
-
-                    if command_exists brew; then
-                        log_success "Homebrew installed successfully"
-                        brew install fish
-                    else
-                        log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
-                        return 1
-                    fi
+                export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
+                log_info "Installing Fish via mise bootstrap (no Homebrew CLI)..."
+                if ! mac_apply_packages "brew:fish"; then
+                    return 1
                 fi
                 ;;
             linux)
@@ -1785,26 +1764,13 @@ install_zellij() {
     log_info "Installing Zellij..."
     case "$os" in
         macos)
-            if command_exists brew; then
-                brew install zellij
+            export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
+            if command_exists mise; then
+                log_info "Installing Zellij with mise..."
+                mise install zellij
             else
-                log_info "Homebrew not found. Installing Homebrew..."
-                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-                # Add Homebrew to PATH for current session
-                if [[ -f "/opt/homebrew/bin/brew" ]]; then
-                    eval "$(/opt/homebrew/bin/brew shellenv)"
-                elif [[ -f "/usr/local/bin/brew" ]]; then
-                    eval "$(/usr/local/bin/brew shellenv)"
-                fi
-
-                if command_exists brew; then
-                    log_success "Homebrew installed successfully"
-                    brew install zellij
-                else
-                    log_error "Failed to install Homebrew. Please install manually: https://brew.sh/"
-                    return 1
-                fi
+                log_error "mise is required on Mac. Run: ./scripts/bootstrap-mac.sh"
+                return 1
             fi
             ;;
         linux)
@@ -1859,12 +1825,12 @@ install_k9s() {
 
     case "$os" in
         macos)
-            if command_exists brew; then
-                brew install derailed/k9s/k9s
+            export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
+            if command_exists mise; then
+                log_info "Installing K9s with mise..."
+                mise install k9s
             else
-                log_error "Homebrew is not installed. Please install Homebrew first:"
-                log_error "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
-                log_error "Then run: brew install derailed/k9s/k9s"
+                log_error "mise is required on Mac. Run: ./scripts/bootstrap-mac.sh"
                 return 1
             fi
             ;;
@@ -2030,7 +1996,7 @@ show_dotfiles_status() {
                 echo "     Install: sudo pacman -S otf-font-awesome (Arch)"
                 echo "     Or: sudo apt install fonts-font-awesome (Debian/Ubuntu)"
             elif [[ "$os" == "macos" ]]; then
-                echo "     Install: brew install --cask font-fontawesome"
+                echo "     Install: ./scripts/bootstrap-mac.sh"
             fi
         fi
     else
@@ -2448,7 +2414,12 @@ main() {
             show_dotfiles_status "$os" "$platform"
             ;;
         tools)
-            install_tools
+            os=$(detect_os)
+            if [[ "$os" == "macos" ]]; then
+                run_mac_bootstrap "$simulate"
+            else
+                install_tools
+            fi
             ;;
         fonts)
             install_fonts
@@ -2482,8 +2453,10 @@ main() {
         all)
             os=$(detect_os)
             log_info "Detected OS: $os"
-            
-            if [[ "$simulate" == "true" ]]; then
+
+            if [[ "$os" == "macos" ]]; then
+                run_mac_bootstrap "$simulate"
+            elif [[ "$simulate" == "true" ]]; then
                 log_info "🔍 SIMULATION MODE: Complete setup (dry run)"
                 log_info "🔍 SIMULATION: Would install GNU Stow"
                 stow_packages "$os" "$no_backup" "$interactive" "$simulate"

@@ -1,5 +1,7 @@
 # GNU Stow: Symlink Management for Dotfiles
 
+On **macOS**, prefer [mise bootstrap](https://mise.jdx.dev/bootstrap.html) (`scripts/bootstrap-mac.sh`). It links the `[dotfiles]` tables in `common/.config/mise/` and pours host packages into `/opt/homebrew` without installing the Homebrew CLI. GNU Stow remains the linker on **Linux** (`./install.sh install`) and a Mac fallback.
+
 This document explains why we use GNU Stow, how it works, and how to test and verify your dotfiles setup.
 
 ## 🤔 Why GNU Stow?

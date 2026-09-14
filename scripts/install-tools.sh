@@ -177,22 +177,8 @@ install_system_packages() {
     
     case "$os" in
         macos)
-            if ! command_exists brew; then
-                log_error "Homebrew not found. Please install Homebrew first: https://brew.sh/"
-                return 1
-            fi
-            
-            # Install essential tools
-            brew install git stow tmux fish
-            brew install --cask ghostty
-            
-            # Install fonts (skip if already available)
-            if ! brew list --cask font-jetbrains-mono-nerd-font >/dev/null 2>&1; then
-                log_info "Installing JetBrains Mono Nerd Font..."
-                brew install --cask font-jetbrains-mono-nerd-font || log_warning "Failed to install font (may need manual installation)"
-            else
-                log_info "JetBrains Mono Nerd Font already installed"
-            fi
+            log_info "macOS host packages are declared in common/.config/mise/config.macos.toml"
+            log_info "Use ./scripts/bootstrap-mac.sh (mise pours brew bottles; no Homebrew CLI)"
             ;;
         linux)
             if command_exists apt; then
@@ -222,11 +208,21 @@ main() {
     log_info "Detected OS: $os"
     log_info "Installing tools and dependencies..."
     
-    # Install system packages first
+    # Install system packages first (Linux only; Mac uses mise bootstrap)
     install_system_packages "$os"
     
     # Install mise
     install_mise
+
+    if [[ "$os" == "macos" ]]; then
+        local bootstrap
+        bootstrap="$(cd "$(dirname "$0")" && pwd)/bootstrap-mac.sh"
+        if [[ -f "$bootstrap" ]]; then
+            log_info "Delegating Mac setup to bootstrap-mac.sh"
+            bash "$bootstrap" --yes
+            return 0
+        fi
+    fi
     
     # Install development tools
     install_dev_tools

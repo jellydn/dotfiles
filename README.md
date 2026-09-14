@@ -1,43 +1,48 @@
 # dotfiles
 
-A cross-platform dotfiles repository organized with GNU Stow for easy management across macOS and Linux systems.
+A cross-platform dotfiles repository. macOS uses [mise bootstrap](https://mise.jdx.dev/bootstrap.html) (packages, home symlinks, login shell, tools) without installing the Homebrew CLI. Linux still uses GNU Stow via `./install.sh`.
 
-Machine setup is declared in `common/.config/mise/config.toml` ([mise bootstrap](https://mise.jdx.dev/bootstrap.html) + [dotfiles](https://mise.jdx.dev/dotfiles.html)): tools, fish/zsh activation, login shell, Homebrew packages, and home symlinks.
+Machine setup is declared in `common/.config/mise/config.toml` plus `config.macos.toml` ([mise bootstrap](https://mise.jdx.dev/bootstrap.html) + [dotfiles](https://mise.jdx.dev/dotfiles.html)). mise pours Homebrew bottles and casks into `/opt/homebrew` itself.
 
 ## 🚀 Quick Start
 
+### macOS (Apple Silicon)
+
 ```bash
-# Clone the repository
+curl https://mise.run | sh
+export PATH="$HOME/.local/bin:$PATH"
+git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
+~/.dotfiles/scripts/bootstrap-mac.sh --dry-run
+~/.dotfiles/scripts/bootstrap-mac.sh
+mise bootstrap status
+```
+
+`./install.sh all` and `./install.sh tools` on a Mac call the same script. Do not run `mise bootstrap packages prune` on a machine that still has a real Homebrew install.
+
+### Linux
+
+```bash
 git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-
-# Complete setup (dotfiles + tools + submodules)
 ./install.sh all
+```
 
-# After stow, converge tools, shell, packages, and declared links
-mise bootstrap --dry-run
-mise bootstrap
-mise bootstrap status
+### Optional install.sh commands (Linux, or Mac stow fallback)
 
-# Or install components separately
-./install.sh install       # Install dotfiles only
-./install.sh tools         # Install development tools with mise
-./install.sh fish          # Install Fish shell and Fisher plugin manager
+```bash
+./install.sh install       # Stow dotfiles only
+./install.sh tools         # Mac: bootstrap-mac.sh; Linux: mise tools
+./install.sh fish          # Install Fish and set as login shell
 ./install.sh submodules    # Update git submodules
 ./install.sh backup        # Backup existing dotfiles only
-./install.sh uninstall     # Remove dotfiles
-./install.sh restow        # Reinstall dotfiles
+./install.sh uninstall     # Remove stow symlinks
+./install.sh restow        # Reinstall stow symlinks
 
-# Install with options
-./install.sh install --with-tools    # Install dotfiles + tools
-./install.sh install --update-subs   # Install dotfiles + update submodules
-./install.sh install --no-backup     # Install without backing up existing files
-./install.sh install --interactive   # Interactive mode with guided prompts
-./install.sh install --simulate      # Dry run - see what would be done
-
-# Safe installation workflow (recommended)
-./install.sh install --simulate      # Preview changes first
-./install.sh install --interactive   # Then install interactively
+./install.sh install --with-tools
+./install.sh install --update-subs
+./install.sh install --no-backup
+./install.sh install --interactive
+./install.sh install --simulate
 ```
 
 ## 📁 Repository Structure
@@ -109,6 +114,7 @@ dotfiles/
 │   ├── STOW.md                     # GNU Stow notes
 │   └── (wayland / compositor helpers)
 ├── scripts/            # Helper scripts
+│   ├── bootstrap-mac.sh          # Mac setup: mise bootstrap, no Homebrew CLI
 │   ├── install-tools.sh          # Install dev tools with mise
 │   ├── install-uv-tools.sh       # Install Python uv tools
 │   ├── install-global-npm.sh     # Install global npm packages
@@ -131,8 +137,7 @@ dotfiles/
 If you prefer manual installation or want to install specific packages:
 
 ```bash
-# Install GNU Stow first
-# macOS: brew install stow
+# macOS: scripts/bootstrap-mac.sh links [dotfiles]; stow is optional
 # Linux: sudo apt install stow  # or equivalent for your distro
 
 # Stow common configs (works on both OS)
@@ -283,10 +288,11 @@ Tools no longer the primary choice (configs preserved in repo for occasional use
 The repository includes automated tool installation using [mise](https://mise.jdx.dev/):
 
 ```bash
-# Install all development tools defined in mise/config.toml
-./install.sh tools
+# macOS: packages + dotfiles + tools (no Homebrew CLI)
+./scripts/bootstrap-mac.sh
 
-# Or use the helper script directly
+# Linux, or Mac helper:
+./install.sh tools
 ./scripts/install-tools.sh
 ```
 
@@ -320,44 +326,31 @@ Update editor configurations (Neovim, Zed, VSCode):
 
 ### Manual Prerequisites
 
-Some tools need manual installation:
-
 ```bash
-# Install GNU Stow (required)
-# macOS: brew install stow
-# Linux: sudo apt install stow
-
-# Install mise (automatically handled by install-tools.sh)
+# mise (Mac bootstrap and install-tools.sh install this)
 curl https://mise.run | sh
+
+# GNU Stow (Linux only; Mac gets stow via mise bootstrap)
+# sudo apt install stow   # Debian/Ubuntu
+# sudo pacman -S stow     # Arch
 ```
+
+mise's brew manager is Apple Silicon only. Intel Macs are not supported.
 
 ### Shell Setup
 
-Fish is the primary shell. Zsh is available as an alternative.
+Fish is the primary shell. On Mac, `mise bootstrap` installs it to `/opt/homebrew/bin/fish` and sets the login shell.
 
 ```bash
-# Install Fish (if not already installed)
-brew install fish # macOS
-sudo apt install fish # Linux
+# Linux
+sudo apt install fish   # or pacman/dnf equivalent
+chsh -s "$(command -v fish)"
 
-# Set Fish as the default shell
-echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
-chsh -s /opt/homebrew/bin/fish
-
-# Install Fisher (plugin manager)
+# Fisher (plugin manager) — also run by scripts/setup-fish-plugins.sh
 fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 ```
 
-If using Zsh instead:
-
-```bash
-# Install Pure prompt
-brew install pure
-
-# Initialize the prompt system and choose pure:
-# autoload -U promptinit; promptinit
-# prompt pure
-```
+Zsh remains available via `macos/.zshrc`. Pure is not declared in bootstrap; install it only if you still use that prompt.
 
 ## 📝 Install Script Usage
 
@@ -373,7 +366,7 @@ Commands:
   tools        - Install development tools with mise
   fish         - Install Fish shell and Fisher plugin manager
   submodules   - Update git submodules
-  all          - Install dotfiles, tools, and update submodules
+  all          - Mac: bootstrap-mac.sh; Linux: stow + tools + submodules
   backup       - Backup existing dotfiles only
 
 Options:

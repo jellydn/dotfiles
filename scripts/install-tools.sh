@@ -207,22 +207,17 @@ main() {
     
     log_info "Detected OS: $os"
     log_info "Installing tools and dependencies..."
-    
-    # Install system packages first (Linux only; Mac uses mise bootstrap)
-    install_system_packages "$os"
-    
-    # Install mise
-    install_mise
 
     if [[ "$os" == "macos" ]]; then
         local bootstrap
         bootstrap="$(cd "$(dirname "$0")" && pwd)/bootstrap-mac.sh"
-        if [[ -f "$bootstrap" ]]; then
-            log_info "Delegating Mac setup to bootstrap-mac.sh"
-            bash "$bootstrap" --yes
-            return 0
-        fi
+        log_info "Delegating Mac setup to bootstrap-mac.sh"
+        bash "$bootstrap" "$@"
+        return
     fi
+
+    install_system_packages "$os"
+    install_mise
     
     # Install development tools
     install_dev_tools

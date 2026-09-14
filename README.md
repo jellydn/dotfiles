@@ -9,15 +9,31 @@ Machine setup is declared in `common/.config/mise/config.toml` plus `config.maco
 ### macOS (Apple Silicon)
 
 ```bash
-curl https://mise.run | sh
-export PATH="$HOME/.local/bin:$PATH"
 git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
 ~/.dotfiles/scripts/bootstrap-mac.sh --dry-run
 ~/.dotfiles/scripts/bootstrap-mac.sh
+export PATH="$HOME/.local/bin:$PATH"
 mise bootstrap status
 ```
 
 `./install.sh all` and `./install.sh tools` on a Mac call the same script. Do not run `mise bootstrap packages prune` on a machine that still has a real Homebrew install.
+
+The script preview prints setup steps without installing, linking, or trusting anything.
+After setup, `mise bootstrap --dry-run` gives a detailed resource plan. A real run
+starts the Xcode Command Line Tools installer if needed; finish it and run the script again.
+If mise is missing, the script installs v2026.9.7 after checking its pinned SHA-256 digest.
+Existing mise must meet `min_version` in the configuration. Use `--yes` only to skip confirmation prompts.
+
+An existing mise config directory must point to this repository. Otherwise setup stops
+before changes. Back it up, merge personal settings into the gitignored
+`common/.config/mise/config.local.toml`, and move the old directory aside before retrying.
+`XDG_CONFIG_HOME` selects the mise config location; other dotfile destinations remain
+the explicit paths declared in the TOML files (mostly `~/.config`).
+
+Bootstrap shell/path regression tests run without installing host packages:
+`python3 scripts/test-bootstrap-mac.py`. To also check real mise link resolution,
+set `MISE_TEST_BIN` to an absolute mise executable path when running the tests.
+Full package, cask, and login-shell setup still needs an Apple Silicon Mac.
 
 ### Linux
 
@@ -327,7 +343,7 @@ Update editor configurations (Neovim, Zed, VSCode):
 ### Manual Prerequisites
 
 ```bash
-# mise (Mac bootstrap and install-tools.sh install this)
+# mise for Linux (Mac bootstrap uses a pinned, checksum-verified binary)
 curl https://mise.run | sh
 
 # GNU Stow (Linux only; Mac gets stow via mise bootstrap)

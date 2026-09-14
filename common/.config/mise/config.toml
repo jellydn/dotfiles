@@ -79,6 +79,7 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/.ideavimrc" = { source = "../../.ideavimrc", mode = "symlink" }
 "~/.agent-os" = { source = "../../.agent-os", mode = "symlink" }
 "~/bg-images" = { source = "../../bg-images", mode = "symlink" }
+"~/.config/alacritty" = { source = "../alacritty", mode = "symlink" }
 "~/.config/claude" = { source = "../claude", mode = "symlink" }
 "~/.config/Cursor" = { source = "../Cursor", mode = "symlink" }
 "~/.config/fish" = { source = "../fish", mode = "symlink" }

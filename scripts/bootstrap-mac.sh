@@ -28,14 +28,12 @@ Usage: $(basename "$0") [--dry-run] [--yes]
 Apple Silicon Mac setup without installing the Homebrew CLI.
 mise pours brew formulae/casks into /opt/homebrew itself.
 
-  --dry-run   Preview mise bootstrap without applying
+  --dry-run   Print setup steps without changing the host
   --yes       Skip mise confirmation prompts
   -h, --help  Show this help
 
 Typical new machine:
 
-  curl https://mise.run | sh
-  export PATH="\$HOME/.local/bin:\$PATH"
   git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
   ~/.dotfiles/scripts/bootstrap-mac.sh --dry-run
   ~/.dotfiles/scripts/bootstrap-mac.sh
@@ -65,6 +63,28 @@ if [[ "$(uname -m)" != "arm64" ]]; then
     exit 1
 fi
 
+if [[ ! -f "$MISE_SRC/config.toml" ]]; then
+    log_error "mise config not found at $MISE_SRC/config.toml"
+    exit 1
+fi
+
+if [[ -e "$MISE_DEST" || -L "$MISE_DEST" ]]; then
+    dest_resolved="$(cd "$MISE_DEST" 2>/dev/null && pwd -P)" || dest_resolved=""
+    src_resolved="$(cd "$MISE_SRC" && pwd -P)"
+    if [[ "$dest_resolved" != "$src_resolved" ]]; then
+        log_error "$MISE_DEST is not this repo's mise config. Back it up, merge any settings into this repo's config.local.toml, then move the old destination aside and retry."
+        exit 1
+    fi
+fi
+
+if [[ "$DRY_RUN" == true ]]; then
+    log_info "Would check Xcode Command Line Tools and install verified mise v2026.9.7 if missing."
+    log_info "Would link $MISE_DEST -> $MISE_SRC and trust this repo's config."
+    log_info "Would update submodules, then run mise bootstrap (packages, dotfiles, login shell, tools, extras)."
+    log_info "No changes made. After setup, use mise bootstrap --dry-run for a detailed plan."
+    exit 0
+fi
+
 if ! xcode-select -p >/dev/null 2>&1; then
     log_warning "Xcode Command Line Tools are missing. Starting the installer..."
     xcode-select --install
@@ -75,9 +95,14 @@ fi
 export PATH="$HOME/.local/bin:/opt/homebrew/bin:${PATH:-}"
 
 if ! command -v mise >/dev/null 2>&1; then
-    log_info "Installing mise via https://mise.run (not Homebrew)..."
-    curl -fsSL https://mise.run | sh
-    export PATH="$HOME/.local/bin:$PATH"
+    log_info "Installing verified mise v2026.9.7 (not Homebrew)..."
+    tmp="$(mktemp -d "${TMPDIR:-/tmp}/mise.XXXXXX")"
+    trap 'rm -rf "$tmp"' EXIT
+    curl -fsSL https://github.com/jdx/mise/releases/download/v2026.9.7/mise-v2026.9.7-macos-arm64 -o "$tmp/mise"
+    # Digest from the versioned upstream GitHub release asset.
+    (cd "$tmp" && echo '3c3f377e7123a466274a20f01502ddd8c58f76028907f471c9bc42fbf83846e1  mise' | shasum -a 256 -c -)
+    mkdir -p "$HOME/.local/bin"
+    install -m 0755 "$tmp/mise" "$HOME/.local/bin/mise"
 fi
 
 if ! command -v mise >/dev/null 2>&1; then
@@ -87,56 +112,32 @@ fi
 
 log_info "mise $(mise --version)"
 
-if [[ ! -f "$MISE_SRC/config.toml" ]]; then
-    log_error "mise config not found at $MISE_SRC/config.toml"
-    exit 1
-fi
-
 mkdir -p "$(dirname "$MISE_DEST")"
-
-if [[ -L "$MISE_DEST" || -d "$MISE_DEST" ]]; then
-    dest_resolved="$(cd "$MISE_DEST" 2>/dev/null && pwd -P || true)"
-    src_resolved="$(cd "$MISE_SRC" && pwd -P)"
-    if [[ -n "$dest_resolved" && "$dest_resolved" == "$src_resolved" ]]; then
-        log_info "mise config already linked: $MISE_DEST"
-    elif [[ -f "$MISE_DEST/config.toml" ]]; then
-        log_info "Using existing mise config directory at $MISE_DEST"
-    else
-        log_error "$MISE_DEST exists and is not this repo's mise config. Move it aside and retry."
-        exit 1
-    fi
-else
-    if [[ -e "$MISE_DEST" ]]; then
-        log_error "$MISE_DEST exists and is not a mise config. Move it aside and retry."
-        exit 1
-    fi
+if [[ ! -e "$MISE_DEST" ]]; then
     log_info "Linking $MISE_DEST -> $MISE_SRC"
-    ln -sfn "$MISE_SRC" "$MISE_DEST"
+    ln -s "$MISE_SRC" "$MISE_DEST"
 fi
 
-if [[ -f "$MISE_DEST/config.toml" ]]; then
-    mise trust "$MISE_DEST/config.toml" >/dev/null 2>&1 || true
-fi
+# Select this configuration even when invoked from another mise project.
+export MISE_CONFIG_DIR="$MISE_DEST"
+export MISE_ENV=macos
+mise trust "$MISE_DEST/config.toml"
+mise trust "$MISE_DEST/config.macos.toml"
+
+# The Neovim source must exist before mise creates its dotfile link.
+log_info "Updating git submodules..."
+git -C "$DOTFILES" submodule update --init --recursive
 
 bootstrap_args=()
-if [[ "$DRY_RUN" == true ]]; then
-    bootstrap_args+=(--dry-run)
-    log_info "Dry run: mise bootstrap --dry-run"
-elif [[ "$YES" == true ]]; then
+if [[ "$YES" == true ]]; then
     bootstrap_args+=(--yes)
     log_info "Applying: mise bootstrap --yes"
 else
     log_info "Applying: mise bootstrap"
 fi
 
-mise bootstrap "${bootstrap_args[@]+"${bootstrap_args[@]}"}"
+mise -C "$HOME" bootstrap "${bootstrap_args[@]+"${bootstrap_args[@]}"}"
 
-if [[ "$DRY_RUN" != true ]]; then
-    log_info "Updating git submodules..."
-    git -C "$DOTFILES" submodule update --init --recursive
-    log_success "Mac bootstrap complete"
-    log_info "Open a new shell. Then: mise bootstrap status"
-    log_info "Host binaries live in /opt/homebrew/bin (no brew CLI required)."
-else
-    log_info "Dry run finished. Re-run without --dry-run to apply."
-fi
+log_success "Mac bootstrap complete"
+log_info "Open a new shell. Then: mise bootstrap status"
+log_info "Host binaries live in /opt/homebrew/bin (no brew CLI required)."

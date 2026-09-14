@@ -80,17 +80,14 @@ command_exists() {
 run_mac_bootstrap() {
     local script
     script="$(dirname "$0")/scripts/bootstrap-mac.sh"
-    if [[ ! -x "$script" ]]; then
-        chmod +x "$script" 2>/dev/null || true
-    fi
-    if [[ ! -x "$script" ]]; then
+    if [[ ! -f "$script" ]]; then
         log_error "Missing $script"
         return 1
     fi
     if [[ "${1:-}" == "true" ]]; then
-        "$script" --dry-run
+        bash "$script" --dry-run
     else
-        "$script" --yes
+        bash "$script"
     fi
 }
 

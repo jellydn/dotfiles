@@ -48,5 +48,5 @@ adopt = true
 
 [tasks.bootstrap]
 description = "SketchyBar app font and SbarLua (no brew token)"
-dir = "~/.config/mise"
+dir = "{{ get_env(name='XDG_CONFIG_HOME', default=env.HOME ~ '/.config') }}/mise"
 run = "bash macos-extras.sh"

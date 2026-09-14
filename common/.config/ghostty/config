@@ -37,9 +37,7 @@ mouse-hide-while-typing = true
 # No need to confirm
 confirm-close-surface = false
 
-# Shell
-# Add to shells: ❯ echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
-# Change default shell: ❯ chsh -s /opt/homebrew/bin/fish
+# Shell (mise bootstrap sets login_shell to /opt/homebrew/bin/fish on Mac)
 shell-integration = fish
 
 # Copy on select

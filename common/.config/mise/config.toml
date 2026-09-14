@@ -1,7 +1,8 @@
 # Machine + workspace setup. See https://mise.jdx.dev/dotfiles.html
 # Apply with: mise bootstrap --dry-run && mise bootstrap
+# New Mac (no Homebrew): scripts/bootstrap-mac.sh
 #
-# This file is stowed to ~/.config/mise/config.toml.
+# This file is stowed or linked to ~/.config/mise/config.toml.
 # ~/Projects/.config also points here, so every repo under ~/Projects
 # loads these tools without a per-project mise.toml.
 # macOS-only bootstrap lives in config.macos.toml (auto_env in miserc.toml).
@@ -63,6 +64,8 @@ taplo = "latest"
 hk = "latest"
 pkl = "latest"
 ty = "latest"
+zellij = "latest"
+k9s = "latest"
 
 [settings]
 auto_install = true
@@ -76,6 +79,9 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/.ideavimrc" = { source = "../../.ideavimrc", mode = "symlink" }
 "~/.agent-os" = { source = "../../.agent-os", mode = "symlink" }
 "~/bg-images" = { source = "../../bg-images", mode = "symlink" }
+"~/.config/alacritty" = { source = "../alacritty", mode = "symlink" }
+"~/.config/claude" = { source = "../claude", mode = "symlink" }
+"~/.config/Cursor" = { source = "../Cursor", mode = "symlink" }
 "~/.config/fish" = { source = "../fish", mode = "symlink" }
 "~/.config/ghostty" = { source = "../ghostty", mode = "symlink" }
 "~/.config/helix" = { source = "../helix", mode = "symlink" }

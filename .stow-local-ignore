@@ -16,6 +16,7 @@ themes
 node_modules
 .config/cspell.json
 .config/cspell-tool.txt
+.config/macos-home
 renovate.json
 # Claude runtime files
 .claude/projects

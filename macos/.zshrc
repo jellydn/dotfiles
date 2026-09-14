@@ -2,15 +2,22 @@
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# Make managed Homebrew commands available before shell integrations initialize.
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
 # ── Editor ──
 export EDITOR=nvim
 export VISUAL=nvim
 
 # ── Pure prompt ──
 # https://github.com/sindresorhus/pure
-fpath+=("$(brew --prefix)/share/zsh/site-functions")
+if command -v brew >/dev/null 2>&1; then
+  fpath+=("$(brew --prefix)/share/zsh/site-functions")
+fi
 autoload -U promptinit; promptinit
-prompt pure
+if (( ${prompt_themes[(I)pure]} )); then
+  prompt pure
+fi
 
 # ── History ──
 HISTSIZE=100000
@@ -21,9 +28,9 @@ setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 
 # ── Tools ──
-eval "$(atuin init zsh)"
-eval "$(zoxide init zsh)"
-eval "$(direnv hook zsh)"
+if command -v atuin >/dev/null 2>&1; then eval "$(atuin init zsh)"; fi
+if command -v zoxide >/dev/null 2>&1; then eval "$(zoxide init zsh)"; fi
+if command -v direnv >/dev/null 2>&1; then eval "$(direnv hook zsh)"; fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ── Python ──
@@ -33,10 +40,10 @@ for ver in 3.11 3.12 3.13; do
 done
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+if command -v pyenv >/dev/null 2>&1; then eval "$(pyenv init -)"; fi
 
 # ── Rust / Cargo ──
-. "$HOME/.cargo/env"
+[[ -r "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
 # ── Go ──
 if command -v go &>/dev/null; then

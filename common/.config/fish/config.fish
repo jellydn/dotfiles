@@ -158,15 +158,10 @@ end
 mise activate fish | source
 # <<< mise:activate <<<
 
-# Lazy-load zoxide after PATH is complete (GUI terminals lack brew/mise at startup)
+# zoxide after PATH is complete (brew + mise). Do not wrap `z` and then call
+# `z $argv` — fish keeps the running function, so that recurses forever.
 if command -v zoxide >/dev/null
-    function z --description "Lazy-load zoxide"
-        if test -z "$_zoxide_initialized"
-            zoxide init fish | source
-            set -gx _zoxide_initialized 1
-        end
-        z $argv
-    end
+    zoxide init fish | source
 end
 
 # Export BASH_ENV so non-interactive bash (agent/script shells) sources

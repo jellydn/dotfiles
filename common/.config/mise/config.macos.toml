@@ -38,13 +38,8 @@ adopt = true
 "brew:switchaudio-osx" = "latest"
 "brew:nowplaying-cli" = "latest"
 "brew:FelixKratz/formulae/sketchybar" = "latest"
-"brew-cask:ghostty" = "latest"
-"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
 "brew-cask:font-maple-mono-nf" = "latest"
-"brew-cask:font-fontawesome" = "latest"
 "brew-cask:sf-symbols" = "latest"
-"brew-cask:font-sf-mono" = "latest"
-"brew-cask:font-sf-pro" = "latest"
 
 [tasks.bootstrap]
 description = "SketchyBar app font and SbarLua (no brew token)"

@@ -1473,7 +1473,7 @@ show_usage() {
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
     echo "  unstow-app <app>  - Unstow a specific app configuration"
     echo "  tools             - Install development tools with mise"
-    echo "  fonts             - Install Maple Mono Nerd Font and Font Awesome"
+    echo "  fonts             - Install Maple Mono Nerd Font"
     echo "  fish              - Install Fish shell and set as default shell (plugins setup after stow)"
     echo "  fish-plugins      - Setup Fish shell plugins (Fisher and Pure theme)"
     echo "  zellij            - Install Zellij terminal multiplexer"
@@ -1515,11 +1515,7 @@ install_fonts() {
         log_info "Installing Mac fonts via mise bootstrap (no Homebrew CLI)..."
         mac_apply_packages \
             "brew-cask:font-maple-mono-nf" \
-            "brew-cask:font-fontawesome" \
-            "brew-cask:font-jetbrains-mono-nerd-font" \
-            "brew-cask:sf-symbols" \
-            "brew-cask:font-sf-mono" \
-            "brew-cask:font-sf-pro"
+            "brew-cask:sf-symbols"
     else
         # For non-macOS systems (Linux)
         log_info "Installing fonts for $os..."
@@ -1992,8 +1988,6 @@ show_dotfiles_status() {
             if [[ "$os" == "linux" ]]; then
                 echo "     Install: sudo pacman -S otf-font-awesome (Arch)"
                 echo "     Or: sudo apt install fonts-font-awesome (Debian/Ubuntu)"
-            elif [[ "$os" == "macos" ]]; then
-                echo "     Install: ./scripts/bootstrap-mac.sh"
             fi
         fi
     else

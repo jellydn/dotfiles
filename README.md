@@ -528,6 +528,11 @@ Kanagawa Wave theme. Fish with Pure prompt (Zsh available).
 - **File viewer plugin**: `herdr plugin install smarzban/herdr-file-viewer`, then `herdr server reload-config`
 - Keys: `prefix+f` — viewer in a split; `prefix+shift+f` — viewer in its own tab (toggle/focus)
 - Optional renderers for styled markdown/diffs/code: `glow`, `git-delta`, `bat` (see plugin `scripts/install-renderers.sh`)
+- **Annotate plugin (full)**: `herdr plugin install plannotator/herdr-annotate`, then `herdr server reload-config`
+- Bundles [plannotator-tui](https://github.com/plannotator/plannotator-tui) for document and agent-reply review
+- Keys: `prefix+a` annotate selection; `prefix+shift+a` copy context; `prefix+alt+a` copy and archive (`prefix+ctrl+a` is reserved because prefix is `ctrl+a`); `prefix+m` manage; `prefix+o` review folder; `prefix+shift+o` review agent's last reply
+- Notifications move to `prefix+y` so `prefix+o` can open document review
+- Agent skill: `npx skills add plannotator/herdr-annotate --skill plannotator-tui -g`
 
 ### Editor Configuration
 

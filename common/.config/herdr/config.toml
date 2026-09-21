@@ -12,6 +12,9 @@ prefix = "ctrl+a"
 # Toggle sidebar (agents, workspaces, tabs)
 toggle_sidebar = "prefix+b"
 
+# annotate.open takes prefix+o; keep notifications on a free key
+open_notification_target = "prefix+y"
+
 # Git-aware file viewer (herdr plugin: smarzban/herdr-file-viewer)
 # Install: herdr plugin install smarzban/herdr-file-viewer
 [[keys.command]]
@@ -23,6 +26,47 @@ command = "herdr plugin action invoke open-file-viewer --plugin herdr-file-viewe
 key = "prefix+shift+f"
 type = "shell"
 command = "herdr plugin action invoke open-file-viewer-tab --plugin herdr-file-viewer"
+
+# Herdr Annotate (herdr plugin: plannotator/herdr-annotate)
+# Install: herdr plugin install plannotator/herdr-annotate
+# Terminal annotations
+[[keys.command]]
+key = "prefix+a"
+type = "plugin_action"
+command = "annotate.capture"
+description = "annotate text"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "plugin_action"
+command = "annotate.copy-context"
+description = "copy annotations as context"
+
+# prefix+ctrl+a is reserved: prefix is already ctrl+a (double prefix sends a literal prefix)
+[[keys.command]]
+key = "prefix+alt+a"
+type = "plugin_action"
+command = "annotate.copy-archive"
+description = "copy annotations as context and archive them"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "annotate.manage"
+description = "manage annotations"
+
+# Document review (plannotator-tui)
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "annotate.open"
+description = "review documents in this folder"
+
+[[keys.command]]
+key = "prefix+shift+o"
+type = "plugin_action"
+command = "annotate.last"
+description = "review the agent's last reply"
 
 [terminal]
 # CWD follows the source pane/workspace

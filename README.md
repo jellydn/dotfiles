@@ -257,6 +257,7 @@ stow -D common
 - [Yeti X](https://support.logi.com/hc/en-us/articles/13171603624471-Download-Yeti-X) - Blue Yeti X microphone config
 - [keycastr](https://github.com/keycastr/keycastr) - Open-source keystroke visualizer
 - [caffeine](https://intelliscapesolutions.com/apps/caffeine) - Prevent Mac sleep
+- [Purge](https://github.com/jithin-sabu/purge-app) - Safely clear Mac caches and junk by moving items to Trash
 - [f.lux](https://justgetflux.com/) - Blue light adjustment
 - [git-credential-manager](https://github.com/GitCredentialManager/git-credential-manager/) - Git Credential Manager
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard

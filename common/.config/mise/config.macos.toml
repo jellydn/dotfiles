@@ -27,6 +27,7 @@ adopt = true
 [bootstrap.brew.taps]
 "FelixKratz/formulae" = "https://github.com/FelixKratz/homebrew-formulae.git"
 "koekeishiya/formulae" = "https://github.com/koekeishiya/homebrew-formulae.git"
+"jithin-sabu/tap" = "https://github.com/jithin-sabu/homebrew-tap.git"
 
 [bootstrap.packages]
 "brew:fish" = "latest"
@@ -40,6 +41,7 @@ adopt = true
 "brew:FelixKratz/formulae/sketchybar" = "latest"
 "brew-cask:font-maple-mono-nf" = "latest"
 "brew-cask:sf-symbols" = "latest"
+"brew-cask:jithin-sabu/tap/purge" = "latest"
 
 [tasks.bootstrap]
 description = "SketchyBar app font and SbarLua (no brew token)"

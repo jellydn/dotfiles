@@ -73,7 +73,9 @@ detect_os() {
 
 use_windows_setup() {
     log_error "install.sh is not the Windows installer."
-    log_info "From PowerShell in this repository, preview:"
+    log_info "From PowerShell in this repository, review and unblock the scripts:"
+    echo "  Get-ChildItem .\\windows -Recurse -Filter *.ps1 | Unblock-File"
+    log_info "Then preview:"
     echo "  Set-ExecutionPolicy -Scope Process RemoteSigned"
     echo "  .\\windows\\setup.ps1 -WhatIf"
     log_info "Then apply with: .\\windows\\setup.ps1"

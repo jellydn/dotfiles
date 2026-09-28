@@ -12,9 +12,16 @@ change the Linux and macOS setup.
 Open Windows PowerShell in the repository root. Preview all actions first:
 
 ```powershell
+Get-ChildItem .\windows -Recurse -Filter *.ps1 | Unblock-File
 Set-ExecutionPolicy -Scope Process RemoteSigned
 .\windows\setup.ps1 -WhatIf
 ```
+
+Review the scripts before you run `Unblock-File`. This command removes the
+`Zone.Identifier` Internet-download marker from only the repository's
+PowerShell scripts. Windows can apply this marker to all files extracted from
+a downloaded ZIP archive. Under `RemoteSigned`, unsigned marked scripts cannot
+run even when the process policy was set successfully.
 
 The process-scoped policy ends when this PowerShell window closes. The setup
 does not change the saved execution policy. An organization policy can still
@@ -71,3 +78,4 @@ and complete Windows Terminal color scheme.
 - [Windows Terminal JSON fragments](https://learn.microsoft.com/windows/terminal/json-fragment-extensions)
 - [PowerShell profiles](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_profiles)
 - [PowerShell execution policies](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies)
+- [Unblock-File](https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/unblock-file)

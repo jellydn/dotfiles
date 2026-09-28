@@ -48,11 +48,14 @@ cd ~/.dotfiles
 Open Windows PowerShell in the cloned repository and preview the setup:
 
 ```powershell
+Get-ChildItem .\windows -Recurse -Filter *.ps1 | Unblock-File
 Set-ExecutionPolicy -Scope Process RemoteSigned
 .\windows\setup.ps1 -WhatIf
 .\windows\setup.ps1
 ```
 
+Review the scripts before unblocking them. `Unblock-File` removes the Internet
+download marker that Windows adds to files extracted from a downloaded archive.
 The script installs an exact-ID WinGet package set, adds a managed PowerShell 7
 profile loader, and installs an isolated Windows Terminal fragment. It does not
 change the saved execution policy, Developer Mode, WSL, or Windows features.

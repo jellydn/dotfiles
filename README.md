@@ -1,6 +1,6 @@
 # dotfiles
 
-A cross-platform dotfiles repository. macOS uses [mise bootstrap](https://mise.jdx.dev/bootstrap.html) (packages, home symlinks, login shell, tools) without installing the Homebrew CLI. Linux still uses GNU Stow via `./install.sh`.
+A cross-platform dotfiles repository. macOS uses [mise bootstrap](https://mise.jdx.dev/bootstrap.html) (packages, home symlinks, login shell, tools) without installing the Homebrew CLI. Linux uses GNU Stow via `./install.sh`. Windows 11 uses native PowerShell and WinGet.
 
 Machine setup is declared in `common/.config/mise/config.toml` plus `config.macos.toml` ([mise bootstrap](https://mise.jdx.dev/bootstrap.html) + [dotfiles](https://mise.jdx.dev/dotfiles.html)). mise pours Homebrew bottles and casks into `/opt/homebrew` itself.
 
@@ -42,6 +42,22 @@ git clone https://github.com/jellydn/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh all
 ```
+
+### Windows 11
+
+Open Windows PowerShell in the cloned repository and preview the setup:
+
+```powershell
+Set-ExecutionPolicy -Scope Process RemoteSigned
+.\windows\setup.ps1 -WhatIf
+.\windows\setup.ps1
+```
+
+The script installs an exact-ID WinGet package set, adds a managed PowerShell 7
+profile loader, and installs an isolated Windows Terminal fragment. It does not
+change the saved execution policy, Developer Mode, WSL, or Windows features.
+See [Windows 11 setup](docs/WINDOWS.md) for prerequisites, selective setup,
+validation, and removal.
 
 ### Optional install.sh commands (Linux, or Mac stow fallback)
 
@@ -104,6 +120,11 @@ dotfiles/
 │   │   ├── tuna/       # Tuna launcher (config.toml, prompts)
 │   │   └── zed/        # Zed local overrides
 │   └── yabai.sh        # Yabai helper script
+├── windows/            # Windows 11 native setup
+│   ├── setup.ps1       # Safe, repeatable PowerShell/WinGet bootstrap
+│   ├── packages.json   # Exact WinGet package IDs
+│   ├── Microsoft.PowerShell_profile.ps1
+│   └── terminal/       # Windows Terminal JSON fragment
 ├── linux/              # Linux-specific configurations
 │   ├── .alacritty.toml # Alacritty terminal
 │   ├── .config/
@@ -127,6 +148,7 @@ dotfiles/
 │   └── evremap.toml    # EVKey remapping
 ├── docs/
 │   ├── terminal-keys.md            # Ghostty / Kitty / Foot / Alacritty chords
+│   ├── WINDOWS.md                  # Windows 11 setup and removal
 │   ├── STOW.md                     # GNU Stow notes
 │   └── (wayland / compositor helpers)
 ├── scripts/            # Helper scripts

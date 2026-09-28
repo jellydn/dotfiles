@@ -1,0 +1,18 @@
+{
+  "source": "winget",
+  "packages": [
+    { "id": "Git.Git", "description": "Git" },
+    { "id": "Microsoft.PowerShell", "description": "PowerShell 7" },
+    { "id": "Microsoft.WindowsTerminal", "description": "Windows Terminal" },
+    { "id": "Microsoft.VisualStudioCode", "description": "Visual Studio Code" },
+    { "id": "Neovim.Neovim", "description": "Neovim" },
+    { "id": "7zip.7zip", "description": "7-Zip" },
+    { "id": "BurntSushi.ripgrep.MSVC", "description": "ripgrep" },
+    { "id": "sharkdp.fd", "description": "fd" },
+    { "id": "junegunn.fzf", "description": "fzf" },
+    { "id": "jqlang.jq", "description": "jq" },
+    { "id": "GitHub.cli", "description": "GitHub CLI" },
+    { "id": "JesseDuffield.lazygit", "description": "lazygit" },
+    { "id": "ajeetdsouza.zoxide", "description": "zoxide" }
+  ]
+}

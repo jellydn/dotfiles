@@ -39,11 +39,10 @@ detect_platform() {
             ;;
         CYGWIN*|MINGW*|MSYS*)
             os="windows"
-            log_warning "Windows support is experimental"
             ;;
         *)
             log_error "Unsupported operating system: $(uname -s)"
-            log_info "Supported: macOS, Linux, Windows (experimental)"
+            log_info "Supported: macOS, Linux, Windows 11"
             exit 1
             ;;
     esac
@@ -70,6 +69,16 @@ detect_platform() {
 # Legacy compatibility function
 detect_os() {
     detect_platform | cut -d'-' -f1
+}
+
+use_windows_setup() {
+    log_error "install.sh is not the Windows installer."
+    log_info "From PowerShell in this repository, preview:"
+    echo "  Set-ExecutionPolicy -Scope Process RemoteSigned"
+    echo "  .\\windows\\setup.ps1 -WhatIf"
+    log_info "Then apply with: .\\windows\\setup.ps1"
+    log_info "See docs/WINDOWS.md for package, backup, and removal details."
+    exit 1
 }
 
 # Check if command exists
@@ -1503,6 +1512,7 @@ show_usage() {
     echo "By default, existing dotfiles are backed up before installation."
     echo "Use --interactive for guided installation with user prompts."
     echo "Use --simulate to preview changes before applying them."
+    echo "On Windows 11, use the native PowerShell installer in windows/setup.ps1."
 }
 
 # Install fonts required for terminal applications
@@ -2246,6 +2256,16 @@ main() {
     local command="${1:-install}"
     local os
     local args
+
+    case "$command" in
+        -h|--help|help)
+            ;;
+        *)
+            if [[ "$(detect_os)" == "windows" ]]; then
+                use_windows_setup
+            fi
+            ;;
+    esac
     
     # Parse additional arguments
     args=($(parse_args "$@"))

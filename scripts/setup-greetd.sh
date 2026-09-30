@@ -47,7 +47,12 @@ sudo install -m 0644 "$temporary_config" /etc/greetd/config.toml
 
 # Enable greetd service
 echo "Enabling greetd service..."
-sudo systemctl enable greetd.service
+sudo systemctl enable --force greetd.service
+if ! systemctl is-enabled --quiet greetd.service; then
+    echo "Error: greetd.service is still disabled after enablement." >&2
+    echo "Check: sudo systemctl status greetd.service" >&2
+    exit 1
+fi
 
 echo ""
 echo "✅ Setup complete!"

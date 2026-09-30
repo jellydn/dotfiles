@@ -81,7 +81,8 @@ class LinuxSetupTests(unittest.TestCase):
             i for i, call in enumerate(calls) if "install -m 0644" in call
         )
         self.assertLess(directory, config)
-        self.assertIn("systemctl enable greetd.service", calls[-1])
+        self.assertIn("sudo systemctl enable --force greetd.service", calls)
+        self.assertIn("systemctl is-enabled --quiet greetd.service", calls[-1])
 
     def test_missing_greetd_unit_preserves_etc(self):
         self.stub("systemctl", "exit 0")
@@ -119,6 +120,7 @@ class LinuxSetupTests(unittest.TestCase):
         unrelated = user_units / "keep-me.service"
         unrelated.write_text("[Service]\nExecStart=/bin/true\n")
         self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        self.stub("niri", '[[ "$1" == "validate" ]]')
         self.stub("sudo", 'echo "sudo $*" >> "$CALLS"')
         self.stub(
             "systemctl",
@@ -155,6 +157,7 @@ class LinuxSetupTests(unittest.TestCase):
         systemd.symlink_to(ROOT / "linux" / ".config" / "systemd")
         original = (ROOT / "linux" / ".config" / "systemd" / "user" / "waybar.service").read_text()
         self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        self.stub("niri", '[[ "$1" == "validate" ]]')
         self.stub("sudo", 'echo "sudo $*" >> "$CALLS"')
         self.stub(
             "systemctl",

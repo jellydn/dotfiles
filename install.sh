@@ -1644,6 +1644,8 @@ install_linux_desktop() {
         if [[ "$simulate" == "true" ]]; then
             log_info "🔍 SIMULATION: Would configure Niri user services and greetd"
         else
+            log_info "Validating Niri configuration..."
+            niri validate --config "$HOME/.config/niri/config.kdl"
             "$repo_root/linux/setup-niri-systemd.sh"
             "$repo_root/scripts/setup-greetd.sh"
         fi

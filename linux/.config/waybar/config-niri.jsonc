@@ -32,8 +32,8 @@
   "custom/vicinae": {
     "format": "󱓞",
     "tooltip": false,
-    "on-click": "vicinae toggle",
-    "on-click-right": "vicinae toggle"
+    "on-click": "vicinae toggle || fuzzel",
+    "on-click-right": "vicinae toggle || fuzzel"
   },
 
 
@@ -129,7 +129,7 @@
   "custom/power": {
     "format": "󰐥",
     "tooltip": false,
-    "on-click": "wlogout",
+    "on-click": "~/.local/bin/niri-power-menu.sh",
     "on-click-right": "niri msg action quit"
   }
 }

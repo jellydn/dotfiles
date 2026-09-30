@@ -342,8 +342,8 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +10%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
 
 # Alternative brightness controls with Mod key
-bindsym $mod+F11 exec --no-startup-id brightnessctl set 10%-
-bindsym $mod+F12 exec --no-startup-id brightnessctl set +10%
+bindsym $mod+Shift+F11 exec --no-startup-id brightnessctl set 10%-
+bindsym $mod+Shift+F12 exec --no-startup-id brightnessctl set +10%
 
 # Alternative volume controls with Mod key
 bindsym $mod+F9 exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle

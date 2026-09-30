@@ -1621,6 +1621,11 @@ install_linux_desktop() {
         "$HOME/.local/share/dotfiles/Kanagawa.jpg" \
         "$simulate"
 
+    if [[ "$desktop" == "i3" && "$simulate" != "true" ]]; then
+        log_info "Validating i3 configuration..."
+        i3 -C -c "$HOME/.config/i3/config"
+    fi
+
     if [[ "$desktop" == "niri" ]]; then
         materialize_directory "$HOME/.config/systemd" "$simulate"
         materialize_directory "$HOME/.config/systemd/user" "$simulate"

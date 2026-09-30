@@ -2,6 +2,7 @@
 """Exercise Linux service setup without changing the host."""
 from pathlib import Path
 import os
+import re
 import subprocess
 import tempfile
 import unittest
@@ -113,6 +114,30 @@ class LinuxSetupTests(unittest.TestCase):
                 self.assertIn(str(ROOT), result.stdout)
                 self.assertFalse(self.calls.exists())
                 self.assertEqual(list(self.home.iterdir()), [])
+
+    def test_i3_config_has_unique_top_level_bindings(self):
+        config = (ROOT / "linux" / ".config" / "i3" / "config").read_text()
+        bindings = re.findall(r"^bindsym\s+(\S+)", config, re.MULTILINE)
+        duplicates = sorted(
+            binding for binding in set(bindings) if bindings.count(binding) > 1
+        )
+        self.assertEqual(duplicates, [])
+
+    def test_i3_install_validates_the_linked_config(self):
+        self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        self.stub("sudo", 'echo "sudo $*" >> "$CALLS"')
+        self.stub("i3", 'echo "i3 $*" >> "$CALLS"')
+
+        result = subprocess.run(
+            ["bash", str(ROOT / "install.sh"), "i3"],
+            cwd=ROOT,
+            env=self.env,
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        expected_config = self.home / ".config" / "i3" / "config"
+        self.assertIn(f"i3 -C -c {expected_config}", self.calls.read_text())
 
     def test_niri_install_preserves_unrelated_systemd_units(self):
         user_units = self.home / ".config" / "systemd" / "user"

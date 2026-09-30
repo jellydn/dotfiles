@@ -9,9 +9,16 @@ DOTFILES_DIR="$(dirname "$SCRIPT_DIR")"
 
 echo "Setting up greetd for niri..."
 
+if ! systemctl list-unit-files greetd.service --no-legend 2>/dev/null | grep -q '^greetd\.service'; then
+    echo "Error: greetd.service is not installed." >&2
+    echo "On Fedora, run: sudo dnf install greetd tuigreet" >&2
+    exit 1
+fi
+
 # Deploy greetd config to /etc
 echo "Deploying greetd configuration..."
-sudo cp "$DOTFILES_DIR/linux/etc/greetd/config.toml" /etc/greetd/config.toml
+sudo install -d -m 0755 /etc/greetd
+sudo install -m 0644 "$DOTFILES_DIR/linux/etc/greetd/config.toml" /etc/greetd/config.toml
 
 # Enable greetd service
 echo "Enabling greetd service..."

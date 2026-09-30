@@ -6,6 +6,44 @@ Machine setup is declared in `common/.config/mise/config.toml` plus `config.maco
 
 ## 🚀 Quick Start
 
+### One-line installer
+
+macOS or Linux:
+
+```bash
+(tmp="$(mktemp)" && curl --proto '=https' --tlsv1.2 -fL https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.sh -o "$tmp" && bash "$tmp"; status=$?; rm -f "$tmp"; exit $status)
+```
+
+Windows 11 PowerShell:
+
+```powershell
+$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+```
+
+These commands download the platform bootstrap completely before running it and clone
+the repository to `~/.dotfiles`. The Unix bootstrap runs `./install.sh all`; Windows
+runs `windows/setup.ps1`. Set `DOTFILES_DIR` to use another checkout location. Unix
+arguments select another installer command, for example `bash "$tmp" install --simulate`
+when adapting the command above. Use `& $tmp -WhatIf` to preview Windows setup.
+
+The bootstrap installs Git when it is missing. Linux uses the detected system package
+manager and can ask for `sudo`; macOS starts the Xcode Command Line Tools installer;
+Windows uses WinGet. Finish any interactive prerequisite installation, then rerun the
+one-line command. Curl is required on Unix and WinGet is required on Windows.
+
+For a repeat run, the bootstrap updates only a clean checkout with the expected origin
+and uses a fast-forward merge. It stops instead of replacing an unrelated directory,
+discarding local changes, or resolving divergent history. The underlying installer
+backs up conflicting dotfiles and can be previewed with `install --simulate`.
+
+**Security:** a one-line installer executes code from the network with your user
+permissions and can invoke a system package manager. Review
+[`bootstrap.sh`](bootstrap.sh), [`bootstrap.ps1`](bootstrap.ps1), and the platform setup
+script before you run it. The commands require HTTPS with TLS 1.2 or newer and avoid
+executing a partial download, but the `master` branch can change. For a reproducible
+install, replace `master` in the URL with a reviewed commit SHA and run the downloaded
+script with `DOTFILES_BRANCH` set to the same SHA.
+
 ### macOS (Apple Silicon)
 
 ```bash
@@ -168,6 +206,8 @@ dotfiles/
 │   ├── check-stow.sh             # Validate stow setup
 │   └── (platform-specific: hyprland, niri, waybar helpers)
 ├── install.sh           # Main installation script
+├── bootstrap.sh         # Safe clone/update entry point for the one-line installer
+├── bootstrap.ps1        # Windows 11 clone/update entry point
 ├── common/.config/mise/config.toml  # Dev tools managed by mise
 ├── .stow-local-ignore   # Files to ignore during stowing
 └── .gitignore           # Git ignore patterns

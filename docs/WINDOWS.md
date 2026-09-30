@@ -6,8 +6,30 @@ change the Linux and macOS setup.
 ## Prerequisites
 
 - Windows 11 (build 22000 or newer)
-- Git and this repository cloned to a stable path
 - [WinGet](https://learn.microsoft.com/windows/package-manager/winget/), supplied by Microsoft App Installer
+
+## One-line installer
+
+Open Windows PowerShell and run:
+
+```powershell
+$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+```
+
+The bootstrap installs Git through WinGet when needed, clones to `~/.dotfiles`,
+and runs the setup. It updates an existing clean checkout only by fast-forward and
+refuses to replace unrelated files or discard local changes. Use `& $tmp -WhatIf`
+inside the command to preview setup after cloning. Set `DOTFILES_DIR` before the
+command to select another stable checkout path.
+
+Review `bootstrap.ps1` and `windows/setup.ps1` before use. The downloaded script
+runs with your user permissions, and WinGet installers can request elevation. To pin
+a reviewed version, use its commit SHA in the download URL and set
+`DOTFILES_BRANCH` to the same SHA.
+
+## Manual installation
+
+Git and a clone in a stable path are required for manual installation.
 
 Open Windows PowerShell in the repository root. Preview all actions first:
 

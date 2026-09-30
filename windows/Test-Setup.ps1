@@ -21,6 +21,14 @@ Get-ChildItem -LiteralPath $PSScriptRoot -Filter '*.ps1' | ForEach-Object {
     }
 }
 
+$rootBootstrap = Join-Path (Split-Path -Parent $PSScriptRoot) 'bootstrap.ps1'
+$tokens = $null
+$errors = $null
+$null = [System.Management.Automation.Language.Parser]::ParseFile($rootBootstrap, [ref] $tokens, [ref] $errors)
+if ($errors.Count -gt 0) {
+    $failures.Add("bootstrap.ps1 has PowerShell syntax errors: $($errors.Message -join '; ')")
+}
+
 $packages = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'packages.json') -Raw | ConvertFrom-Json
 Assert ($packages.source -eq 'winget') 'packages.json must use the winget source.'
 Assert ($packages.packages.Count -gt 0) 'packages.json must contain packages.'

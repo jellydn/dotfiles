@@ -9,6 +9,12 @@ echo "Setting up niri systemd services..."
 # Reload systemd user daemon to pick up new services
 systemctl --user daemon-reload
 
+if ! systemctl --user cat niri.service >/dev/null 2>&1; then
+    echo "Error: niri.service is not installed." >&2
+    echo "On Fedora, run: sudo dnf install niri" >&2
+    exit 1
+fi
+
 # Add services to niri session
 echo "Adding waybar service to niri session..."
 systemctl --user add-wants niri.service waybar.service

@@ -190,7 +190,10 @@ install_system_packages() {
             elif command_exists pacman; then
                 sudo pacman -S --noconfirm git stow tmux fish curl base-devel
             elif command_exists dnf; then
-                sudo dnf install -y git stow tmux fish curl gcc gcc-c++ make
+                sudo dnf install -y \
+                    git stow tmux fish curl gcc gcc-c++ make \
+                    niri greetd tuigreet waybar swaybg swayidle swaylock \
+                    brightnessctl wireplumber
             else
                 log_warning "Package manager not found. Please install git, stow, tmux, and fish manually."
                 return 1

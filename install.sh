@@ -2477,8 +2477,8 @@ main() {
                 log_info "🔍 SIMULATION: Would update git submodules"
             else
                 install_stow "$os"
-                stow_packages "$os" "$no_backup" "$interactive" "$simulate"
                 install_tools
+                stow_packages "$os" "$no_backup" "$interactive" "$simulate"
                 git -C "$(dirname "$0")" submodule update --init --recursive
             fi
             ;;

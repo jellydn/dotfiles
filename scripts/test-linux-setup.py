@@ -16,10 +16,14 @@ class LinuxSetupTests(unittest.TestCase):
         self.base = Path(self.temp.name)
         self.bin = self.base / "bin"
         self.bin.mkdir()
+        self.home = self.base / "home"
+        self.home.mkdir()
         self.calls = self.base / "calls"
         self.env = os.environ | {
             "PATH": f"{self.bin}:/usr/bin:/bin",
             "CALLS": str(self.calls),
+            "HOME": str(self.home),
+            "XDG_CONFIG_HOME": str(self.home / ".config"),
         }
 
     def stub(self, name, body):
@@ -85,6 +89,94 @@ class LinuxSetupTests(unittest.TestCase):
         result = self.run_script("scripts/setup-greetd.sh", success=False)
         self.assertIn("sudo dnf install greetd tuigreet", result.stderr)
         self.assertFalse(self.calls.exists())
+
+    def test_desktop_commands_have_safe_simulations(self):
+        self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        for desktop, expected in (
+            ("niri", ("niri", "waybar", "systemd", "greetd", "fish")),
+            ("i3", ("i3", "i3status", "polybar", "rofi")),
+        ):
+            with self.subTest(desktop=desktop):
+                result = subprocess.run(
+                    ["bash", str(ROOT / "install.sh"), desktop, "--simulate"],
+                    cwd=ROOT,
+                    env=self.env,
+                    text=True,
+                    capture_output=True,
+                )
+                self.assertEqual(
+                    result.returncode, 0, result.stdout + result.stderr
+                )
+                for name in expected:
+                    self.assertIn(name, result.stdout)
+                self.assertIn(str(ROOT), result.stdout)
+                self.assertFalse(self.calls.exists())
+                self.assertEqual(list(self.home.iterdir()), [])
+
+    def test_niri_install_preserves_unrelated_systemd_units(self):
+        user_units = self.home / ".config" / "systemd" / "user"
+        user_units.mkdir(parents=True)
+        unrelated = user_units / "keep-me.service"
+        unrelated.write_text("[Service]\nExecStart=/bin/true\n")
+        self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        self.stub("sudo", 'echo "sudo $*" >> "$CALLS"')
+        self.stub(
+            "systemctl",
+            'echo "systemctl $*" >> "$CALLS"\n'
+            'if [[ "$1" == "list-unit-files" ]]; then '
+            'echo "greetd.service enabled"; fi',
+        )
+
+        result = subprocess.run(
+            ["bash", str(ROOT / "install.sh"), "niri"],
+            cwd=ROOT,
+            env=self.env,
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(unrelated.is_file())
+        for name in ("waybar.service", "wallpaper.service", "swayidle.service"):
+            target = user_units / name
+            self.assertTrue(target.is_symlink())
+            self.assertTrue(target.resolve().is_file())
+        for name in ("niri-copy.sh", "niri-paste.sh", "niri-power-menu.sh"):
+            target = self.home / ".local" / "bin" / name
+            self.assertTrue(target.is_symlink())
+            self.assertTrue(target.resolve().is_file())
+        wallpaper = self.home / ".local" / "share" / "dotfiles" / "Kanagawa.jpg"
+        self.assertTrue(wallpaper.is_symlink())
+        self.assertTrue(wallpaper.resolve().is_file())
+
+    def test_niri_copy_and_paste_use_json_window_data(self):
+        self.stub(
+            "niri",
+            '[[ "$*" == "msg --json windows" ]] || exit 2\n'
+            'printf \'[%s]\\n\' "${NIRI_WINDOW}"',
+        )
+        self.stub("wtype", 'echo "$*" >> "$CALLS"')
+        for script, key in (("niri-copy.sh", "c"), ("niri-paste.sh", "v")):
+            for app_id, expected in (
+                ("foot", f"-M ctrl -M shift -k {key}"),
+                ("firefox", f"-M ctrl -k {key}"),
+            ):
+                with self.subTest(script=script, app_id=app_id):
+                    self.calls.unlink(missing_ok=True)
+                    env = self.env | {
+                        "NIRI_WINDOW": (
+                            '{"is_focused":true,"app_id":"' + app_id + '"}'
+                        )
+                    }
+                    result = subprocess.run(
+                        ["bash", str(ROOT / "linux" / ".local" / "bin" / script)],
+                        env=env,
+                        text=True,
+                        capture_output=True,
+                    )
+                    self.assertEqual(
+                        result.returncode, 0, result.stdout + result.stderr
+                    )
+                    self.assertEqual(self.calls.read_text().strip(), expected)
 
 
 if __name__ == "__main__":

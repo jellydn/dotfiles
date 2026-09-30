@@ -15,10 +15,35 @@ if ! systemctl list-unit-files greetd.service --no-legend 2>/dev/null | grep -q 
     exit 1
 fi
 
-# Deploy greetd config to /etc
+display_manager_link=/etc/systemd/system/display-manager.service
+if [[ -L "$display_manager_link" ]]; then
+    current_display_manager=$(basename "$(readlink -f "$display_manager_link")")
+    if [[ "$current_display_manager" != "greetd.service" ]]; then
+        echo "Error: $current_display_manager currently owns display-manager.service." >&2
+        echo "Disable it first if you want greetd to replace the current display manager." >&2
+        exit 1
+    fi
+fi
+
+# Fedora packages use the greetd account; upstream packages use greeter.
+greeter_user=greeter
+if [[ -f /etc/fedora-release ]]; then
+    greeter_user=greetd
+fi
+temporary_config=$(mktemp)
+trap 'rm -f "$temporary_config"' EXIT
+sed "s/^user = \"greeter\"/user = \"$greeter_user\"/" \
+    "$DOTFILES_DIR/linux/etc/greetd/config.toml" > "$temporary_config"
+
+# Deploy greetd config to /etc, preserving a different existing configuration.
 echo "Deploying greetd configuration..."
 sudo install -d -m 0755 /etc/greetd
-sudo install -m 0644 "$DOTFILES_DIR/linux/etc/greetd/config.toml" /etc/greetd/config.toml
+if sudo test -f /etc/greetd/config.toml && ! sudo cmp -s "$temporary_config" /etc/greetd/config.toml; then
+    backup_path="/etc/greetd/config.toml.backup_$(date +%Y%m%d_%H%M%S)"
+    echo "Backing up existing configuration to $backup_path"
+    sudo cp -a /etc/greetd/config.toml "$backup_path"
+fi
+sudo install -m 0644 "$temporary_config" /etc/greetd/config.toml
 
 # Enable greetd service
 echo "Enabling greetd service..."
@@ -29,7 +54,7 @@ echo "✅ Setup complete!"
 echo ""
 echo "📋 Next Steps:"
 echo "  1. Reboot to start greetd on boot"
-echo "  2. Login will use agreety greeter with niri-session"
+echo "  2. Login will use tuigreet with niri-session"
 echo ""
 echo "🔧 Service Management:"
 echo "  sudo systemctl status greetd.service   # Check status"
@@ -38,9 +63,8 @@ echo "  sudo journalctl -u greetd -n 50        # View logs"
 echo ""
 echo "⚙️  Configuration:"
 echo "  /etc/greetd/config.toml                         # Active config"
-echo "  ~/.dotfiles/linux/etc/greetd/config.toml        # Source config"
+echo "  $DOTFILES_DIR/linux/etc/greetd/config.toml        # Source config"
 echo ""
-echo "💡 To switch to a different greeter (e.g., tuigreet):"
-echo "  Edit ~/.dotfiles/linux/etc/greetd/config.toml"
-echo "  Change command to: tuigreet --cmd niri-session"
+echo "💡 To change the greeter command:"
+echo "  Edit $DOTFILES_DIR/linux/etc/greetd/config.toml"
 echo "  Run this script again to deploy"

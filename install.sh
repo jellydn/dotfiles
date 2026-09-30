@@ -2479,7 +2479,7 @@ main() {
                 install_stow "$os"
                 stow_packages "$os" "$no_backup" "$interactive" "$simulate"
                 install_tools
-                update_submodules
+                git -C "$(dirname "$0")" submodule update --init --recursive
             fi
             ;;
         -h|--help|help)

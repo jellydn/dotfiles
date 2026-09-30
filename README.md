@@ -11,13 +11,13 @@ Machine setup is declared in `common/.config/mise/config.toml` plus `config.maco
 macOS or Linux:
 
 ```bash
-(tmp="$(mktemp)" && curl --proto '=https' --tlsv1.2 -fL https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.sh -o "$tmp" && bash "$tmp"; status=$?; rm -f "$tmp"; exit $status)
+(tmp="$(mktemp)" && curl --proto '=https' --tlsv1.2 -fL https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.sh -o "$tmp" && bash "$tmp"; rc=$?; rm -f "$tmp"; exit "$rc")
 ```
 
 Windows 11 PowerShell:
 
 ```powershell
-$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; Set-ExecutionPolicy -Scope Process RemoteSigned; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
 ```
 
 These commands download the platform bootstrap completely before running it and clone

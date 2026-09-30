@@ -10,7 +10,6 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $repoUrl = if ($env:DOTFILES_REPO_URL) { $env:DOTFILES_REPO_URL } else { 'https://github.com/jellydn/dotfiles.git' }
-$createdCheckout = $false
 
 function Write-Step([string] $Message) {
     Write-Host "[dotfiles] $Message" -ForegroundColor Cyan
@@ -55,56 +54,57 @@ if (-not (Get-Command git.exe -ErrorAction SilentlyContinue)) {
     Install-Git
 }
 
-try {
-    if (Test-Path -LiteralPath $InstallDirectory) {
-        $gitDirectory = Join-Path $InstallDirectory '.git'
-        if (-not (Test-Path -LiteralPath $gitDirectory -PathType Container)) {
-            throw "$InstallDirectory exists but is not a Git checkout. Move it aside or set DOTFILES_DIR."
-        }
-
-        $currentOrigin = (& git.exe -C $InstallDirectory remote get-url origin 2>$null)
-        if ($LASTEXITCODE -ne 0 -or -not $currentOrigin) {
-            throw "$InstallDirectory has no origin remote. Refusing to update it."
-        }
-        $normalizedOrigin = $currentOrigin -replace '\.git$', ''
-        $normalizedRepoUrl = $repoUrl -replace '\.git$', ''
-        if ($normalizedOrigin -ne $normalizedRepoUrl) {
-            throw "$InstallDirectory origin is '$currentOrigin', not '$repoUrl'. Refusing to update it."
-        }
-        $changes = (& git.exe -C $InstallDirectory status --porcelain)
-        if ($LASTEXITCODE -ne 0) {
-            throw "Could not inspect $InstallDirectory."
-        }
-        if ($changes) {
-            throw "$InstallDirectory has local changes. Commit or stash them before retrying."
-        }
-
-        Write-Step "Updating $InstallDirectory (fast-forward only)..."
-        Invoke-Git @('-C', $InstallDirectory, 'fetch', '--quiet', 'origin', $Ref)
-        Invoke-Git @('-C', $InstallDirectory, 'merge', '--ff-only', 'FETCH_HEAD')
-    } else {
-        $parent = Split-Path -Parent $InstallDirectory
-        if ($parent) {
-            $null = New-Item -ItemType Directory -Path $parent -Force
-        }
-        $createdCheckout = $true
-        Write-Step "Cloning $repoUrl to $InstallDirectory..."
-        Invoke-Git @('clone', '--quiet', $repoUrl, $InstallDirectory)
-        Invoke-Git @('-C', $InstallDirectory, 'checkout', '--quiet', $Ref)
+if (Test-Path -LiteralPath $InstallDirectory) {
+    $gitDirectory = Join-Path $InstallDirectory '.git'
+    if (-not (Test-Path -LiteralPath $gitDirectory -PathType Container)) {
+        throw "$InstallDirectory exists but is not a Git checkout. Move it aside or set DOTFILES_DIR."
     }
 
-    $setup = Join-Path $InstallDirectory 'windows\setup.ps1'
-    if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) {
-        throw "Missing installer: $setup"
+    $currentOrigin = (& git.exe -C $InstallDirectory remote get-url origin 2>$null)
+    if ($LASTEXITCODE -ne 0 -or -not $currentOrigin) {
+        throw "$InstallDirectory has no origin remote. Refusing to update it."
     }
-    $createdCheckout = $false
+    $normalizedOrigin = $currentOrigin -replace '\.git$', ''
+    $normalizedRepoUrl = $repoUrl -replace '\.git$', ''
+    if ($normalizedOrigin -ne $normalizedRepoUrl) {
+        throw "$InstallDirectory origin is '$currentOrigin', not '$repoUrl'. Refusing to update it."
+    }
+    $changes = (& git.exe -C $InstallDirectory status --porcelain=v1 --untracked-files=all --ignore-submodules=none)
+    if ($LASTEXITCODE -ne 0) {
+        throw "Could not inspect $InstallDirectory."
+    }
+    if ($changes) {
+        throw "$InstallDirectory has local changes. Commit or stash them before retrying."
+    }
 
-    Write-Step "Running $setup"
-    & $setup -WhatIf:$WhatIf -SkipPackages:$SkipPackages -SkipConfiguration:$SkipConfiguration
-} catch {
-    if ($createdCheckout -and (Test-Path -LiteralPath $InstallDirectory)) {
-        Remove-Item -LiteralPath $InstallDirectory -Recurse -Force
-        Write-Step "Removed incomplete checkout: $InstallDirectory"
+    Write-Step "Updating $InstallDirectory (fast-forward only)..."
+    Invoke-Git @('-C', $InstallDirectory, 'fetch', '--quiet', 'origin', $Ref)
+    & git.exe -C $InstallDirectory merge-base --is-ancestor HEAD FETCH_HEAD
+    if ($LASTEXITCODE -ne 0) {
+        throw "$InstallDirectory is ahead of or has diverged from '$Ref'. Refusing to change it."
     }
-    throw
+    Invoke-Git @('-C', $InstallDirectory, 'merge', '--ff-only', 'FETCH_HEAD')
+    $headCommit = (& git.exe -C $InstallDirectory rev-parse HEAD)
+    if ($LASTEXITCODE -ne 0) {
+        throw "Could not resolve the current revision in $InstallDirectory."
+    }
+    $targetCommit = (& git.exe -C $InstallDirectory rev-parse FETCH_HEAD)
+    if ($LASTEXITCODE -ne 0 -or $headCommit -ne $targetCommit) {
+        throw "$InstallDirectory did not reach the requested revision. Refusing to run the installer."
+    }
+} else {
+    $parent = Split-Path -Parent $InstallDirectory
+    if ($parent) {
+        $null = New-Item -ItemType Directory -Path $parent -Force
+    }
+    Write-Step "Cloning $repoUrl to $InstallDirectory..."
+    Invoke-Git @('clone', '--quiet', $repoUrl, $InstallDirectory)
+    Invoke-Git @('-C', $InstallDirectory, 'checkout', '--quiet', $Ref)
 }
+
+$setup = Join-Path $InstallDirectory 'windows\setup.ps1'
+if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) {
+    throw "Missing installer: $setup"
+}
+Write-Step "Running $setup"
+& $setup -WhatIf:$WhatIf -SkipPackages:$SkipPackages -SkipConfiguration:$SkipConfiguration

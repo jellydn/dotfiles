@@ -30,6 +30,9 @@ class BootstrapTests(unittest.TestCase):
             '[[ "${FAIL_INSTALLER:-}" != 1 ]]\n'
         )
         self.commit("initial")
+        self.initial_commit = self.git(
+            "rev-parse", "HEAD", cwd=self.source
+        ).stdout.strip()
         self.git("remote", "add", "origin", str(self.remote), cwd=self.source)
         self.git("push", "-u", "origin", "master", cwd=self.source)
 
@@ -80,13 +83,38 @@ class BootstrapTests(unittest.TestCase):
         )
 
     def test_reviewed_commit_can_be_pinned(self):
-        commit = self.git("rev-parse", "HEAD", cwd=self.source).stdout.strip()
-        self.run_bootstrap(env={"DOTFILES_BRANCH": commit})
+        self.run_bootstrap(env={"DOTFILES_BRANCH": self.initial_commit})
         checkout = self.home / ".dotfiles"
         self.assertEqual(
-            self.git("rev-parse", "HEAD", cwd=checkout).stdout.strip(), commit
+            self.git("rev-parse", "HEAD", cwd=checkout).stdout.strip(),
+            self.initial_commit,
         )
-        self.run_bootstrap(env={"DOTFILES_BRANCH": commit})
+        self.run_bootstrap(env={"DOTFILES_BRANCH": self.initial_commit})
+
+    def test_older_pin_and_local_ahead_checkout_are_rejected(self):
+        self.run_bootstrap()
+        checkout = self.home / ".dotfiles"
+
+        (self.source / "version").write_text("two\n")
+        self.commit("remote update")
+        self.git("push", cwd=self.source)
+        self.run_bootstrap()
+        calls_before_rejections = self.calls.read_text()
+
+        result = self.run_bootstrap(
+            success=False, env={"DOTFILES_BRANCH": self.initial_commit}
+        )
+        self.assertIn("ahead of or has diverged", result.stderr)
+        self.assertEqual(self.calls.read_text(), calls_before_rejections)
+
+        self.git("config", "user.name", "Bootstrap Test", cwd=checkout)
+        self.git("config", "user.email", "test@example.invalid", cwd=checkout)
+        (checkout / "local-commit").write_text("keep\n")
+        self.git("add", "local-commit", cwd=checkout)
+        self.git("commit", "-m", "local commit", cwd=checkout)
+        result = self.run_bootstrap(success=False)
+        self.assertIn("ahead of or has diverged", result.stderr)
+        self.assertEqual(self.calls.read_text(), calls_before_rejections)
 
     def test_unrelated_destination_is_not_changed(self):
         checkout = self.home / ".dotfiles"
@@ -100,6 +128,7 @@ class BootstrapTests(unittest.TestCase):
     def test_dirty_checkout_and_wrong_origin_are_rejected(self):
         self.run_bootstrap()
         checkout = self.home / ".dotfiles"
+        self.git("config", "status.showUntrackedFiles", "no", cwd=checkout)
         (checkout / "local-change").write_text("keep\n")
         result = self.run_bootstrap(success=False)
         self.assertIn("local changes", result.stderr)

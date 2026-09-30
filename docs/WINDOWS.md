@@ -13,7 +13,7 @@ change the Linux and macOS setup.
 Open Windows PowerShell and run:
 
 ```powershell
-$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
+$tmp = Join-Path ([IO.Path]::GetTempPath()) "dotfiles-$([guid]::NewGuid()).ps1"; try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/jellydn/dotfiles/master/bootstrap.ps1 -OutFile $tmp; Unblock-File $tmp; Set-ExecutionPolicy -Scope Process RemoteSigned; & $tmp } finally { Remove-Item $tmp -Force -ErrorAction SilentlyContinue }
 ```
 
 The bootstrap installs Git through WinGet when needed, clones to `~/.dotfiles`,

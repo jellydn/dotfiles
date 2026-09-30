@@ -80,26 +80,27 @@ install_mise() {
     # Add mise to PATH for current session
     export PATH="$HOME/.local/bin:$PATH"
     
-    # Add to shell configuration
+    # Add activation only to personal files. Repository-managed symlinks already
+    # contain mise activation and must stay unchanged after installation.
     local os=$(detect_os)
     case "$os" in
         macos)
-            if [[ -f "$HOME/.zshrc" ]]; then
-                echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+            if [[ -f "$HOME/.zshrc" && ! -L "$HOME/.zshrc" ]] && ! grep -Fqx 'eval "$(~/.local/bin/mise activate zsh)"' "$HOME/.zshrc"; then
+                echo 'eval "$(~/.local/bin/mise activate zsh)"' >> "$HOME/.zshrc"
                 log_info "Added mise activation to ~/.zshrc"
             fi
-            if [[ -f "$HOME/.config/fish/config.fish" ]]; then
-                echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
+            if [[ -f "$HOME/.config/fish/config.fish" && ! -L "$HOME/.config/fish/config.fish" ]] && ! grep -Fqx '~/.local/bin/mise activate fish | source' "$HOME/.config/fish/config.fish"; then
+                echo '~/.local/bin/mise activate fish | source' >> "$HOME/.config/fish/config.fish"
                 log_info "Added mise activation to fish config"
             fi
             ;;
         linux)
-            if [[ -f "$HOME/.bashrc" ]]; then
-                echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+            if [[ -f "$HOME/.bashrc" && ! -L "$HOME/.bashrc" ]] && ! grep -Fqx 'eval "$(~/.local/bin/mise activate bash)"' "$HOME/.bashrc"; then
+                echo 'eval "$(~/.local/bin/mise activate bash)"' >> "$HOME/.bashrc"
                 log_info "Added mise activation to ~/.bashrc"
             fi
-            if [[ -f "$HOME/.config/fish/config.fish" ]]; then
-                echo '~/.local/bin/mise activate fish | source' >> ~/.config/fish/config.fish
+            if [[ -f "$HOME/.config/fish/config.fish" && ! -L "$HOME/.config/fish/config.fish" ]] && ! grep -Fqx '~/.local/bin/mise activate fish | source' "$HOME/.config/fish/config.fish"; then
+                echo '~/.local/bin/mise activate fish | source' >> "$HOME/.config/fish/config.fish"
                 log_info "Added mise activation to fish config"
             fi
             ;;

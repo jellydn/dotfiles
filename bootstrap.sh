@@ -5,7 +5,6 @@ set -euo pipefail
 REPO_URL="${DOTFILES_REPO_URL:-https://github.com/jellydn/dotfiles.git}"
 BRANCH="${DOTFILES_BRANCH:-master}"
 INSTALL_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
-created_checkout=false
 
 log() {
     printf '[dotfiles] %s\n' "$*"
@@ -15,16 +14,6 @@ fail() {
     printf '[dotfiles] ERROR: %s\n' "$*" >&2
     exit 1
 }
-
-cleanup() {
-    status=$?
-    if [[ $status -ne 0 && "$created_checkout" == true ]]; then
-        rm -rf "$INSTALL_DIR"
-        log "Removed incomplete checkout: $INSTALL_DIR"
-    fi
-    exit "$status"
-}
-trap cleanup EXIT
 
 run_as_root() {
     if [[ ${EUID:-$(id -u)} -eq 0 ]]; then
@@ -81,25 +70,28 @@ if [[ -e "$INSTALL_DIR" || -L "$INSTALL_DIR" ]]; then
         fail "$INSTALL_DIR has no origin remote. Refusing to update it."
     [[ "${current_origin%.git}" == "${REPO_URL%.git}" ]] || \
         fail "$INSTALL_DIR origin is '$current_origin', not '$REPO_URL'. Refusing to update it."
-    [[ -z "$(git -C "$INSTALL_DIR" status --porcelain)" ]] || \
+    changes="$(git -C "$INSTALL_DIR" status --porcelain=v1 --untracked-files=all --ignore-submodules=none)" || \
+        fail "Could not inspect $INSTALL_DIR."
+    [[ -z "$changes" ]] || \
         fail "$INSTALL_DIR has local changes. Commit or stash them before retrying."
 
     log "Updating $INSTALL_DIR (fast-forward only)..."
     git -C "$INSTALL_DIR" fetch --quiet origin "$BRANCH"
+    git -C "$INSTALL_DIR" merge-base --is-ancestor HEAD FETCH_HEAD || \
+        fail "$INSTALL_DIR is ahead of or has diverged from '$BRANCH'. Refusing to change it."
     git -C "$INSTALL_DIR" merge --ff-only FETCH_HEAD
+    [[ "$(git -C "$INSTALL_DIR" rev-parse HEAD)" == "$(git -C "$INSTALL_DIR" rev-parse FETCH_HEAD)" ]] || \
+        fail "$INSTALL_DIR did not reach the requested revision. Refusing to run the installer."
 else
     [[ ! -e "$INSTALL_DIR" && ! -L "$INSTALL_DIR" ]] || fail "$INSTALL_DIR cannot be used."
     command -v dirname >/dev/null 2>&1 || fail "dirname is required."
     mkdir -p "$(dirname "$INSTALL_DIR")"
-    created_checkout=true
     log "Cloning $REPO_URL to $INSTALL_DIR..."
     git clone --quiet "$REPO_URL" "$INSTALL_DIR"
     git -C "$INSTALL_DIR" checkout --quiet "$BRANCH"
 fi
 
 [[ -f "$INSTALL_DIR/install.sh" ]] || fail "Missing installer: $INSTALL_DIR/install.sh"
-created_checkout=false
-trap - EXIT
 
 if [[ $# -eq 0 ]]; then
     set -- all

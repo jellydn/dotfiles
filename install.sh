@@ -989,6 +989,63 @@ link_repository_file() {
     log_info "LINK: $target_path -> $absolute_source"
 }
 
+# Replace a folded Stow directory with a real directory before installing files.
+materialize_directory() {
+    local directory="$1"
+    local simulate="${2:-false}"
+
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would ensure $directory is a real directory"
+        return 0
+    fi
+
+    if [[ -L "$directory" ]]; then
+        local source_directory
+        local temporary_directory="${directory}.materializing.$$"
+        source_directory="$(readlink -f "$directory")"
+        log_info "Materializing linked directory: $directory"
+        mkdir -p "$temporary_directory"
+        cp -a "$source_directory/." "$temporary_directory/"
+        rm "$directory"
+        mv "$temporary_directory" "$directory"
+    elif [[ -e "$directory" && ! -d "$directory" ]]; then
+        log_error "Cannot create directory over existing path: $directory"
+        return 1
+    else
+        mkdir -p "$directory"
+    fi
+}
+
+# Install one managed file as a regular file for consumers that reject symlinks.
+install_repository_file() {
+    local source_path="$1"
+    local target_path="$2"
+    local simulate="${3:-false}"
+    local absolute_source
+
+    absolute_source="$(cd "$(dirname "$source_path")" && pwd)/$(basename "$source_path")"
+    if [[ ! -f "$absolute_source" ]]; then
+        log_error "Source file not found: $source_path"
+        return 1
+    fi
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would install $target_path from $absolute_source"
+        return 0
+    fi
+    if [[ -f "$target_path" && ! -L "$target_path" ]] && cmp -s "$absolute_source" "$target_path"; then
+        log_info "INSTALL: $target_path is already up to date"
+        return 0
+    fi
+    if [[ -e "$target_path" ]] || [[ -L "$target_path" ]]; then
+        local backup_path="${target_path}_backup_$(date +%Y%m%d_%H%M%S)"
+        log_info "Backing up existing path: $target_path -> $backup_path"
+        mv "$target_path" "$backup_path"
+    fi
+
+    install -m 0644 "$absolute_source" "$target_path"
+    log_info "INSTALL: $target_path"
+}
+
 # Stow a specific app
 stow_app() {
     local app_name="$1"
@@ -1565,9 +1622,12 @@ install_linux_desktop() {
         "$simulate"
 
     if [[ "$desktop" == "niri" ]]; then
+        materialize_directory "$HOME/.config/systemd" "$simulate"
+        materialize_directory "$HOME/.config/systemd/user" "$simulate"
+
         local unit
         for unit in waybar.service wallpaper.service swayidle.service; do
-            link_repository_file \
+            install_repository_file \
                 "$repo_root/linux/.config/systemd/user/$unit" \
                 "$HOME/.config/systemd/user/$unit" \
                 "$simulate"

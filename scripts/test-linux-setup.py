@@ -138,8 +138,8 @@ class LinuxSetupTests(unittest.TestCase):
         self.assertTrue(unrelated.is_file())
         for name in ("waybar.service", "wallpaper.service", "swayidle.service"):
             target = user_units / name
-            self.assertTrue(target.is_symlink())
-            self.assertTrue(target.resolve().is_file())
+            self.assertTrue(target.is_file())
+            self.assertFalse(target.is_symlink())
         for name in ("niri-copy.sh", "niri-paste.sh", "niri-power-menu.sh"):
             target = self.home / ".local" / "bin" / name
             self.assertTrue(target.is_symlink())
@@ -147,6 +147,43 @@ class LinuxSetupTests(unittest.TestCase):
         wallpaper = self.home / ".local" / "share" / "dotfiles" / "Kanagawa.jpg"
         self.assertTrue(wallpaper.is_symlink())
         self.assertTrue(wallpaper.resolve().is_file())
+
+    def test_niri_install_unfolds_stow_linked_systemd_directory(self):
+        config = self.home / ".config"
+        config.mkdir()
+        systemd = config / "systemd"
+        systemd.symlink_to(ROOT / "linux" / ".config" / "systemd")
+        original = (ROOT / "linux" / ".config" / "systemd" / "user" / "waybar.service").read_text()
+        self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')
+        self.stub("sudo", 'echo "sudo $*" >> "$CALLS"')
+        self.stub(
+            "systemctl",
+            'echo "systemctl $*" >> "$CALLS"\n'
+            'if [[ "$1" == "list-unit-files" ]]; then '
+            'echo "greetd.service enabled"; fi',
+        )
+
+        for _ in range(2):
+            result = subprocess.run(
+                ["bash", str(ROOT / "install.sh"), "niri"],
+                cwd=ROOT,
+                env=self.env,
+                text=True,
+                capture_output=True,
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+        self.assertTrue(systemd.is_dir())
+        self.assertFalse(systemd.is_symlink())
+        self.assertEqual(
+            (ROOT / "linux" / ".config" / "systemd" / "user" / "waybar.service").read_text(),
+            original,
+        )
+        for name in ("waybar.service", "wallpaper.service", "swayidle.service"):
+            target = systemd / "user" / name
+            self.assertTrue(target.is_file())
+            self.assertFalse(target.is_symlink())
+        self.assertEqual(list((systemd / "user").glob("*_backup_*")), [])
 
     def test_niri_copy_and_paste_use_json_window_data(self):
         self.stub(

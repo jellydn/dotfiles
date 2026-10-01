@@ -315,6 +315,7 @@ stow -D common
 - [fd](https://github.com/sharkdp/fd) - Fast find alternative
 - [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
 - [Tuna](https://tunaformac.com/) - New, modern launcher for macOS
+- [ZapFast](https://github.com/crmne/zapfast) - Fast, native WhatsApp client for macOS, Linux, and Windows
 - [Vicinae](https://github.com/vicinae/vicinae) - Keyboard-driven launcher for Linux
 - [Marta](https://marta.sh/) - File manager
 - [BetterDisplay](https://github.com/waydabber/BetterDisplay) - Unlock your displays on Mac

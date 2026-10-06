@@ -956,6 +956,96 @@ validate_app() {
     return 1
 }
 
+# Link one repository file without replacing unrelated parent-directory content.
+link_repository_file() {
+    local source_path="$1"
+    local target_path="$2"
+    local simulate="${3:-false}"
+    local absolute_source
+
+    absolute_source="$(cd "$(dirname "$source_path")" && pwd)/$(basename "$source_path")"
+    if [[ ! -f "$absolute_source" ]]; then
+        log_error "Source file not found: $source_path"
+        return 1
+    fi
+
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would create symlink $target_path -> $absolute_source"
+        return 0
+    fi
+
+    mkdir -p "$(dirname "$target_path")"
+    if [[ -L "$target_path" && "$(readlink -f "$target_path")" == "$absolute_source" ]]; then
+        log_info "LINK: $target_path is already up to date"
+        return 0
+    fi
+    if [[ -e "$target_path" ]] || [[ -L "$target_path" ]]; then
+        local backup_path="${target_path}_backup_$(date +%Y%m%d_%H%M%S)"
+        log_info "Backing up existing path: $target_path -> $backup_path"
+        mv "$target_path" "$backup_path"
+    fi
+
+    ln -s "$absolute_source" "$target_path"
+    log_info "LINK: $target_path -> $absolute_source"
+}
+
+# Replace a folded Stow directory with a real directory before installing files.
+materialize_directory() {
+    local directory="$1"
+    local simulate="${2:-false}"
+
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would ensure $directory is a real directory"
+        return 0
+    fi
+
+    if [[ -L "$directory" ]]; then
+        local source_directory
+        local temporary_directory="${directory}.materializing.$$"
+        source_directory="$(readlink -f "$directory")"
+        log_info "Materializing linked directory: $directory"
+        mkdir -p "$temporary_directory"
+        cp -a "$source_directory/." "$temporary_directory/"
+        rm "$directory"
+        mv "$temporary_directory" "$directory"
+    elif [[ -e "$directory" && ! -d "$directory" ]]; then
+        log_error "Cannot create directory over existing path: $directory"
+        return 1
+    else
+        mkdir -p "$directory"
+    fi
+}
+
+# Install one managed file as a regular file for consumers that reject symlinks.
+install_repository_file() {
+    local source_path="$1"
+    local target_path="$2"
+    local simulate="${3:-false}"
+    local absolute_source
+
+    absolute_source="$(cd "$(dirname "$source_path")" && pwd)/$(basename "$source_path")"
+    if [[ ! -f "$absolute_source" ]]; then
+        log_error "Source file not found: $source_path"
+        return 1
+    fi
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would install $target_path from $absolute_source"
+        return 0
+    fi
+    if [[ -f "$target_path" && ! -L "$target_path" ]] && cmp -s "$absolute_source" "$target_path"; then
+        log_info "INSTALL: $target_path is already up to date"
+        return 0
+    fi
+    if [[ -e "$target_path" ]] || [[ -L "$target_path" ]]; then
+        local backup_path="${target_path}_backup_$(date +%Y%m%d_%H%M%S)"
+        log_info "Backing up existing path: $target_path -> $backup_path"
+        mv "$target_path" "$backup_path"
+    fi
+
+    install -m 0644 "$absolute_source" "$target_path"
+    log_info "INSTALL: $target_path"
+}
+
 # Stow a specific app
 stow_app() {
     local app_name="$1"
@@ -986,17 +1076,15 @@ stow_app() {
         local simulate_flag="$2"
         local app_config_path="$package/.config/$app_name"
         local target_path="$HOME/.config/$app_name"
-        local dotfiles_dir="$(pwd)"
         
         if [[ ! -d "$app_config_path" ]]; then
             return 1
         fi
         
-        # Calculate relative path from target to source
-        local relative_path="../.dotfiles/$app_config_path"
+        local source_path="$(pwd)/$app_config_path"
         
         if [[ "$simulate_flag" == "true" ]]; then
-            log_info "🔍 SIMULATION: Would create symlink $target_path -> $relative_path"
+            log_info "🔍 SIMULATION: Would create symlink $target_path -> $source_path"
         else
             # Create .config directory if it doesn't exist
             mkdir -p "$(dirname "$target_path")"
@@ -1013,8 +1101,8 @@ stow_app() {
             fi
             
             # Create the symlink
-            ln -s "$relative_path" "$target_path"
-            log_info "LINK: .config/$app_name -> $relative_path"
+            ln -s "$source_path" "$target_path"
+            log_info "LINK: .config/$app_name -> $source_path"
         fi
         
         return 0
@@ -1113,17 +1201,6 @@ stow_app() {
                     if [[ "$simulate" == "true" ]]; then
                         log_info "🔍 SIMULATION: Would stow linux/.alacritty.toml..."
                         stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "alacritty" || true
-                    else
-                        stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
-                    fi
-                    stowed=true
-                fi
-                ;;
-            niri)
-                if [[ -d "linux/.config/niri" ]]; then
-                    if [[ "$simulate" == "true" ]]; then
-                        log_info "🔍 SIMULATION: Would stow linux/.config/niri..."
-                        stow -t "$HOME" -nv --ignore='.*\.DS_Store.*' linux --adopt 2>/dev/null | grep "niri" || true
                     else
                         stow -t "$HOME" -v --ignore='.*\.DS_Store.*' --adopt linux
                     fi
@@ -1473,12 +1550,123 @@ unstow_app() {
     fi
 }
 
+# Install one Linux desktop stack and only its related dotfiles.
+install_linux_desktop() {
+    local desktop="$1"
+    local simulate="${2:-false}"
+    local os
+    local packages=()
+    local configs=()
+    local repo_root
+
+    repo_root="$(cd "$(dirname "$0")" && pwd)"
+
+    os=$(detect_os)
+    if [[ "$os" != "linux" ]]; then
+        log_error "$desktop installation is supported on Linux only"
+        return 1
+    fi
+
+    case "$desktop" in
+        niri)
+            configs=(niri waybar fuzzel foot wlogout)
+            if command_exists dnf; then
+                packages=(niri greetd tuigreet waybar swaybg swayidle swaylock foot fish fuzzel brightnessctl wireplumber jq wtype wlogout)
+            elif command_exists pacman; then
+                packages=(niri greetd greetd-tuigreet waybar swaybg swayidle swaylock foot fish fuzzel brightnessctl wireplumber jq wtype)
+            else
+                log_error "Automatic Niri installation supports Fedora (dnf) and Arch Linux (pacman)"
+                return 1
+            fi
+            ;;
+        i3)
+            configs=(i3 i3status polybar rofi)
+            if command_exists dnf; then
+                packages=(i3 i3lock polybar rofi feh xss-lock dex-autostart brightnessctl picom pulseaudio-utils network-manager-applet alacritty)
+            elif command_exists apt-get; then
+                packages=(i3 i3lock polybar rofi feh xss-lock dex brightnessctl picom pulseaudio-utils network-manager-gnome alacritty)
+            elif command_exists pacman; then
+                packages=(i3-wm i3lock polybar rofi feh xss-lock dex brightnessctl picom libpulse network-manager-applet alacritty)
+            else
+                log_error "No supported package manager found for i3 installation"
+                return 1
+            fi
+            ;;
+        *)
+            log_error "Unknown Linux desktop: $desktop"
+            return 1
+            ;;
+    esac
+
+    if [[ "$simulate" == "true" ]]; then
+        log_info "🔍 SIMULATION: Would install packages: ${packages[*]}"
+    elif command_exists dnf; then
+        sudo dnf install -y "${packages[@]}"
+    elif command_exists apt-get; then
+        sudo apt-get update
+        sudo apt-get install -y "${packages[@]}"
+    else
+        sudo pacman -S --needed --noconfirm "${packages[@]}"
+    fi
+
+    if [[ "$simulate" != "true" ]]; then
+        install_stow "$os"
+    fi
+    for config in "${configs[@]}"; do
+        stow_app "$config" "$os" "$simulate"
+    done
+
+    link_repository_file \
+        "$repo_root/common/bg-images/Kanagawa.jpg" \
+        "$HOME/.local/share/dotfiles/Kanagawa.jpg" \
+        "$simulate"
+
+    if [[ "$desktop" == "i3" && "$simulate" != "true" ]]; then
+        log_info "Validating i3 configuration..."
+        i3 -C -c "$HOME/.config/i3/config"
+    fi
+
+    if [[ "$desktop" == "niri" ]]; then
+        materialize_directory "$HOME/.config/systemd" "$simulate"
+        materialize_directory "$HOME/.config/systemd/user" "$simulate"
+
+        local unit
+        for unit in waybar.service wallpaper.service swayidle.service; do
+            install_repository_file \
+                "$repo_root/linux/.config/systemd/user/$unit" \
+                "$HOME/.config/systemd/user/$unit" \
+                "$simulate"
+        done
+
+        local helper
+        for helper in niri-copy.sh niri-paste.sh niri-power-menu.sh; do
+            link_repository_file \
+                "$repo_root/linux/.local/bin/$helper" \
+                "$HOME/.local/bin/$helper" \
+                "$simulate"
+        done
+
+        if [[ "$simulate" == "true" ]]; then
+            log_info "🔍 SIMULATION: Would configure Niri user services and greetd"
+        else
+            log_info "Validating Niri configuration..."
+            niri validate --config "$HOME/.config/niri/config.kdl"
+            "$repo_root/linux/setup-niri-systemd.sh"
+            "$repo_root/scripts/setup-greetd.sh"
+        fi
+    fi
+
+    log_success "$desktop desktop installation complete"
+}
+
 # Show usage
 show_usage() {
-    echo "Usage: $0 [install|uninstall|restow|stow-app|unstow-app|tools|fonts|fish|mcp|submodules|all|backup|cleanup|status]"
+    echo "Usage: $0 [install|niri|i3|uninstall|restow|stow-app|unstow-app|tools|fonts|fish|mcp|submodules|all|backup|cleanup|status]"
     echo ""
     echo "Commands:"
     echo "  install           - Install dotfiles only (default)"
+    echo "  niri              - Install the Niri desktop stack and related Linux configs"
+    echo "  i3                - Install the i3 desktop stack and related Linux configs"
     echo "  uninstall [app]   - Remove all dotfiles symlinks or specific app (e.g., hypr, nvim)"
     echo "  restow            - Remove and reinstall dotfiles"
     echo "  stow-app <app>    - Stow a specific app configuration (e.g., tmux, nvim)"
@@ -1504,6 +1692,9 @@ show_usage() {
     echo "  --simulate       - Dry run - show what would be done without doing it"
     echo ""
     echo "Examples:"
+    echo "  $0 niri                          # Install Niri, services, greetd, and configs"
+    echo "  $0 i3                            # Install i3 and its related configs"
+    echo "  $0 niri --simulate               # Preview Niri installation"
     echo "  $0 stow-app tmux                # Stow only tmux configuration"
     echo "  $0 uninstall hypr               # Remove hypr configuration symlinks"
     echo "  $0 unstow-app tmux              # Remove tmux configuration symlinks"
@@ -2278,6 +2469,9 @@ main() {
     local simulate="${args[4]}"
     
     case "$command" in
+        niri|i3)
+            install_linux_desktop "$command" "$simulate"
+            ;;
         stow-app)
             local app_name
             app_name=$(get_app_name "$@")

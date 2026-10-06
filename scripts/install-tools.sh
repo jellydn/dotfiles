@@ -134,8 +134,8 @@ install_dev_tools() {
     log_info "Installing tools globally from $config_file..."
     
     if [[ "$config_file" == "common/.config/mise/config.toml" ]]; then
-        # Use mise install to read from config.toml
-        if ~/.local/bin/mise install; then
+        # Load the repository config even before dotfiles are linked into HOME.
+        if MISE_CONFIG_FILE="$PWD/$config_file" ~/.local/bin/mise install; then
             log_success "Tools installed successfully from config.toml"
         else
             log_warning "Some tools may have failed to install"

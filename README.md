@@ -103,6 +103,8 @@ validation, and removal.
 ### Optional install.sh commands (Linux, or Mac stow fallback)
 
 ```bash
+./install.sh niri         # Fedora/Arch: install Niri desktop and its configs
+./install.sh i3           # Fedora/Debian/Arch: install i3 desktop and its configs
 ./install.sh install       # Stow dotfiles only
 ./install.sh tools         # Mac: bootstrap-mac.sh; Linux: mise tools
 ./install.sh fish          # Install Fish and set as login shell
@@ -117,6 +119,11 @@ validation, and removal.
 ./install.sh install --interactive
 ./install.sh install --simulate
 ```
+
+The Niri command keeps unrelated user systemd units in place. If another display
+manager is enabled, it stops before changing greetd and tells you to disable the
+current display manager first. Existing greetd configuration is backed up before
+replacement.
 
 ## 📁 Repository Structure
 
@@ -440,9 +447,11 @@ Zsh remains available via `macos/.zshrc`. Pure is not declared in bootstrap; ins
 ### Commands
 
 ```bash
-Usage: ./install.sh [install|uninstall|restow|tools|submodules|all|backup|fish]
+Usage: ./install.sh [install|niri|i3|uninstall|restow|tools|submodules|all|backup|fish]
 
 Commands:
+  niri        - Install Niri, related services, greetd, and Linux configs
+  i3          - Install i3 and related Linux configs
   install      - Install dotfiles only (default)
   uninstall    - Remove dotfiles symlinks
   restow       - Remove and reinstall dotfiles

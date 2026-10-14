@@ -12,7 +12,7 @@
 }
 {
     "label" : "logout",
-    "action" : "~/.dotfiles/scripts/wm-logout.sh logout",
+    "action" : "niri msg action quit || hyprctl dispatch exit || swaymsg exit",
     "text" : "󰍃 Logout",
     "keybind" : "e"
 }

@@ -333,6 +333,21 @@ ln -sfn ~/.dotfiles/common/.config/zed/tasks.json  ~/.config/zed/tasks.json
 Keep `~/.config/zed` a real directory: `omazed` also generates
 `~/.config/zed/themes/omazed.json`, which must never land in the repo.
 
+The configs assume the upstream extension set. VS Code, on the Microsoft
+Marketplace, uses both upstream lists; Cursor and the other Open VSX editors use
+`extensions.txt` only:
+
+```bash
+# extensions.txt, then extensions-vscode-marketplace.txt for VS Code
+for list in extensions.txt extensions-vscode-marketplace.txt; do
+  curl -fsSL "https://raw.githubusercontent.com/jellydn/vscode-like-pro/main/$list" |
+    grep -vE '^\s*(#|$)' | xargs -r -n1 code --install-extension --force
+done
+```
+
+`asvetliakov.vscode-neovim` needs `nvim` on `PATH` on Linux — the shared settings
+only pin the macOS path (`vscode-neovim.neovimExecutablePaths.darwin`).
+
 ### Zed in a virtual machine needs a Vulkan driver
 
 Omarchy installs Vulkan drivers only for Intel, AMD, Apple, and Qualcomm GPUs
@@ -372,6 +387,16 @@ with `is_software_emulated: true`: it works, but the UI is CPU-rendered, so
 expect soft scrolling. Accelerated Vulkan would need the host to pass through
 Venus (`virtio-gpu` with `venus=on`); `vulkan-virtio` reports no device on this VM.
 
+Zed then treats that adapter as unsupported and shows **Unsupported GPU** on every
+launch unless `ZED_ALLOW_EMULATED_GPU=1` is set. Put it in the systemd user
+environment, so the app launcher and terminals both inherit it, then log back in:
+
+```bash
+mkdir -p ~/.config/environment.d
+echo 'ZED_ALLOW_EMULATED_GPU=1' > ~/.config/environment.d/zed-emulated-gpu.conf
+systemctl --user set-environment ZED_ALLOW_EMULATED_GPU=1   # apply now, no relogin
+```
+
 Electron apps are unaffected — they render through OpenGL/virgl, which is what
 Slack, Teams, and VS Code use here — so this is a Vulkan-only problem.
 
@@ -382,18 +407,32 @@ behaviour, which is why the per-OS mappings above are preferred.
 
 ### Font and machine-local caveats
 
-Two things the upstream configs assume:
+The upstream configs set `Maple Mono NF` as the primary font, and both VS Code and
+Zed keep the older Nerd Fonts as fallbacks, so text still renders without it. No
+Omarchy or Arch package ships it, so use the repo's own step, which unpacks the
+Nerd Font build into `~/.local/share/fonts/MapleMono`:
 
-- They set `Maple Mono NF` as the primary font, and both VS Code and Zed keep the
-  older Nerd Fonts as fallbacks, so text still renders without it. No Omarchy
-  package ships it: install it with
-  [getnf](https://github.com/getnf/getnf) or from
-  [subframe7536/maple-font](https://github.com/subframe7536/maple-font/releases).
-- `common/.config/zed/settings.json` is shared by every OS, yet it points
-  `terminal.shell.program` at `/Users/huynhdung/.cargo/bin/codemux` and keeps
-  macOS paths under `agent`. On Linux, override those in
-  `~/.config/zed/settings.local.json` (gitignored) rather than editing the shared
-  file, for example `{"terminal": {"shell": {"program": "/bin/zsh"}}}`.
+```bash
+./install.sh fonts
+```
+
+Point Omarchy's generic `monospace` at it too; this writes the rule in
+`~/.config/fontconfig/fonts.conf`:
+
+```bash
+omarchy-font-set "Maple Mono NF"
+omarchy-font-current          # prints: Maple Mono NF
+```
+
+The same step tries to install Font Awesome, which needs privilege and stays
+missing on Omarchy until you run `omarchy pkg add otf-font-awesome` yourself.
+WOFF2-only installs do not count, because native apps cannot render them.
+
+`common/.config/zed/settings.json` is shared by every OS, yet it points
+`terminal.shell.program` at `/Users/huynhdung/.cargo/bin/codemux` and keeps macOS
+paths under `agent`. On Linux, override those in
+`~/.config/zed/settings.local.json` (gitignored) rather than editing the shared
+file, for example `{"terminal": {"shell": {"program": "/bin/zsh"}}}`.
 
 Verify:
 

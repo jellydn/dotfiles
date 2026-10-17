@@ -1,4 +1,20 @@
 [
+  {
+    "key": "ctrl+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "when": "terminalFocus",
+    "args": {
+      "text": "\\\r\n"
+    }
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "when": "terminalFocus",
+    "args": {
+      "text": "\\\r\n"
+    }
+  },
   // Folding, refer https://github.com/vscode-neovim/vscode-neovim/issues/58#issuecomment-1316470317
   {
     "command": "editor.toggleFold",
@@ -75,15 +91,11 @@
     "key": "cmd+k shift+w",
     "command": "errorLens.toggleWarning"
   },
-  // TODO: Wait for this to resolve https://github.com/usernamehw/vscode-error-lens/issues/208
   // Setup which-key
   {
-    // Disable Spotlight and use Tuna or Raycast with Alt+space:
-    // https://tunaformac.com/docs/replacing-spotlight-with-tuna
-    // https://manual.raycast.com/hotkey
-    "key": "cmd+space",
+    "key": "shift+space", // Disable Spotlight and use Raycast with Alt+space, refer https://manual.raycast.com/hotkey
     "command": "whichkey.show",
-    "when": "editorTextFocus"
+    "when": "editorTextFocus && vim.mode != 'Insert'"
   },
   // Toggle full screen
   {
@@ -105,19 +117,70 @@
     "key": "cmd+k c",
     "command": "workbench.action.toggleCenteredLayout"
   },
-  // Chat on terminal
+  // vscode.lua maps VSCodeVim does not receive. Alt and Shift are not in VSCodeVim's package.json.
   {
-    "key": "ctrl+cmd+k",
-    "command": "cursorai.action.generateInTerminal",
-    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    "key": "shift+h",
+    "command": "workbench.action.previousEditor",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
   },
   {
-    "key": "cmd+k",
-    "command": "-cursorai.action.generateInTerminal",
-    "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    "key": "shift+l",
+    "command": "workbench.action.nextEditor",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
   },
   {
-    "key": "ctrl+i",
-    "command": "composerMode.agent"
+    "key": "shift+q",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "alt+h",
+    "command": "cursorHome",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "alt+l",
+    "command": "cursorEnd",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Normal'"
+  },
+  {
+    "key": "alt+j",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
+  },
+  {
+    "key": "alt+k",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
+  },
+  {
+    "key": "alt+down",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
+  },
+  {
+    "key": "alt+up",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && vim.active && vim.mode != 'Insert'"
+  },
+  {
+    "key": "alt+j",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+  },
+  {
+    "key": "alt+k",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+  },
+  {
+    "key": "alt+down",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+  },
+  {
+    "key": "alt+up",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
   }
 ]

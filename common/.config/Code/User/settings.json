@@ -1,0 +1,1928 @@
+{
+  // Color scheme and icon
+  "workbench.colorTheme": "Maple Dark",
+  "workbench.iconTheme": "catppuccin-macchiato",
+  // Set sidebar to the right
+  "workbench.sideBar.location": "right",
+  // Show relative number
+  "editor.lineNumbers": "relative",
+  "workbench.editor.showTabs": "multiple",
+  "window.titleBarStyle": "native",
+  // Activity bar
+  "workbench.activityBar.location": "bottom",
+  // Need to install VSCode Custom UI Style extension https://github.com/subframe7536/vscode-custom-ui-style
+  "custom-ui-style.electron": {
+    // "titleBarStyle": "hidden",
+    "frame": false,
+    "transparent": true,
+    "opacity": 0.98
+  },
+  "custom-ui-style.stylesheet": {
+    // Setup for CSS for Which-Key
+    // Let the quick pick take the full window height, so that more bindings are visible.
+    ".quick-input-widget > .quick-input-list > .monaco-list": "max-height: 100vh !important;",
+    // Hide editor top-right buttons, except for the dirty file indicator and settings goto icon
+    ".editor .title .actions-container .action-item a:not(.codicon-close-dirty):not(.codicon-preferences-open-settings)": "display: none !important;"
+  },
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#ffc600",
+    "tab.activeBorder": "#ffc600"
+  },
+  // Mapple Theme customizations
+  "editor.semanticTokenColorCustomizations": {
+    "enabled": true,
+    "rules": {
+      "interface": {
+        "italic": true
+      },
+      "selfParameter": {
+        "italic": true
+      },
+      "keyword": {
+        "italic": true
+      },
+      "*.static": {
+        "italic": true
+      }
+    }
+  },
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": [
+          "constant.language.undefined",
+          "constant.language.null",
+          "constant.language.nullptr",
+          "meta.type keyword.operator.expression.typeof",
+          "meta.type keyword.operator.expression.keyof",
+          "keyword.control",
+          "keyword.function",
+          "keyword.operator.new",
+          "keyword.operator.borrow.and.rust",
+          "storage.type",
+          "storage.modifier",
+          "variable.language.this",
+          "markup.italic"
+        ],
+        "settings": {
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  },
+  // Git
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "always",
+  // Screencast
+  "screencastMode.fontSize": 32,
+  "screencastMode.verticalOffset": 4,
+  // Terminal
+  "terminal.integrated.fontFamily": "JetBrainsMono NF",
+  "terminal.integrated.fontSize": 17,
+  "terminal.integrated.sendKeybindingsToShell": true,
+  // Inlay hints
+  "editor.inlayHints.enabled": "on",
+  "editor.inlayHints.fontFamily": "GeistMono Nerd Font",
+  "editor.inlayHints.fontSize": 1,
+  "editor.inlayHints.padding": true,
+  "js/ts.inlayHints.functionLikeReturnTypes.enabled": true,
+  "js/ts.inlayHints.parameterNames.enabled": "literals",
+  "js/ts.inlayHints.variableTypes.enabled": false,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "js/ts.inlayHints.enumMemberValues.enabled": true,
+  "js/ts.referencesCodeLens.enabled": true,
+  "js/ts.preferences.preferTypeOnlyAutoImports": true,
+  // Validation
+  "js/ts.validate.enabled": true,
+  // make sure you're using the local typescript
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+  // Diff
+  "diffEditor.codeLens": true,
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  // General editor settings
+  "editor.autoIndent": "full",
+  "editor.cursorBlinking": "solid",
+  "editor.cursorStyle": "line",
+  "editor.cursorWidth": 5,
+  "editor.fontFamily": "Maple Mono NF, OperatorMonoLig Nerd Font, JetBrainsMono Nerd Font Mono, Menlo, Monaco, 'Courier New', monospacere, monospace",
+  "editor.codeLensFontFamily": "JetBrainsMono Nerd Font Mono",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 18,
+  "editor.fontWeight": "400",
+  "editor.formatOnSave": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.insertSpaces": false,
+  "editor.largeFileOptimizations": false,
+  "editor.letterSpacing": 0.5,
+  "editor.lineHeight": 25,
+  "editor.renderWhitespace": "all",
+  "editor.suggestSelection": "first",
+  "editor.tabCompletion": "on",
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  "editor.semanticHighlighting.enabled": true,
+  "explorer.confirmDelete": false,
+  "explorer.compactFolders": false,
+  "explorer.confirmDragAndDrop": false,
+  "errorLens.enabledDiagnosticLevels": [
+    "error"
+  ],
+  "errorLens.excludeBySource": [
+    "cSpell"
+  ],
+  // Toggle excluded files extension, refer for more detail https://github.com/jellydn/vscode-toggle-excluded-files
+  "files.exclude": {
+    "**/bin": true,
+    "**/target": true,
+    "**/.output": true,
+    "**/git": true,
+    "**/report": true,
+    "**/.cargo_cache": true,
+    "**/.cursor": true,
+    "**/.codereview": true,
+    "**/.claude": true,
+    "**/.tanstack": true,
+    "**/.turbo": true,
+    "**/.vercel": true,
+    "**/.changes": true,
+    "**/.yarn": true,
+    "**/.vscode": true,
+    "**/.vscode-test": true,
+    "**/.git": true,
+    "**/.github": true,
+    "**/.grit": true,
+    "**/.changeset": true,
+    "**/node_modules": true,
+    "**/.husky": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/out": true,
+    "**/cdk.out": true,
+    "**/coverage": true,
+    "**/.next": true,
+    "**/*.tsbuildinfo": true,
+    "**/*.nyc_output": true,
+    "**/*.tap": true,
+    "**/*.econ": true,
+    "**/.astro": true,
+    "**/.encore": true,
+    "**/encore.gen": true,
+    "**/test-results": true,
+    "**/playwright-report": true
+  },
+  // Cspell, refer https://open-vsx.org/vscode/item?itemName=streetsidesoftware.code-spell-checker
+  "cSpell.userWords": [],
+  "amp.url": "https://ampcode.com/",
+  "fileNestingUpdater.autoUpdate": true,
+  "fileNestingUpdater.autoUpdateInterval": 720,
+  "fileNestingUpdater.promptOnAutoUpdate": true,
+  "fileNestingUpdater.upstreamRepo": "antfu/vscode-file-nesting-config",
+  "fileNestingUpdater.upstreamBranch": "main",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "//": "Last update at 3/23/2026, 8:07:16 PM",
+    ".agent": ".agent, .claude, .cline, .codebuddy, .codex, .commandcode, .continue, .crush, .cursor, .factory, .gemini, .goose, .junie, .kilocode, .kiro, .kode, .mcpjam, .mux, .neovate, .opencode, .openhands, .pi, .pochi, .qoder, .qwen, .roo, .trae, .windsurf, .zencoder",
+    ".clang-tidy": ".clang-format, .clangd, compile_commands.json",
+    ".env": "*.env, .env.*, .envrc, env.d.ts",
+    ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .lfsconfig, .mailmap, .git-blame*",
+    ".project": ".classpath",
+    "+layout.svelte": "+layout.ts,+layout.js,+layout.server.ts,+layout.server.js,+layout.gql",
+    "+page.svelte": "+page.server.ts,+page.server.js,+page.ts,+page.js,+page.gql",
+    "AGENTS.md": ".clinerules, .cursorrules, .replit.md, .windsurfrules, AGENT.md, CLAUDE.local.md, CLAUDE.md, GEMINI.md",
+    "ansible.cfg": "ansible.cfg, .ansible-lint, requirements.yml",
+    "app.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "application.properties": "*.properties",
+    "artisan": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, server.php, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, webpack.mix.js, windi.config.*",
+    "astro.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "build-wrapper.log": "build-wrapper*.log, build-wrapper-dump*.json, build-wrapper-win*.exe, build-wrapper-linux*, build-wrapper-macosx*",
+    "BUILD.bazel": "*.bzl, *.bazel, *.bazelrc, bazel.rc, .bazelignore, .bazelproject, .bazelversion, MODULE.bazel.lock, WORKSPACE",
+    "Cargo.toml": ".clippy.toml, .rustfmt.toml, Cargo.Bazel.lock, Cargo.lock, clippy.toml, cross.toml, insta.yaml, rust-toolchain.toml, rustfmt.toml",
+    "CMakeLists.txt": "*.cmake, *.cmake.in, .cmake-format.yaml, CMakePresets.json, CMakeCache.txt",
+    "composer.json": ".php*.cache, composer.lock, phpunit.xml*, psalm*.xml",
+    "default.nix": "shell.nix",
+    "deno.json*": "*.env, .env.*, .envrc, api-extractor.json, deno.lock, env.d.ts, import-map.json, import_map.json, jsconfig.*, tsconfig.*, tsdoc.*",
+    "Dockerfile": "*.dockerfile, .devcontainer.*, .dockerignore, captain-definition, compose.*, docker-compose.*, dockerfile*",
+    "flake.nix": "default.nix, shell.nix, flake.lock",
+    "gatsby-config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, gatsby-browser.*, gatsby-node.*, gatsby-ssr.*, gatsby-transformer.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "gemfile": ".ruby-version, gemfile.lock",
+    "go.mod": ".air*, go.sum",
+    "go.work": "go.work.sum",
+    "hatch.toml": ".editorconfig, .flake8, .isort.cfg, .python-version, hatch.toml, requirements*.in, requirements*.pip, requirements*.txt, tox.ini",
+    "I*.cs": "$(capture).cs",
+    "Makefile": "*.mk",
+    "mix.exs": ".credo.exs, .dialyzer_ignore.exs, .formatter.exs, .iex.exs, .tool-versions, mix.lock",
+    "next.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, next-env.d.ts, next-i18next.config.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "nuxt.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .nuxtignore, .nuxtrc, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "package.json": "*.code-workspace, .browserslist*, .circleci*, .commitlint*, .cspell*, .cursor*, .cz-config.js, .czrc, .dlint.json, .dprint.json*, .editorconfig, .eslint*, .firebase*, .flowconfig, .github*, .gitlab*, .gitmojirc.json, .gitpod*, .huskyrc*, .jslint*, .knip.*, .lintstagedrc*, .ls-lint.yml, .markdownlint*, .node-version, .nodemon*, .npm*, .nvmrc, .oxfmtrc.json, .oxfmtrc.json.bak, .oxfmtrc.jsonc, .oxlintrc.json, .oxlintrc.json.bak, .oxlintrc.jsonc, .pm2*, .pnp.*, .pnpm*, .prettier*, .pylintrc, .release-please*.json, .releaserc*, .ruff.toml, .sentry*, .shellcheckrc, .simple-git-hooks*, .stackblitz*, .styleci*, .stylelint*, .tazerc*, .textlint*, .tool-versions, .travis*, .versionrc*, .vscode*, .watchman*, .windsurfrules, .xo-config*, .yamllint*, .yarnrc*, Procfile, alejandra.toml, apollo.config.*, appveyor*, azure-pipelines*, biome.json*, bower.json, build.config.*, bun.lock, bun.lockb, bunfig.toml, colada.options.ts, commitlint*, crowdin*, cspell*, cz.config.*, dangerfile*, dlint.json, dprint.json*, ec.config.*, electron-builder.*, eslint*, firebase.json, grunt*, gulp*, jenkins*, knip.*, lefthook.*, lerna*, lint-staged*, nest-cli.*, netlify*, nixpacks*, nodemon*, npm-shrinkwrap.json, nx.*, oxlint.config.*, package-lock.json, package.nls*.json, phpcs.xml, pm2.*, pnpm*, prettier*, pullapprove*, pyrightconfig.json, release-please*.json, release-tasks.sh, release.config.*, renovate*, rolldown.config.*, rollup.config.*, rspack*, ruff.toml, sentry.*.config.ts, simple-git-hooks*, sonar-project.properties, stylelint*, taze.config.*, tsdown.config.*, tslint*, tsup.config.*, turbo*, typedoc*, unlighthouse*, vercel*, vetur.config.*, webpack*, workspace.json, wrangler.*, xo.config.*, yarn*",
+    "Pipfile": ".editorconfig, .flake8, .isort.cfg, .python-version, Pipfile, Pipfile.lock, requirements*.in, requirements*.pip, requirements*.txt, tox.ini",
+    "pom.xml": "mvnw*",
+    "pubspec.yaml": ".metadata, .packages, all_lint_rules.yaml, analysis_options.yaml, build.yaml, pubspec.lock, pubspec_overrides.yaml",
+    "pyproject.toml": ".commitlint*, .cspell*, .dlint.json, .dprint.json*, .editorconfig, .eslint*, .flake8, .flowconfig, .isort.cfg, .jslint*, .lintstagedrc*, .ls-lint.yml, .markdownlint*, .oxfmtrc.json, .oxfmtrc.json.bak, .oxfmtrc.jsonc, .oxlintrc.json, .oxlintrc.json.bak, .oxlintrc.jsonc, .pdm-python, .pdm.toml, .prettier*, .pylintrc, .python-version, .ruff.toml, .shellcheckrc, .stylelint*, .textlint*, .xo-config*, .yamllint*, MANIFEST.in, Pipfile, Pipfile.lock, alejandra.toml, biome.json*, commitlint*, cspell*, dangerfile*, dlint.json, dprint.json*, eslint*, hatch.toml, lint-staged*, oxlint.config.*, pdm.lock, phpcs.xml, poetry.lock, poetry.toml, prettier*, pyproject.toml, pyrightconfig.json, requirements*.in, requirements*.pip, requirements*.txt, ruff.toml, setup.cfg, setup.py, stylelint*, tox.ini, tslint*, uv.lock, uv.toml, xo.config.*",
+    "quasar.conf*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, quasar.extensions.json, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "readme*": "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, CONTRIBUTORS.MD, CONTRIBUTORS.TXT, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Contributors.md, Contributors.txt, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE, LICENSE.MD, LICENSE.txt, License, License.md, License.txt, MAINTAINERS, Maintainers, README-*, README_*, RELEASE_NOTES*, ROADMAP.MD, Readme-*, Readme_*, Release_Notes*, Roadmap.md, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, contributors.md, contributors.txt, copying*, credits, governance.md, history.md, license, license.md, license.txt, maintainers, readme-*, readme_*, release_notes*, roadmap.md, security.md, sponsors*",
+    "Readme*": "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, CONTRIBUTORS.MD, CONTRIBUTORS.TXT, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Contributors.md, Contributors.txt, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE, LICENSE.MD, LICENSE.txt, License, License.md, License.txt, MAINTAINERS, Maintainers, README-*, README_*, RELEASE_NOTES*, ROADMAP.MD, Readme-*, Readme_*, Release_Notes*, Roadmap.md, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, contributors.md, contributors.txt, copying*, credits, governance.md, history.md, license, license.md, license.txt, maintainers, readme-*, readme_*, release_notes*, roadmap.md, security.md, sponsors*",
+    "README*": "AUTHORS, Authors, BACKERS*, Backers*, CHANGELOG*, CITATION*, CODEOWNERS, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, CONTRIBUTORS.MD, CONTRIBUTORS.TXT, COPYING*, CREDITS, Changelog*, Citation*, Code_Of_Conduct*, Codeowners, Contributing*, Contributors, Contributors.md, Contributors.txt, Copying*, Credits, GOVERNANCE.MD, Governance.md, HISTORY.MD, History.md, LICENSE, LICENSE.MD, LICENSE.txt, License, License.md, License.txt, MAINTAINERS, Maintainers, README-*, README_*, RELEASE_NOTES*, ROADMAP.MD, Readme-*, Readme_*, Release_Notes*, Roadmap.md, SECURITY.MD, SPONSORS*, Security.md, Sponsors*, authors, backers*, changelog*, citation*, code_of_conduct*, codeowners, contributing*, contributors, contributors.md, contributors.txt, copying*, credits, governance.md, history.md, license, license.md, license.txt, maintainers, readme-*, readme_*, release_notes*, roadmap.md, security.md, sponsors*",
+    "remix.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, remix.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "requirements.txt": ".editorconfig, .flake8, .isort.cfg, .python-version, requirements*.in, requirements*.pip, requirements*.txt, tox.ini",
+    "rush.json": "*.code-workspace, .browserslist*, .circleci*, .commitlint*, .cspell*, .cursor*, .cz-config.js, .czrc, .dlint.json, .dprint.json*, .editorconfig, .eslint*, .firebase*, .flowconfig, .github*, .gitlab*, .gitmojirc.json, .gitpod*, .huskyrc*, .jslint*, .knip.*, .lintstagedrc*, .ls-lint.yml, .markdownlint*, .node-version, .nodemon*, .npm*, .nvmrc, .oxfmtrc.json, .oxfmtrc.json.bak, .oxfmtrc.jsonc, .oxlintrc.json, .oxlintrc.json.bak, .oxlintrc.jsonc, .pm2*, .pnp.*, .pnpm*, .prettier*, .pylintrc, .release-please*.json, .releaserc*, .ruff.toml, .sentry*, .shellcheckrc, .simple-git-hooks*, .stackblitz*, .styleci*, .stylelint*, .tazerc*, .textlint*, .tool-versions, .travis*, .versionrc*, .vscode*, .watchman*, .windsurfrules, .xo-config*, .yamllint*, .yarnrc*, Procfile, alejandra.toml, apollo.config.*, appveyor*, azure-pipelines*, biome.json*, bower.json, build.config.*, bun.lock, bun.lockb, bunfig.toml, colada.options.ts, commitlint*, crowdin*, cspell*, cz.config.*, dangerfile*, dlint.json, dprint.json*, ec.config.*, electron-builder.*, eslint*, firebase.json, grunt*, gulp*, jenkins*, knip.*, lefthook.*, lerna*, lint-staged*, nest-cli.*, netlify*, nixpacks*, nodemon*, npm-shrinkwrap.json, nx.*, oxlint.config.*, package-lock.json, package.nls*.json, phpcs.xml, pm2.*, pnpm*, prettier*, pullapprove*, pyrightconfig.json, release-please*.json, release-tasks.sh, release.config.*, renovate*, rolldown.config.*, rollup.config.*, rspack*, ruff.toml, sentry.*.config.ts, simple-git-hooks*, sonar-project.properties, stylelint*, taze.config.*, tsdown.config.*, tslint*, tsup.config.*, turbo*, typedoc*, unlighthouse*, vercel*, vetur.config.*, webpack*, workspace.json, wrangler.*, xo.config.*, yarn*",
+    "sanity.config.*": "sanity.cli.*, sanity.types.ts, schema.json",
+    "setup.cfg": ".editorconfig, .flake8, .isort.cfg, .python-version, MANIFEST.in, requirements*.in, requirements*.pip, requirements*.txt, setup.cfg, tox.ini",
+    "setup.py": ".editorconfig, .flake8, .isort.cfg, .python-version, MANIFEST.in, requirements*.in, requirements*.pip, requirements*.txt, setup.cfg, setup.py, tox.ini",
+    "shims.d.ts": "*.d.ts",
+    "svelte.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, houdini.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, mdsvex.config.js, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vite.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "tauri.conf.json": "tauri.*.conf.json",
+    "tauri.conf.json5": "tauri.*.conf.json5",
+    "Tauri.toml": "Tauri.*.toml",
+    "tsconfig.json": "tsconfig*.tsbuildinfo, tsconfig.*.json",
+    "vite.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "vue.config.*": "*.env, .babelrc*, .codecov, .cssnanorc*, .env.*, .envrc, .htmlnanorc*, .lighthouserc.*, .mocha*, .postcssrc*, .terserrc*, api-extractor.json, ava.config.*, babel.config.*, capacitor.config.*, content.config.*, contentlayer.config.*, cssnano.config.*, cypress.*, env.d.ts, formkit.config.*, formulate.config.*, histoire.config.*, htmlnanorc.*, i18n.config.*, ionic.config.*, jasmine.*, jest.config.*, jsconfig.*, karma*, lighthouserc.*, panda.config.*, playwright.config.*, postcss.config.*, puppeteer.config.*, react-router.config.*, rspack.config.*, sst.config.*, svgo.config.*, tailwind.config.*, tsconfig.*, tsdoc.*, uno.config.*, unocss.config.*, vitest.config.*, vuetify.config.*, webpack.config.*, windi.config.*",
+    "*.asax": "$(capture).*.cs, $(capture).*.vb",
+    "*.ascx": "$(capture).*.cs, $(capture).*.vb",
+    "*.ashx": "$(capture).*.cs, $(capture).*.vb",
+    "*.aspx": "$(capture).*.cs, $(capture).*.vb",
+    "*.axaml": "$(capture).axaml.cs",
+    "*.bloc.dart": "$(capture).event.dart, $(capture).state.dart",
+    "*.c": "$(capture).h",
+    "*.cc": "$(capture).hpp, $(capture).h, $(capture).hxx, $(capture).hh",
+    "*.cjs": "$(capture).cjs.map, $(capture).*.cjs, $(capture)_*.cjs",
+    "*.component.ts": "$(capture).component.html, $(capture).component.spec.ts, $(capture).component.css, $(capture).component.scss, $(capture).component.sass, $(capture).component.less",
+    "*.cpp": "$(capture).hpp, $(capture).h, $(capture).hxx, $(capture).hh",
+    "*.cs": "$(capture).*.cs, $(capture).cs.uid",
+    "*.cshtml": "$(capture).cshtml.cs, $(capture).cshtml.css",
+    "*.csproj": "*.config, *proj.user, appsettings.*, bundleconfig.json",
+    "*.css": "$(capture).css.map, $(capture).*.css",
+    "*.cxx": "$(capture).hpp, $(capture).h, $(capture).hxx, $(capture).hh",
+    "*.dart": "$(capture).freezed.dart, $(capture).g.dart, $(capture).mapper.dart",
+    "*.db": "*.db-shm, *.db-wal",
+    "*.ex": "$(capture).html.eex, $(capture).html.heex, $(capture).html.leex",
+    "*.fs": "$(capture).fs.js, $(capture).fs.js.map, $(capture).fs.jsx, $(capture).fs.ts, $(capture).fs.tsx, $(capture).fs.rs, $(capture).fs.php, $(capture).fs.dart",
+    "*.gd": "$(capture).gd.uid",
+    "*.gdshader": "$(capture).gdshader.uid",
+    "*.gdshaderinc": "$(capture).gdshaderinc.uid",
+    "*.go": "$(capture)_test.go",
+    "*.java": "$(capture).class",
+    "*.js": "$(capture).js.map, $(capture).*.js, $(capture)_*.js, $(capture).d.ts, $(capture).d.ts.map, $(capture).js.flow",
+    "*.jsx": "$(capture).js, $(capture).*.jsx, $(capture)_*.js, $(capture)_*.jsx, $(capture).css, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts",
+    "*.master": "$(capture).*.cs, $(capture).*.vb",
+    "*.md": "$(capture).*",
+    "*.mjs": "$(capture).mjs.map, $(capture).*.mjs, $(capture)_*.mjs",
+    "*.module.ts": "$(capture).resolver.ts, $(capture).controller.ts, $(capture).service.ts",
+    "*.mts": "$(capture).mts.map, $(capture).*.mts, $(capture)_*.mts",
+    "*.proto": "$(capture).pb.go, $(capture).pb.micro.go",
+    "*.pubxml": "$(capture).pubxml.user",
+    "*.py": "$(capture).pyi",
+    "*.razor": "$(capture).razor.cs, $(capture).razor.css, $(capture).razor.scss",
+    "*.resx": "$(capture).*.resx, $(capture).designer.cs, $(capture).designer.vb",
+    "*.tex": "$(capture).acn, $(capture).acr, $(capture).alg, $(capture).aux, $(capture).bbl, $(capture).bbl-SAVE-ERROR, $(capture).bcf, $(capture).bib, $(capture).blg, $(capture).fdb_latexmk, $(capture).fls, $(capture).glg, $(capture).glo, $(capture).gls, $(capture).idx, $(capture).ind, $(capture).ist, $(capture).lof, $(capture).log, $(capture).lot, $(capture).nav, $(capture).out, $(capture).run.xml, $(capture).snm, $(capture).synctex.gz, $(capture).toc, $(capture).xdv",
+    "*.ts": "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts",
+    "*.tsx": "$(capture).ts, $(capture).*.ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).css, $(capture).module.css, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts",
+    "*.vbproj": "*.config, *proj.user, appsettings.*, bundleconfig.json",
+    "*.vue": "$(capture).*.ts, $(capture).*.js, $(capture).story.vue",
+    "*.w": "$(capture).*.w, I$(capture).w",
+    "*.wat": "$(capture).wasm",
+    "*.xaml": "$(capture).xaml.cs"
+  },
+  // Only show error on Eslint
+  "eslint.quiet": true,
+  // Formatter per file type: use default LSP server
+  // NOTE: Change to Prettier or Biome per project if needed
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  // Setup fzf picker extension
+  "fzf-picker.customTasks": [
+    {
+      "name": "zoxide",
+      "command": "code-insiders $(zoxide query --interactive)"
+    }
+  ],
+  "fzf-picker.general.openCommand": "code-insiders -g",
+  "security.promptForLocalFileProtocolHandling": false,
+  // Biome setup
+  "editor.codeActionsOnSave": {
+    // https://biomejs.dev/reference/vscode/#fix-on-save
+    "quickfix.biome": "explicit"
+    // Sort import, experimental
+    // "source.organizeImports.biome": "explicit"
+  },
+  // hurl runner
+  "vscode-hurl-runner.captureToGlobalVariable": true,
+  "vscode-hurl-runner.verboseMode": "very-verbose",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.startupEditor": "none",
+  "security.workspace.trust.untrustedFiles": "open",
+  "redhat.telemetry.enabled": true,
+  "editor.minimap.enabled": false,
+  "amp.permissions": [
+    {
+      "tool": "Bash",
+      "action": "ask",
+      "matches": {
+        "cmd": [
+          "*rm*-rf*",
+          "*rm*-r*--force*",
+          "*rm*--force*-r*"
+        ]
+      }
+    },
+    {
+      "tool": "Bash",
+      "action": "ask",
+      "matches": {
+        "cmd": [
+          "*find*-exec*",
+          "*find*-delete*"
+        ]
+      }
+    },
+    {
+      "tool": "Bash",
+      "action": "ask",
+      "matches": {
+        "cmd": [
+          "*git*push*--force*",
+          "*git*push*-f*"
+        ]
+      }
+    },
+    {
+      "tool": "Bash",
+      "action": "ask",
+      "matches": {
+        "cmd": [
+          "sudo*",
+          "su*",
+          "*chmod*777*",
+          "*chown*root*"
+        ]
+      }
+    },
+    {
+      "tool": "*",
+      "action": "allow",
+      "matches": {}
+    }
+  ],
+  "mssql.connectionGroups": [
+    {
+      "name": "ROOT",
+      "id": "4CEE095F-8C1B-4F0C-AEF5-1E6AC79BB731"
+    }
+  ],
+  "gitlens.ai.model": "vscode",
+  "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "seal-code.showAIQuickPick": true,
+  "seal-code.aiToolCommand": "ccs ghcp",
+  "seal-code.showLineBackground": false,
+  "chat.viewSessions.orientation": "stacked",
+  "chat.tools.terminal.outputLocation": "chat",
+  "claudeCode.preferredLocation": "panel",
+  "extensions.ignoreRecommendations": true,
+  "kilo-code.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show",
+    "gh",
+    "gh pr",
+    "gh pr list",
+    "just fmt",
+    "just",
+    "bun test"
+  ],
+  "kilo-code.deniedCommands": [],
+  "kilo-code.debug": false,
+  "remoteHub.commitDirectlyWarning": "off",
+  "git.enableSmartCommit": true,
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://biomejs.dev": true
+  },
+  "terminal.integrated.defaultProfile.osx": "CodeMux",
+  "window.autoDetectColorScheme": true,
+  "remoteHub.experimental.syncRecentList": true,
+  "remoteHub.experimental.useDiffMatchPatch": true,
+  "workbench.preferredDarkColorTheme": "Maple Dark",
+  "window.customTitleBarVisibility": "never",
+  "whichkey.bindings": [
+    {
+      "key": " ",
+      "name": "Commands",
+      "type": "command",
+      "command": "workbench.action.showCommands"
+    },
+    {
+      "key": "\t",
+      "name": "Last editor",
+      "type": "commands",
+      "commands": [
+        "workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup",
+        "list.select"
+      ]
+    },
+    {
+      "key": "?",
+      "name": "Search keybindings",
+      "type": "command",
+      "command": "whichkey.searchBindings"
+    },
+    {
+      "key": ".",
+      "name": "Repeat most recent action",
+      "type": "command",
+      "command": "whichkey.repeatMostRecent"
+    },
+    {
+      "key": "b",
+      "name": "+Buffers/Editors",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "b",
+          "name": "Show all buffers/editors",
+          "type": "command",
+          "command": "workbench.action.showAllEditors"
+        },
+        {
+          "key": "B",
+          "name": "Show all buffers/editors in active group",
+          "type": "command",
+          "command": "workbench.action.showEditorsInActiveGroup"
+        },
+        {
+          "key": "d",
+          "name": "Close active editor",
+          "type": "command",
+          "command": "workbench.action.closeActiveEditor"
+        },
+        {
+          "key": "H",
+          "name": "Move editor into left group",
+          "type": "command",
+          "command": "workbench.action.moveEditorToLeftGroup"
+        },
+        {
+          "key": "J",
+          "name": "Move editor into below group",
+          "type": "command",
+          "command": "workbench.action.moveEditorToBelowGroup"
+        },
+        {
+          "key": "K",
+          "name": "Move editor into above group",
+          "type": "command",
+          "command": "workbench.action.moveEditorToAboveGroup"
+        },
+        {
+          "key": "L",
+          "name": "Move editor into right group",
+          "type": "command",
+          "command": "workbench.action.moveEditorToRightGroup"
+        },
+        {
+          "key": "M",
+          "name": "Close other editors",
+          "type": "command",
+          "command": "workbench.action.closeOtherEditors"
+        },
+        {
+          "key": "n",
+          "name": "Next editor",
+          "type": "command",
+          "command": "workbench.action.nextEditor"
+        },
+        {
+          "key": "p",
+          "name": "Previous editor",
+          "type": "command",
+          "command": "workbench.action.previousEditor"
+        },
+        {
+          "key": "N",
+          "name": "New untitled editor",
+          "type": "command",
+          "command": "workbench.action.files.newUntitledFile"
+        },
+        {
+          "key": "u",
+          "name": "Reopen closed editor",
+          "type": "command",
+          "command": "workbench.action.reopenClosedEditor"
+        },
+        {
+          "key": "P",
+          "name": "Paste clipboard to buffer",
+          "type": "commands",
+          "commands": [
+            "editor.action.selectAll",
+            "editor.action.clipboardPasteAction"
+          ]
+        },
+        {
+          "key": "Y",
+          "name": "Copy buffer to clipboard",
+          "type": "commands",
+          "commands": [
+            "editor.action.selectAll",
+            "editor.action.clipboardCopyAction",
+            "cancelSelection"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "d",
+      "name": "+Debug",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "d",
+          "name": "Start debug",
+          "type": "command",
+          "command": "workbench.action.debug.start"
+        },
+        {
+          "key": "D",
+          "name": "Run without debugging",
+          "type": "command",
+          "command": "workbench.action.debug.run"
+        },
+        {
+          "key": "S",
+          "name": "Stop debug",
+          "type": "command",
+          "command": "workbench.action.debug.stop"
+        },
+        {
+          "key": "c",
+          "name": "Continue debug",
+          "type": "command",
+          "command": "workbench.action.debug.continue"
+        },
+        {
+          "key": "p",
+          "name": "Pause debug",
+          "type": "command",
+          "command": "workbench.action.debug.pause"
+        },
+        {
+          "key": "R",
+          "name": "Restart debug",
+          "type": "command",
+          "command": "workbench.action.debug.restart"
+        },
+        {
+          "key": "i",
+          "name": "Step into",
+          "type": "command",
+          "command": "workbench.action.debug.stepInto"
+        },
+        {
+          "key": "s",
+          "name": "Step over",
+          "type": "command",
+          "command": "workbench.action.debug.stepOver"
+        },
+        {
+          "key": "o",
+          "name": "Step out",
+          "type": "command",
+          "command": "workbench.action.debug.stepOut"
+        },
+        {
+          "key": "b",
+          "name": "Toggle breakpoint",
+          "type": "command",
+          "command": "editor.debug.action.toggleBreakpoint"
+        },
+        {
+          "key": "B",
+          "name": "Toggle inline breakpoint",
+          "type": "command",
+          "command": "editor.debug.action.toggleInlineBreakpoint"
+        },
+        {
+          "key": "j",
+          "name": "Jump to cursor",
+          "type": "command",
+          "command": "debug.jumpToCursor"
+        },
+        {
+          "key": "v",
+          "name": "REPL",
+          "type": "command",
+          "command": "workbench.debug.action.toggleRepl"
+        },
+        {
+          "key": "w",
+          "name": "Focus on watch window",
+          "type": "command",
+          "command": "workbench.debug.action.focusWatchView"
+        },
+        {
+          "key": "W",
+          "name": "Add to watch",
+          "type": "command",
+          "command": "editor.debug.action.selectionToWatch"
+        }
+      ]
+    },
+    {
+      "key": "e",
+      "name": "+Errors",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": ".",
+          "name": "Error transient",
+          "type": "command",
+          "command": "whichkey.showTransient",
+          "args": "whichkey.transient.error"
+        },
+        {
+          "key": "l",
+          "name": "List errors",
+          "type": "command",
+          "command": "workbench.actions.view.problems"
+        },
+        {
+          "key": "N",
+          "name": "Previous error",
+          "type": "command",
+          "command": "editor.action.marker.prev"
+        },
+        {
+          "key": "n",
+          "name": "Next error",
+          "type": "command",
+          "command": "editor.action.marker.next"
+        },
+        {
+          "key": "p",
+          "name": "Previous error",
+          "type": "command",
+          "command": "editor.action.marker.prev"
+        }
+      ]
+    },
+    {
+      "key": "f",
+      "name": "+File",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "f",
+          "name": "Open file/folder",
+          "type": "command",
+          "command": "whichkey.openFile"
+        },
+        {
+          "key": "n",
+          "name": "New Untitled",
+          "type": "command",
+          "command": "workbench.action.files.newUntitledFile"
+        },
+        {
+          "key": "w",
+          "name": "Open active in new window",
+          "type": "command",
+          "command": "workbench.action.files.showOpenedFileInNewWindow"
+        },
+        {
+          "key": "s",
+          "name": "Save file",
+          "type": "command",
+          "command": "workbench.action.files.save"
+        },
+        {
+          "key": "S",
+          "name": "Save all files",
+          "type": "command",
+          "command": "workbench.action.files.saveAll"
+        },
+        {
+          "key": "r",
+          "name": "Open recent",
+          "type": "command",
+          "command": "workbench.action.openRecent"
+        },
+        {
+          "key": "R",
+          "name": "Rename file",
+          "type": "commands",
+          "commands": [
+            "workbench.files.action.showActiveFileInExplorer",
+            "renameFile"
+          ]
+        },
+        {
+          "key": "t",
+          "name": "Show tree/explorer view",
+          "type": "command",
+          "command": "workbench.view.explorer"
+        },
+        {
+          "key": "T",
+          "name": "Show active file in tree/explorer view",
+          "type": "command",
+          "command": "workbench.files.action.showActiveFileInExplorer"
+        },
+        {
+          "key": "y",
+          "name": "Copy path of active file",
+          "type": "command",
+          "command": "workbench.action.files.copyPathOfActiveFile"
+        },
+        {
+          "key": "o",
+          "name": "Open with",
+          "type": "command",
+          "command": "explorer.openWith"
+        },
+        {
+          "key": "l",
+          "name": "Change file language",
+          "type": "command",
+          "command": "workbench.action.editor.changeLanguageMode"
+        },
+        {
+          "key": "=",
+          "name": "Format file",
+          "type": "command",
+          "command": "editor.action.formatDocument"
+        },
+        {
+          "key": "i",
+          "name": "+Indentation",
+          "type": "bindings",
+          "bindings": [
+            {
+              "key": "i",
+              "name": "Change indentation",
+              "type": "command",
+              "command": "editor.action.indentUsingSpaces"
+            },
+            {
+              "key": "d",
+              "name": "Detect indentation",
+              "type": "command",
+              "command": "editor.action.detectIndentation"
+            },
+            {
+              "key": "r",
+              "name": "Reindent",
+              "type": "command",
+              "command": "editor.action.reindentlines"
+            },
+            {
+              "key": "R",
+              "name": "Reindent selected",
+              "type": "command",
+              "command": "editor.action.reindentselectedlines"
+            },
+            {
+              "key": "t",
+              "name": "Convert indentation to tabs",
+              "type": "command",
+              "command": "editor.action.indentationToTabs"
+            },
+            {
+              "key": "s",
+              "name": "Convert indentation to spaces",
+              "type": "command",
+              "command": "editor.action.indentationToSpaces"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "g",
+      "name": "+Git",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "b",
+          "name": "Checkout",
+          "type": "command",
+          "command": "git.checkout"
+        },
+        {
+          "key": "c",
+          "name": "Commit",
+          "type": "command",
+          "command": "git.commit"
+        },
+        {
+          "key": "d",
+          "name": "Delete Branch",
+          "type": "command",
+          "command": "git.deleteBranch"
+        },
+        {
+          "key": "f",
+          "name": "Fetch",
+          "type": "command",
+          "command": "git.fetch"
+        },
+        {
+          "key": "i",
+          "name": "Init",
+          "type": "command",
+          "command": "git.init"
+        },
+        {
+          "key": "m",
+          "name": "Merge",
+          "type": "command",
+          "command": "git.merge"
+        },
+        {
+          "key": "p",
+          "name": "Publish",
+          "type": "command",
+          "command": "git.publish"
+        },
+        {
+          "key": "s",
+          "name": "Status",
+          "type": "command",
+          "command": "workbench.view.scm"
+        },
+        {
+          "key": "S",
+          "name": "Stage",
+          "type": "command",
+          "command": "git.stage"
+        },
+        {
+          "key": "U",
+          "name": "Unstage",
+          "type": "command",
+          "command": "git.unstage"
+        }
+      ]
+    },
+    {
+      "key": "i",
+      "name": "+Insert",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "j",
+          "name": "Insert line below",
+          "type": "command",
+          "command": "editor.action.insertLineAfter"
+        },
+        {
+          "key": "k",
+          "name": "Insert line above",
+          "type": "command",
+          "command": "editor.action.insertLineBefore"
+        },
+        {
+          "key": "s",
+          "name": "Insert snippet",
+          "type": "command",
+          "command": "editor.action.insertSnippet"
+        }
+      ]
+    },
+    {
+      "key": "p",
+      "name": "+Project",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "f",
+          "name": "Find file in project",
+          "type": "command",
+          "command": "workbench.action.quickOpen"
+        },
+        {
+          "key": "p",
+          "name": "Switch project",
+          "type": "command",
+          "command": "workbench.action.openRecent"
+        },
+        {
+          "key": "t",
+          "name": "Show tree/explorer view",
+          "type": "command",
+          "command": "workbench.view.explorer"
+        }
+      ]
+    },
+    {
+      "key": "q",
+      "name": "+Quit",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "q",
+          "name": "Close window",
+          "type": "command",
+          "command": "workbench.action.closeWindow"
+        },
+        {
+          "key": "Q",
+          "name": "Quit VSCode",
+          "type": "command",
+          "command": "workbench.action.quit"
+        }
+      ]
+    },
+    {
+      "key": "r",
+      "name": "+Repeat",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": ".",
+          "name": "Repeat recent actions",
+          "type": "command",
+          "command": "whichkey.repeatRecent"
+        }
+      ]
+    },
+    {
+      "key": "s",
+      "name": "+Search/Symbol",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "e",
+          "name": "Edit symbol",
+          "type": "command",
+          "command": "editor.action.rename"
+        },
+        {
+          "key": "h",
+          "name": "Highlight symbol transient",
+          "type": "commands",
+          "commands": [
+            "editor.action.wordHighlight.trigger",
+            "whichkey.showTransient"
+          ],
+          "args": [
+            null,
+            "whichkey.transient.symbol"
+          ]
+        },
+        {
+          "key": "j",
+          "name": "Jump to symbol in file",
+          "type": "command",
+          "command": "workbench.action.gotoSymbol"
+        },
+        {
+          "key": "J",
+          "name": "Jump to symbol in workspace",
+          "type": "command",
+          "command": "workbench.action.showAllSymbols"
+        },
+        {
+          "key": "p",
+          "name": "Search in a project",
+          "type": "command",
+          "command": "workbench.action.findInFiles"
+        },
+        {
+          "key": "P",
+          "name": "Search in a project with a selection",
+          "type": "commands",
+          "commands": [
+            "editor.action.addSelectionToNextFindMatch",
+            "workbench.action.findInFiles"
+          ]
+        },
+        {
+          "key": "r",
+          "name": "Search all references",
+          "type": "command",
+          "command": "editor.action.referenceSearch.trigger"
+        },
+        {
+          "key": "R",
+          "name": "Search all references in side bar",
+          "type": "command",
+          "command": "editor.action.goToReferences"
+        },
+        {
+          "key": "s",
+          "name": "Search in current file",
+          "type": "command",
+          "command": "actions.find"
+        }
+      ]
+    },
+    {
+      "key": "S",
+      "name": "+Show",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "e",
+          "name": "Show explorer",
+          "type": "command",
+          "command": "workbench.view.explorer"
+        },
+        {
+          "key": "s",
+          "name": "Show search",
+          "type": "command",
+          "command": "workbench.view.search"
+        },
+        {
+          "key": "g",
+          "name": "Show source control",
+          "type": "command",
+          "command": "workbench.view.scm"
+        },
+        {
+          "key": "t",
+          "name": "Show test",
+          "type": "command",
+          "command": "workbench.view.extension.test"
+        },
+        {
+          "key": "r",
+          "name": "Show remote explorer",
+          "type": "command",
+          "command": "workbench.view.remote"
+        },
+        {
+          "key": "x",
+          "name": "Show extensions",
+          "type": "command",
+          "command": "workbench.view.extensions"
+        },
+        {
+          "key": "p",
+          "name": "Show problem",
+          "type": "command",
+          "command": "workbench.actions.view.problems"
+        },
+        {
+          "key": "o",
+          "name": "Show output",
+          "type": "command",
+          "command": "workbench.action.output.toggleOutput"
+        },
+        {
+          "key": "d",
+          "name": "Show debug console",
+          "type": "command",
+          "command": "workbench.debug.action.toggleRepl"
+        }
+      ]
+    },
+    {
+      "key": "t",
+      "name": "+Toggles",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "c",
+          "name": "Toggle find case sensitive",
+          "type": "command",
+          "command": "toggleFindCaseSensitive"
+        },
+        {
+          "key": "w",
+          "name": "Toggle ignore trim whitespace in diff",
+          "type": "command",
+          "command": "toggle.diff.ignoreTrimWhitespace"
+        },
+        {
+          "key": "W",
+          "name": "Toggle word wrap",
+          "type": "command",
+          "command": "editor.action.toggleWordWrap"
+        }
+      ]
+    },
+    {
+      "key": "T",
+      "name": "+UI toggles",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "b",
+          "name": "Toggle side bar visibility",
+          "type": "command",
+          "command": "workbench.action.toggleSidebarVisibility"
+        },
+        {
+          "key": "j",
+          "name": "Toggle panel visibility",
+          "type": "command",
+          "command": "workbench.action.togglePanel"
+        },
+        {
+          "key": "T",
+          "name": "Toggle tab visibility",
+          "type": "command",
+          "command": "workbench.action.showMultipleEditorTabs"
+        },
+        {
+          "key": "z",
+          "name": "Toggle zen mode",
+          "type": "command",
+          "command": "workbench.action.toggleZenMode"
+        }
+      ]
+    },
+    {
+      "key": "w",
+      "name": "+Window",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "=",
+          "name": "Increase editor width",
+          "type": "command",
+          "command": "workbench.action.increaseViewWidth"
+        },
+        {
+          "key": "-",
+          "name": "Decrease editor width",
+          "type": "command",
+          "command": "workbench.action.decreaseViewWidth"
+        },
+        {
+          "key": "|",
+          "name": "Maximize editor",
+          "type": "command",
+          "command": "workbench.action.toggleEditorWidths"
+        },
+        {
+          "key": "_",
+          "name": "Minimize editor",
+          "type": "command",
+          "command": "workbench.action.toggleEditorWidths"
+        },
+        {
+          "key": "s",
+          "name": "Split editor",
+          "type": "command",
+          "command": "workbench.action.splitEditor"
+        },
+        {
+          "key": "v",
+          "name": "Split editor vertically",
+          "type": "command",
+          "command": "workbench.action.splitEditorOrthogonal"
+        },
+        {
+          "key": "h",
+          "name": "Focus left group",
+          "type": "command",
+          "command": "workbench.action.focusLeftGroup"
+        },
+        {
+          "key": "j",
+          "name": "Focus below group",
+          "type": "command",
+          "command": "workbench.action.focusBelowGroup"
+        },
+        {
+          "key": "k",
+          "name": "Focus above group",
+          "type": "command",
+          "command": "workbench.action.focusAboveGroup"
+        },
+        {
+          "key": "l",
+          "name": "Focus right group",
+          "type": "command",
+          "command": "workbench.action.focusRightGroup"
+        },
+        {
+          "key": "H",
+          "name": "Move editor left in group",
+          "type": "command",
+          "command": "workbench.action.moveEditorLeftInGroup"
+        },
+        {
+          "key": "J",
+          "name": "Focus next group",
+          "type": "command",
+          "command": "workbench.action.focusBelowGroup"
+        },
+        {
+          "key": "K",
+          "name": "Focus previous group",
+          "type": "command",
+          "command": "workbench.action.focusAboveGroup"
+        },
+        {
+          "key": "L",
+          "name": "Move editor right",
+          "type": "command",
+          "command": "workbench.action.moveEditorRightInGroup"
+        },
+        {
+          "key": "t",
+          "name": "Toggle tool/activity bar visibility",
+          "type": "command",
+          "command": "workbench.action.toggleActivityBarVisibility"
+        },
+        {
+          "key": "F",
+          "name": "Toggle full screen",
+          "type": "command",
+          "command": "workbench.action.toggleFullScreen"
+        },
+        {
+          "key": "m",
+          "name": "Toggle maximized panel",
+          "type": "command",
+          "command": "workbench.action.toggleMaximizedPanel"
+        }
+      ]
+    },
+    {
+      "key": "z",
+      "name": "+View",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "c",
+          "name": "Close sidebar",
+          "type": "command",
+          "command": "workbench.action.closeSidebar"
+        },
+        {
+          "key": "h",
+          "name": "Move to left split",
+          "type": "command",
+          "command": "workbench.action.moveEditorToLeftGroup"
+        },
+        {
+          "key": "j",
+          "name": "Move to below split",
+          "type": "command",
+          "command": "workbench.action.moveEditorToBelowGroup"
+        },
+        {
+          "key": "k",
+          "name": "Move to above split",
+          "type": "command",
+          "command": "workbench.action.moveEditorToAboveGroup"
+        },
+        {
+          "key": "l",
+          "name": "Move to right split",
+          "type": "command",
+          "command": "workbench.action.moveEditorToRightGroup"
+        },
+        {
+          "key": "r",
+          "name": "Reveal active file",
+          "type": "command",
+          "command": "workbench.files.action.showActiveFileInExplorer"
+        },
+        {
+          "key": "s",
+          "name": "Search in files",
+          "type": "command",
+          "command": "workbench.action.findInFiles"
+        },
+        {
+          "key": "t",
+          "name": "Toggle sidebar",
+          "type": "command",
+          "command": "workbench.action.toggleSidebarVisibility"
+        },
+        {
+          "key": "v",
+          "name": "Split editor",
+          "type": "command",
+          "command": "workbench.action.splitEditor"
+        },
+        {
+          "key": "V",
+          "name": "Split editor vertically",
+          "type": "command",
+          "command": "workbench.action.splitEditorDown"
+        },
+        {
+          "key": "+",
+          "name": "Increase editor size",
+          "type": "command",
+          "command": "workbench.action.increaseViewSize"
+        },
+        {
+          "key": "=",
+          "name": "Increase editor size",
+          "type": "command",
+          "command": "workbench.action.increaseViewSize"
+        },
+        {
+          "key": "-",
+          "name": "Decrease editor size",
+          "type": "command",
+          "command": "workbench.action.decreaseViewSize"
+        }
+      ]
+    }
+  ],
+  "vscode-neovim.neovimExecutablePaths.darwin": "/Users/huynhdung/.local/share/mise/installs/neovim/nightly/bin/nvim",
+  // VSCodeVim. Space stays the leader for Neovim and VSCodeVim maps.
+  // which-key stays on Shift+Space. Do not bind Space to whichkey.show.
+  // Disable asvetliakov.vscode-neovim while VSCodeVim is on. Both extensions take the same keys.
+  // Space is the leader. <leader><space> is the same chord as easymotion, so easymotion stays off.
+  "vim.easymotion": false,
+  "vim.foldfix": true,
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.incsearch": true,
+  "vim.leader": "<space>",
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    },
+    {
+      "before": ["<C-m>"],
+      "commands": ["editor.action.addSelectionToNextFindMatch"],
+      "silent": true
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "<space>"],
+      "commands": ["workbench.action.quickOpen"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "r"],
+      "commands": ["workbench.action.showAllEditorsByMostRecentlyUsed"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "f"],
+      "commands": ["fff-gpui.findFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "w"],
+      "commands": ["editor.action.addSelectionToNextFindMatch", "fff-gpui.grepFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "g"],
+      "commands": ["fzf-picker.pickFileFromGitStatus"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "R"],
+      "commands": ["fzf-picker.resumeSearch"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "x"],
+      "commands": ["fzf-picker.findTodoFixme"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", ","],
+      "commands": ["workbench.action.showAllEditors"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["workbench.action.findInFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "e"],
+      "commands": ["workbench.view.explorer"],
+      "silent": true
+    },
+    {
+      "before": ["-"],
+      "commands": ["workbench.files.action.showActiveFileInExplorer"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "s"],
+      "commands": ["workbench.action.gotoSymbol"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "w"],
+      "commands": ["editor.action.addSelectionToNextFindMatch", "workbench.action.findInFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "b"],
+      "commands": ["actions.find"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "a"],
+      "commands": ["editor.action.codeAction"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "A"],
+      "commands": ["editor.action.sourceAction"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "r"],
+      "commands": ["editor.action.rename"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "."],
+      "commands": ["editor.action.quickFix"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "f"],
+      "commands": ["editor.action.formatDocument"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "R"],
+      "commands": ["editor.action.refactor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "z"],
+      "commands": ["workbench.action.toggleZenMode"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "t"],
+      "commands": ["workbench.action.terminal.focus"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "x", "x"],
+      "commands": ["workbench.actions.view.problems"],
+      "silent": true
+    },
+    {
+      "before": ["]", "e"],
+      "commands": ["editor.action.marker.next"],
+      "silent": true
+    },
+    {
+      "before": ["[", "e"],
+      "commands": ["editor.action.marker.prev"],
+      "silent": true
+    },
+    {
+      "before": ["g", "d"],
+      "commands": ["editor.action.revealDefinition"],
+      "silent": true
+    },
+    {
+      "before": ["g", "D"],
+      "commands": ["editor.action.revealDeclaration"],
+      "silent": true
+    },
+    {
+      "before": ["g", "i"],
+      "commands": ["editor.action.goToImplementation"],
+      "silent": true
+    },
+    {
+      "before": ["g", "y"],
+      "commands": ["editor.action.goToTypeDefinition"],
+      "silent": true
+    },
+    {
+      "before": ["g", "r"],
+      "commands": ["references-view.find"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "g", "s"],
+      "commands": ["workbench.view.scm"],
+      "silent": true
+    },
+    {
+      "before": ["]", "h"],
+      "commands": ["workbench.action.editor.nextChange"],
+      "silent": true
+    },
+    {
+      "before": ["[", "h"],
+      "commands": ["workbench.action.editor.previousChange"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "`"],
+      "commands": ["workbench.action.quickOpenPreviousRecentlyUsedEditor", "list.select"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "b", "d"],
+      "commands": ["workbench.action.closeActiveEditor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "b", "o"],
+      "commands": ["workbench.action.closeOtherEditors"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "p"],
+      "commands": ["workbench.action.openRecent"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "m", "p"],
+      "commands": ["markdown.showPreviewToSide"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "a"],
+      "commands": ["vscode-hurl-runner.runHurl"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "r"],
+      "commands": ["vscode-hurl-runner.rerunLastCommand"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "A"],
+      "commands": ["vscode-hurl-runner.runHurlFile"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "e"],
+      "commands": ["vscode-hurl-runner.runHurlFromBegin"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "E"],
+      "commands": ["vscode-hurl-runner.runHurlToEnd"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "g"],
+      "commands": ["vscode-hurl-runner.manageInlineVariables"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "h"],
+      "commands": ["vscode-hurl-runner.viewLastResponse"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "r", "t"],
+      "commands": ["workbench.action.tasks.runTask"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "r", "r"],
+      "commands": ["workbench.action.tasks.reRunTask"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "d", "d"],
+      "commands": ["orta.vscode-twoslash-queries.insert-twoslash-query"],
+      "silent": true
+    },
+    {
+      "before": ["<C-m>"],
+      "commands": ["editor.action.addSelectionToNextFindMatch"],
+      "silent": true
+    },
+    {
+      "before": ["g", "l"],
+      "after": ["$"]
+    },
+    {
+      "before": ["g", "h"],
+      "after": ["^"]
+    },
+    {
+      "before": ["<C-h>"],
+      "commands": ["workbench.action.navigateLeft"],
+      "silent": true
+    },
+    {
+      "before": ["<C-j>"],
+      "commands": ["workbench.action.navigateDown"],
+      "silent": true
+    },
+    {
+      "before": ["<C-k>"],
+      "commands": ["workbench.action.navigateUp"],
+      "silent": true
+    },
+    {
+      "before": ["<C-l>"],
+      "commands": ["workbench.action.navigateRight"],
+      "silent": true
+    },
+    {
+      "before": ["<C-Up>"],
+      "commands": ["workbench.action.increaseViewHeight", "workbench.action.increaseViewHeight"],
+      "silent": true
+    },
+    {
+      "before": ["<C-Down>"],
+      "commands": ["workbench.action.decreaseViewHeight", "workbench.action.decreaseViewHeight"],
+      "silent": true
+    },
+    {
+      "before": ["<C-Left>"],
+      "commands": ["workbench.action.decreaseViewWidth", "workbench.action.decreaseViewWidth"],
+      "silent": true
+    },
+    {
+      "before": ["<C-Right>"],
+      "commands": ["workbench.action.increaseViewWidth", "workbench.action.increaseViewWidth"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "w", "w"],
+      "commands": ["workbench.action.focusNextGroup"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "w", "d"],
+      "commands": ["workbench.action.closeEditorsInGroup"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "w", "-"],
+      "commands": ["workbench.action.splitEditorDown"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "-"],
+      "commands": ["workbench.action.splitEditorDown"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "w", "|"],
+      "commands": ["workbench.action.splitEditor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "|"],
+      "commands": ["workbench.action.splitEditor"],
+      "silent": true
+    },
+    {
+      "before": ["[", "b"],
+      "commands": ["workbench.action.previousEditor"],
+      "silent": true
+    },
+    {
+      "before": ["]", "b"],
+      "commands": ["workbench.action.nextEditor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "b", "b"],
+      "commands": ["workbench.action.quickOpenPreviousRecentlyUsedEditor", "list.select"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "b", "r"],
+      "commands": ["workbench.action.closeEditorsToTheRight"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "b", "l"],
+      "commands": ["workbench.action.closeEditorsToTheLeft"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "n"],
+      "commands": ["workbench.action.files.newUntitledFile"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "f", "s"],
+      "commands": ["workbench.action.files.save"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "q", "q"],
+      "commands": ["workbench.action.closeWindow"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "l"],
+      "commands": ["workbench.action.lastEditorInGroup"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "f"],
+      "commands": ["workbench.action.firstEditorInGroup"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "o"],
+      "commands": ["workbench.action.closeOtherEditors"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "<Tab>"],
+      "commands": ["workbench.action.files.newUntitledFile"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "]"],
+      "commands": ["workbench.action.nextEditor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "["],
+      "commands": ["workbench.action.previousEditor"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "<Tab>", "d"],
+      "commands": ["workbench.action.closeActiveEditor"],
+      "silent": true
+    },
+    {
+      "before": ["]", "d"],
+      "commands": ["editor.action.marker.next"],
+      "silent": true
+    },
+    {
+      "before": ["[", "d"],
+      "commands": ["editor.action.marker.prev"],
+      "silent": true
+    },
+    {
+      "before": ["]", "w"],
+      "commands": ["editor.action.marker.next"],
+      "silent": true
+    },
+    {
+      "before": ["[", "w"],
+      "commands": ["editor.action.marker.prev"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "d"],
+      "commands": ["editor.action.showHover"],
+      "silent": true
+    },
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "k"],
+      "commands": ["editor.action.showHover"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "s"],
+      "commands": ["workbench.action.gotoSymbol"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "c", "l"],
+      "commands": ["references-view.find"],
+      "silent": true
+    },
+    {
+      "before": ["z", "v"],
+      "commands": ["editor.foldAll", "editor.unfold"],
+      "silent": true
+    },
+    {
+      "before": ["z", "j"],
+      "commands": ["editor.fold", "editor.gotoNextFold", "editor.unfold"],
+      "silent": true
+    },
+    {
+      "before": ["z", "k"],
+      "commands": ["editor.fold", "editor.gotoPreviousFold", "editor.unfold"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "t", "w"],
+      "commands": ["editor.action.toggleWordWrap"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "r"],
+      "commands": ["workbench.action.replaceInFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "R"],
+      "commands": ["editor.action.startFindReplaceAction"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "g", "h", "s"],
+      "commands": ["git.stageSelectedRanges"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "g", "S"],
+      "commands": ["fzf-picker.pickFileFromGitStatus"],
+      "silent": true
+    },
+    {
+      "before": ["<C-n>"],
+      "commands": [":nohl"],
+      "silent": true
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "f", "w"],
+      "commands": ["fff-gpui.grepFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "g", "h", "r"],
+      "commands": ["git.revertSelectedRanges"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "h", "h"],
+      "commands": ["vscode-hurl-runner.runHurlSelection"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "r"],
+      "commands": ["workbench.action.replaceInFiles"],
+      "silent": true
+    },
+    {
+      "before": ["<leader>", "s", "R"],
+      "commands": ["editor.action.startFindReplaceAction"],
+      "silent": true
+    },
+    {
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"],
+      "silent": true
+    },
+    {
+      "before": [">"],
+      "commands": ["editor.action.indentLines"],
+      "silent": true
+    },
+    {
+      "before": ["p"],
+      "after": ["p", "g", "v", "y"]
+    },
+    {
+      "before": ["<C-m>"],
+      "commands": ["editor.action.addSelectionToNextFindMatch"],
+      "silent": true
+    }
+  ],
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1
+  },
+  "workbench.statusBar.visible": false,
+  "editor.accessibilitySupport": "on",
+  "[markdown]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  }
+}

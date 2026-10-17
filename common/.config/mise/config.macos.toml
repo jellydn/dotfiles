@@ -18,6 +18,11 @@
 "~/.config/leader-key" = { source = "../macos-home/.config/leader-key", mode = "symlink" }
 "~/.config/tuna" = { source = "../macos-home/.config/tuna", mode = "symlink" }
 
+# VS Code does not use XDG paths on macOS.
+"~/Library/Application Support/Code/User/settings.json" = { source = "../Code/User/settings.json", mode = "symlink" }
+"~/Library/Application Support/Code/User/keybindings.json" = { source = "../Code/User/keybindings.json", mode = "symlink" }
+"~/Library/Application Support/Code/User/snippets" = { source = "../Code/User/snippets", mode = "symlink" }
+
 [bootstrap.user]
 login_shell = "/opt/homebrew/bin/fish"
 

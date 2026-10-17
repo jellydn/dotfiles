@@ -157,72 +157,42 @@
 		"bindings": {
 			// visual, visual line & visual block modes
 			"g c": "editor::ToggleComments",
-			// Agent panel — focus, attach selection, prefill prompt (sidekick `<leader>av` style)
+			// Inline assists (selection required — runs in editor buffer)
 			"space a e": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Explain the selected code. Cover purpose, control flow, and non-obvious behavior.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Explain the selected code. Cover purpose, control flow, and non-obvious behavior.",
+				},
 			],
 			"space a f": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Fix bugs and issues in the selected code. Identify root causes, not just symptoms.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Fix bugs and issues in the selected code. Identify root causes, not just symptoms.",
+				},
 			],
 			"space a t": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Generate focused unit tests for the selected code. Use the project's test framework and conventions. Output with arrange/act/assert sections.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Generate focused unit tests for the selected code. Use the project's test framework and conventions. Output with arrange/act/assert sections.",
+				},
 			],
 			"space a r": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Refactor the selected code for clarity and maintainability without changing external behavior. Extract functions, simplify conditions, remove duplication.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Refactor the selected code for clarity and maintainability without changing external behavior. Extract functions, simplify conditions, remove duplication.",
+				},
 			],
 			"space a d": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Add concise inline documentation comments to the selected code without changing logic.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Add concise inline documentation comments to the selected code without changing logic.",
+				},
 			],
 			"space a k": [
-				"action::Sequence",
-				[
-					"agent::ToggleFocus",
-					"agent::AddSelectionToThread",
-					[
-						"workspace::SendKeystrokes",
-						"Summarize the selected code. One-paragraph summary plus key takeaways.",
-					],
-				],
+				"assistant::InlineAssist",
+				{
+					"prompt": "Summarize the selected code. One-paragraph summary plus key takeaways.",
+				},
 			],
 			"space a n": "agent::NewThread",
 			// Focus agent panel, attach visual selection — sidekick `<leader>av`

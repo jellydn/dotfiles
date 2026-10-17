@@ -179,7 +179,7 @@ get_app_display_name() {
         hypr) echo "Hyprland" ;;
         i3status) echo "i3status" ;;
         lazygit) echo "LazyGit" ;;
-        vscode) echo "VSCode" ;;
+        Code) echo "VS Code" ;;
         input-remapper-2) echo "Input Remapper" ;;
         swww) echo "SWWW" ;;
         evremap.toml) echo "Evremap" ;;

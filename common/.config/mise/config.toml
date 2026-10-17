@@ -81,6 +81,9 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/bg-images" = { source = "../../bg-images", mode = "symlink" }
 "~/.config/alacritty" = { source = "../alacritty", mode = "symlink" }
 "~/.config/claude" = { source = "../claude", mode = "symlink" }
+"~/.config/Code/User/settings.json" = { source = "../Code/User/settings.json", mode = "symlink" }
+"~/.config/Code/User/keybindings.json" = { source = "../Code/User/keybindings.json", mode = "symlink" }
+"~/.config/Code/User/snippets" = { source = "../Code/User/snippets", mode = "symlink" }
 "~/.config/Cursor" = { source = "../Cursor", mode = "symlink" }
 "~/.config/fish" = { source = "../fish", mode = "symlink" }
 "~/.config/ghostty" = { source = "../ghostty", mode = "symlink" }
@@ -90,7 +93,6 @@ idiomatic_version_file_enable_tools = ["node"]
 "~/.config/lazygit" = { source = "../lazygit", mode = "symlink" }
 "~/.config/nvim" = { source = "../nvim", mode = "symlink" }
 "~/.config/tmux" = { source = "../tmux", mode = "symlink" }
-"~/.config/vscode" = { source = "../vscode", mode = "symlink" }
 "~/.config/zed" = { source = "../zed", mode = "symlink" }
 "~/.config/zellij" = { source = "../zellij", mode = "symlink" }
 

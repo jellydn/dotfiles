@@ -15,6 +15,8 @@ existing window-manager setup.
   `git-lfs`) plus the stowed apps' binaries via **mise**.
 - Install `fish` from the system package manager — it is not in the mise
   registry.
+- Optionally install `jellydn/my-ai-tools` with Pi, Codex, Amp, OpenCode, and
+  Grok as the default assistant set.
 - Skip every window-manager-related config (`hypr`, `waybar`, `wlogout`,
   `rofi`, `swww`, `foot`, `ghostty`, `kitty`, `alacritty`, `herdr`, `mise`,
   `systemd`, `i3`, `niri`).
@@ -148,6 +150,49 @@ common/.config/{ghostty,kitty,alacritty,herdr,mise}
 These are desktop/window-manager bindings that Omarchy already configures.
 Stow them only if you want the repo versions to own those bindings:
 `./install.sh stow-app hypr` (or `waybar`, `foot`, etc.).
+
+## Optional: AI coding assistants (my-ai-tools)
+
+[`jellydn/my-ai-tools`](https://github.com/jellydn/my-ai-tools) installs one
+shared set of agent guidelines, skills, commands, hooks, and MCP servers across
+AI coding assistants (Claude Code, OpenCode, Amp, Codex, Cursor, Pi, Grok CLI,
+and more).
+
+In non-interactive mode (`--yes`) it installs only the tools named in the
+`TOOL_ALLOWLIST_YES` array near the top of `cli.sh` — that array is the default
+active tool set. To make **Pi, Codex, Amp, OpenCode, and Grok** the default, use
+a checkout (the one-line installer clones into a temp directory you cannot
+edit) and rewrite the array before running it:
+
+```bash
+git clone https://github.com/jellydn/my-ai-tools.git ~/.my-ai-tools
+cd ~/.my-ai-tools
+
+# default active tool set: Pi, Codex, Amp, OpenCode, Grok
+sed -i 's/^TOOL_ALLOWLIST_YES=.*/TOOL_ALLOWLIST_YES=(pi codex amp opencode grok)/' cli.sh
+grep '^TOOL_ALLOWLIST_YES=' cli.sh   # show the new default
+
+./cli.sh --dry-run --yes   # preview: only those five run, the rest are skipped
+./cli.sh --backup --yes    # apply, keeping a restorable backup
+```
+
+With the array set this way the dry run logs `Auto-accepting OpenCode 2`,
+`Auto-accepting OpenAI Codex CLI`, `Auto-accepting Amp`, `Auto-accepting Pi`,
+and `Auto-accepting xAI Grok CLI`, and prints `Skipping … (not in -y allowlist)`
+for every other tool.
+
+Notes:
+
+- `--yes` also installs the shared prerequisites (Bun, RTK, global tools) and
+  auto-accepts prompts. Node.js or Bun is required — Omarchy provides Node via
+  mise.
+- `--backup` writes to `~/ai-tools-backup-<timestamp>` (the five most recent are
+  kept), and `./cli.sh --rollback` restores the last one.
+- Allowlist keys map to installers: `pi` → Pi, `codex` → OpenAI Codex CLI,
+  `amp` → Amp, `opencode` → OpenCode 2 (plus `open-cursor`), `grok` → xAI Grok
+  CLI.
+- Drop `--yes` to run interactively and be prompted per tool; that path installs
+  every detected tool rather than just the allowlist.
 
 ## Verification
 

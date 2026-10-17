@@ -140,7 +140,7 @@ dotfiles/
 │   │   ├── nvim/       # Neovim config (submodule)
 │   │   ├── herdr/      # Herdr agent multiplexer
 │   │   ├── tmux/       # Tmux multiplexer
-│   │   ├── vscode/     # VS Code settings
+│   │   ├── Code/       # VS Code User settings
 │   │   ├── zed/        # Zed editor
 │   │   ├── zellij/     # Zellij multiplexer
 │   │   └── Cursor/     # Cursor editor

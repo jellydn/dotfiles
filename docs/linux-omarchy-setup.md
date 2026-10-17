@@ -273,6 +273,79 @@ Notes:
 - Drop `--yes` to run interactively and be prompted per tool; that path installs
   every detected tool rather than just the allowlist.
 
+## Optional: Editors (Zed, VS Code, and Cursor)
+
+Omarchy installs and themes Zed and VS Code itself:
+
+| Command | Installs | Available here (aarch64) |
+| --- | --- | --- |
+| `omarchy install editor zed` | `zed` plus `omazed` (live Omarchy theme for Zed) | `zed` 1.24.2-1 from Omarchy's repo |
+| `omarchy install editor vscode` | AUR `visual-studio-code-bin`, keyring secrets via libsecret, `update.mode: none` | AUR ships `x86_64`, `aarch64`, and `armv7h` |
+| *(no installer)* | Cursor: `scripts/cursor.sh` launches the AppImage, while `installer/install-cursor.sh` expects an x86_64 RPM | Cursor publishes an `aarch64` AppImage |
+
+VS Code does **not** read XDG paths on every OS, so the repo keeps one copy under
+`common/.config/Code/User/` and links it to the path each OS reads:
+
+| OS | Path VS Code reads | How this repo wires it |
+| --- | --- | --- |
+| Linux / Omarchy | `~/.config/Code/User/` | the `[dotfiles]` entries in `common/.config/mise/config.toml`, or the `ln -s` calls below |
+| macOS | `~/Library/Application Support/Code/User/` | the entries in `common/.config/mise/config.macos.toml` |
+| Windows 11 | `%APPDATA%\Code\User\` | `windows/setup.ps1` copies the files, because symlinks need Developer Mode |
+
+Wire it by hand on Omarchy. Link only these three entries, never the whole
+`~/.config/Code` directory: VS Code writes `User/globalStorage/`, `CachedData`,
+and logs there, and that runtime state must stay out of the repo.
+
+```bash
+mkdir -p ~/.config/Code/User
+ln -sfn ~/.dotfiles/common/.config/Code/User/settings.json    ~/.config/Code/User/settings.json
+ln -sfn ~/.dotfiles/common/.config/Code/User/keybindings.json ~/.config/Code/User/keybindings.json
+ln -sfn ~/.dotfiles/common/.config/Code/User/snippets         ~/.config/Code/User/snippets
+```
+
+Order matters. `omarchy install editor vscode` writes a fresh
+`~/.config/Code/User/settings.json` holding `{"update.mode": "none"}`. Run it
+**before** creating the links: a shell redirect into an existing symlink follows
+that symlink and would overwrite the repo copy.
+
+Omarchy also rewrites `workbench.colorTheme` on every theme switch, with
+`sed -i --follow-symlinks`, so it edits the repo copy. Stop it with:
+
+```bash
+omarchy toggle skip-vscode-theme-changes
+```
+
+`update.mode: none` suits this AUR package but is wrong on macOS and Windows,
+where the vendor build should keep updating itself. Add it to the repo settings
+only if Linux is your only VS Code.
+
+For Zed, `omazed` regenerates the theme by moving a new file over
+`~/.config/zed/settings.json`, which replaces a symlink with a real file. Use the
+repo's merge script instead, and symlink only the files that nothing rewrites:
+
+```bash
+omarchy install editor zed
+./scripts/merge-zed-settings.sh --install           # settings.json, as a real file
+ln -sfn ~/.dotfiles/common/.config/zed/keymap.json ~/.config/zed/keymap.json
+ln -sfn ~/.dotfiles/common/.config/zed/tasks.json  ~/.config/zed/tasks.json
+```
+
+Keep `~/.config/zed` a real directory: `omazed` also generates
+`~/.config/zed/themes/omazed.json`, which must never land in the repo.
+
+Do not run `./install.sh stow-app Code`. That links the whole `~/.config/Code`
+directory instead of the three entries, and drags editor runtime state into the
+repo. `stow-app Cursor` and full-repo stows have the same whole-directory
+behaviour, which is why the per-OS mappings above are preferred.
+
+Verify:
+
+```bash
+readlink -f ~/.config/Code/User/settings.json   # must resolve inside ~/.dotfiles
+grep -n '"workbench.colorTheme"' ~/.config/Code/User/settings.json
+readlink -f ~/.config/zed/keymap.json
+```
+
 ## Verification
 
 ```bash

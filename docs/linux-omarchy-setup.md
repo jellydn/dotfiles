@@ -380,6 +380,21 @@ directory instead of the three entries, and drags editor runtime state into the
 repo. `stow-app Cursor` and full-repo stows have the same whole-directory
 behaviour, which is why the per-OS mappings above are preferred.
 
+### Font and machine-local caveats
+
+Two things the upstream configs assume:
+
+- They set `Maple Mono NF` as the primary font, and both VS Code and Zed keep the
+  older Nerd Fonts as fallbacks, so text still renders without it. No Omarchy
+  package ships it: install it with
+  [getnf](https://github.com/getnf/getnf) or from
+  [subframe7536/maple-font](https://github.com/subframe7536/maple-font/releases).
+- `common/.config/zed/settings.json` is shared by every OS, yet it points
+  `terminal.shell.program` at `/Users/huynhdung/.cargo/bin/codemux` and keeps
+  macOS paths under `agent`. On Linux, override those in
+  `~/.config/zed/settings.local.json` (gitignored) rather than editing the shared
+  file, for example `{"terminal": {"shell": {"program": "/bin/zsh"}}}`.
+
 Verify:
 
 ```bash

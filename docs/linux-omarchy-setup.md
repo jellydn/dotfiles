@@ -7,7 +7,7 @@ existing window-manager setup.
 
 ## What
 
-- Install GNU Stow, the minimal linker required on Linux.
+- Install GNU Stow, required by the `./install.sh stow-app` command.
 - Stow only the **application configs** that do not conflict with an existing
   desktop: `k9s`, `helix`, `zellij`, `fish`, `lazygit`, `tmux`.
 - Link `.gitconfig` manually (it has no per-app stow entry).
@@ -35,10 +35,12 @@ Two non-obvious findings shaped the process:
 1. `fish` cannot be installed through the mise registry (`mise install fish`
    fails: `fish not found in mise tool registry`). The repo's
    `./install.sh fish` already handles this by installing via `pacman`.
-2. The pinned commit for the `common/.config/nvim` submodule
-   (`9d6c577…`) is no longer reachable upstream (`upload-pack: not our ref`),
-   because the tiny-nvim history was force-pushed. Re-adding the submodule at
-   `main` is required before that config can be stowed.
+2. The `common/.config/nvim` submodule has been pinned to commits that were
+   later force-pushed out of tiny-nvim's history (`upload-pack: not our ref`),
+   which breaks `git submodule update --init`. At the time of writing the pin
+   was `9d6c577…`; `master` has since been bumped to a reachable commit, so a
+   plain `git submodule update --init` now works and step 7 keeps the re-add
+   only as a recovery path.
 
 ## How
 
@@ -56,6 +58,10 @@ cd ~/.dotfiles
 sudo pacman -S --noconfirm stow
 # or: sudo apt install stow   # Debian/Ubuntu
 ```
+
+`./install.sh stow-app` creates the per-app symlinks itself (it does not shell
+out to GNU Stow), but it aborts when no `stow` binary is in `PATH`, so install
+GNU Stow first — then continue.
 
 ### 3. Stow the safe apps
 
@@ -83,7 +89,7 @@ Backed-up originals from the test run (non-destructive):
 ### 4. `.gitconfig`
 
 ```bash
-ln -s ~/.dotfiles/common/.gitconfig ~/.gitconfig
+ln -sf ~/.dotfiles/common/.gitconfig ~/.gitconfig
 ```
 
 `.gitconfig` references `hunk`, `delta`, `gh`, and `git-lfs`. Install them
@@ -113,7 +119,17 @@ sudo pacman -S --noconfirm fish
 
 The stowed config is picked up automatically at `~/.config/fish`.
 
-### 7. nvim submodule (missing upstream commit)
+### 7. nvim submodule
+
+```bash
+cd ~/.dotfiles
+git submodule update --init common/.config/nvim
+./install.sh stow-app nvim
+```
+
+If the pinned commit is unreachable (`upload-pack: not our ref <sha>` — seen
+while tiny-nvim was force-pushed), re-add the submodule at the current `main`
+instead, then stow it:
 
 ```bash
 cd ~/.dotfiles
@@ -121,10 +137,6 @@ git submodule sync common/.config/nvim
 git submodule add -f https://github.com/jellydn/tiny-nvim.git common/.config/nvim
 ./install.sh stow-app nvim
 ```
-
-This re-adds the submodule at current `main` because the recorded commit
-(`9d6c577…`) is unreachable upstream. If upstream restores that commit, plain
-`git submodule update --init` works instead.
 
 ### 8. What was deliberately skipped
 
@@ -159,7 +171,7 @@ git config --global user.name
 - **`mise install fish` fails** — expected; fish is not in the mise registry.
   Use the system package manager (`sudo pacman -S fish`).
 - **Submodule fetch fails with `upload-pack: not our ref <sha>`** — the pinned
-  commit was force-pushed away. Re-add the submodule at `main` (step 7).
+  commit was force-pushed away. Use the re-add fallback in step 7.
 - **Your terminal does not see new binaries** — mise shims are in
   `~/.local/share/mise/shims`; restart the shell or re-source it (e.g. `exec
   bash`).

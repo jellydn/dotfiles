@@ -81,6 +81,10 @@ cd ~/.dotfiles
 ./install.sh all
 ```
 
+Already running a desktop (Omarchy, Hyprland, Arch)? `./install.sh all` replaces
+the window-manager configs. See [Selective setup on
+Omarchy](docs/linux-omarchy-setup.md) to adopt only the tool configs.
+
 ### Windows 11
 
 Open Windows PowerShell in the cloned repository and preview the setup:
@@ -191,6 +195,7 @@ dotfiles/
 │   ├── terminal-keys.md            # Ghostty / Kitty / Foot / Alacritty chords
 │   ├── WINDOWS.md                  # Windows 11 setup and removal
 │   ├── STOW.md                     # GNU Stow notes
+│   ├── linux-omarchy-setup.md      # Selective setup on Omarchy (Linux)
 │   └── (wayland / compositor helpers)
 ├── scripts/            # Helper scripts
 │   ├── bootstrap-mac.sh          # Mac setup: mise bootstrap, no Homebrew CLI

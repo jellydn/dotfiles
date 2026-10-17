@@ -151,6 +151,46 @@ These are desktop/window-manager bindings that Omarchy already configures.
 Stow them only if you want the repo versions to own those bindings:
 `./install.sh stow-app hypr` (or `waybar`, `foot`, etc.).
 
+## Optional: Work apps (Slack and Microsoft Teams)
+
+Neither is in Arch's official repos, and both need `sudo` — run them in a
+terminal where you can type your password.
+
+**Slack** — Omarchy's own repo carries the official Slack desktop app:
+
+```bash
+omarchy pkg add slack-desktop
+```
+
+**Microsoft Teams** — Microsoft ships no native Linux package, so pick one:
+
+```bash
+# A) Community Electron client (a real desktop window, tray icon, notifications)
+omarchy pkg aur add teams-for-linux-bin
+
+# B) Omarchy's supported web app (Teams plus Outlook, Word, Excel,
+#    PowerPoint, and OneDrive, all as Chromium web apps)
+omarchy install service microsoft
+```
+
+Option A wraps the Teams web client in Electron; it uses PipeWire for screen
+sharing, which Omarchy already provides. Option B needs no AUR build and is
+maintained by Omarchy, but every Microsoft app arrives at once and runs in
+Chromium.
+
+To remove them later:
+
+```bash
+omarchy pkg drop slack-desktop teams-for-linux-bin
+omarchy remove service microsoft   # only if you chose option B
+```
+
+For a single Slack web app instead of the desktop client:
+
+```bash
+omarchy webapp install Slack https://app.slack.com/client slack
+```
+
 ## Optional: AI coding assistants (my-ai-tools)
 
 [`jellydn/my-ai-tools`](https://github.com/jellydn/my-ai-tools) installs one
@@ -221,6 +261,9 @@ hunk --version && delta --version && gh --version | head -1 && git-lfs version
 hx --version   # helix
 zellij --version && lazygit --version && k9s version | head -1
 fish --version
+
+# Work apps (optional; see the work-apps section)
+pacman -Q slack-desktop teams-for-linux-bin
 
 # git uses the configured identity/pager
 git config --global user.name

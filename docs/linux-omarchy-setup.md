@@ -2,7 +2,7 @@
 
 A tested walkthrough for applying these dotfiles to a Linux machine that already
 has a working desktop — specifically **Omarchy** (Arch Linux, Hyprland). The
-goal is to adopt the tool/editor configs from this repo *without* clobbering an
+goal is to adopt the tool/editor configs from this repo _without_ clobbering an
 existing window-manager setup.
 
 ## What
@@ -181,6 +181,21 @@ With the array set this way the dry run logs `Auto-accepting OpenCode 2`,
 and `Auto-accepting xAI Grok CLI`, and prints `Skipping … (not in -y allowlist)`
 for every other tool.
 
+Two things to know before you run it:
+
+- It **replaces** existing assistant configuration for every supported tool, not
+  just the allowlisted ones. Shared skills, plugins, hooks, and MCP servers are
+  installed everywhere, and files such as `~/.config/opencode/opencode.json` and
+  `~/.codex/config.toml` are overwritten. Pass `--backup` so the previous files
+  stay restorable.
+- The OpenCode config it installs is the author's own: it sets
+  `"model": "omnirouter/free"` and providers that expect local services
+  (`http://localhost:20128/v1`, `http://127.0.0.1:32124/v1`). On a machine
+  without those services the default model will not resolve, and the previous
+  `$schema`, `theme`, and `autoupdate` keys are dropped. After installing,
+  review `~/.config/opencode/opencode.json` and re-apply your own model and
+  provider (or restore the backup) before starting a new OpenCode session.
+
 Notes:
 
 - `--yes` also installs the shared prerequisites (Bun, RTK, global tools) and
@@ -219,4 +234,4 @@ git config --global user.name
   commit was force-pushed away. Use the re-add fallback in step 7.
 - **Your terminal does not see new binaries** — mise shims are in
   `~/.local/share/mise/shims`; restart the shell or re-source it (e.g. `exec
-  bash`).
+bash`).

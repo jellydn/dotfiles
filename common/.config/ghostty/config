@@ -12,7 +12,7 @@ theme = kanagawa-wave
 # Usage: ghostty +list-fonts
 font-family =  "Maple Mono NF"
 font-family-bold = "Maple Mono NF Medium"
-font-family-italic = "Maple Mono NF Book Italic"
+font-family-italic = "Maple Mono NF Italic"
 font-family-bold-italic = "Maple Mono NF Medium Italic"
 # 14 on small screen, 18 on large screen
 font-size = 18

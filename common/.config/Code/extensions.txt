@@ -1,0 +1,14 @@
+# Extensions used by the checked-in settings and keybindings.
+antfu.file-nesting
+Catppuccin.catppuccin-vsc-icons
+usernamehw.errorlens
+subframe7536.custom-ui-style
+subframe7536.theme-maple
+jellydn.vscode-hurl-runner
+jellydn.fzf-picker
+jellydn.vscode-mux
+jellydn.seal-code
+jellydn.vscode-whichkey
+streetsidesoftware.code-spell-checker
+ChakrounAnas.turbo-console-log
+asvetliakov.vscode-neovim

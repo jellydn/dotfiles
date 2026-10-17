@@ -333,17 +333,18 @@ ln -sfn ~/.dotfiles/common/.config/zed/tasks.json  ~/.config/zed/tasks.json
 Keep `~/.config/zed` a real directory: `omazed` also generates
 `~/.config/zed/themes/omazed.json`, which must never land in the repo.
 
-The configs assume the upstream extension set. VS Code, on the Microsoft
-Marketplace, uses both upstream lists; Cursor and the other Open VSX editors use
-`extensions.txt` only:
+The configs assume the upstream extension set, which this repo tracks next to the
+config it belongs to (`common/.config/Code/extensions.txt` and
+`extensions-vscode-marketplace.txt`, mirroring `jellydn/vscode-like-pro`):
 
 ```bash
-# extensions.txt, then extensions-vscode-marketplace.txt for VS Code
-for list in extensions.txt extensions-vscode-marketplace.txt; do
-  curl -fsSL "https://raw.githubusercontent.com/jellydn/vscode-like-pro/main/$list" |
-    grep -vE '^\s*(#|$)' | xargs -r -n1 code --install-extension --force
-done
+./scripts/install-editor-extensions.sh           # install what is missing
+./scripts/install-editor-extensions.sh --force   # reinstall and update everything
 ```
+
+VS Code installs both lists, because it uses the Microsoft Marketplace. Cursor
+and other Open VSX editors get `extensions.txt` only: the names in the
+marketplace list are deliberately absent from Open VSX.
 
 `asvetliakov.vscode-neovim` needs `nvim` on `PATH` on Linux — the shared settings
 only pin the macOS path (`vscode-neovim.neovimExecutablePaths.darwin`).

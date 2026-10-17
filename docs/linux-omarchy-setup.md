@@ -191,6 +191,24 @@ For a single Slack web app instead of the desktop client:
 omarchy webapp install Slack https://app.slack.com/client slack
 ```
 
+**Proton Pass** — the desktop app is **x86_64 only**, so choose by architecture:
+
+```bash
+# x86_64: native desktop app
+omarchy pkg aur add proton-pass-bin
+
+# aarch64 (or anywhere, no build): web app + Chromium extension
+omarchy webapp install "Proton Pass" https://pass.proton.me/ \
+  "https://www.google.com/s2/favicons?domain=pass.proton.me&sz=256"
+mkdir -p ~/.config/chromium/"External Extensions"
+printf '{ "external_update_url": "https://clients2.google.com/service/update2/crx" }\n' \
+  > ~/.config/chromium/"External Extensions/ghmbeldphafepmbegfdlkpapadhbakde.json"
+```
+
+The extension JSON is the same mechanism Omarchy uses for the 1Password
+extension, but written to the user-level path, so it needs no `sudo`. Restart
+Chromium to load it.
+
 ## Optional: AI coding assistants (my-ai-tools)
 
 [`jellydn/my-ai-tools`](https://github.com/jellydn/my-ai-tools) installs one

@@ -17,6 +17,17 @@
 	// https://zed.dev/docs/reference/all-settings#ui-font-family
 	"ui_font_family": "Maple UI",
 
+	// Extensions Zed installs on startup. The themes below come from these
+	// extensions instead of Zed's built-ins:
+	//   maple-theme      -> "Maple Dark" / "Maple Light"
+	//   catppuccin-icons -> "Catppuccin Mocha" icon theme
+	// Language extensions install on demand when Zed opens a matching file.
+	// https://zed.dev/docs/extensions
+	"auto_install_extensions": {
+		"maple-theme": true,
+		"catppuccin-icons": true,
+	},
+
 	// Whether to colorize matching brackets (rainbow brackets)
 	// https://zed.dev/docs/reference/all-settings#colorize-brackets
 	"colorize_brackets": true,

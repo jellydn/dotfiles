@@ -160,6 +160,10 @@ terminal where you can type your password.
 
 ```bash
 omarchy pkg add slack-desktop
+
+# Optional: systray icon. Slack's optdep is libappindicator-gtk3, provided by
+# extra/libappindicator; Omarchy's bar already ships omarchy.tray.
+omarchy pkg add libappindicator
 ```
 
 **Microsoft Teams** — Microsoft ships no native Linux package. Omarchy's web
@@ -175,15 +179,16 @@ omarchy webapp install "Microsoft Teams" https://teams.cloud.microsoft/ \
 omarchy install service microsoft
 ```
 
-For a real desktop window and tray icon instead, use the community Electron
-client (`omarchy pkg aur add teams-for-linux-bin`); it wraps the same web client
-and uses PipeWire for screen sharing, which Omarchy already provides.
+For a native window with a **tray icon** instead — the Chromium web app has no
+tray — use the community Electron client (`omarchy pkg aur add
+teams-for-linux-bin`); it wraps the same web client and uses PipeWire for screen
+sharing, which Omarchy already provides.
 
 To remove them later:
 
 ```bash
 omarchy pkg drop slack-desktop teams-for-linux-bin
-omarchy remove service microsoft   # only if you chose option B
+omarchy remove service microsoft   # only for the Microsoft bundle
 ```
 
 For a single Slack web app instead of the desktop client:

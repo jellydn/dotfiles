@@ -1918,7 +1918,8 @@
   "vim.useCtrlKeys": true,
   "vim.useSystemClipboard": true,
   "extensions.experimental.affinity": {
-    "vscodevim.vim": 1
+    "vscodevim.vim": 1,
+    "asvetliakov.vscode-neovim": 1
   },
   "workbench.statusBar.visible": false,
   "editor.accessibilitySupport": "on",

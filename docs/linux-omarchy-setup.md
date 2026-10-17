@@ -162,21 +162,22 @@ terminal where you can type your password.
 omarchy pkg add slack-desktop
 ```
 
-**Microsoft Teams** — Microsoft ships no native Linux package, so pick one:
+**Microsoft Teams** — Microsoft ships no native Linux package. Omarchy's web
+app is the recommended route and now uses Microsoft's `cloud.microsoft` domain:
 
 ```bash
-# A) Community Electron client (a real desktop window, tray icon, notifications)
-omarchy pkg aur add teams-for-linux-bin
+# Teams only (Chromium web app; works on any architecture)
+omarchy webapp install "Microsoft Teams" https://teams.cloud.microsoft/ \
+  https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/microsoft-teams.png
 
-# B) Omarchy's supported web app (Teams plus Outlook, Word, Excel,
-#    PowerPoint, and OneDrive, all as Chromium web apps)
+# Or the full Microsoft bundle: Teams plus Outlook, Word, Excel,
+# PowerPoint, and OneDrive as web apps
 omarchy install service microsoft
 ```
 
-Option A wraps the Teams web client in Electron; it uses PipeWire for screen
-sharing, which Omarchy already provides. Option B needs no AUR build and is
-maintained by Omarchy, but every Microsoft app arrives at once and runs in
-Chromium.
+For a real desktop window and tray icon instead, use the community Electron
+client (`omarchy pkg aur add teams-for-linux-bin`); it wraps the same web client
+and uses PipeWire for screen sharing, which Omarchy already provides.
 
 To remove them later:
 

@@ -333,6 +333,48 @@ ln -sfn ~/.dotfiles/common/.config/zed/tasks.json  ~/.config/zed/tasks.json
 Keep `~/.config/zed` a real directory: `omazed` also generates
 `~/.config/zed/themes/omazed.json`, which must never land in the repo.
 
+### Zed in a virtual machine needs a Vulkan driver
+
+Omarchy installs Vulkan drivers only for Intel, AMD, Apple, and Qualcomm GPUs
+(`/usr/share/omarchy/install/hardware/vulkan.sh`), with NVIDIA handled by
+`nvidia.sh`. In a QEMU/virtio guest no vendor matches, so the only installable
+client driver left is `nvidia-utils`' and there is no usable device. Zed renders
+through wgpu, so it fails with:
+
+```text
+error opening [/path/to/project]: No GPU adapter found that can configure the display surface
+```
+
+`~/.local/share/zed/logs/Zed.log` shows why: Vulkan enumeration fails and the
+only other candidate, the virgl OpenGL adapter, is rejected by wgpu.
+
+```text
+ERROR [wgpu_hal::vulkan::instance] enumerate_adapters: Initialization of an object has failed
+INFO  [gpui_wgpu::wgpu_context]   - virgl (Apple M2 Pro) (backend=Gl, type=IntegratedGpu)
+INFO  [gpui_wgpu::wgpu_context] Adapter virgl (Apple M2 Pro) (Gl) failed: Failed to create
+      wgpu device: Limit 'max_compute_workgroups_per_dimension' value 65535 is better than
+      allowed 0, trying next...
+ERROR [zed::zed::open_listener] failed to open workspace [...]: No GPU adapter found ...
+```
+
+Install Mesa's CPU rasterizer and restart Zed. Close any Zed windows opened
+before the driver existed — that instance keeps failing and only prints
+`zed is already running`:
+
+```bash
+omarchy pkg add vulkan-swrast vulkan-tools
+vulkaninfo --summary | sed -n '/^Devices:/,$p'   # expect: llvmpipe (LLVM ..., 128 bits)
+zed .
+```
+
+Zed then logs `Selected GPU adapter: "llvmpipe (LLVM ..., 128 bits)" (Vulkan)`
+with `is_software_emulated: true`: it works, but the UI is CPU-rendered, so
+expect soft scrolling. Accelerated Vulkan would need the host to pass through
+Venus (`virtio-gpu` with `venus=on`); `vulkan-virtio` reports no device on this VM.
+
+Electron apps are unaffected — they render through OpenGL/virgl, which is what
+Slack, Teams, and VS Code use here — so this is a Vulkan-only problem.
+
 Do not run `./install.sh stow-app Code`. That links the whole `~/.config/Code`
 directory instead of the three entries, and drags editor runtime state into the
 repo. `stow-app Cursor` and full-repo stows have the same whole-directory

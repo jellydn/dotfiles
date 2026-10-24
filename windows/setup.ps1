@@ -11,6 +11,7 @@ $repoRoot = Split-Path -Parent $PSScriptRoot
 $packageManifest = Join-Path $PSScriptRoot 'packages.json'
 $profileSource = Join-Path $PSScriptRoot 'Microsoft.PowerShell_profile.ps1'
 $terminalSource = Join-Path $PSScriptRoot 'terminal\dotfiles.json'
+$vscodeUserSource = Join-Path $repoRoot 'common\.config\Code\User'
 $profileStart = '# >>> jellydn/dotfiles >>>'
 $profileEnd = '# <<< jellydn/dotfiles <<<'
 
@@ -143,6 +144,67 @@ function Install-TerminalFragment {
     }
 }
 
+function Install-VSCodeSettings {
+    $destination = Join-Path $env:APPDATA 'Code\User'
+    $snippetsSource = Join-Path $vscodeUserSource 'snippets'
+    $sources = @()
+
+    foreach ($name in @('settings.json', 'keybindings.json')) {
+        $source = Join-Path $vscodeUserSource $name
+        if (Test-Path -LiteralPath $source) {
+            $sources += $source
+        }
+    }
+
+    $snippets = @()
+    if (Test-Path -LiteralPath $snippetsSource) {
+        $snippets = @(Get-ChildItem -LiteralPath $snippetsSource -Filter '*.code-snippets' -File)
+    }
+
+    if ($sources.Count -eq 0 -and $snippets.Count -eq 0) {
+        Write-Host "No VS Code settings under $vscodeUserSource; skipping."
+        return
+    }
+
+    if (-not $PSCmdlet.ShouldProcess($destination, 'Install VS Code user settings')) {
+        return
+    }
+
+    $null = New-Item -ItemType Directory -Path $destination -Force
+    $snippetsDestination = Join-Path $destination 'snippets'
+    if ($snippets.Count -gt 0) {
+        $null = New-Item -ItemType Directory -Path $snippetsDestination -Force
+    }
+
+    foreach ($source in $sources) {
+        $target = Join-Path $destination (Split-Path -Leaf $source)
+        if (Test-Path -LiteralPath $target -PathType Leaf) {
+            if ((Get-Content -LiteralPath $target -Raw) -eq (Get-Content -LiteralPath $source -Raw)) {
+                Write-Host "VS Code settings are current: $target"
+                continue
+            }
+            Backup-File $target
+        }
+        Copy-Item -LiteralPath $source -Destination $target -Force
+        Write-Host "Installed VS Code settings: $target"
+    }
+
+    foreach ($snippet in $snippets) {
+        $target = Join-Path $snippetsDestination $snippet.Name
+        $isCurrent = (Test-Path -LiteralPath $target -PathType Leaf) -and
+            ((Get-Content -LiteralPath $target -Raw) -eq (Get-Content -LiteralPath $snippet.FullName -Raw))
+        if ($isCurrent) {
+            Write-Host "VS Code snippet is current: $target"
+            continue
+        }
+        if (Test-Path -LiteralPath $target -PathType Leaf) {
+            Backup-File $target
+        }
+        Copy-Item -LiteralPath $snippet.FullName -Destination $target -Force
+        Write-Host "Installed VS Code snippet: $($snippet.Name)"
+    }
+}
+
 if ($env:OS -ne 'Windows_NT') {
     throw 'This setup script supports Windows only.'
 }
@@ -162,6 +224,7 @@ if (-not $SkipPackages) {
 if (-not $SkipConfiguration) {
     Install-PowerShellProfile
     Install-TerminalFragment
+    Install-VSCodeSettings
 }
 
 if ($packageFailures.Count -gt 0) {

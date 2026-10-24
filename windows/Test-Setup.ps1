@@ -5,6 +5,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $failures = [System.Collections.Generic.List[string]]::new()
+$repoRoot = Split-Path -Parent $PSScriptRoot
 
 function Assert([bool] $Condition, [string] $Message) {
     if (-not $Condition) {
@@ -44,6 +45,12 @@ $requiredColors = @('black', 'red', 'green', 'yellow', 'blue', 'purple', 'cyan',
 foreach ($color in $requiredColors) {
     Assert ($null -ne $terminal.schemes[0].$color) "Terminal color scheme is missing $color."
 }
+
+$vscodeUser = Join-Path $repoRoot 'common\.config\Code\User'
+Assert (Test-Path -LiteralPath (Join-Path $vscodeUser 'settings.json')) 'VS Code settings.json must live in common/.config/Code/User.'
+Assert (Test-Path -LiteralPath (Join-Path $vscodeUser 'keybindings.json')) 'VS Code keybindings.json must live in common/.config/Code/User.'
+Assert (Test-Path -LiteralPath (Join-Path $vscodeUser 'snippets')) 'VS Code snippets must live in common/.config/Code/User/snippets.'
+Assert (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'common\.config\vscode'))) 'common/.config/vscode must not exist: VS Code never reads that path.'
 
 if ($failures.Count -gt 0) {
     $failures | ForEach-Object { Write-Error $_ }

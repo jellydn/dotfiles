@@ -1,0 +1,3 @@
+# Additional extensions that are not published to Open VSX.
+amodio.toggle-excluded-files
+hoovercj.vscode-settings-cycler

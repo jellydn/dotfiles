@@ -1724,7 +1724,7 @@ install_fonts() {
         log_info "Installing fonts for $os..."
 
         # Install Maple Mono Nerd Font
-        if fc-list | grep -q -i "Maple Mono NF"; then
+        if fc-list | grep -i "Maple Mono NF" >/dev/null; then
             log_info "Maple Mono Nerd Font is already installed"
         else
             log_info "Downloading Maple Mono Nerd Font..."
@@ -1740,11 +1740,11 @@ install_fonts() {
             # Create temporary directory
             mkdir -p "$temp_dir"
 
-            # Download the latest Maple Mono NF zip from GitHub releases
+            # Download the pinned Maple Mono NF zip from GitHub releases
             if curl -fL --max-time 60 \
                 -o "$zip_file" \
-                "https://github.com/subframe7536/Maple-font/releases/download/v7.6/MapleMono-NF-unhinted.zip"; then
-                log_info "Downloaded MapleMono-NF-unhinted.zip"
+                "https://github.com/subframe7536/Maple-font/releases/download/v7.9/MapleMono-NF-unhinted.zip"; then
+                log_info "Downloaded MapleMono-NF-unhinted.zip (v7.9)"
             else
                 log_error "Failed to download Maple Mono Nerd Font"
                 rm -rf "$temp_dir"
@@ -1799,17 +1799,69 @@ install_fonts() {
                 log_warning "fc-cache not found, fonts may not be immediately available"
             fi
 
-            # Verify installation
-            if fc-list | grep -q -i "Maple Mono NF"; then
+            # Verify installation. Never pipe into "grep -q" from fc-list: grep
+            # exits at the first match, fc-list then dies of SIGPIPE, and pipefail
+            # reports a failure even though the font is installed.
+            if fc-list | grep -i "Maple Mono NF" >/dev/null; then
                 log_success "Maple Mono Nerd Font installed successfully"
             else
-                log_warning "Font installation may not have completed successfully"
+                log_warning "Font installed, but fc-list does not report it. Run 'fc-cache -f' and check again."
+            fi
+        fi
+
+        # Install Maple UI. Zed's ui_font_family is "Maple UI": a proportional
+        # reading face that is separate from Maple Mono NF and only ships in the
+        # cn-base release.
+        if fc-list --format '%{family}\n' 2>/dev/null | grep -ix "Maple UI" >/dev/null; then
+            log_info "Maple UI is already installed"
+        else
+            log_info "Downloading Maple UI..."
+
+            local ui_font_dir="$HOME/.local/share/fonts/MapleUI"
+            local ui_temp_dir="/tmp/maple-ui-$$"
+            local ui_zip_file="$ui_temp_dir/MapleUI.zip"
+
+            mkdir -p "$ui_font_dir" "$ui_temp_dir"
+
+            if curl -fL --max-time 60 \
+                -o "$ui_zip_file" \
+                "https://github.com/subframe7536/Maple-font/releases/download/cn-base/MapleUI.zip"; then
+                log_info "Downloaded MapleUI.zip (cn-base)"
+            else
+                log_warning "Failed to download Maple UI"
+                rm -rf "$ui_temp_dir"
+            fi
+
+            if [[ -f "$ui_zip_file" ]]; then
+                if command_exists unzip && unzip -qo "$ui_zip_file" -d "$ui_temp_dir"; then
+                    find "$ui_temp_dir" -name "*.ttf" -print0 |
+                        while IFS= read -r -d '' ttf_file; do
+                            cp "$ttf_file" "$ui_font_dir/"
+                        done
+                else
+                    log_warning "Failed to extract Maple UI archive"
+                fi
+                rm -rf "$ui_temp_dir"
+
+                # Refresh font cache
+                if command_exists fc-cache; then
+                    fc-cache -f "$ui_font_dir" >/dev/null 2>&1
+                fi
+
+                # Same fc-list pipe trap as above: plain grep reads everything.
+                if fc-list --format '%{family}\n' 2>/dev/null | grep -ix "Maple UI" >/dev/null; then
+                    log_success "Maple UI installed successfully"
+                else
+                    log_warning "Maple UI installed, but fc-list does not report it. Run 'fc-cache -f' and check again."
+                fi
             fi
         fi
 
         # Install Font Awesome on Linux
         if [[ "$os" == "linux" ]]; then
-            if fc-list | grep -q -i "font.*awesome"; then
+            # WOFF2 files are web fonts; native apps need the TTF/OTF build.
+            if fc-list --format '%{family}|%{file}\n' 2>/dev/null |
+                grep -iE 'font ?awesome[^|]*\|[^|]*\.(otf|ttf)$' >/dev/null; then
                 log_info "Font Awesome is already installed"
             else
                 log_info "Installing Font Awesome..."
@@ -2158,6 +2210,15 @@ show_dotfiles_status() {
             echo "     Run: ./install.sh fonts"
         fi
 
+        # Check for Maple UI (Zed's ui_font_family)
+        if fc-list --format '%{family}\n' 2>/dev/null | grep -ix "Maple UI" >/dev/null; then
+            echo "  ✅ Maple UI: Installed"
+            nerd_font_names+=("Maple UI")
+        else
+            echo "  ❌ Maple UI: Not installed"
+            echo "     Run: ./install.sh fonts"
+        fi
+
         # Check for other Nerd Fonts
         local jetbrains_check=$(fc-list 2>/dev/null | grep -i "jetbrains" | grep -i "nerd" | wc -l)
         if [[ $jetbrains_check -gt 0 ]]; then
@@ -2171,13 +2232,13 @@ show_dotfiles_status() {
         if [[ $fa_count -gt 0 ]]; then
             has_font_awesome=true
             # Detect versions
-            if fc-list | grep -qi "font awesome 7"; then
+            if fc-list | grep -i "font awesome 7" >/dev/null; then
                 font_awesome_versions+=("7")
             fi
-            if fc-list | grep -qi "font awesome 6"; then
+            if fc-list | grep -i "font awesome 6" >/dev/null; then
                 font_awesome_versions+=("6")
             fi
-            if fc-list | grep -qi "font awesome 5"; then
+            if fc-list | grep -i "font awesome 5" >/dev/null; then
                 font_awesome_versions+=("5")
             fi
 

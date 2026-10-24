@@ -197,6 +197,9 @@ function Install-VSCodeSettings {
             Write-Host "VS Code snippet is current: $target"
             continue
         }
+        if (Test-Path -LiteralPath $target -PathType Leaf) {
+            Backup-File $target
+        }
         Copy-Item -LiteralPath $snippet.FullName -Destination $target -Force
         Write-Host "Installed VS Code snippet: $($snippet.Name)"
     }

@@ -307,10 +307,10 @@
   "fzf-picker.customTasks": [
     {
       "name": "zoxide",
-      "command": "code-insiders $(zoxide query --interactive)"
+      "command": "code $(zoxide query --interactive)"
     }
   ],
-  "fzf-picker.general.openCommand": "code-insiders -g",
+  "fzf-picker.general.openCommand": "code -g",
   "security.promptForLocalFileProtocolHandling": false,
   // Biome setup
   "editor.codeActionsOnSave": {
@@ -339,6 +339,10 @@
       "matches": {
         "cmd": [
           "*rm*-rf*",
+          "*rm*-fr*",
+          "*rm*-Rf*",
+          "*rm*-r -f*",
+          "*rm*-f -r*",
           "*rm*-r*--force*",
           "*rm*--force*-r*"
         ]
@@ -1353,7 +1357,6 @@
       ]
     }
   ],
-  "vscode-neovim.neovimExecutablePaths.darwin": "/Users/huynhdung/.local/share/mise/installs/neovim/nightly/bin/nvim",
   // VSCodeVim. Space stays the leader for Neovim and VSCodeVim maps.
   // which-key stays on Shift+Space. Do not bind Space to whichkey.show.
   // Disable asvetliakov.vscode-neovim while VSCodeVim is on. Both extensions take the same keys.
@@ -1919,7 +1922,8 @@
   "vim.useSystemClipboard": true,
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1,
-    "asvetliakov.vscode-neovim": 1
+    // A shared affinity number shares one host. Neovim needs its own.
+    "asvetliakov.vscode-neovim": 2
   },
   "workbench.statusBar.visible": false,
   "editor.accessibilitySupport": "on",

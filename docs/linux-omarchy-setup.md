@@ -98,7 +98,7 @@ ln -sf ~/.dotfiles/common/.gitconfig ~/.gitconfig
 alongside the app binaries in one mise step:
 
 ```bash
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 mise install hunk delta gh git-lfs
 mise use -g hunk delta gh git-lfs
 ```
@@ -106,8 +106,8 @@ mise use -g hunk delta gh git-lfs
 ### 5. The app binaries
 
 ```bash
-mise install helix zellij lazygit k9s
-mise use -g helix zellij lazygit k9s
+mise install helix zellij lazygit k9s tmux
+mise use -g helix zellij lazygit k9s tmux
 ```
 
 Note: helix's binary is `hx`. If the shim is missing after `mise use`, run
@@ -298,9 +298,15 @@ and logs there, and that runtime state must stay out of the repo.
 
 ```bash
 mkdir -p ~/.config/Code/User
-ln -sfn ~/.dotfiles/common/.config/Code/User/settings.json    ~/.config/Code/User/settings.json
-ln -sfn ~/.dotfiles/common/.config/Code/User/keybindings.json ~/.config/Code/User/keybindings.json
-ln -sfn ~/.dotfiles/common/.config/Code/User/snippets         ~/.config/Code/User/snippets
+for name in settings.json keybindings.json snippets; do
+  target=~/.config/Code/User/$name
+  # A real snippets directory makes ln put the link inside it. Move any
+  # existing file or directory aside first so the repo copy is what VS Code reads.
+  if [[ -e $target || -L $target ]]; then
+    mv "$target" "${target}_backup_$(date +%Y%m%d_%H%M%S)"
+  fi
+  ln -s ~/.dotfiles/common/.config/Code/User/$name "$target"
+done
 ```
 
 Order matters. `omarchy install editor vscode` writes a fresh
@@ -326,8 +332,14 @@ repo's merge script instead, and symlink only the files that nothing rewrites:
 ```bash
 omarchy install editor zed
 ./scripts/merge-zed-settings.sh --install           # settings.json, as a real file
-ln -sfn ~/.dotfiles/common/.config/zed/keymap.json ~/.config/zed/keymap.json
-ln -sfn ~/.dotfiles/common/.config/zed/tasks.json  ~/.config/zed/tasks.json
+mkdir -p ~/.config/zed
+for name in keymap.json tasks.json; do
+  target=~/.config/zed/$name
+  if [[ -e $target || -L $target ]]; then
+    mv "$target" "${target}_backup_$(date +%Y%m%d_%H%M%S)"
+  fi
+  ln -s ~/.dotfiles/common/.config/zed/$name "$target"
+done
 ```
 
 Keep `~/.config/zed` a real directory: `omazed` also generates
@@ -363,8 +375,9 @@ VS Code installs both lists, because it uses the Microsoft Marketplace. Cursor
 and other Open VSX editors get `extensions.txt` only: the names in the
 marketplace list are deliberately absent from Open VSX.
 
-`asvetliakov.vscode-neovim` needs `nvim` on `PATH` on Linux — the shared settings
-only pin the macOS path (`vscode-neovim.neovimExecutablePaths.darwin`).
+`asvetliakov.vscode-neovim` and `vscodevim.vim` are both installed.
+Neovim finds `nvim` on `PATH`. It uses its own extension host so it does not
+share a process with VSCodeVim.
 
 ### Zed in a virtual machine needs a Vulkan driver
 
@@ -486,11 +499,12 @@ ls ~/.local/share/zed/extensions/installed      # html, maple-theme, catppuccin-
 # Configs are symlinks into the repo
 ls -la ~/.config/{k9s,helix,zellij,fish,lazygit,tmux} | grep '\->'
 
-# Tools resolve
-export PATH="$HOME/.local/bin:$PATH"
+# Tools resolve. mise shims hold hx, hunk, and the other installed tools.
+export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:$PATH"
 hunk --version && delta --version && gh --version | head -1 && git-lfs version
 hx --version   # helix
 zellij --version && lazygit --version && k9s version | head -1
+tmux -V
 fish --version
 
 # Work apps (optional; see the work-apps section)

@@ -11,4 +11,5 @@ jellydn.seal-code
 jellydn.vscode-whichkey
 streetsidesoftware.code-spell-checker
 ChakrounAnas.turbo-console-log
+vscodevim.vim
 asvetliakov.vscode-neovim

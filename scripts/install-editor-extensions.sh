@@ -31,9 +31,14 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 list_dir="$script_dir/../common/.config/Code"
 
 force=false
-if [[ "${1:-}" == "--force" ]]; then
-    force=true
-fi
+case "${1:-}" in
+    "") ;;
+    --force) force=true ;;
+    *)
+        echo "Usage: $0 [--force]" >&2
+        exit 2
+        ;;
+esac
 
 list_ids() {
     # Comments and blank lines are not extension IDs. A missing list is not an

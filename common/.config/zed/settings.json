@@ -15,7 +15,14 @@
 {
 	// UI font family (for menus, panels, etc.)
 	// https://zed.dev/docs/reference/all-settings#ui-font-family
-	"proxy": "",
+	"cursor_animation": {
+  "enabled": false
+ },
+ "use_display_p3": false,
+ "on_last_window_closed": "quit_app",
+ "on_new_window": "empty_tab",
+ "accessible_mode": true,
+ "proxy": "",
 	"preview_tabs": {
 		"enable_preview_from_file_finder": false,
 	},

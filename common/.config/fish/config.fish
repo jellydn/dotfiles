@@ -13,6 +13,14 @@ else if test -d /opt/homebrew/bin
     fish_add_path -p /opt/homebrew/bin /opt/homebrew/sbin
 end
 
+# Homebrew's vendor_conf.d/direnv.fish runs the Cellar binary's `hook fish`,
+# which bakes that keg path into __direnv_export_eval. brew upgrade deletes
+# the keg, and every shell already open then fails on each prompt.
+# Hook again through the stable prefix symlink (/opt/homebrew/bin/direnv).
+if command -v direnv >/dev/null
+    direnv hook fish | source
+end
+
 # macOS launchd defaults to 256 fds; Neovim file-watchers need more.
 set -l nfiles (ulimit -n)
 if test "$nfiles" != unlimited -a "$nfiles" -lt 8192

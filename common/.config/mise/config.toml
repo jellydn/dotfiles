@@ -27,6 +27,9 @@ bun = "latest"
 uv = "latest"
 lua-language-server = "latest"
 ruby = "latest"
+# tobi/try. Gem backend, not `gem install` into the Ruby prefix: `ruby = latest`
+# drops prefix gems on upgrade, and then fish never defines `try`.
+"gem:try-cli" = "latest"
 stylua = "latest"
 fd = "latest"
 bat = "latest"

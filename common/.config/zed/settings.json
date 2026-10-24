@@ -494,7 +494,7 @@
 		// Persistent sandbox permission grants
 		// https://zed.dev/docs/ai/agent-settings#sandbox-permissions
 		"sandbox_permissions": {
-   "allow_unsandboxed": true,
+   "allow_unsandboxed": false,
    "write_paths": [
     {
      "requested": "/Users/huynhdung/.omp",

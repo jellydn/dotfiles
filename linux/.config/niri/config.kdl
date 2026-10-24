@@ -395,8 +395,8 @@ window-rule {
     clip-to-geometry true
 }
 
-// Start Vicinae's background server with the compositor.
-spawn-at-startup "vicinae" "server"
+// Start Vicinae when installed. Fuzzel remains the packaged fallback launcher.
+spawn-sh-at-startup "command -v vicinae >/dev/null && vicinae server"
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -416,7 +416,7 @@ binds {
     // Terminal launcher - prefers kitty, falls back to alacritty, then any available terminal
     Mod+Return hotkey-overlay-title="Open a Terminal" { spawn-sh "foot || kitty || alacritty || wezterm || gnome-terminal || xterm"; }
     // Vicinae: keyboard-driven launcher (Linux equivalent of Tuna on macOS)
-    Mod+d repeat=false hotkey-overlay-title="Open Vicinae" { spawn "vicinae" "toggle"; }
+    Mod+d repeat=false hotkey-overlay-title="Open App Launcher" { spawn-sh "vicinae toggle || fuzzel"; }
     Mod+e hotkey-overlay-title="Open File Manager" { spawn-sh "thunar || nautilus || dolphin || nemo || pcmanfm || ranger"; }
     Mod+b hotkey-overlay-title="Open Browser" { spawn-sh "firefox || google-chrome || chromium || brave || vivaldi || opera"; }
 

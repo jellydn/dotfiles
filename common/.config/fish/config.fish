@@ -13,6 +13,14 @@ else if test -d /opt/homebrew/bin
     fish_add_path -p /opt/homebrew/bin /opt/homebrew/sbin
 end
 
+# Homebrew's vendor_conf.d/direnv.fish runs the Cellar binary's `hook fish`,
+# which bakes that keg path into __direnv_export_eval. brew upgrade deletes
+# the keg, and every shell already open then fails on each prompt.
+# Hook again through the stable prefix symlink (/opt/homebrew/bin/direnv).
+if command -v direnv >/dev/null
+    direnv hook fish | source
+end
+
 # macOS launchd defaults to 256 fds; Neovim file-watchers need more.
 set -l nfiles (ulimit -n)
 if test "$nfiles" != unlimited -a "$nfiles" -lt 8192
@@ -107,18 +115,6 @@ set -g fish_pager_color_prefix $cyan
 set -g fish_pager_color_completion $foreground
 set -g fish_pager_color_description $comment
 
-# Install https://github.com/tobi/try if available
-if test -x ~/.local/share/mise/installs/ruby/latest/bin/try
-    function try
-        set -l out (~/.local/share/mise/installs/ruby/latest/bin/try exec --path ~/src/tries $argv 2>/dev/tty | string collect)
-        if test $pipestatus[1] -eq 0
-            eval $out
-        else
-            echo $out
-        end
-    end
-end
-
 # try-dev is a separate binary at ~/.local/bin/try-dev; same wrapper pattern
 if test -x ~/.local/bin/try-dev
     function try-dev
@@ -157,6 +153,20 @@ end
 # >>> mise:activate >>> managed by mise - do not edit between markers
 mise activate fish | source
 # <<< mise:activate <<<
+
+# try (https://github.com/tobi/try) prints setup help unless a function evals
+# `try exec`. Define this after mise: ruby/latest can point at a Ruby that
+# does not have the gem. `command try` skips this function.
+if command -v try >/dev/null
+    function try
+        set -l out (command try exec --path ~/src/tries $argv 2>/dev/tty | string collect)
+        if test $pipestatus[1] -eq 0
+            eval $out
+        else
+            echo $out
+        end
+    end
+end
 
 # zoxide after PATH is complete (brew + mise). Do not wrap `z` and then call
 # `z $argv` — fish keeps the running function, so that recurses forever.

@@ -3,6 +3,12 @@ searchPriorities = []
 sortOrders = []
 
     [[catalogs.globalScopes]]
+    catalogIdentifier = 'camera-preview.commands'
+
+        [catalogs.globalScopes.scope]
+        kind = 'none'
+
+    [[catalogs.globalScopes]]
     catalogIdentifier = 'reminders'
 
         [catalogs.globalScopes.scope]
@@ -134,6 +140,20 @@ carbonKeyCode = 49
 carbonModifiers = 2048
 
 [[hotkeys.custom]]
+id = '0D3A724A-7BA9-4264-8E7A-D9AB45584998'
+
+    [hotkeys.custom.command]
+    actionIdentifier = 'tuna.common-actions/open'
+    behavior = 'run'
+    presentation = 'automatic'
+    subjectIdentifiers = [ 'tuna.applications//Applications/Orca.app' ]
+    type = 'savedCommand'
+
+    [hotkeys.custom.shortcut]
+    carbonKeyCode = 31
+    carbonModifiers = 6912
+
+[[hotkeys.custom]]
 id = '0EBC3701-8AE3-4270-92FC-4000A3D5BF98'
 
     [hotkeys.custom.command]
@@ -204,21 +224,21 @@ id = '4E9D42E8-EEB7-46C9-981B-6015A8E871CB'
     carbonModifiers = 6912
 
 [[hotkeys.custom]]
-id = '5DDF9320-7FA0-445D-9069-85E6B23F65C0'
+id = '518E3ED1-F445-44A4-9571-0599EF24244D'
 
     [hotkeys.custom.command]
     actionIdentifier = 'tuna.common-actions/open'
     behavior = 'run'
     presentation = 'automatic'
-    subjectIdentifiers = [ 'tuna.applications//Applications/Visual Studio Code - Insiders.app' ]
+    subjectIdentifiers = [ 'tuna.applications//Applications/Amp.app' ]
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]
-    carbonKeyCode = 8
+    carbonKeyCode = 0
     carbonModifiers = 6912
 
 [[hotkeys.custom]]
-id = '6674F75D-0DC8-40DA-B6E6-6134655DA9A9'
+id = '5DDF9320-7FA0-445D-9069-85E6B23F65C0'
 
     [hotkeys.custom.command]
     actionIdentifier = 'tuna.common-actions/open'
@@ -228,7 +248,7 @@ id = '6674F75D-0DC8-40DA-B6E6-6134655DA9A9'
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]
-    carbonKeyCode = 6
+    carbonKeyCode = 8
     carbonModifiers = 6912
 
 [[hotkeys.custom]]
@@ -308,7 +328,7 @@ id = 'C64AFE07-0DDC-4A22-99E8-C193AE9AF4BF'
     actionIdentifier = 'tuna.common-actions/open'
     behavior = 'run'
     presentation = 'automatic'
-    subjectIdentifiers = [ 'tuna.applications//Applications/ChatGPT.app' ]
+    subjectIdentifiers = [ 'tuna.applications//Applications/VMware Fusion.app' ]
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]
@@ -340,7 +360,7 @@ id = 'F1A752AD-3344-401E-90F5-9DDA3A2E25A3'
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]
-    carbonKeyCode = 0
+    carbonKeyCode = 6
     carbonModifiers = 6912
 
 [[hotkeys.custom]]

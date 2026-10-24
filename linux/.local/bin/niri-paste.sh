@@ -2,8 +2,10 @@
 # Intelligent paste script for niri
 # Detects if focused window is a terminal and uses appropriate keybinding
 
-WIN_INFO=$(niri msg windows | jq '.[] | select(.is_focused == true)')
-APP_ID=$(echo "$WIN_INFO" | jq -r '.app_id // empty')
+set -euo pipefail
+
+APP_ID=$(niri msg --json windows | jq -er \
+  'first(.[] | select(.is_focused == true)) | .app_id // error("focused window has no app_id")')
 
 # Check if it's a terminal (use Ctrl+Shift+V)
 case "$APP_ID" in

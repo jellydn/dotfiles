@@ -20,7 +20,8 @@ exec xset r rate 200 30
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
+# Fedora names the binary dex-autostart. Debian and Arch name it dex.
+exec --no-startup-id sh -c 'if command -v dex >/dev/null 2>&1; then exec dex --autostart --environment i3; fi; exec dex-autostart --autostart --environment i3'
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.

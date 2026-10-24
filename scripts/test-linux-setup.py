@@ -26,6 +26,16 @@ class LinuxSetupTests(unittest.TestCase):
             "HOME": str(self.home),
             "XDG_CONFIG_HOME": str(self.home / ".config"),
         }
+        # install.sh gates the desktop commands on uname. The suite must
+        # exercise that Linux path on a macOS checkout.
+        self.stub(
+            "uname",
+            "case \"$1\" in\n"
+            "  -s) echo Linux ;;\n"
+            "  -m) echo x86_64 ;;\n"
+            "  *) echo Linux ;;\n"
+            "esac",
+        )
 
     def stub(self, name, body):
         path = self.bin / name
@@ -122,6 +132,7 @@ class LinuxSetupTests(unittest.TestCase):
             binding for binding in set(bindings) if bindings.count(binding) > 1
         )
         self.assertEqual(duplicates, [])
+        self.assertIn("dex-autostart", config)
 
     def test_i3_install_validates_the_linked_config(self):
         self.stub("dnf", 'echo "dnf $*" >> "$CALLS"')

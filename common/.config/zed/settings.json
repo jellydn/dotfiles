@@ -348,6 +348,12 @@
     "model": "deepseek-v4-flash",
     "enable_thinking": true,
     "effort": "high"
+   },
+   {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "enable_thinking": true,
+    "effort": "high"
    }
   ],
 		"dock": "right",
@@ -358,8 +364,8 @@
 		"default_model": {
 			"effort": "high",
    "enable_thinking": true,
-   "provider": "deepseek",
-			"model": "deepseek-v4-flash",
+   "provider": "openrouter",
+			"model": "thinkingmachines/inkling:free",
 		},
 		// Notify when the agent finishes work while Zed is in background
 		// https://zed.dev/docs/ai/agent-settings#notify-when-agent-waiting

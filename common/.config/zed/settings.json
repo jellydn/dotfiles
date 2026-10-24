@@ -304,7 +304,6 @@
 	// https://zed.dev/docs/ai/agent-settings
 	"agent": {
 		"terminal_init_command": "",
-		"sidebar_side": "right",
 		"default_profile": "write",
 		"favorite_models": [
    {
@@ -366,8 +365,6 @@
 		// Show inline diff review for agent edits in the active buffer
 		// https://zed.dev/docs/ai/agent-settings#single-file-review
 		"single_file_review": true,
-		// Automatically follow the agent as it reads/edits files
-		"agent_follow": true,
 		// Model-specific generation parameters
 		// https://zed.dev/docs/ai/agent-settings#model-temperature
 		"model_parameters": [
@@ -400,22 +397,11 @@
 				"name": "Write Code",
 				"tools": {
 					"edit_file": true,
-					"create_file": true,
-					"delete_file": true,
-					"rename_file": true,
-					"find_file": true,
 					"terminal": true,
-					"search": true,
 					"fetch": true,
-					"run_command": true,
 					"copy_path": true,
 					"move_path": true,
-					"open_file": true,
-					"go_to_file": true,
-					"set_context": true,
-					"set_files": true,
 					"spawn_agent": false,
-					"create_task": false,
 				},
 				"enable_all_context_servers": true,
 			},
@@ -423,22 +409,11 @@
 				"name": "Code Review",
 				"tools": {
 					"edit_file": false,
-					"create_file": false,
-					"delete_file": false,
-					"rename_file": false,
-					"find_file": true,
 					"terminal": false,
-					"search": true,
 					"fetch": true,
-					"run_command": false,
 					"copy_path": true,
 					"move_path": false,
-					"open_file": true,
-					"go_to_file": true,
-					"set_context": true,
-					"set_files": true,
 					"spawn_agent": false,
-					"create_task": false,
 				},
 				"enable_all_context_servers": true,
 				"default_model": {
@@ -450,22 +425,11 @@
 				"name": "Debug",
 				"tools": {
 					"edit_file": true,
-					"create_file": false,
-					"delete_file": false,
-					"rename_file": false,
-					"find_file": true,
 					"terminal": true,
-					"search": true,
 					"fetch": true,
-					"run_command": true,
 					"copy_path": true,
 					"move_path": false,
-					"open_file": true,
-					"go_to_file": true,
-					"set_context": true,
-					"set_files": true,
 					"spawn_agent": true,
-					"create_task": false,
 				},
 				"enable_all_context_servers": false,
 				"default_model": {

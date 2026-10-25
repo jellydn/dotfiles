@@ -61,6 +61,11 @@ installers can request elevation. The package list is in
 repository. Re-running setup skips installed packages and refreshes managed
 configuration.
 
+The package list includes [Noctty](https://noctty.com/) (`AmanThanvi.noctty`),
+a native Windows terminal built on Ghostty's terminal core, alongside Windows
+Terminal. Noctty uses its default configuration; setup does not change the
+default terminal. The WinGet installer does not add `noctty` to PATH.
+
 Use `-SkipPackages` or `-SkipConfiguration` to apply only one part.
 
 ## Managed configuration

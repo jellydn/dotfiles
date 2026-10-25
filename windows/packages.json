@@ -4,6 +4,7 @@
     { "id": "Git.Git", "description": "Git" },
     { "id": "Microsoft.PowerShell", "description": "PowerShell 7" },
     { "id": "Microsoft.WindowsTerminal", "description": "Windows Terminal" },
+    { "id": "AmanThanvi.noctty", "description": "Noctty" },
     { "id": "Microsoft.VisualStudioCode", "description": "Visual Studio Code" },
     { "id": "Neovim.Neovim", "description": "Neovim" },
     { "id": "7zip.7zip", "description": "7-Zip" },

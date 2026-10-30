@@ -328,7 +328,7 @@ id = 'C64AFE07-0DDC-4A22-99E8-C193AE9AF4BF'
     actionIdentifier = 'tuna.common-actions/open'
     behavior = 'run'
     presentation = 'automatic'
-    subjectIdentifiers = [ 'tuna.applications//Applications/VMware Fusion.app' ]
+    subjectIdentifiers = [ 'tuna.applications//Applications/Rex Beta.app' ]
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]

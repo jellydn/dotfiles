@@ -73,6 +73,9 @@ k9s = "latest"
 [settings]
 auto_install = true
 idiomatic_version_file_enable_tools = ["node"]
+# gh keeps the token in the macOS keychain, not hosts.yml. Without this,
+# vfox calls api.github.com anonymously and the shared WARP IP returns HTTP 403.
+github.credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
 # Secrets: copy config.local.example.toml → config.local.toml (gitignored).
 # [dotfiles] source paths are relative to this file (common/.config/mise),
 # not ~/.dotfiles. Do not set settings.dotfiles.root here.

@@ -154,6 +154,38 @@ end
 mise activate fish | source
 # <<< mise:activate <<<
 
+# Amp orbs on this machine. smolvm comes from brew:smol-machines/tap/smolvm.
+# Dispatch is ~/.config/amp/orb-dispatch.sh, the my-ai-tools configs/amp/orb-dispatch.sh link.
+# The provider cwd and the guest workdir are ~/src/tries.
+function amp-orb
+    set -l tries "$HOME/src/tries"
+    if not test -d $tries
+        echo "amp-orb: $tries is not a directory" >&2
+        return 1
+    end
+    if not command -q smolvm
+        echo "amp-orb: install smolvm with: brew install smol-machines/tap/smolvm" >&2
+        return 1
+    end
+    if not command -q amp
+        echo "amp-orb: amp is not on PATH" >&2
+        return 1
+    end
+    if set -q ORB_IMAGE
+        set -lx ORB_IMAGE $ORB_IMAGE
+    else
+        switch (uname -m)
+            case arm64 aarch64
+                set -lx ORB_IMAGE us-central1-docker.pkg.dev/amp-prod-0/amp-orb/amp-orb-arm64:latest
+            case '*'
+                set -lx ORB_IMAGE us-central1-docker.pkg.dev/amp-prod-0/amp-orb/amp-orb:latest
+        end
+    end
+    set -lx AMP_ORB_WORKDIR $tries
+    cd $tries
+    command amp orb provider "$HOME/.config/amp/orb-dispatch.sh" $argv
+end
+
 # try (https://github.com/tobi/try) prints setup help unless a function evals
 # `try exec`. Define this after mise: ruby/latest can point at a Ruby that
 # does not have the gem. `command try` skips this function.

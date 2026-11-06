@@ -366,8 +366,8 @@
 		],
 		"dock": "right",
 		"inline_assistant_model": {
-			"provider": "opencode",
-			"model": "free/big-pickle",
+			"provider": "deepseek",
+			"model": "deepseek-flash",
 		},
 		"default_model": {
 			"effort": "high",

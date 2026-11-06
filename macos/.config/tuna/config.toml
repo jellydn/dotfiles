@@ -385,6 +385,7 @@ comboModeThemeStyle = 'breadcrumb'
 comboModeTriggerType = 'disabled'
 dictationActivationMode = 'toggle'
 mainWindowAnimationsEnabled = false
+talkModeTriggerType = 'disabled'
 textModeTriggerType = 'disabled'
 
 [[catalogSettings]]

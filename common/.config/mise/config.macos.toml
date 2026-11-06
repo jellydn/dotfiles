@@ -34,6 +34,7 @@ adopt = true
 "koekeishiya/formulae" = "https://github.com/koekeishiya/homebrew-formulae.git"
 "crmne/tap" = "https://github.com/crmne/homebrew-tap.git"
 "jithin-sabu/tap" = "https://github.com/jithin-sabu/homebrew-tap.git"
+"smol-machines/tap" = "https://github.com/smol-machines/homebrew-tap.git"
 
 [bootstrap.packages]
 "brew:fish" = "latest"
@@ -45,6 +46,9 @@ adopt = true
 "brew:switchaudio-osx" = "latest"
 "brew:nowplaying-cli" = "latest"
 "brew:FelixKratz/formulae/sketchybar" = "latest"
+# Apple Silicon microVMs for `amp orb provider`.
+# Dispatch script: my-ai-tools configs/amp/orb-dispatch.sh, linked at ~/.config/amp/orb-dispatch.sh.
+"brew:smol-machines/tap/smolvm" = "latest"
 "brew-cask:font-maple-mono-nf" = "latest"
 "brew-cask:sf-symbols" = "latest"
 "brew-cask:crmne/tap/zapfast" = "latest"

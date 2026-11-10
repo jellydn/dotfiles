@@ -1,0 +1,34 @@
+-- ~/.config/rex/init.lua — Rex configuration (Rex reads one file, init.lua).
+-- Docs: https://www.superlogical.com/rex/docs/customize/config.md
+-- Validate: rex config check     Apply: rex config reload
+--
+-- This file lives in the dotfiles repo (common/.config/rex) and is linked
+-- to ~/.config/rex (mise [dotfiles] on macOS, stow package "common" on Linux).
+--
+-- Rex needs no config to run; add rex.bind(...) entries here as you find
+-- things you want to change. Bindings made in the Mac app itself win over
+-- this file.
+
+-- ---------------------------------------------------------------------------
+-- Server setup (as configured on this machine, for the record):
+-- Rex serves over this machine's Tailnet via a tsnet node:
+--   rex server status   →  tailscale: running · itman-rex.whydah-gamma.ts.net
+--   https://itman-rex.whydah-gamma.ts.net
+-- Access is limited to the signed-in Tailscale account (jellydn@github).
+-- The macOS app manages these settings in its own preferences; on a Linux
+-- server managed by the CLI instead, reproduce them with:
+--   rex server tailscale on                                  # serve over tailnet
+--   rex server tailscale rename itman-rex                    # node hostname
+--   rex server start --tailscale --tailscale-hostname itman-rex
+--   rex server tailscale logout                              # stop serving
+-- ---------------------------------------------------------------------------
+
+-- Keybinding examples (uncomment / edit as needed):
+-- rex.bind("cmd+d", "pane.split", { direction = "right" })
+-- rex.bind("cmd+e", "pane.zoom")
+-- rex.bind("shift+cmd+d", "pane.split", { direction = "down" })
+-- rex.bind("alt+cmd+h", "pane.focus.left")
+-- rex.bind("alt+cmd+l", "pane.focus.right")
+-- rex.bind("alt+cmd+k", "pane.focus.up")
+-- rex.bind("alt+cmd+j", "pane.focus.down")
+-- rex.unbind("cmd+k")   -- remove a default shortcut

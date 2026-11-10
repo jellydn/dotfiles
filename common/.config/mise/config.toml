@@ -21,7 +21,7 @@ ffmpeg = "conda:ffmpeg"
 node = "lts"
 python = "latest"
 go = "latest"
-rust = "latest"
+rust = { version = "latest", mr_boxington = true }
 deno = "latest"
 bun = "latest"
 uv = "latest"
@@ -69,6 +69,7 @@ pkl = "latest"
 ty = "latest"
 zellij = "latest"
 k9s = "latest"
+mr-boxington = { version = "latest", workflow = "release.yml@refs/heads/main" }
 
 [settings]
 auto_install = true

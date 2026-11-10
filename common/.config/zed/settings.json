@@ -219,7 +219,7 @@
 	"theme": {
 		"mode": "dark",
 		"light": "Maple Light",
-		"dark": "Maple Dark",
+		"dark": "Cobalt2x2",
 	},
 
 	// UI font size (for menus, panels, etc.)

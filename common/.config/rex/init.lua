@@ -8,6 +8,11 @@
 -- Rex needs no config to run; add rex.bind(...) entries here as you find
 -- things you want to change. Bindings made in the Mac app itself win over
 -- this file.
+--
+-- Appearance, tab/interface, terminal, and theme settings are app
+-- preferences, not this file (they live in com.superlogical.rex.plist).
+-- This machine's snapshot is in ./SETTINGS.md; importable theme files are
+-- in ./themes/ (cobalt2 = active dark theme).
 
 -- ---------------------------------------------------------------------------
 -- Server setup (as configured on this machine, for the record):

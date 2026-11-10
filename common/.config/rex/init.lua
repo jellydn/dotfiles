@@ -28,12 +28,22 @@
 --   rex server tailscale logout                              # stop serving
 -- ---------------------------------------------------------------------------
 
--- Keybinding examples (uncomment / edit as needed):
--- rex.bind("cmd+d", "pane.split", { direction = "right" })
+-- ---------------------------------------------------------------------------
+-- Keybindings
+-- ---------------------------------------------------------------------------
+-- Split the focused pane
+rex.bind("cmd+d", "pane.split",       { direction = "right" })
+rex.bind("shift+cmd+d", "pane.split", { direction = "down" })
+
+-- Vim-style pane focus (alt+cmd+h/j/k/l), complementing the default
+-- alt+cmd+arrow bindings
+rex.bind("alt+cmd+h", "pane.focus.left")
+rex.bind("alt+cmd+j", "pane.focus.down")
+rex.bind("alt+cmd+k", "pane.focus.up")
+rex.bind("alt+cmd+l", "pane.focus.right")
+
+-- Other useful bindings (uncomment as desired):
 -- rex.bind("cmd+e", "pane.zoom")
--- rex.bind("shift+cmd+d", "pane.split", { direction = "down" })
--- rex.bind("alt+cmd+h", "pane.focus.left")
--- rex.bind("alt+cmd+l", "pane.focus.right")
--- rex.bind("alt+cmd+k", "pane.focus.up")
--- rex.bind("alt+cmd+j", "pane.focus.down")
--- rex.unbind("cmd+k")   -- remove a default shortcut
+-- rex.bind("alt+cmd+enter", "pane.float")
+-- rex.bind("cmd+k", "session.switch")   -- already a default
+-- rex.unbind("cmd+q")                     -- remove a default shortcut

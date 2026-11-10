@@ -59,6 +59,13 @@ themes are also vendored as Ghostty themes in
 
 Also set: smooth scrolling, forced cursor style, copy on select.
 
+## Integrations ▸ Coding Agents
+
+| Setting | Value | plist key |
+| --- | --- | --- |
+| Integrate with available agents | On (installs skill + hooks for Claude Code / Codex / OpenCode / Pi) | `rex skill setup` |
+| Let agents name sessions | On | `rex.agents.names-sessions` |
+
 ## Server
 
 | Setting | Value |

@@ -57,7 +57,15 @@ themes are also vendored as Ghostty themes in
 | Force theme palette for text | On | `Workspace.terminalUseThemePalette` |
 | Font smoothing | On | `Workspace.terminalFontSmoothing` |
 
-Also set: smooth scrolling, forced cursor style, copy on select.
+## Terminal ▸ Scrolling / Resizing / Selection
+
+| Setting | Value | plist key |
+| --- | --- | --- |
+| Smooth scrolling | On | `Workspace.terminalSmoothScrolling` |
+| Smooth terminal resizing | On | — |
+| Copy on selection | On | `Workspace.terminalCopyOnSelect` |
+| Font smoothing | On | `Workspace.terminalFontSmoothing` |
+| Force cursor style | On | `Workspace.terminalCursorStyleForced` |
 
 ## Integrations ▸ Coding Agents
 

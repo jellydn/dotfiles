@@ -1,24 +1,24 @@
-# OrbStack Ubuntu Setup
+# Kiri Ubuntu Setup
 
-Automated setup script for configuring a fresh Ubuntu machine on OrbStack with essential development tools.
+Automated setup script for configuring a fresh Ubuntu machine on Kiri with essential development tools.
 
 ## Quick Start
 
 Run the setup script with a single command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jellydn/dotfiles/refs/heads/master/macos/orbstack/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jellydn/dotfiles/refs/heads/master/macos/kiri/setup.sh | bash
 ```
 
 Or if you have cloned the repository:
 
 ```bash
-./macos/orbstack/setup.sh
+./macos/kiri/setup.sh
 ```
 
 ## Prerequisites
 
-- [OrbStack](https://orbstack.dev) installed
+- [Kiri](https://runkiri.com/) installed
 - Ubuntu machine (Ubuntu 22.04+ recommended)
 - Internet connection for downloading dependencies
 - Sudo privileges (for installing system packages)
@@ -80,7 +80,7 @@ If the automatic shell change didn't work, run:
 chsh -s /usr/bin/fish
 ```
 
-Then restart your shell or reconnect to the OrbStack machine.
+Then restart your shell or reconnect to the Kiri machine.
 
 ### Manually Add to PATH
 
@@ -90,7 +90,7 @@ If commands aren't found after installation, add this to your `~/.config/fish/co
 # Homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# mise (isolated data directory for OrbStack)
+# mise (isolated data directory for Kiri)
 set -gx MISE_DATA_DIR "/tmp/mise-local"
 ~/.local/bin/mise activate fish | source
 ```
@@ -105,7 +105,7 @@ NVIM_APPNAME=nvim nvim --headless -c "Lazy install" -c "qa"
 
 ## Notes
 
-- This script is specifically designed for OrbStack Ubuntu VMs
+- This script is specifically designed for Kiri Ubuntu VMs
 - The isolated mise configuration prevents conflicts with your macOS mise setup
 - Pure prompt provides a clean, informative command-line experience
 - tiny-nvim configuration is maintained by [@jellydn](https://github.com/jellydn)

@@ -39,7 +39,7 @@ Mostly the first letter. Collisions use a nearby letter.
 | `hyper+a` | Delta | delt**a** |
 | `hyper+b` | Grok Bot | **b**ot |
 | `hyper+c` | VS Code Insiders | **c**ode |
-| `hyper+d` | OrbStack | **d**ocker |
+| `hyper+d` | Kiri | **d**ocker |
 | `hyper+e` | Zen | brows**e** |
 | `hyper+g` | ChatGPT Classic | **G**PT |
 | `hyper+k` | Activity Monitor | tas**k** |

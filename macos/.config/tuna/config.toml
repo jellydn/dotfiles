@@ -216,7 +216,7 @@ id = '4E9D42E8-EEB7-46C9-981B-6015A8E871CB'
     actionIdentifier = 'tuna.common-actions/open'
     behavior = 'run'
     presentation = 'automatic'
-    subjectIdentifiers = [ 'tuna.applications//Applications/OrbStack.app' ]
+    subjectIdentifiers = [ 'tuna.applications//Applications/Kiri.app' ]
     type = 'savedCommand'
 
     [hotkeys.custom.shortcut]

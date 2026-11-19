@@ -31,7 +31,7 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
-# Configure TMPDIR to avoid EXDEV cross-device link errors on OrbStack
+# Configure TMPDIR to avoid EXDEV cross-device link errors on Kiri
 configure_tmpdir() {
     export TMPDIR="$HOME/.tmp"
     mkdir -p "$TMPDIR"
@@ -135,7 +135,7 @@ install_fish() {
     if [[ -f "$HOME/.config/fish/config.fish" ]]; then
         if ! grep -q "mise activate fish" "$HOME/.config/fish/config.fish" 2>/dev/null; then
             echo '' >> "$HOME/.config/fish/config.fish"
-            echo '# mise (isolated data directory for OrbStack)' >> "$HOME/.config/fish/config.fish"
+            echo '# mise (isolated data directory for Kiri)' >> "$HOME/.config/fish/config.fish"
             echo 'set -gx MISE_DATA_DIR "/tmp/mise-local"' >> "$HOME/.config/fish/config.fish"
             echo '~/.local/bin/mise activate fish | source' >> "$HOME/.config/fish/config.fish"
             log_info "Added mise activation to fish config"
@@ -146,7 +146,7 @@ install_fish() {
     if [[ -f "$HOME/.config/fish/config.fish" ]]; then
         if ! grep -q "TMPDIR" "$HOME/.config/fish/config.fish" 2>/dev/null; then
             echo '' >> "$HOME/.config/fish/config.fish"
-            echo '# TMPDIR for cross-device link fix (OrbStack)' >> "$HOME/.config/fish/config.fish"
+            echo '# TMPDIR for cross-device link fix (Kiri)' >> "$HOME/.config/fish/config.fish"
             echo 'set -gx TMPDIR "$HOME/.tmp"' >> "$HOME/.config/fish/config.fish"
             log_info "Added TMPDIR to fish config"
         fi
@@ -172,7 +172,7 @@ install_fish() {
 
 # Main function
 main() {
-    log_info "Setting up OrbStack Ubuntu machine..."
+    log_info "Setting up Kiri Ubuntu machine..."
     log_info "========================================"
 
     configure_tmpdir

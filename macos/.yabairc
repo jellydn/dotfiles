@@ -77,7 +77,7 @@ yabai -m rule --add app="^(WezTerm|Warp|alacritty|kitty)" space=1
 # Space 2 - Web browsers
 yabai -m rule --add app="^(Google Chrome|Arc|Brave)" space=2
 # Space 3 - Apps
-yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|OrbStack|OBS)" space=3
+yabai -m rule --add app="^(Navicat|Zed|Code|VSCodium|Kiri|OBS)" space=3
 # Space 4 - Work, external display
 yabai -m rule --add app="^(Slack|zoom.us)" space=4
 # Space 5 - Social app

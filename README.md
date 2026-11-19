@@ -327,6 +327,7 @@ stow -D common
 - [fd](https://github.com/sharkdp/fd) - Fast find alternative
 - [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
 - [Tuna](https://tunaformac.com/) - New, modern launcher for macOS
+- [Kiri](https://runkiri.com/) - Fast Docker-compatible container runtime for Mac, Windows, and Linux
 - [ZapFast](https://github.com/crmne/zapfast) - Fast, native WhatsApp client for macOS, Linux, and Windows
 - [Vicinae](https://github.com/vicinae/vicinae) - Keyboard-driven launcher for Linux
 - [Marta](https://marta.sh/) - File manager
@@ -357,7 +358,6 @@ Tools no longer the primary choice (configs preserved in repo for occasional use
 - [Fig](https://fig.sh/) - Terminal autocomplete
 - [iterm2](https://iterm2.com/) - Terminal emulator
 - [warp](https://app.warp.dev/referral/2ENQM7) - Terminal emulator
-- [OrbStack](https://orbstack.dev/) - Docker & Linux on macOS
 - [pock](https://pock.app/) - Touch Bar widgets
 - [httpie](https://github.com/httpie/httpie) - HTTP client
 - [spectacleapp](https://www.spectacleapp.com/) - Window management
@@ -583,7 +583,7 @@ Hyper = `ctrl+opt+cmd+shift` (Right-Cmd). Full cheat sheet: [`macos/.config/tuna
 
 Combo first letters: `e` Zen · `t` terminal · `f` Finder · `m` Mail · `n` Notes · `d` Downloads · `h` Home
 
-Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` OrbStack · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
+Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` Kiri · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
 
 ### Terminal keys
 

@@ -343,6 +343,38 @@ stow -D common
 - [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
 - [Try Omarchy](https://github.com/themartiano/try-omarchy) - Run Omarchy desktop on Apple Silicon (hardware-accelerated VM)
 
+### Kiri and Docker Compose
+
+Kiri is the Docker-compatible container runtime used by this configuration. On macOS, its Docker API socket is:
+
+```text
+$HOME/.kiri/run/docker.sock
+```
+
+The macOS Zsh configuration automatically removes the old OrbStack `DOCKER_HOST` value and uses the Kiri socket when Kiri is running. After installing or starting Kiri, reload the shell configuration:
+
+```bash
+source ~/.zshrc
+docker info
+docker compose up
+```
+
+If an existing shell still points at the old socket, clear it explicitly and reload:
+
+```bash
+unset DOCKER_HOST
+source ~/.zshrc
+```
+
+For a one-off shell or CI environment, configure the Kiri endpoint directly:
+
+```bash
+export DOCKER_HOST="unix://$HOME/.kiri/run/docker.sock"
+docker compose up
+```
+
+See the [Kiri documentation](https://docs.runkiri.com/) for installation and runtime details.
+
 ## Deprecated tools
 
 Tools no longer the primary choice (configs preserved in repo for occasional use):

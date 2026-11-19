@@ -33,6 +33,17 @@ if command -v zoxide >/dev/null 2>&1; then eval "$(zoxide init zsh)"; fi
 if command -v direnv >/dev/null 2>&1; then eval "$(direnv hook zsh)"; fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# ── Kiri / Docker ──
+# Remove the stale OrbStack socket left by older shell configuration.
+if [[ "${DOCKER_HOST:-}" == "unix://$HOME/.orbstack/run/docker.sock" ]]; then
+  unset DOCKER_HOST
+fi
+# Kiri exposes the Docker API through this socket on macOS. Only set it when
+# Kiri is running, so Docker can still use its normal context otherwise.
+if [[ -S "$HOME/.kiri/run/docker.sock" && -z "${DOCKER_HOST:-}" ]]; then
+  export DOCKER_HOST="unix://$HOME/.kiri/run/docker.sock"
+fi
+
 # ── Python ──
 for ver in 3.11 3.12 3.13; do
   p="$HOME/Library/Python/$ver/bin"

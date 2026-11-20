@@ -111,7 +111,7 @@ mac_apply_packages() {
     mise bootstrap packages apply --yes "$@"
 }
 
-# Configure TMPDIR to avoid EXDEV cross-device link errors (macOS/OrbStack)
+# Configure TMPDIR to avoid EXDEV cross-device link errors (macOS/Kiri)
 configure_tmpdir() {
     if [[ -z "${TMPDIR:-}" ]]; then
         export TMPDIR="$HOME/.tmp"

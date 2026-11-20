@@ -123,9 +123,9 @@
         {
           "apps" : [
             {
-              "bundleIdentifier" : "dev.kdrag0n.MacVirt",
-              "iconPath" : "/Applications/OrbStack.app/Contents/Resources/AppIcon.icns",
-              "name" : "OrbStack"
+              "bundleIdentifier" : "dev.kiri.app",
+              "iconPath" : "/Applications/Kiri.app/Contents/Resources/AppIcon.icns",
+              "name" : "Kiri"
             },
             {
               "bundleIdentifier" : "com.apple.Notes",

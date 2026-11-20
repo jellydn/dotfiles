@@ -17,7 +17,7 @@ External 4K (`S24R35xFZ`) — focused work:
 | `opt+b` | **B**rowser | browse | Brave, Zen, Chrome, Safari |
 | `opt+t` | **T**erminal | terminal | Alacritty, Termius |
 | `opt+e` | **E**mail | email | Canary Mail |
-| `opt+g` | Tools | **g**ear / gadgets | OrbStack, Notes, Navicat, ChatGPT Classic, Vial, Karabiner, Preview, Headlamp, PHP Monitor, FileZilla, Calendar, Reminders |
+| `opt+g` | Tools | **g**ear / gadgets | Kiri, Notes, Navicat, ChatGPT Classic, Vial, Karabiner, Preview, Headlamp, PHP Monitor, FileZilla, Calendar, Reminders |
 
 Laptop — comms and downtime:
 

@@ -327,6 +327,7 @@ stow -D common
 - [fd](https://github.com/sharkdp/fd) - Fast find alternative
 - [ripgrep (rg)](https://github.com/BurntSushi/ripgrep) - Line-oriented search tool
 - [Tuna](https://tunaformac.com/) - New, modern launcher for macOS
+- [Kiri](https://runkiri.com/) - Fast Docker-compatible container runtime for Mac, Windows, and Linux
 - [ZapFast](https://github.com/crmne/zapfast) - Fast, native WhatsApp client for macOS, Linux, and Windows
 - [Vicinae](https://github.com/vicinae/vicinae) - Keyboard-driven launcher for Linux
 - [Marta](https://marta.sh/) - File manager
@@ -341,6 +342,38 @@ stow -D common
 - [EVKey](https://evkeyvn.com/) - Vietnamese Keyboard
 - [Navicat Premium Lite](https://www.navicat.com/en/download/navicat-premium-lite)
 - [Try Omarchy](https://github.com/themartiano/try-omarchy) - Run Omarchy desktop on Apple Silicon (hardware-accelerated VM)
+
+### Kiri and Docker Compose
+
+Kiri is the Docker-compatible container runtime used by this configuration. On macOS, its Docker API socket is:
+
+```text
+$HOME/.kiri/run/docker.sock
+```
+
+The macOS Zsh configuration automatically removes the old OrbStack `DOCKER_HOST` value and uses the Kiri socket when Kiri is running. After installing or starting Kiri, reload the shell configuration:
+
+```bash
+source ~/.zshrc
+docker info
+docker compose up
+```
+
+If an existing shell still points at the old socket, clear it explicitly and reload:
+
+```bash
+unset DOCKER_HOST
+source ~/.zshrc
+```
+
+For a one-off shell or CI environment, configure the Kiri endpoint directly:
+
+```bash
+export DOCKER_HOST="unix://$HOME/.kiri/run/docker.sock"
+docker compose up
+```
+
+See the [Kiri documentation](https://docs.runkiri.com/) for installation and runtime details.
 
 ## Deprecated tools
 
@@ -357,7 +390,6 @@ Tools no longer the primary choice (configs preserved in repo for occasional use
 - [Fig](https://fig.sh/) - Terminal autocomplete
 - [iterm2](https://iterm2.com/) - Terminal emulator
 - [warp](https://app.warp.dev/referral/2ENQM7) - Terminal emulator
-- [OrbStack](https://orbstack.dev/) - Docker & Linux on macOS
 - [pock](https://pock.app/) - Touch Bar widgets
 - [httpie](https://github.com/httpie/httpie) - HTTP client
 - [spectacleapp](https://www.spectacleapp.com/) - Window management
@@ -583,7 +615,7 @@ Hyper = `ctrl+opt+cmd+shift` (Right-Cmd). Full cheat sheet: [`macos/.config/tuna
 
 Combo first letters: `e` Zen · `t` terminal · `f` Finder · `m` Mail · `n` Notes · `d` Downloads · `h` Home
 
-Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` OrbStack · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
+Hyper first letters: `a` Delta · `b` Bot · `c` Code · `d` Kiri · `e` Zen · `g` GPT Classic · `k` Activity Monitor · `m` Mail · `r` Spotify · `s` Slack · `t` Teams · `w` ChatGPT · `y` Brave · `z` Zed · `return` Alacritty
 
 ### Terminal keys
 
